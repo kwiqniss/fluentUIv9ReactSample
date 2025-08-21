@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 import {
   Body1,
   Caption1,
@@ -62,17 +62,48 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import { componentShowcaseStyles } from './componentShowcaseStyles';
 import strings from './showcase.resx';
+import { formCache, CACHE_KEYS, ComponentShowcaseFormData } from '../../utils/formCache';
 
 const ComponentShowcaseTab: React.FC = () => {
   const styles = { ...sharedStyles(), ...componentShowcaseStyles() };
   
-  const [messages, setMessages] = useState<string[]>([]);
-  const [searchValue, setSearchValue] = useState('');
+  // Load cached data or use defaults - this runs every time component mounts
+  const getCachedData = (): ComponentShowcaseFormData => {
+    const cached = formCache.get<ComponentShowcaseFormData>(CACHE_KEYS.COMPONENT_SHOWCASE);
+    return cached || {
+      searchValue: '',
+      toastCount: 0,
+      accordionExpanded: {},
+      menuSelection: '',
+      tableSelection: [],
+      messages: [],
+    };
+  };
+
+  // Initialize state with cached data each time component mounts
+  const initialData = getCachedData();
+  
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [searchValue, setSearchValue] = useState(initialData.searchValue);
+  const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [toolbarState, setToolbarState] = useState({
     bold: false,
     italic: false,
     underline: false,
   });
+
+  // Cache form data whenever state changes
+  useEffect(() => {
+    const formData: ComponentShowcaseFormData = {
+      searchValue,
+      toastCount,
+      accordionExpanded: {},
+      menuSelection: '',
+      tableSelection: [],
+      messages,
+    };
+    formCache.set(CACHE_KEYS.COMPONENT_SHOWCASE, formData);
+  }, [searchValue, toastCount, messages]);
 
   // Toast setup
   const toasterId = useToastId('toaster');
@@ -83,19 +114,22 @@ const ComponentShowcaseTab: React.FC = () => {
   };
 
   const showToast = (type: 'success' | 'error' | 'info') => {
+    const newCount = toastCount + 1;
+    setToastCount(newCount);
+    
     const toastContent = {
       success: { 
-        title: strings.toastSuccess, 
+        title: `${strings.toastSuccess} #${newCount}`, 
         intent: 'success' as const,
         icon: <CheckmarkRegular />
       },
       error: { 
-        title: strings.toastError, 
+        title: `${strings.toastError} #${newCount}`, 
         intent: 'error' as const,
         icon: <ErrorCircleRegular />
       },
       info: { 
-        title: strings.toastInfo, 
+        title: `${strings.toastInfo} #${newCount}`, 
         intent: 'info' as const,
         icon: <InfoRegular />
       }
@@ -108,6 +142,8 @@ const ComponentShowcaseTab: React.FC = () => {
       </Toast>,
       { intent: content.intent }
     );
+    
+    addMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} toast shown (#${newCount})`);
   };
 
   // Sample data for components

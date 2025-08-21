@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Field,
   Body1,
@@ -9,11 +9,46 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import strings from './datetime.resx';
+import { formCache, CACHE_KEYS, DateTimeFormData } from '../../utils/formCache';
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();
   
-  const [messages, setMessages] = useState<string[]>([]);
+  // Load cached data or use defaults - this runs every time component mounts
+  const getCachedData = (): DateTimeFormData => {
+    const cached = formCache.get<DateTimeFormData>(CACHE_KEYS.DATE_TIME);
+    return cached || {
+      dateValue: '',
+      timeValue: '',
+      datetimeValue: '',
+      monthValue: '',
+      weekValue: '',
+      messages: [],
+    };
+  };
+
+  // Initialize state with cached data each time component mounts
+  const initialData = getCachedData();
+  
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [dateValue, setDateValue] = useState(initialData.dateValue);
+  const [timeValue, setTimeValue] = useState(initialData.timeValue);
+  const [datetimeValue, setDatetimeValue] = useState(initialData.datetimeValue);
+  const [monthValue, setMonthValue] = useState(initialData.monthValue);
+  const [weekValue, setWeekValue] = useState(initialData.weekValue);
+
+  // Cache form data whenever state changes
+  useEffect(() => {
+    const formData: DateTimeFormData = {
+      dateValue,
+      timeValue,
+      datetimeValue,
+      monthValue,
+      weekValue,
+      messages,
+    };
+    formCache.set(CACHE_KEYS.DATE_TIME, formData);
+  }, [dateValue, timeValue, datetimeValue, monthValue, weekValue, messages]);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -27,7 +62,11 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"
-            onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
+            value={dateValue}
+            onChange={(e) => {
+              setDateValue(e.target.value);
+              addMessage(`Date selected: ${e.target.value}`);
+            }}
             onFocus={() => addMessage('Date picker focused')}
             onBlur={() => addMessage('Date picker lost focus')}
           />
@@ -35,7 +74,11 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.timeInput} className={styles.field}>
           <Input
             type="time"
-            onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
+            value={timeValue}
+            onChange={(e) => {
+              setTimeValue(e.target.value);
+              addMessage(`Time selected: ${e.target.value}`);
+            }}
             onFocus={() => addMessage('Time picker focused')}
             onBlur={() => addMessage('Time picker lost focus')}
           />
@@ -46,7 +89,11 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.datetimeInput} className={styles.field}>
           <Input
             type="datetime-local"
-            onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
+            value={datetimeValue}
+            onChange={(e) => {
+              setDatetimeValue(e.target.value);
+              addMessage(`DateTime selected: ${e.target.value}`);
+            }}
             onFocus={() => addMessage('DateTime picker focused')}
             onBlur={() => addMessage('DateTime picker lost focus')}
           />
@@ -55,7 +102,11 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.monthInput} className={styles.field}>
           <Input
             type="month"
-            onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
+            value={monthValue}
+            onChange={(e) => {
+              setMonthValue(e.target.value);
+              addMessage(`Month selected: ${e.target.value}`);
+            }}
             onFocus={() => addMessage('Month picker focused')}
             onBlur={() => addMessage('Month picker lost focus')}
           />
@@ -65,7 +116,11 @@ const DateTimeTab: React.FC = () => {
       <Field label={strings.weekInput}>
         <Input
           type="week"
-          onChange={(e) => addMessage(`Week selected: ${e.target.value}`)}
+          value={weekValue}
+          onChange={(e) => {
+            setWeekValue(e.target.value);
+            addMessage(`Week selected: ${e.target.value}`);
+          }}
           onFocus={() => addMessage('Week picker focused')}
           onBlur={() => addMessage('Week picker lost focus')}
         />
