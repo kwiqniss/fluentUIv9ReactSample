@@ -70,7 +70,7 @@ const DateTimeTab: React.FC = () => {
         />
       </Field>
 
-      <Card className={sharedStyles.messageArea}>
+      <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
         <div className={sharedStyles.messageScrollArea}>
           {messages.length === 0 ? (

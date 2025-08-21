@@ -74,7 +74,6 @@ const useProductListStyles = makeStyles({
     cursor: 'pointer',
     '&:hover': {
       backgroundColor: tokens.colorNeutralBackground2,
-      borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
     },
     '&:last-child': {
       borderBottom: 'none',
@@ -82,7 +81,6 @@ const useProductListStyles = makeStyles({
   },
   selectedItem: {
     backgroundColor: tokens.colorNeutralBackground3,
-    color: tokens.colorNeutralForeground1,
     border: `2px solid ${tokens.colorBrandStroke2}`,
     '&:hover': {
       backgroundColor: tokens.colorNeutralBackground4,
@@ -98,30 +96,16 @@ const useProductListStyles = makeStyles({
     },
   },
   categoryIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '2rem',
     height: '2rem',
     borderRadius: tokens.borderRadiusCircular,
     marginRight: '0.75rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   productInfo: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.25rem',
-  },
-  productName: {
-    fontWeight: tokens.fontWeightSemibold,
-  },
-  categoryLabel: {
-    fontSize: tokens.fontSizeBase200,
-    color: tokens.colorNeutralForeground3,
-    fontWeight: tokens.fontWeightMedium,
-  },
-  productLink: {
-    marginLeft: '0.75rem',
   },
   addItemForm: {
     display: 'flex',
@@ -135,6 +119,15 @@ const useProductListStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground2,
     borderRadius: tokens.borderRadiusMedium,
     marginBottom: '1rem',
+  },
+  addItemInput: {
+    padding: '0.5rem', 
+    borderRadius: '0.25rem', 
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+  },
+  linkSpacing: {
+    marginLeft: '1rem',
+    marginRight: '0.5rem',
   },
 });
 
@@ -261,7 +254,7 @@ const AdvancedTab: React.FC = () => {
             }}
             min="0"
             max="100"
-            className={sharedStyles.fullWidthInput}
+            className={sharedStyles.fullWidth}
           />
           <Caption1>Value: {rangeStart}</Caption1>
         </Field>
@@ -277,14 +270,14 @@ const AdvancedTab: React.FC = () => {
             }}
             min="0"
             max="100"
-            className={sharedStyles.fullWidthInput}
+            className={sharedStyles.fullWidth}
           />
           <Caption1>Value: {rangeEnd}</Caption1>
         </Field>
       </div>
 
       <Field label="Progress Simulation">
-        <div className={sharedStyles.verticalSection}>
+        <div className={sharedStyles.verticalStackLoose}>
           <ProgressBar value={progress} max={100} />
           <Caption1>{progress}% Complete</Caption1>
           <Button
@@ -303,7 +296,7 @@ const AdvancedTab: React.FC = () => {
           onChange={(e) => addMessage(`Color selected: ${e.target.value}`)}
           onFocus={() => addMessage('Color picker focused')}
           onBlur={() => addMessage('Color picker lost focus')}
-          className={sharedStyles.colorInput}
+          className={sharedStyles.colorInputSize}
         />
       </Field>
 
@@ -318,19 +311,21 @@ const AdvancedTab: React.FC = () => {
           }}
           onFocus={() => addMessage('File input focused')}
           onBlur={() => addMessage('File input lost focus')}
-          className={sharedStyles.fullWidthInput}
+          className={sharedStyles.fullWidth}
         />
       </Field>
 
       {/* Product Selection List */}
       <Field label="Product Selection List">
         <div className={productStyles.selectionSummary}>
-          <Body1>Selected Products: {selectedProductIds.size} of {products.length}</Body1>
-          <Caption1>
-            Categories: {Array.from(new Set(
-              products.filter(p => selectedProductIds.has(p.id)).map(p => p.category)
-            )).join(', ') || 'None'}
-          </Caption1>
+          <div className={sharedStyles.verticalStackTight}>
+            <Body1>Selected Products: {selectedProductIds.size} of {products.length}</Body1>
+            <Caption1>
+              Categories: {Array.from(new Set(
+                products.filter(p => selectedProductIds.has(p.id)).map(p => p.category)
+              )).join(', ') || 'None'}
+            </Caption1>
+          </div>
         </div>
 
         <div className={productStyles.addItemForm}>
@@ -345,7 +340,7 @@ const AdvancedTab: React.FC = () => {
             <select 
               value={newProductCategory} 
               onChange={(e) => setNewProductCategory(e.target.value as Product['category'])}
-              style={{ padding: '0.5rem', borderRadius: '0.25rem', border: `1px solid ${tokens.colorNeutralStroke1}` }}
+              className={productStyles.addItemInput}
             >
               {Object.keys(productCategories).map(category => (
                 <option key={category} value={category}>{category}</option>
@@ -384,12 +379,11 @@ const AdvancedTab: React.FC = () => {
                   {categoryInfo.icon}
                 </div>
                 <div className={productStyles.productInfo}>
-                  <Text className={productStyles.productName}>{product.name}</Text>
-                  <Text className={productStyles.categoryLabel}>{product.category}</Text>
+                  <Text>{product.name}</Text>
+                  <Text>{product.category}</Text>
                   <Link 
                     href={product.bingSearchUrl}
                     target="_blank"
-                    className={productStyles.productLink}
                     onClick={(e) => e.stopPropagation()}
                   >
                     Search for {product.name}
@@ -410,7 +404,7 @@ const AdvancedTab: React.FC = () => {
         </div>
       </Field>
 
-      <Card className={sharedStyles.messageArea}>
+      <Card className={sharedStyles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
         <div className={sharedStyles.messageScrollArea}>
           {messages.length === 0 ? (

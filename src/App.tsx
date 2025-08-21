@@ -19,26 +19,22 @@ const useStyles = makeStyles({
   container: {
     padding: '1.25rem',
     maxWidth: '75rem',
-    minWidth: '50rem',
     margin: '0 auto',
-  },
-  header: {
-    marginBottom: '1.25rem',
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    marginBottom: '0.5em',
   },
   tabContent: {
     marginTop: '1.25rem',
     padding: '1.25rem',
     backgroundColor: tokens.colorNeutralBackground2,
     borderRadius: tokens.borderRadiusMedium,
-    minHeight: '30rem',
+  },
+  header: {
+    marginBottom: '1.25rem', 
+    textAlign: 'center', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    gap: '0.25rem',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -68,7 +64,7 @@ const App: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Body1 as="h1" className={styles.headerTitle}>FluentUI v9 Input Controls Demo 🚀</Body1>
+        <Body1 as="h1">FluentUI v9 Input Controls Demo 🚀</Body1>
         <Caption1>Explore various input controls with interactive feedback</Caption1>
       </div>
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  makeStyles,
   Input,
   Label,
   Textarea,
@@ -21,14 +20,7 @@ import {
 } from '@fluentui/react-components';
 import { useSharedStyles } from './sharedStyles';
 
-const useStyles = makeStyles({
-  calloutButton: {
-    marginTop: '0.625rem',
-  },
-});
-
 const BasicInputsTab: React.FC = () => {
-  const styles = useStyles();
   const sharedStyles = useSharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [textValue, setTextValue] = useState('');
@@ -149,7 +141,7 @@ const BasicInputsTab: React.FC = () => {
       <Button
         appearance="secondary"
         onClick={handleOpenDialog}
-        className={styles.calloutButton}
+        className={sharedStyles.buttonSpacing}
       >
         Open Contact Dialog
       </Button>
@@ -170,7 +162,7 @@ const BasicInputsTab: React.FC = () => {
           <DialogBody>
             <DialogTitle>Contact Information</DialogTitle>
             <DialogContent>
-              <div className={sharedStyles.dialogContent}>
+              <div className={sharedStyles.verticalStack}>
                 <Field label="Full Name" required>
                   <Input
                     value={dialogName}
@@ -211,7 +203,7 @@ const BasicInputsTab: React.FC = () => {
         </DialogSurface>
       </Dialog>
 
-      <Card className={sharedStyles.messageArea}>
+      <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
         <div className={sharedStyles.messageScrollArea}>
           {messages.length === 0 ? (

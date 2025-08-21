@@ -5,79 +5,66 @@ import { makeStyles, tokens } from '@fluentui/react-components';
  * Provides consistent layout and spacing throughout the application
  */
 export const useSharedStyles = makeStyles({
-  // Main container for tab content
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.25rem',
-  },
-  
-  // Horizontal row layout with flex wrapping
+  // Horizontal row layout - essential for form layout
   row: {
     display: 'flex',
     gap: '1.25rem',
     flexWrap: 'wrap',
   },
   
-  // Standard field styling with consistent width
+  // Standard field width - ensures consistent form layout
   field: {
     width: '18.75rem',
     flexShrink: 0,
   },
-  
-  // Message area for displaying user interaction feedback
-  messageArea: {
-    marginTop: '1.25rem',
-    padding: '1rem',
-    backgroundColor: tokens.colorNeutralBackground2,
-    borderRadius: tokens.borderRadiusMedium,
-    minHeight: '7.5rem',
-  },
 
-  // Scrollable message content area
+  // Message area - key functional styling
   messageScrollArea: {
-    maxHeight: '12.5rem', // 200px converted to rem
+    maxHeight: '12.5rem',
     overflowY: 'auto',
   },
 
-  // Vertical flex layout with small gap (for grouped controls)
-  verticalGroup: {
+  // Essential layout container - prevents tab jumping
+  tabContentStandardized: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.25rem',
+    minHeight: '25rem',
+  },
+
+  // Common layout patterns
+  verticalStack: {
     display: 'flex',
     flexDirection: 'column',
     gap: '0.5rem',
   },
 
-  // Vertical flex layout with medium gap (for form sections)
-  verticalSection: {
+  verticalStackTight: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.625rem',
+    gap: '0.25rem',
   },
 
-  // Full width input styling
-  fullWidthInput: {
+  verticalStackLoose: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+  },
+
+  fullWidth: {
     width: '100%',
   },
 
-  // Color picker specific styling
-  colorInput: {
-    width: '100%',
+  messageAreaSpacing: {
+    marginTop: '1rem',
+  },
+
+  buttonSpacing: {
+    marginTop: '0.625rem',
+  },
+
+  colorInputSize: {
+    width: '3rem',
     height: '2.5rem',
-  },
-
-  // Dialog/modal content layout
-  dialogContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem',
-    minWidth: '25rem',
-  },
-
-  // Standardized tab content layout (ensures all tabs have same dimensions)
-  tabContentStandardized: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.25rem',
-    minHeight: '25rem', // Fixed height to prevent layout shifts between tabs
   },
 });

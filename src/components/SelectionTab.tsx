@@ -84,7 +84,7 @@ const SelectionTab: React.FC = () => {
         </Field>
 
         <Field label="Checkboxes" className={sharedStyles.field}>
-          <div className={sharedStyles.verticalGroup}>
+          <div className={sharedStyles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
@@ -115,7 +115,7 @@ const SelectionTab: React.FC = () => {
         />
       </Field>
 
-      <Card className={sharedStyles.messageArea}>
+      <Card className={sharedStyles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
         <div className={sharedStyles.messageScrollArea}>
           {messages.length === 0 ? (
