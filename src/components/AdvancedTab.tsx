@@ -311,12 +311,12 @@ const AdvancedTab: React.FC = () => {
                 className={`${styles.listItem} ${isSelected ? styles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
-                <Label>
+                <div>
                   <Checkbox
                     checked={isSelected}
                     onChange={() => toggleProductSelection(product.id)}
                   />
-                </Label>
+                </div>
                 <Tooltip content={product.category} relationship="label">
                   <div 
                     className={styles.circularIcon}
@@ -325,9 +325,9 @@ const AdvancedTab: React.FC = () => {
                     {categoryInfo.icon}
                   </div>
                 </Tooltip>
-                <Label className={styles.flexOne}>
+                <div className={styles.flexOne}>
                   <Text>{product.name}</Text>
-                </Label>
+                </div>
                 <Button
                   appearance="subtle"
                   icon={<Info20Regular />}
