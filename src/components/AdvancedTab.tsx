@@ -12,6 +12,7 @@ import {
   SpinButton,
   Checkbox,
   Text,
+  Tooltip,
   tokens,
 } from '@fluentui/react-components';
 import {
@@ -52,18 +53,18 @@ const productCategories = {
 };
 
 const defaultProducts: Product[] = [
-  { id: '1', name: 'MacBook Pro', bingSearchUrl: 'https://www.bing.com/search?q=MacBook+Pro', category: ProductCategory.Electronics },
-  { id: '2', name: 'iPhone 15', bingSearchUrl: 'https://www.bing.com/search?q=iPhone+15', category: ProductCategory.Electronics },
-  { id: '3', name: 'The Great Gatsby', bingSearchUrl: 'https://www.bing.com/search?q=The+Great+Gatsby+book', category: ProductCategory.Books },
-  { id: '4', name: 'Dune', bingSearchUrl: 'https://www.bing.com/search?q=Dune+book', category: ProductCategory.Books },
-  { id: '5', name: 'Beatles Abbey Road', bingSearchUrl: 'https://www.bing.com/search?q=Beatles+Abbey+Road', category: ProductCategory.Music },
-  { id: '6', name: 'Taylor Swift 1989', bingSearchUrl: 'https://www.bing.com/search?q=Taylor+Swift+1989', category: ProductCategory.Music },
-  { id: '7', name: 'PlayStation 5', bingSearchUrl: 'https://www.bing.com/search?q=PlayStation+5', category: ProductCategory.Gaming },
-  { id: '8', name: 'Nintendo Switch', bingSearchUrl: 'https://www.bing.com/search?q=Nintendo+Switch', category: ProductCategory.Gaming },
-  { id: '9', name: 'Canon EOS R5', bingSearchUrl: 'https://www.bing.com/search?q=Canon+EOS+R5', category: ProductCategory.Photography },
-  { id: '10', name: 'Sony A7 IV', bingSearchUrl: 'https://www.bing.com/search?q=Sony+A7+IV', category: ProductCategory.Photography },
-  { id: '11', name: 'iPad Air', bingSearchUrl: 'https://www.bing.com/search?q=iPad+Air', category: ProductCategory.Electronics },
-  { id: '12', name: 'To Kill a Mockingbird', bingSearchUrl: 'https://www.bing.com/search?q=To+Kill+a+Mockingbird+book', category: ProductCategory.Books },
+  { id: '1', name: 'Surface Pro 10', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Surface+Pro+10', category: ProductCategory.Electronics },
+  { id: '2', name: 'Surface Laptop Studio', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Surface+Laptop+Studio', category: ProductCategory.Electronics },
+  { id: '3', name: 'Azure Cloud Computing Guide', bingSearchUrl: 'https://www.bing.com/search?q=Azure+Cloud+Computing+Guide+book', category: ProductCategory.Books },
+  { id: '4', name: 'Programming with C# 12', bingSearchUrl: 'https://www.bing.com/search?q=Programming+C%23+12+book', category: ProductCategory.Books },
+  { id: '5', name: 'Microsoft Soundscapes', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Soundscapes+music', category: ProductCategory.Music },
+  { id: '6', name: 'Xbox Game Studios Collection', bingSearchUrl: 'https://www.bing.com/search?q=Xbox+Game+Studios+Collection', category: ProductCategory.Music },
+  { id: '7', name: 'Xbox Series X', bingSearchUrl: 'https://www.bing.com/search?q=Xbox+Series+X', category: ProductCategory.Gaming },
+  { id: '8', name: 'Microsoft Flight Simulator', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Flight+Simulator', category: ProductCategory.Gaming },
+  { id: '9', name: 'HoloLens Photography Kit', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+HoloLens+Photography', category: ProductCategory.Photography },
+  { id: '10', name: 'Surface Camera Module', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Surface+Camera+Module', category: ProductCategory.Photography },
+  { id: '11', name: 'Surface Duo 2', bingSearchUrl: 'https://www.bing.com/search?q=Microsoft+Surface+Duo+2', category: ProductCategory.Electronics },
+  { id: '12', name: 'TypeScript Developer Guide', bingSearchUrl: 'https://www.bing.com/search?q=TypeScript+Developer+Guide+book', category: ProductCategory.Books },
 ];
 
 const AdvancedTab: React.FC = () => {
@@ -309,15 +310,16 @@ const AdvancedTab: React.FC = () => {
                   checked={isSelected}
                   onChange={() => toggleProductSelection(product.id)}
                 />
-                <div 
-                  className={styles.circularIcon}
-                  style={{ backgroundColor: categoryInfo.color }}
-                >
-                  {categoryInfo.icon}
-                </div>
+                <Tooltip content={product.category} relationship="label">
+                  <div 
+                    className={styles.circularIcon}
+                    style={{ backgroundColor: categoryInfo.color }}
+                  >
+                    {categoryInfo.icon}
+                  </div>
+                </Tooltip>
                 <div className={styles.flexOne}>
                   <Text>{product.name}</Text>
-                  <Text>{product.category}</Text>
                 </div>
                 <Button
                   appearance="subtle"
