@@ -32,7 +32,7 @@ import {
 import { sharedStyles } from '../styles/sharedStyles';
 import { advancedTabStyles } from '../styles/componentStyles/advancedTabStyles';
 import strings from '../strings/components/advanced.resx';
-import { formatString } from '../utils/formatString';
+import { formatString } from '../strings/utils/formatString';
 
 enum ProductCategory {
   Electronics = 'Electronics',
