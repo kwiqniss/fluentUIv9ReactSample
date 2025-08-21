@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Component Showcase</value>
+  </data>
+  <data name="navigation" xml:space="preserve">
+    <value>Navigation Components</value>
+  </data>
+  <data name="breadcrumbHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="breadcrumbProducts" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="breadcrumbCategory" xml:space="preserve">
+    <value>Electronics</value>
+  </data>
+  <data name="menuTrigger" xml:space="preserve">
+    <value>Options Menu</value>
+  </data>
+  <data name="menuEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="menuCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="menuDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="layouts" xml:space="preserve">
+    <value>Layout Components</value>
+  </data>
+  <data name="cardTitle" xml:space="preserve">
+    <value>Product Information</value>
+  </data>
+  <data name="cardDescription" xml:space="preserve">
+    <value>This card demonstrates the Card component with proper accessibility features including keyboard navigation and screen reader support.</value>
+  </data>
+  <data name="accordionTitle1" xml:space="preserve">
+    <value>System Requirements</value>
+  </data>
+  <data name="accordionContent1" xml:space="preserve">
+    <value>Windows 10 or later, macOS 10.15 or later, or Linux Ubuntu 18.04 or later. Minimum 4GB RAM, 2GB available storage space.</value>
+  </data>
+  <data name="accordionTitle2" xml:space="preserve">
+    <value>Installation Instructions</value>
+  </data>
+  <data name="accordionContent2" xml:space="preserve">
+    <value>Download the installer from our website, run as administrator, and follow the setup wizard. Restart your computer when prompted.</value>
+  </data>
+  <data name="accordionTitle3" xml:space="preserve">
+    <value>Troubleshooting</value>
+  </data>
+  <data name="accordionContent3" xml:space="preserve">
+    <value>If you encounter issues, check our FAQ section, verify system requirements, or contact our support team at support@example.com.</value>
+  </data>
+  <data name="communication" xml:space="preserve">
+    <value>Communication Components</value>
+  </data>
+  <data name="badgeNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="badgeImportant" xml:space="preserve">
+    <value>Important</value>
+  </data>
+  <data name="badgeCount" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="avatarName" xml:space="preserve">
+    <value>Jane Doe</value>
+  </data>
+  <data name="statusActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="statusAway" xml:space="preserve">
+    <value>Away</value>
+  </data>
+  <data name="statusBusy" xml:space="preserve">
+    <value>Busy</value>
+  </data>
+  <data name="statusOffline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="indicators" xml:space="preserve">
+    <value>Status &amp; Indicators</value>
+  </data>
+  <data name="spinnerLoading" xml:space="preserve">
+    <value>Loading content...</value>
+  </data>
+  <data name="toastSuccess" xml:space="preserve">
+    <value>Operation completed successfully!</value>
+  </data>
+  <data name="toastError" xml:space="preserve">
+    <value>An error occurred. Please try again.</value>
+  </data>
+  <data name="toastInfo" xml:space="preserve">
+    <value>New updates are available.</value>
+  </data>
+  <data name="showToast" xml:space="preserve">
+    <value>Show Toast</value>
+  </data>
+  <data name="actions" xml:space="preserve">
+    <value>Interactive Components</value>
+  </data>
+  <data name="toolbarBold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="toolbarItalic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="toolbarUnderline" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="searchPlaceholder" xml:space="preserve">
+    <value>Search for items...</value>
+  </data>
+  <data name="searchResults" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="dataVisualization" xml:space="preserve">
+    <value>Data &amp; Visualization</value>
+  </data>
+  <data name="tableHeader1" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="tableHeader2" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="tableHeader3" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="tableHeader4" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="editAction" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="viewAction" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="labelBreadcrumbNavigation" xml:space="preserve">
+    <value>Breadcrumb Navigation</value>
+  </data>
+  <data name="labelContextMenu" xml:space="preserve">
+    <value>Context Menu</value>
+  </data>
+  <data name="labelCardComponent" xml:space="preserve">
+    <value>Card Component</value>
+  </data>
+  <data name="labelAccordionComponent" xml:space="preserve">
+    <value>Accordion Component</value>
+  </data>
+  <data name="labelBadgesStatus" xml:space="preserve">
+    <value>Badges &amp; Status</value>
+  </data>
+  <data name="labelLoadingSpinner" xml:space="preserve">
+    <value>Loading Spinner</value>
+  </data>
+  <data name="labelToastNotifications" xml:space="preserve">
+    <value>Toast Notifications</value>
+  </data>
+  <data name="labelToolbar" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
+  <data name="labelSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="labelDataTable" xml:space="preserve">
+    <value>Data Table</value>
+  </data>
+  <data name="ariaBreadcrumbNavigation" xml:space="preserve">
+    <value>Breadcrumb navigation example</value>
+  </data>
+  <data name="ariaEmployeeTable" xml:space="preserve">
+    <value>Employee data table</value>
+  </data>
+  <data name="buttonLearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="buttonSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="buttonSuccess" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="buttonError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="buttonInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="buttonSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="cardSubtitle" xml:space="preserve">
+    <value>Product showcase card</value>
+  </data>
+  <data name="activityLog" xml:space="preserve">
+    <value>Activity Log</value>
+  </data>
+  <data name="avatarAwayUser" xml:space="preserve">
+    <value>Away User</value>
+  </data>
+  <data name="avatarBusyUser" xml:space="preserve">
+    <value>Busy User</value>
+  </data>
+  <data name="avatarOfflineUser" xml:space="preserve">
+    <value>Offline User</value>
+  </data>
+</root>

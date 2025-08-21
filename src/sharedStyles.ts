@@ -143,4 +143,28 @@ export const sharedStyles = makeStyles({
   flexOne: {
     flex: 1,
   },
+
+  // Section styling
+  section: {
+    marginBottom: '2rem',
+    '& > h3': {
+      marginBottom: '1rem',
+    },
+  },
+
+  // Message log styles
+  messageLog: {
+    backgroundColor: tokens.colorNeutralBackground2,
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+    borderRadius: tokens.borderRadiusMedium,
+    padding: '1rem',
+    maxHeight: '12.5rem',
+    overflowY: 'auto',
+  },
+
+  messageItem: {
+    display: 'block',
+    padding: '0.25rem 0',
+    color: tokens.colorNeutralForeground2,
+  },
 });

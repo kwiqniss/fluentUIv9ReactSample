@@ -21,6 +21,7 @@ import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
 import AdvancedTab from './components/AdvancedTab/AdvancedTab';
+import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
 import { sharedStyles } from './sharedStyles';
 import { appStyles } from './appStyles';
 import appStrings from './app.resx';
@@ -73,6 +74,8 @@ const App: React.FC = () => {
         return <SelectionTab />;
       case 'advanced':
         return <AdvancedTab />;
+      case 'showcase':
+        return <ComponentShowcaseTab />;
       default:
         return <BasicInputsTab />;
     }
@@ -92,6 +95,7 @@ const App: React.FC = () => {
             <Tab value="datetime">{tabStrings.datetime}</Tab>
             <Tab value="selection">{tabStrings.selection}</Tab>
             <Tab value="advanced">{tabStrings.advanced}</Tab>
+            <Tab value="showcase">Components</Tab>
           </TabList>
 
           <Field label={appStrings.themeSelector}>
