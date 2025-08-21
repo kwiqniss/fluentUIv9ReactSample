@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Tab,
   TabList,
@@ -28,11 +29,31 @@ import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 
 const App: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const styles = {
     ...sharedStyles(),
     ...appStyles(),
   };
-  const [selectedTab, setSelectedTab] = useState<TabValue>('basic');
+
+  // Extract tab from URL search params or default to 'basic'
+  const getTabFromUrl = (): TabValue => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    const validTabs = ['basic', 'datetime', 'selection', 'advanced', 'showcase'];
+    return (tab && validTabs.includes(tab)) ? tab : 'basic';
+  };
+
+  const [selectedTab, setSelectedTab] = useState<TabValue>(getTabFromUrl());
+
+  // Update selected tab when URL changes (browser back/forward)
+  useEffect(() => {
+    const urlTab = getTabFromUrl();
+    if (urlTab !== selectedTab) {
+      setSelectedTab(urlTab);
+    }
+  }, [location.search]);
 
   // Theme management
   const themes = {
@@ -54,8 +75,19 @@ const App: React.FC = () => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
   }, [selectedTheme]);
 
+  // Initialize URL with default tab if no tab parameter exists
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (!params.get('tab')) {
+      navigate(`?tab=basic`, { replace: true });
+    }
+  }, []);
+
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
-    setSelectedTab(data.value);
+    const newTab = data.value;
+    setSelectedTab(newTab);
+    // Update URL with new tab parameter
+    navigate(`?tab=${newTab}`, { replace: false });
   };
 
   const onThemeChange = (event: any, data: any) => {
