@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Field,
   Body1,
@@ -16,6 +16,7 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import selectionStrings from './selection.resx';
 import commonStrings from '../../common.resx';
+import { formCache, CACHE_KEYS, SelectionFormData } from '../../utils/formCache';
 
 // Consolidated strings object
 const strings = {
@@ -26,10 +27,41 @@ const strings = {
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
   
-  const [messages, setMessages] = useState<string[]>([]);
-  const [selectedRadio, setSelectedRadio] = useState('option1');
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
-  const [switchValue, setSwitchValue] = useState(false);
+  // Load cached data or use defaults - this runs every time component mounts
+  const getCachedData = (): SelectionFormData => {
+    const cached = formCache.get<SelectionFormData>(CACHE_KEYS.SELECTION);
+    return cached || {
+      comboboxValue: '',
+      dropdownValue: '',
+      radioValue: 'option1',
+      checkboxValues: {},
+      switchValue: false,
+      messages: [],
+    };
+  };
+
+  // Initialize state with cached data each time component mounts
+  const initialData = getCachedData();
+  
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [comboboxValue, setComboboxValue] = useState(initialData.comboboxValue);
+  const [dropdownValue, setDropdownValue] = useState(initialData.dropdownValue);
+  const [selectedRadio, setSelectedRadio] = useState(initialData.radioValue);
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(initialData.checkboxValues);
+  const [switchValue, setSwitchValue] = useState(initialData.switchValue);
+
+  // Cache form data whenever state changes
+  useEffect(() => {
+    const formData: SelectionFormData = {
+      comboboxValue,
+      dropdownValue,
+      radioValue: selectedRadio,
+      checkboxValues: checkedItems,
+      switchValue,
+      messages,
+    };
+    formCache.set(CACHE_KEYS.SELECTION, formData);
+  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, messages]);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -50,8 +82,12 @@ const SelectionTab: React.FC = () => {
       <div className={styles.row}>
         <Field label={strings.combobox} className={styles.field}>
           <Combobox
+            value={comboboxValue}
             placeholder={strings.comboboxPlaceholder}
-            onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
+            onOptionSelect={(e, data) => {
+              setComboboxValue(data.optionText || '');
+              addMessage(`Combobox selected: ${data.optionText}`);
+            }}
             onOpenChange={(e, data) => addMessage(`Combobox ${data.open ? 'opened' : 'closed'}`)}
           >
             {countries.map((country) => (
@@ -64,8 +100,12 @@ const SelectionTab: React.FC = () => {
 
         <Field label={strings.dropdown} className={styles.field}>
           <Dropdown
+            value={dropdownValue}
             placeholder={strings.dropdownPlaceholder}
-            onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
+            onOptionSelect={(e, data) => {
+              setDropdownValue(data.optionText || '');
+              addMessage(`Dropdown selected: ${data.optionText}`);
+            }}
             onOpenChange={(e, data) => addMessage(`Dropdown ${data.open ? 'opened' : 'closed'}`)}
           >
             {colors.map((color) => (

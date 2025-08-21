@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Input,
   Field,
@@ -19,6 +19,7 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import basicStrings from './basic.resx';
 import commonStrings from '../../common.resx';
+import { formCache, CACHE_KEYS, BasicInputsFormData } from '../../utils/formCache';
 
 // Consolidated strings object
 const strings = {
@@ -29,16 +30,50 @@ const strings = {
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();
   
-  const [messages, setMessages] = useState<string[]>([]);
-  const [textValue, setTextValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [textareaValue, setTextareaValue] = useState('');
+  // Load cached data or use defaults - this runs every time component mounts
+  const getCachedData = (): BasicInputsFormData => {
+    const cached = formCache.get<BasicInputsFormData>(CACHE_KEYS.BASIC_INPUTS);
+    return cached || {
+      textValue: '',
+      emailValue: '',
+      passwordValue: '',
+      textareaValue: '',
+      numberValue: '',
+      dialogName: '',
+      dialogEmail: '',
+      messages: [],
+    };
+  };
+
+  // Initialize state with cached data each time component mounts
+  const initialData = getCachedData();
+  
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [textValue, setTextValue] = useState(initialData.textValue);
+  const [emailValue, setEmailValue] = useState(initialData.emailValue);
+  const [passwordValue, setPasswordValue] = useState(initialData.passwordValue);
+  const [textareaValue, setTextareaValue] = useState(initialData.textareaValue);
+  const [numberValue, setNumberValue] = useState(initialData.numberValue);
   
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogName, setDialogName] = useState('');
-  const [dialogEmail, setDialogEmail] = useState('');
+  const [dialogName, setDialogName] = useState(initialData.dialogName);
+  const [dialogEmail, setDialogEmail] = useState(initialData.dialogEmail);
+
+  // Cache form data whenever state changes
+  useEffect(() => {
+    const formData: BasicInputsFormData = {
+      textValue,
+      emailValue,
+      passwordValue,
+      textareaValue,
+      numberValue,
+      dialogName,
+      dialogEmail,
+      messages,
+    };
+    formCache.set(CACHE_KEYS.BASIC_INPUTS, formData);
+  }, [textValue, emailValue, passwordValue, textareaValue, numberValue, dialogName, dialogEmail, messages]);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -116,7 +151,11 @@ const BasicInputsTab: React.FC = () => {
         <Field label={strings.numberInput} className={styles.field}>
           <Input
             type="number"
-            onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
+            value={numberValue}
+            onChange={(e) => {
+              setNumberValue(e.target.value);
+              addMessage(`Number input changed to: ${e.target.value}`);
+            }}
             onFocus={() => addMessage('Number input focused')}
             onBlur={() => addMessage('Number input lost focus')}
             placeholder={strings.numberInputPlaceholder}

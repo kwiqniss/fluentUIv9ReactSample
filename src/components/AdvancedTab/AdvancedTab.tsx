@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Field,
   Body1,
@@ -31,6 +31,7 @@ import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './advancedTabStyles';
 import strings from './advanced.resx';
 import { formatString } from '../../formatString';
+import { formCache, CACHE_KEYS, AdvancedFormData } from '../../utils/formCache';
 
 enum ProductCategory {
   Electronics = 'Electronics',
@@ -76,18 +77,49 @@ const AdvancedTab: React.FC = () => {
     ...advancedTabStyles(),
   };
   
-  const [messages, setMessages] = useState<string[]>([]);
-  const [sliderValue, setSliderValue] = useState(50);
-  const [rangeStart, setRangeStart] = useState(20);
+  // Load cached data or use defaults - this runs every time component mounts
+  const getCachedData = (): AdvancedFormData => {
+    const cached = formCache.get<AdvancedFormData>(CACHE_KEYS.ADVANCED);
+    return cached || {
+      sliderValue: 50,
+      spinButtonValue: 5,
+      rangeValue: 20,
+      colorValue: '#ff0000',
+      fileValue: '',
+      progressValue: 0,
+      messages: [],
+    };
+  };
+
+  // Initialize state with cached data each time component mounts
+  const initialData = getCachedData();
+  
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [sliderValue, setSliderValue] = useState(initialData.sliderValue);
+  const [rangeStart, setRangeStart] = useState(initialData.rangeValue);
   const [rangeEnd, setRangeEnd] = useState(80);
-  const [progress, setProgress] = useState(0);
-  const [spinValue, setSpinValue] = useState(5);
+  const [progress, setProgress] = useState(initialData.progressValue);
+  const [spinValue, setSpinValue] = useState(initialData.spinButtonValue);
   
   // Product management state
   const [products, setProducts] = useState<Product[]>(defaultProducts);
   const [selectedProductIds, setSelectedProductIds] = useState<Set<string>>(new Set(['1', '3', '7'])); // Default selection
   const [newProductName, setNewProductName] = useState('');
   const [newProductCategory, setNewProductCategory] = useState<ProductCategory>(ProductCategory.Electronics);
+
+  // Cache form data whenever state changes
+  useEffect(() => {
+    const formData: AdvancedFormData = {
+      sliderValue,
+      spinButtonValue: spinValue,
+      rangeValue: rangeStart,
+      colorValue: '#ff0000', // Default color value
+      fileValue: '',
+      progressValue: progress,
+      messages,
+    };
+    formCache.set(CACHE_KEYS.ADVANCED, formData);
+  }, [sliderValue, spinValue, rangeStart, progress, messages]);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
