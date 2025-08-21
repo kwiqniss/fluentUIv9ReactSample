@@ -13,7 +13,7 @@ import {
   Switch,
   Dropdown,
 } from '@fluentui/react-components';
-import { useSharedStyles } from './sharedStyles';
+import { useSharedStyles } from '../styles/sharedStyles';
 
 const SelectionTab: React.FC = () => {
   const sharedStyles = useSharedStyles();

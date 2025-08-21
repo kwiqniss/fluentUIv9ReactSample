@@ -7,7 +7,7 @@ import {
   CardHeader,
   Input,
 } from '@fluentui/react-components';
-import { useSharedStyles } from './sharedStyles';
+import { useSharedStyles } from '../styles/sharedStyles';
 
 const DateTimeTab: React.FC = () => {
   const sharedStyles = useSharedStyles();

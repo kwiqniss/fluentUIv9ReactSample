@@ -26,7 +26,7 @@ import {
   Add20Regular,
   Delete20Regular,
 } from '@fluentui/react-icons';
-import { useSharedStyles } from './sharedStyles';
+import { useSharedStyles } from '../styles/sharedStyles';
 
 interface Product {
   id: string;
@@ -59,26 +59,6 @@ const defaultProducts: Product[] = [
 ];
 
 const useProductListStyles = makeStyles({
-  productList: {
-    maxHeight: '25rem',
-    overflowY: 'auto',
-    border: `2px solid ${tokens.colorNeutralStroke1}`,
-    borderRadius: tokens.borderRadiusMedium,
-    backgroundColor: tokens.colorNeutralBackground1,
-  },
-  productItem: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0.75rem',
-    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: tokens.colorNeutralBackground2,
-    },
-    '&:last-child': {
-      borderBottom: 'none',
-    },
-  },
   selectedItem: {
     backgroundColor: tokens.colorNeutralBackground3,
     border: `2px solid ${tokens.colorBrandStroke2}`,
@@ -94,40 +74,6 @@ const useProductListStyles = makeStyles({
         backgroundColor: 'Highlight',
       },
     },
-  },
-  categoryIcon: {
-    width: '2rem',
-    height: '2rem',
-    borderRadius: tokens.borderRadiusCircular,
-    marginRight: '0.75rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  productInfo: {
-    flex: 1,
-  },
-  addItemForm: {
-    display: 'flex',
-    gap: '0.5rem',
-    alignItems: 'flex-end',
-    marginBottom: '1rem',
-    flexWrap: 'wrap',
-  },
-  selectionSummary: {
-    padding: '0.75rem',
-    backgroundColor: tokens.colorNeutralBackground2,
-    borderRadius: tokens.borderRadiusMedium,
-    marginBottom: '1rem',
-  },
-  addItemInput: {
-    padding: '0.5rem', 
-    borderRadius: '0.25rem', 
-    border: `1px solid ${tokens.colorNeutralStroke1}`,
-  },
-  linkSpacing: {
-    marginLeft: '1rem',
-    marginRight: '0.5rem',
   },
 });
 
@@ -317,7 +263,7 @@ const AdvancedTab: React.FC = () => {
 
       {/* Product Selection List */}
       <Field label="Product Selection List">
-        <div className={productStyles.selectionSummary}>
+        <div className={sharedStyles.summaryCard}>
           <div className={sharedStyles.verticalStackTight}>
             <Body1>Selected Products: {selectedProductIds.size} of {products.length}</Body1>
             <Caption1>
@@ -328,7 +274,7 @@ const AdvancedTab: React.FC = () => {
           </div>
         </div>
 
-        <div className={productStyles.addItemForm}>
+        <div className={sharedStyles.horizontalFormRow}>
           <Field label="Product Name">
             <Input
               value={newProductName}
@@ -340,7 +286,7 @@ const AdvancedTab: React.FC = () => {
             <select 
               value={newProductCategory} 
               onChange={(e) => setNewProductCategory(e.target.value as Product['category'])}
-              className={productStyles.addItemInput}
+              className={sharedStyles.formInput}
             >
               {Object.keys(productCategories).map(category => (
                 <option key={category} value={category}>{category}</option>
@@ -357,7 +303,7 @@ const AdvancedTab: React.FC = () => {
           </Button>
         </div>
 
-        <div className={productStyles.productList}>
+        <div className={sharedStyles.scrollableList}>
           {products.map(product => {
             const isSelected = selectedProductIds.has(product.id);
             const categoryInfo = productCategories[product.category];
@@ -365,7 +311,7 @@ const AdvancedTab: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className={`${productStyles.productItem} ${isSelected ? productStyles.selectedItem : ''}`}
+                className={`${sharedStyles.listItem} ${isSelected ? productStyles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
                 <Checkbox
@@ -373,12 +319,12 @@ const AdvancedTab: React.FC = () => {
                   onChange={() => toggleProductSelection(product.id)}
                 />
                 <div 
-                  className={productStyles.categoryIcon}
+                  className={sharedStyles.circularIcon}
                   style={{ backgroundColor: categoryInfo.color }}
                 >
                   {categoryInfo.icon}
                 </div>
-                <div className={productStyles.productInfo}>
+                <div className={sharedStyles.flexOne}>
                   <Text>{product.name}</Text>
                   <Text>{product.category}</Text>
                   <Link 

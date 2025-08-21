@@ -18,7 +18,7 @@ import {
   DialogActions,
   DialogBody,
 } from '@fluentui/react-components';
-import { useSharedStyles } from './sharedStyles';
+import { useSharedStyles } from '../styles/sharedStyles';
 
 const BasicInputsTab: React.FC = () => {
   const sharedStyles = useSharedStyles();
