@@ -20,7 +20,6 @@ import {
 } from '@fluentui/react-components';
 import {
   Laptop20Regular,
-  Phone20Regular,
   Book20Regular,
   MusicNote220Regular,
   Games20Regular,
