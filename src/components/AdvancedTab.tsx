@@ -26,7 +26,7 @@ import {
   Delete20Regular,
 } from '@fluentui/react-icons';
 import { sharedStyles } from '../styles/sharedStyles';
-import { advancedTabStyles } from '../styles/advancedTabStyles';
+import { advancedTabStyles } from '../styles/componentStyles/advancedTabStyles';
 
 enum ProductCategory {
   Electronics = 'Electronics',
