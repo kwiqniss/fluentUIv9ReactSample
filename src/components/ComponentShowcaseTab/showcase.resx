@@ -210,4 +210,7 @@
   <data name="avatarOfflineUser" xml:space="preserve">
     <value>Offline User</value>
   </data>
+  <data name="progressLabel" xml:space="preserve">
+    <value>Progress: {0}%</value>
+  </data>
 </root>

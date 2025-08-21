@@ -1,9 +1,11 @@
 import React, { useState, useId, useEffect } from 'react';
 import {
-  Body1,
-  Caption1,
+  Text,
   Title2,
   Title3,
+  Field,
+  Button,
+  SearchBox,
   Card,
   CardHeader,
   CardPreview,
@@ -12,28 +14,18 @@ import {
   AccordionHeader,
   AccordionItem,
   AccordionPanel,
-  Badge,
-  CounterBadge,
-  Avatar,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbDivider,
   Menu,
   MenuTrigger,
   MenuPopover,
   MenuList,
   MenuItem,
-  Button,
-  Spinner,
-  Toast,
-  ToastTitle,
-  Toaster,
-  useToastController,
-  useId as useToastId,
-  Toolbar,
-  ToolbarButton,
-  ToolbarDivider,
-  SearchBox,
+  MenuDivider,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbDivider,
+  Link,
+  Badge,
+  Avatar,
   Table,
   TableHeader,
   TableRow,
@@ -41,101 +33,99 @@ import {
   TableCell,
   TableBody,
   TableCellLayout,
-  Link,
-  Text,
-  Field,
+  ProgressBar,
+  Skeleton,
+  SkeletonItem,
+  SpinButton,
+  Toast,
+  ToastTitle,
+  Toaster,
+  useToastController,
+  Caption1
 } from '@fluentui/react-components';
 import {
   HomeRegular,
+  MoreHorizontalRegular,
   EditRegular,
   CopyRegular,
   DeleteRegular,
-  TextBoldRegular,
-  TextItalicRegular,
-  TextUnderlineRegular,
-  SearchRegular,
-  MoreHorizontalRegular,
-  CheckmarkRegular,
-  ErrorCircleRegular,
   InfoRegular,
+  CheckmarkCircleRegular,
+  WarningRegular,
+  ErrorCircleRegular,
+  DismissCircleRegular
 } from '@fluentui/react-icons';
-import { sharedStyles } from '../../sharedStyles';
-import { componentShowcaseStyles } from './componentShowcaseStyles';
-import strings from './showcase.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { formatString } from '../../formatString';
+import strings from './showcase.resx';
+import { componentShowcaseStyles } from './componentShowcaseStyles';
 
-export interface ComponentShowcaseFormData {
+// Define the form data interface
+interface ComponentShowcaseFormData {
   searchValue: string;
   toastCount: number;
-  accordionExpanded: { [key: string]: boolean };
-  menuSelection: string;
-  tableSelection: string[];
   messages: string[];
+  tableSelection: string[];
 }
 
 const ComponentShowcaseTab: React.FC = () => {
-  const styles = { ...sharedStyles(), ...componentShowcaseStyles() };
-  
-  // Load cached data or use defaults - this runs every time component mounts
-  const getCachedData = (): ComponentShowcaseFormData => {
-    const cached = formCache.get<ComponentShowcaseFormData>(CACHE_KEYS.COMPONENT_SHOWCASE);
-    return cached || {
-      searchValue: '',
-      toastCount: 0,
-      accordionExpanded: {},
-      menuSelection: '',
-      tableSelection: [],
-      messages: [],
-    };
+  const toasterId = useId();
+  const { dispatchToast } = useToastController(toasterId);
+
+  // Load initial form data from cache
+  const cached = formCache.get<ComponentShowcaseFormData>(CACHE_KEYS.COMPONENT_SHOWCASE);
+  const initialData: ComponentShowcaseFormData = cached || {
+    searchValue: '',
+    toastCount: 0,
+    messages: [],
+    tableSelection: [],
   };
 
-  // Initialize state with cached data each time component mounts
-  const initialData = getCachedData();
-  
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
+  // State management
   const [searchValue, setSearchValue] = useState(initialData.searchValue);
   const [toastCount, setToastCount] = useState(initialData.toastCount);
-  const [toolbarState, setToolbarState] = useState({
-    bold: false,
-    italic: false,
-    underline: false,
-  });
+  const [messages, setMessages] = useState<string[]>(initialData.messages);
 
-  // Cache form data whenever state changes
+  // Save form data whenever state changes
   useEffect(() => {
-    const formData: ComponentShowcaseFormData = {
+    const formData = {
       searchValue,
       toastCount,
-      accordionExpanded: {},
-      menuSelection: '',
-      tableSelection: [],
       messages,
+      tableSelection: [],
     };
     formCache.set(CACHE_KEYS.COMPONENT_SHOWCASE, formData);
   }, [searchValue, toastCount, messages]);
 
-  // Toast setup
-  const toasterId = useToastId('toaster');
-  const { dispatchToast } = useToastController(toasterId);
+  // Get styles
+  const styles = componentShowcaseStyles();
 
+  // Helper function to add messages
   const addMessage = (message: string) => {
-    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
+    const timestamp = new Date().toLocaleTimeString();
+    setMessages(prev => [...prev, `${timestamp}: ${message}`]);
   };
 
-  const showToast = (type: 'success' | 'error' | 'info') => {
+  // Toast handlers
+  const showToast = (type: 'success' | 'error' | 'warning' | 'info') => {
     const newCount = toastCount + 1;
     setToastCount(newCount);
-    
+
     const toastContent = {
       success: { 
         title: `${strings.toastSuccess} #${newCount}`, 
         intent: 'success' as const,
-        icon: <CheckmarkRegular />
+        icon: <CheckmarkCircleRegular />
       },
       error: { 
         title: `${strings.toastError} #${newCount}`, 
         intent: 'error' as const,
         icon: <ErrorCircleRegular />
+      },
+      warning: { 
+        title: `${strings.toastWarning} #${newCount}`, 
+        intent: 'warning' as const,
+        icon: <WarningRegular />
       },
       info: { 
         title: `${strings.toastInfo} #${newCount}`, 
@@ -199,7 +189,9 @@ const ComponentShowcaseTab: React.FC = () => {
                   </BreadcrumbItem>
                   <BreadcrumbDivider />
                   <BreadcrumbItem>
-                    {strings.breadcrumbCategory}
+                    <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Category clicked'); }}>
+                      {strings.breadcrumbCategory}
+                    </Link>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </div>
@@ -207,42 +199,35 @@ const ComponentShowcaseTab: React.FC = () => {
           </div>
 
           <div className={styles.componentCard}>
-            <Field label={strings.labelContextMenu}>
-              <div className={styles.menuContainer}>
-                <Menu>
-                  <MenuTrigger disableButtonEnhancement>
-                    <Button 
-                      icon={<MoreHorizontalRegular />}
-                      aria-label={strings.menuTrigger}
-                      onClick={() => addMessage('Context menu opened')}
-                    >
-                      {strings.menuTrigger}
-                    </Button>
-                  </MenuTrigger>
-                  <MenuPopover>
-                    <MenuList>
-                      <MenuItem 
-                        icon={<EditRegular />}
-                        onClick={() => addMessage('Edit menu item selected')}
-                      >
-                        {strings.menuEdit}
-                      </MenuItem>
-                      <MenuItem 
-                        icon={<CopyRegular />}
-                        onClick={() => addMessage('Copy menu item selected')}
-                      >
-                        {strings.menuCopy}
-                      </MenuItem>
-                      <MenuItem 
-                        icon={<DeleteRegular />}
-                        onClick={() => addMessage('Delete menu item selected')}
-                      >
-                        {strings.menuDelete}
-                      </MenuItem>
-                    </MenuList>
-                  </MenuPopover>
-                </Menu>
-              </div>
+            <Field label={strings.labelMenuNavigation}>
+              <Menu>
+                <MenuTrigger disableButtonEnhancement>
+                  <Button
+                    appearance="outline"
+                    icon={<MoreHorizontalRegular />}
+                    onClick={() => addMessage('Menu opened')}
+                  >
+                    {strings.menuTrigger}
+                  </Button>
+                </MenuTrigger>
+                <MenuPopover>
+                  <MenuList>
+                    <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
+                      <EditRegular style={{ marginRight: '8px' }} />
+                      {strings.menuEdit}
+                    </MenuItem>
+                    <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
+                      <CopyRegular style={{ marginRight: '8px' }} />
+                      {strings.menuCopy}
+                    </MenuItem>
+                    <MenuDivider />
+                    <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
+                      <DeleteRegular style={{ marginRight: '8px' }} />
+                      {strings.menuDelete}
+                    </MenuItem>
+                  </MenuList>
+                </MenuPopover>
+              </Menu>
             </Field>
           </div>
         </div>
@@ -252,168 +237,53 @@ const ComponentShowcaseTab: React.FC = () => {
       <section className={styles.layoutSection}>
         <Title3 className={styles.sectionHeader}>{strings.layouts}</Title3>
         
-        <div className={styles.componentCard}>
-          <Field label={strings.labelCardComponent}>
-            <Card style={{ maxWidth: '400px' }}>
-              <CardHeader
-                image={
-                  <Avatar
-                    name={strings.avatarName}
-                    badge={{
-                      status: 'available' as const,
-                      'aria-label': strings.statusActive
-                    }}
-                  />
-                }
-                header={<Body1><strong>{strings.cardTitle}</strong></Body1>}
-                description={<Caption1>{strings.cardSubtitle}</Caption1>}
-              />
-              
-              <CardPreview>
-                <Text>{strings.cardDescription}</Text>
-              </CardPreview>
-              
-              <CardFooter>
-                <Button 
-                  appearance="primary"
-                  onClick={() => addMessage('Card action: Learn more clicked')}
-                >
-                  {strings.buttonLearnMore}
-                </Button>
-                <Button 
-                  onClick={() => addMessage('Card action: Save clicked')}
-                >
-                  {strings.buttonSave}
-                </Button>
-              </CardFooter>
-            </Card>
-          </Field>
-        </div>
-
-        <div className={styles.componentCard}>
-          <Field label={strings.labelAccordionComponent}>
-            <div className={styles.accordionContainer}>
-              <Accordion multiple collapsible>
-                <AccordionItem value="requirements">
-                  <AccordionHeader expandIconPosition="end">
-                    {strings.accordionTitle1}
-                  </AccordionHeader>
-                  <AccordionPanel>
-                    <Text>{strings.accordionContent1}</Text>
-                  </AccordionPanel>
-                </AccordionItem>
-                
-                <AccordionItem value="installation">
-                  <AccordionHeader expandIconPosition="end">
-                    {strings.accordionTitle2}
-                  </AccordionHeader>
-                  <AccordionPanel>
-                    <Text>{strings.accordionContent2}</Text>
-                  </AccordionPanel>
-                </AccordionItem>
-                
-                <AccordionItem value="troubleshooting">
-                  <AccordionHeader expandIconPosition="end">
-                    {strings.accordionTitle3}
-                  </AccordionHeader>
-                  <AccordionPanel>
-                    <Text>{strings.accordionContent3}</Text>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          </Field>
-        </div>
-      </section>
-
-      {/* Communication Components Section */}
-      <section className={styles.communicationArea}>
-        <Title3 className={styles.sectionHeader}>{strings.communication}</Title3>
-        
-        <div className={styles.componentCard}>
-          <Field label={strings.labelBadgesStatus}>
-            <div className={styles.badgeDemo}>
-              <Badge appearance="filled" color="brand">{strings.badgeNew}</Badge>
-              <Badge appearance="ghost" color="important">{strings.badgeImportant}</Badge>
-              <CounterBadge count={5} aria-label={`${strings.badgeCount} notifications`} />
-            </div>
-            
-            <div className={styles.avatarSection}>
-              <Avatar
-                name={strings.avatarName}
-                badge={{
-                  status: 'available' as const,
-                  'aria-label': strings.statusActive
-                }}
-              />
-              <Avatar
-                name={strings.avatarAwayUser}
-                badge={{
-                  status: 'away' as const,
-                  'aria-label': strings.statusAway
-                }}
-              />
-              <Avatar
-                name={strings.avatarBusyUser}
-                badge={{
-                  status: 'busy' as const,
-                  'aria-label': strings.statusBusy
-                }}
-              />
-              <Avatar
-                name={strings.avatarOfflineUser}
-                badge={{
-                  status: 'offline' as const,
-                  'aria-label': strings.statusOffline
-                }}
-              />
-            </div>
-          </Field>
-        </div>
-      </section>
-
-      {/* Status & Indicators Section */}
-      <section>
-        <Title3 className={styles.sectionHeader}>{strings.indicators}</Title3>
-        
-        <div className={styles.statusIndicators}>
+        <div className={styles.componentGrid}>
           <div className={styles.componentCard}>
-            <Field label={strings.labelLoadingSpinner}>
-              <div className={styles.spinnerDemo}>
-                <Spinner size="tiny" aria-label={strings.spinnerLoading} />
-                <Spinner size="extra-small" aria-label={strings.spinnerLoading} />
-                <Spinner size="small" aria-label={strings.spinnerLoading} />
-                <Spinner size="medium" aria-label={strings.spinnerLoading} />
-                <Text>{strings.spinnerLoading}</Text>
-              </div>
+            <Field label={strings.labelCard}>
+              <Card className={styles.componentCard}>
+                <CardHeader
+                  image={<Avatar name="Product" size={40} />}
+                  header={<Text weight="semibold">{strings.cardTitle}</Text>}
+                />
+                <CardPreview>
+                  <div>
+                    <Text>{strings.cardDescription}</Text>
+                  </div>
+                </CardPreview>
+                <CardFooter>
+                  <Button 
+                    appearance="primary" 
+                    onClick={() => addMessage('Card: Learn more clicked')}
+                  >
+                    {strings.cardLearnMore}
+                  </Button>
+                  <Button 
+                    appearance="subtle"
+                    onClick={() => addMessage('Card: Contact clicked')}
+                  >
+                    {strings.cardContact}
+                  </Button>
+                </CardFooter>
+              </Card>
             </Field>
           </div>
 
           <div className={styles.componentCard}>
-            <Field label={strings.labelToastNotifications}>
-              <div className={styles.toastDemo}>
-                <Button 
-                  appearance="primary" 
-                  icon={<CheckmarkRegular />}
-                  onClick={() => showToast('success')}
-                >
-                  {strings.buttonSuccess}
-                </Button>
-                <Button 
-                  appearance="secondary" 
-                  icon={<ErrorCircleRegular />}
-                  onClick={() => showToast('error')}
-                >
-                  {strings.buttonError}
-                </Button>
-                <Button 
-                  appearance="outline" 
-                  icon={<InfoRegular />}
-                  onClick={() => showToast('info')}
-                >
-                  {strings.buttonInfo}
-                </Button>
-              </div>
+            <Field label={strings.labelAccordion}>
+              <Accordion collapsible>
+                <AccordionItem value="requirements">
+                  <AccordionHeader>{strings.accordionTitle1}</AccordionHeader>
+                  <AccordionPanel>
+                    <Text>{strings.accordionContent1}</Text>
+                  </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem value="installation">
+                  <AccordionHeader>{strings.accordionTitle2}</AccordionHeader>
+                  <AccordionPanel>
+                    <Text>{strings.accordionContent2}</Text>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </Field>
           </div>
         </div>
@@ -421,51 +291,76 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Interactive Components Section */}
       <section className={styles.interactiveSection}>
-        <Title3 className={styles.sectionHeader}>{strings.actions}</Title3>
+        <Title3 className={styles.sectionHeader}>{strings.interactive}</Title3>
+        
+        <div className={styles.componentGrid}>
+          <div className={styles.componentCard}>
+            <Field label={strings.labelToastNotifications}>
+              <div className={styles.horizontalGroup}>
+                <Button 
+                  appearance="primary" 
+                  onClick={() => showToast('success')}
+                >
+                  {strings.buttonSuccess}
+                </Button>
+                <Button 
+                  appearance="primary" 
+                  onClick={() => showToast('error')}
+                >
+                  {strings.buttonError}
+                </Button>
+                <Button 
+                  appearance="primary" 
+                  onClick={() => showToast('warning')}
+                >
+                  {strings.buttonWarning}
+                </Button>
+                <Button 
+                  appearance="primary" 
+                  onClick={() => showToast('info')}
+                >
+                  {strings.buttonInfo}
+                </Button>
+              </div>
+            </Field>
+          </div>
+
+          <div className={styles.componentCard}>
+            <Field label={strings.labelProgress}>
+              <div className={styles.verticalGroup}>
+                <ProgressBar value={0.75} />
+                <Text>{formatString(strings.progressLabel, '75')}</Text>
+              </div>
+            </Field>
+          </div>
+        </div>
+      </section>
+
+      {/* Loading States Section */}
+      <section>
+        <Title3 className={styles.sectionHeader}>{strings.loadingStates}</Title3>
         
         <div className={styles.componentCard}>
-          <Field label={strings.labelToolbar}>
-            <div className={styles.toolbarContainer}>
-              <Toolbar aria-label="Formatting toolbar">
-                <ToolbarButton
-                  aria-label={strings.toolbarBold}
-                  icon={<TextBoldRegular />}
-                  appearance={toolbarState.bold ? 'primary' : 'subtle'}
-                  onClick={() => {
-                    setToolbarState(prev => ({ ...prev, bold: !prev.bold }));
-                    addMessage(`Bold ${toolbarState.bold ? 'disabled' : 'enabled'}`);
-                  }}
-                />
-                <ToolbarButton
-                  aria-label={strings.toolbarItalic}
-                  icon={<TextItalicRegular />}
-                  appearance={toolbarState.italic ? 'primary' : 'subtle'}
-                  onClick={() => {
-                    setToolbarState(prev => ({ ...prev, italic: !prev.italic }));
-                    addMessage(`Italic ${toolbarState.italic ? 'disabled' : 'enabled'}`);
-                  }}
-                />
-                <ToolbarButton
-                  aria-label={strings.toolbarUnderline}
-                  icon={<TextUnderlineRegular />}
-                  appearance={toolbarState.underline ? 'primary' : 'subtle'}
-                  onClick={() => {
-                    setToolbarState(prev => ({ ...prev, underline: !prev.underline }));
-                    addMessage(`Underline ${toolbarState.underline ? 'disabled' : 'enabled'}`);
-                  }}
-                />
-                <ToolbarDivider />
-                <ToolbarButton
-                  icon={<SearchRegular />}
-                  onClick={() => addMessage('Search tool activated')}
-                >
-                  {strings.buttonSearch}
-                </ToolbarButton>
-              </Toolbar>
+          <Field label={strings.labelSkeleton}>
+            <div>
+              <Skeleton>
+                <div>
+                  <SkeletonItem shape="circle" size={48} />
+                  <div>
+                    <SkeletonItem shape="rectangle" size={16} />
+                    <SkeletonItem shape="rectangle" size={12} />
+                  </div>
+                </div>
+              </Skeleton>
             </div>
           </Field>
         </div>
+      </section>
 
+      {/* Search & Filter Section */}
+      <section>
+        <Title3 className={styles.sectionHeader}>{strings.searchFilter}</Title3>
+        
         <div className={styles.componentCard}>
           <Field label={strings.labelSearch}>
             <div className={styles.searchArea}>
