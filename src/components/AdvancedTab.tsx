@@ -386,15 +386,15 @@ const AdvancedTab: React.FC = () => {
                 <div className={productStyles.productInfo}>
                   <Text className={productStyles.productName}>{product.name}</Text>
                   <Text className={productStyles.categoryLabel}>{product.category}</Text>
+                  <Link 
+                    href={product.bingSearchUrl}
+                    target="_blank"
+                    className={productStyles.productLink}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Search for {product.name}
+                  </Link>
                 </div>
-                <Link 
-                  href={product.bingSearchUrl}
-                  target="_blank"
-                  className={productStyles.productLink}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  Search Bing
-                </Link>
                 <Button
                   appearance="subtle"
                   icon={<Delete20Regular />}
