@@ -13,4 +13,25 @@ export const appStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  tabBarContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '1rem',
+    gap: '1rem',
+    flexWrap: 'wrap',
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: '0.5rem',
+    },
+  },
+
+  themeSelector: {
+    minWidth: '160px',
+    '@media (max-width: 768px)': {
+      alignSelf: 'flex-end',
+    },
+  },
 });

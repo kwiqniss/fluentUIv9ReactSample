@@ -8,4 +8,8 @@
     <!-- Application subtitle providing context about the demo -->
     <value>Explore various input controls with interactive feedback</value>
   </data>
+  <data name="themeSelector" xml:space="preserve">
+    <!-- Label for theme selection dropdown -->
+    <value>Theme</value>
+  </data>
 </root>

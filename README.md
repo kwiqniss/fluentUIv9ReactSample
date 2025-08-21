@@ -7,6 +7,8 @@ A non-comprehensive demo application showcasing various FluentUI v9 input contro
 ## Features
 
 - **Tabbed Interface**: Clean organization of different control types
+- **Theme Selector**: Choose from 5 different FluentUI themes (Web Light/Dark, Teams Light/Dark, High Contrast)
+- **Theme Persistence**: Selected theme is saved in browser localStorage
 - **Interactive Feedback**: Real-time messages showing user interactions
 - **Advanced Focus Management**: Focus restoration when switching between tabs
 - **Modal Dialog**: Contact information dialog with proper focus control
@@ -72,17 +74,11 @@ src/
 
 ## FluentUI v9 Components Used
 
-- Input, Textarea
-- Combobox, Dropdown
-- Radio, RadioGroup, Checkbox
-- Switch, Button
-- Slider, SpinButton
-- ProgressBar
-- Tab, TabList
-- Field, Label
-- Card, CardHeader
-- Dialog, DialogSurface, DialogTitle, DialogContent, DialogActions, DialogBody
-- makeStyles (styling)
+- **Layout & Navigation**: Tab, TabList, Field, Label
+- **Form Controls**: Input, Textarea, Combobox, Dropdown, Radio, RadioGroup, Checkbox, Switch, Button, Slider, SpinButton, ProgressBar
+- **Containers**: Card, CardHeader, Dialog, DialogSurface, DialogTitle, DialogContent, DialogActions, DialogBody
+- **Theming**: FluentProvider with multiple theme support (webLightTheme, webDarkTheme, teamsLightTheme, teamsDarkTheme, teamsHighContrastTheme)
+- **Styling**: makeStyles for CSS-in-JS styling
 
 ## Interaction Features
 
@@ -108,3 +104,22 @@ The Basic Inputs tab includes a "Open Contact Dialog" button that demonstrates:
 - Focus restoration to the triggering element
 
 This helps demonstrate the responsive nature of the FluentUI v9 components and provides immediate feedback for testing and learning purposes.
+
+## Theme System
+
+The application supports dynamic theme switching with 5 built-in FluentUI v9 themes:
+
+- **Web Light**: Default light theme optimized for web applications
+- **Web Dark**: Dark theme variant for web applications  
+- **Teams Light**: Microsoft Teams light theme styling
+- **Teams Dark**: Microsoft Teams dark theme styling
+- **High Contrast**: Accessible high-contrast theme for better visibility
+
+### Theme Features
+- **Real-time switching**: Themes change immediately when selected
+- **Persistent selection**: Your theme choice is saved in browser localStorage
+- **Responsive design**: Theme selector adapts to mobile layouts
+- **Accessibility**: High contrast theme provides enhanced visibility
+- **Consistent styling**: All components automatically adapt to the selected theme
+
+The theme selector is positioned to the right of the tab navigation on desktop and below the tabs on mobile devices.
