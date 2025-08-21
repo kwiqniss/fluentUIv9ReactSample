@@ -28,34 +28,42 @@ import {
 import { useSharedStyles } from '../styles/sharedStyles';
 import { useAdvancedTabStyles } from '../styles/advancedTabStyles';
 
+enum ProductCategory {
+  Electronics = 'Electronics',
+  Books = 'Books',
+  Music = 'Music',
+  Gaming = 'Gaming',
+  Photography = 'Photography',
+}
+
 interface Product {
   id: string;
   name: string;
   bingSearchUrl: string;
-  category: 'Electronics' | 'Books' | 'Music' | 'Gaming' | 'Photography';
+  category: ProductCategory;
 }
 
 const productCategories = {
-  Electronics: { icon: <Laptop20Regular />, color: tokens.colorPaletteBlueBackground2 },
-  Books: { icon: <Book20Regular />, color: tokens.colorPaletteTealBackground2 },
-  Music: { icon: <MusicNote220Regular />, color: tokens.colorPaletteNavyBackground2 },
-  Gaming: { icon: <Games20Regular />, color: tokens.colorPaletteForestBackground2 },
-  Photography: { icon: <Camera20Regular />, color: tokens.colorPaletteMarigoldBackground2 },
+  [ProductCategory.Electronics]: { icon: <Laptop20Regular />, color: tokens.colorPaletteBlueBackground2 },
+  [ProductCategory.Books]: { icon: <Book20Regular />, color: tokens.colorPaletteTealBackground2 },
+  [ProductCategory.Music]: { icon: <MusicNote220Regular />, color: tokens.colorPaletteNavyBackground2 },
+  [ProductCategory.Gaming]: { icon: <Games20Regular />, color: tokens.colorPaletteForestBackground2 },
+  [ProductCategory.Photography]: { icon: <Camera20Regular />, color: tokens.colorPaletteMarigoldBackground2 },
 };
 
 const defaultProducts: Product[] = [
-  { id: '1', name: 'MacBook Pro', bingSearchUrl: 'https://www.bing.com/search?q=MacBook+Pro', category: 'Electronics' },
-  { id: '2', name: 'iPhone 15', bingSearchUrl: 'https://www.bing.com/search?q=iPhone+15', category: 'Electronics' },
-  { id: '3', name: 'The Great Gatsby', bingSearchUrl: 'https://www.bing.com/search?q=The+Great+Gatsby+book', category: 'Books' },
-  { id: '4', name: 'Dune', bingSearchUrl: 'https://www.bing.com/search?q=Dune+book', category: 'Books' },
-  { id: '5', name: 'Beatles Abbey Road', bingSearchUrl: 'https://www.bing.com/search?q=Beatles+Abbey+Road', category: 'Music' },
-  { id: '6', name: 'Taylor Swift 1989', bingSearchUrl: 'https://www.bing.com/search?q=Taylor+Swift+1989', category: 'Music' },
-  { id: '7', name: 'PlayStation 5', bingSearchUrl: 'https://www.bing.com/search?q=PlayStation+5', category: 'Gaming' },
-  { id: '8', name: 'Nintendo Switch', bingSearchUrl: 'https://www.bing.com/search?q=Nintendo+Switch', category: 'Gaming' },
-  { id: '9', name: 'Canon EOS R5', bingSearchUrl: 'https://www.bing.com/search?q=Canon+EOS+R5', category: 'Photography' },
-  { id: '10', name: 'Sony A7 IV', bingSearchUrl: 'https://www.bing.com/search?q=Sony+A7+IV', category: 'Photography' },
-  { id: '11', name: 'iPad Air', bingSearchUrl: 'https://www.bing.com/search?q=iPad+Air', category: 'Electronics' },
-  { id: '12', name: 'To Kill a Mockingbird', bingSearchUrl: 'https://www.bing.com/search?q=To+Kill+a+Mockingbird+book', category: 'Books' },
+  { id: '1', name: 'MacBook Pro', bingSearchUrl: 'https://www.bing.com/search?q=MacBook+Pro', category: ProductCategory.Electronics },
+  { id: '2', name: 'iPhone 15', bingSearchUrl: 'https://www.bing.com/search?q=iPhone+15', category: ProductCategory.Electronics },
+  { id: '3', name: 'The Great Gatsby', bingSearchUrl: 'https://www.bing.com/search?q=The+Great+Gatsby+book', category: ProductCategory.Books },
+  { id: '4', name: 'Dune', bingSearchUrl: 'https://www.bing.com/search?q=Dune+book', category: ProductCategory.Books },
+  { id: '5', name: 'Beatles Abbey Road', bingSearchUrl: 'https://www.bing.com/search?q=Beatles+Abbey+Road', category: ProductCategory.Music },
+  { id: '6', name: 'Taylor Swift 1989', bingSearchUrl: 'https://www.bing.com/search?q=Taylor+Swift+1989', category: ProductCategory.Music },
+  { id: '7', name: 'PlayStation 5', bingSearchUrl: 'https://www.bing.com/search?q=PlayStation+5', category: ProductCategory.Gaming },
+  { id: '8', name: 'Nintendo Switch', bingSearchUrl: 'https://www.bing.com/search?q=Nintendo+Switch', category: ProductCategory.Gaming },
+  { id: '9', name: 'Canon EOS R5', bingSearchUrl: 'https://www.bing.com/search?q=Canon+EOS+R5', category: ProductCategory.Photography },
+  { id: '10', name: 'Sony A7 IV', bingSearchUrl: 'https://www.bing.com/search?q=Sony+A7+IV', category: ProductCategory.Photography },
+  { id: '11', name: 'iPad Air', bingSearchUrl: 'https://www.bing.com/search?q=iPad+Air', category: ProductCategory.Electronics },
+  { id: '12', name: 'To Kill a Mockingbird', bingSearchUrl: 'https://www.bing.com/search?q=To+Kill+a+Mockingbird+book', category: ProductCategory.Books },
 ];
 
 const AdvancedTab: React.FC = () => {
@@ -74,7 +82,7 @@ const AdvancedTab: React.FC = () => {
   const [products, setProducts] = useState<Product[]>(defaultProducts);
   const [selectedProductIds, setSelectedProductIds] = useState<Set<string>>(new Set(['1', '3', '7'])); // Default selection
   const [newProductName, setNewProductName] = useState('');
-  const [newProductCategory, setNewProductCategory] = useState<Product['category']>('Electronics');
+  const [newProductCategory, setNewProductCategory] = useState<ProductCategory>(ProductCategory.Electronics);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -268,10 +276,10 @@ const AdvancedTab: React.FC = () => {
           <Field label="Category">
             <select 
               value={newProductCategory} 
-              onChange={(e) => setNewProductCategory(e.target.value as Product['category'])}
+              onChange={(e) => setNewProductCategory(e.target.value as ProductCategory)}
               className={styles.formInput}
             >
-              {Object.keys(productCategories).map(category => (
+              {Object.values(ProductCategory).map(category => (
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
