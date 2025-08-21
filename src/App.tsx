@@ -8,6 +8,7 @@ import {
   Caption1,
   SelectTabEvent,
   SelectTabData,
+  tokens,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab';
@@ -35,8 +36,8 @@ const useStyles = makeStyles({
   tabContent: {
     marginTop: '1.25rem',
     padding: '1.25rem',
-    backgroundColor: '#f9f9f9',
-    borderRadius: '0.5rem',
+    backgroundColor: tokens.colorNeutralBackground2,
+    borderRadius: tokens.borderRadiusMedium,
     minHeight: '30rem',
   },
 });

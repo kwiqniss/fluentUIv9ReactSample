@@ -1,4 +1,4 @@
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, tokens } from '@fluentui/react-components';
 
 /**
  * Shared styles used across multiple tab components
@@ -29,8 +29,8 @@ export const useSharedStyles = makeStyles({
   messageArea: {
     marginTop: '1.25rem',
     padding: '1rem',
-    backgroundColor: '#f0f0f0',
-    borderRadius: '0.5rem',
+    backgroundColor: tokens.colorNeutralBackground2,
+    borderRadius: tokens.borderRadiusMedium,
     minHeight: '7.5rem',
   },
 
