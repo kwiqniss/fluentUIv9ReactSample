@@ -11,7 +11,6 @@ import {
   Button,
   SpinButton,
   Checkbox,
-  Link,
   Text,
   tokens,
 } from '@fluentui/react-components';
@@ -24,6 +23,7 @@ import {
   Camera20Regular,
   Add20Regular,
   Delete20Regular,
+  Info20Regular,
 } from '@fluentui/react-icons';
 import { sharedStyles } from '../styles/sharedStyles';
 import { advancedTabStyles } from '../styles/componentStyles/advancedTabStyles';
@@ -318,14 +318,18 @@ const AdvancedTab: React.FC = () => {
                 <div className={styles.flexOne}>
                   <Text>{product.name}</Text>
                   <Text>{product.category}</Text>
-                  <Link 
-                    href={product.bingSearchUrl}
-                    target="_blank"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Search for {product.name}
-                  </Link>
                 </div>
+                <Button
+                  appearance="subtle"
+                  icon={<Info20Regular />}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(product.bingSearchUrl, '_blank');
+                    addMessage(`Learning more about ${product.name}`);
+                  }}
+                  size="small"
+                  title={`Learn more about ${product.name}`}
+                />
                 <Button
                   appearance="subtle"
                   icon={<Delete20Regular />}
