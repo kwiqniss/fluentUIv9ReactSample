@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import {
   Input,
   Label,
@@ -22,6 +22,17 @@ import { sharedStyles } from '../styles/sharedStyles';
 
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();
+  const baseId = useId();
+  
+  // ID constants for labeled inputs
+  const textInputId = `text-input-${baseId}`;
+  const emailInputId = `email-input-${baseId}`;
+  const passwordInputId = `password-input-${baseId}`;
+  const numberInputId = `number-input-${baseId}`;
+  const textareaId = `textarea-${baseId}`;
+  const dialogNameInputId = `dialog-name-input-${baseId}`;
+  const dialogEmailInputId = `dialog-email-input-${baseId}`;
+  
   const [messages, setMessages] = useState<string[]>([]);
   const [textValue, setTextValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -63,8 +74,10 @@ const BasicInputsTab: React.FC = () => {
       <Body1>Basic Input Controls</Body1>
       
       <div className={styles.row}>
-        <Field label="Text Input" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={textInputId}>Text Input</Label>
           <Input
+            id={textInputId}
             value={textValue}
             onChange={(e) => {
               setTextValue(e.target.value);
@@ -74,10 +87,12 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Text input lost focus')}
             placeholder="Enter some text..."
           />
-        </Field>
+        </div>
 
-        <Field label="Email Input" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={emailInputId}>Email Input</Label>
           <Input
+            id={emailInputId}
             type="email"
             value={emailValue}
             onChange={(e) => {
@@ -88,12 +103,14 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Email input lost focus')}
             placeholder="Enter your email..."
           />
-        </Field>
+        </div>
       </div>
 
       <div className={styles.row}>
-        <Field label="Password Input" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={passwordInputId}>Password Input</Label>
           <Input
+            id={passwordInputId}
             type="password"
             value={passwordValue}
             onChange={(e) => {
@@ -104,21 +121,25 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Password input lost focus')}
             placeholder="Enter password..."
           />
-        </Field>
+        </div>
 
-        <Field label="Number Input" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={numberInputId}>Number Input</Label>
           <Input
+            id={numberInputId}
             type="number"
             onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
             onFocus={() => addMessage('Number input focused')}
             onBlur={() => addMessage('Number input lost focus')}
             placeholder="Enter a number..."
           />
-        </Field>
+        </div>
       </div>
 
-      <Field label="Textarea">
+      <div className={styles.verticalStackTight}>
+        <Label htmlFor={textareaId}>Textarea</Label>
         <Textarea
+          id={textareaId}
           value={textareaValue}
           onChange={(e) => {
             setTextareaValue(e.target.value);
@@ -129,7 +150,7 @@ const BasicInputsTab: React.FC = () => {
           placeholder="Enter multiple lines of text..."
           rows={4}
         />
-      </Field>
+      </div>
 
       <Button
         appearance="primary"
@@ -163,8 +184,10 @@ const BasicInputsTab: React.FC = () => {
             <DialogTitle>Contact Information</DialogTitle>
             <DialogContent>
               <div className={styles.verticalStack}>
-                <Field label="Full Name" required>
+                <div className={styles.verticalStackTight}>
+                  <Label htmlFor={dialogNameInputId} required>Full Name</Label>
                   <Input
+                    id={dialogNameInputId}
                     value={dialogName}
                     onChange={(e) => {
                       setDialogName(e.target.value);
@@ -174,10 +197,12 @@ const BasicInputsTab: React.FC = () => {
                     onBlur={() => addMessage('Dialog name field lost focus')}
                     placeholder="Enter your full name"
                   />
-                </Field>
+                </div>
                 
-                <Field label="Contact Email" required>
+                <div className={styles.verticalStackTight}>
+                  <Label htmlFor={dialogEmailInputId} required>Contact Email</Label>
                   <Input
+                    id={dialogEmailInputId}
                     type="email"
                     value={dialogEmail}
                     onChange={(e) => {
@@ -188,7 +213,7 @@ const BasicInputsTab: React.FC = () => {
                     onBlur={() => addMessage('Dialog email field lost focus')}
                     placeholder="Enter your contact email"
                   />
-                </Field>
+                </div>
               </div>
             </DialogContent>
             <DialogActions>

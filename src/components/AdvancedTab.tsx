@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import {
   Field,
+  Label,
   Body1,
   Caption1,
   Card,
@@ -13,6 +14,8 @@ import {
   Checkbox,
   Text,
   Tooltip,
+  Dropdown,
+  Option,
   tokens,
 } from '@fluentui/react-components';
 import {
@@ -72,6 +75,18 @@ const AdvancedTab: React.FC = () => {
     ...sharedStyles(),
     ...advancedTabStyles(),
   };
+  const baseId = useId();
+  
+  // ID constants for labeled inputs
+  const sliderId = `slider-${baseId}`;
+  const spinButtonId = `spin-button-${baseId}`;
+  const rangeStartId = `range-start-${baseId}`;
+  const rangeEndId = `range-end-${baseId}`;
+  const colorInputId = `color-input-${baseId}`;
+  const fileInputId = `file-input-${baseId}`;
+  const productNameId = `product-name-${baseId}`;
+  const productCategoryId = `product-category-${baseId}`;
+  
   const [messages, setMessages] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(50);
   const [rangeStart, setRangeStart] = useState(20);
@@ -275,15 +290,15 @@ const AdvancedTab: React.FC = () => {
             />
           </Field>
           <Field label="Category">
-            <select 
-              value={newProductCategory} 
-              onChange={(e) => setNewProductCategory(e.target.value as ProductCategory)}
-              className={styles.formInput}
+            <Dropdown
+              value={newProductCategory}
+              selectedOptions={[newProductCategory]}
+              onOptionSelect={(e, data) => setNewProductCategory(data.optionValue as ProductCategory)}
             >
               {Object.values(ProductCategory).map(category => (
-                <option key={category} value={category}>{category}</option>
+                <Option key={category} value={category}>{category}</Option>
               ))}
-            </select>
+            </Dropdown>
           </Field>
           <Button 
             appearance="primary" 
@@ -299,6 +314,7 @@ const AdvancedTab: React.FC = () => {
           {products.map(product => {
             const isSelected = selectedProductIds.has(product.id);
             const categoryInfo = productCategories[product.category];
+            const checkboxId = `${baseId}-checkbox-${product.id}`;
             
             return (
               <div
@@ -306,10 +322,13 @@ const AdvancedTab: React.FC = () => {
                 className={`${styles.listItem} ${isSelected ? styles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
-                <Checkbox
-                  checked={isSelected}
-                  onChange={() => toggleProductSelection(product.id)}
-                />
+                <Label htmlFor={checkboxId}>
+                  <Checkbox
+                    id={checkboxId}
+                    checked={isSelected}
+                    onChange={() => toggleProductSelection(product.id)}
+                  />
+                </Label>
                 <Tooltip content={product.category} relationship="label">
                   <div 
                     className={styles.circularIcon}
@@ -318,9 +337,9 @@ const AdvancedTab: React.FC = () => {
                     {categoryInfo.icon}
                   </div>
                 </Tooltip>
-                <div className={styles.flexOne}>
+                <Label htmlFor={checkboxId} className={styles.flexOne}>
                   <Text>{product.name}</Text>
-                </div>
+                </Label>
                 <Button
                   appearance="subtle"
                   icon={<Info20Regular />}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import {
   Field,
+  Label,
   Body1,
   Caption1,
   Card,
@@ -17,6 +18,15 @@ import { sharedStyles } from '../styles/sharedStyles';
 
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
+  const baseId = useId();
+  
+  // ID constants for labeled inputs
+  const comboboxId = `combobox-${baseId}`;
+  const dropdownId = `dropdown-${baseId}`;
+  const radioGroupId = `radio-group-${baseId}`;
+  const checkboxGroupId = `checkbox-group-${baseId}`;
+  const switchId = `switch-${baseId}`;
+  
   const [messages, setMessages] = useState<string[]>([]);
   const [selectedRadio, setSelectedRadio] = useState('option1');
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
@@ -39,8 +49,10 @@ const SelectionTab: React.FC = () => {
       <Body1>Selection Controls</Body1>
       
       <div className={styles.row}>
-        <Field label="Combobox (Countries)" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={comboboxId}>Combobox (Countries)</Label>
           <Combobox
+            id={comboboxId}
             placeholder="Select a country"
             onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Combobox ${data.open ? 'opened' : 'closed'}`)}
@@ -51,10 +63,12 @@ const SelectionTab: React.FC = () => {
               </Option>
             ))}
           </Combobox>
-        </Field>
+        </div>
 
-        <Field label="Dropdown (Colors)" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={dropdownId}>Dropdown (Colors)</Label>
           <Dropdown
+            id={dropdownId}
             placeholder="Select a color"
             onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Dropdown ${data.open ? 'opened' : 'closed'}`)}
@@ -65,12 +79,14 @@ const SelectionTab: React.FC = () => {
               </Option>
             ))}
           </Dropdown>
-        </Field>
+        </div>
       </div>
 
       <div className={styles.row}>
-        <Field label="Radio Group" className={styles.field}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={radioGroupId}>Radio Group</Label>
           <RadioGroup
+            id={radioGroupId}
             value={selectedRadio}
             onChange={(e, data) => {
               setSelectedRadio(data.value);
@@ -81,10 +97,11 @@ const SelectionTab: React.FC = () => {
             <Radio value="option2" label="Option 2" />
             <Radio value="option3" label="Option 3" />
           </RadioGroup>
-        </Field>
+        </div>
 
-        <Field label="Checkboxes" className={styles.field}>
-          <div className={styles.verticalStack}>
+        <div className={`${styles.field} ${styles.verticalStackTight}`}>
+          <Label htmlFor={checkboxGroupId}>Checkboxes</Label>
+          <div id={checkboxGroupId} className={styles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
@@ -101,11 +118,13 @@ const SelectionTab: React.FC = () => {
               label="Feature 3"
             />
           </div>
-        </Field>
+        </div>
       </div>
 
-      <Field label="Switch Control">
+      <div className={styles.verticalStackTight}>
+        <Label htmlFor={switchId}>Switch Control</Label>
         <Switch
+          id={switchId}
           checked={switchValue}
           onChange={(e, data) => {
             setSwitchValue(data.checked);
@@ -113,7 +132,7 @@ const SelectionTab: React.FC = () => {
           }}
           label={switchValue ? 'Enabled' : 'Disabled'}
         />
-      </Field>
+      </div>
 
       <Card className={styles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
