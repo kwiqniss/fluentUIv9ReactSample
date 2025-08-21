@@ -18,10 +18,10 @@ import {
   DialogActions,
   DialogBody,
 } from '@fluentui/react-components';
-import { useSharedStyles } from '../styles/sharedStyles';
+import { sharedStyles } from '../styles/sharedStyles';
 
 const BasicInputsTab: React.FC = () => {
-  const styles = useSharedStyles();
+  const styles = sharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [textValue, setTextValue] = useState('');
   const [emailValue, setEmailValue] = useState('');

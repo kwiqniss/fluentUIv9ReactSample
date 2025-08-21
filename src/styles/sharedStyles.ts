@@ -4,7 +4,7 @@ import { makeStyles, tokens } from '@fluentui/react-components';
  * Shared styles used across multiple components
  * Provides consistent layout and spacing throughout the application
  */
-export const useSharedStyles = makeStyles({
+export const sharedStyles = makeStyles({
   // Horizontal row layout - essential for form layout
   row: {
     display: 'flex',

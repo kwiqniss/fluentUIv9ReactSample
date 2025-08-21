@@ -13,10 +13,10 @@ import {
   Switch,
   Dropdown,
 } from '@fluentui/react-components';
-import { useSharedStyles } from '../styles/sharedStyles';
+import { sharedStyles } from '../styles/sharedStyles';
 
 const SelectionTab: React.FC = () => {
-  const styles = useSharedStyles();
+  const styles = sharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [selectedRadio, setSelectedRadio] = useState('option1');
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});

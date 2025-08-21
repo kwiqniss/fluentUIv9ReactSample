@@ -3,7 +3,7 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 /**
  * Styles specific to the AdvancedTab component
  */
-export const useAdvancedTabStyles = makeStyles({
+export const advancedTabStyles = makeStyles({
   selectedItem: {
     backgroundColor: tokens.colorNeutralBackground3,
     border: `2px solid ${tokens.colorBrandStroke2}`,

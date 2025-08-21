@@ -3,7 +3,7 @@ import { makeStyles } from '@fluentui/react-components';
 /**
  * Styles specific to the main App component
  */
-export const useAppStyles = makeStyles({
+export const appStyles = makeStyles({
   header: {
     marginBottom: '1.25rem', 
     textAlign: 'center', 

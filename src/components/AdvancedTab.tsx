@@ -25,8 +25,8 @@ import {
   Add20Regular,
   Delete20Regular,
 } from '@fluentui/react-icons';
-import { useSharedStyles } from '../styles/sharedStyles';
-import { useAdvancedTabStyles } from '../styles/advancedTabStyles';
+import { sharedStyles } from '../styles/sharedStyles';
+import { advancedTabStyles } from '../styles/advancedTabStyles';
 
 enum ProductCategory {
   Electronics = 'Electronics',
@@ -68,8 +68,8 @@ const defaultProducts: Product[] = [
 
 const AdvancedTab: React.FC = () => {
   const styles = {
-    ...useSharedStyles(),
-    ...useAdvancedTabStyles(),
+    ...sharedStyles(),
+    ...advancedTabStyles(),
   };
   const [messages, setMessages] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(50);

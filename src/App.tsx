@@ -12,13 +12,13 @@ import BasicInputsTab from './components/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab';
 import SelectionTab from './components/SelectionTab';
 import AdvancedTab from './components/AdvancedTab';
-import { useSharedStyles } from './styles/sharedStyles';
-import { useAppStyles } from './styles/appStyles';
+import { sharedStyles } from './styles/sharedStyles';
+import { appStyles } from './styles/appStyles';
 
 const App: React.FC = () => {
   const styles = {
-    ...useSharedStyles(),
-    ...useAppStyles(),
+    ...sharedStyles(),
+    ...appStyles(),
   };
   const [selectedTab, setSelectedTab] = useState<TabValue>('basic');
 

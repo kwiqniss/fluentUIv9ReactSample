@@ -7,10 +7,10 @@ import {
   CardHeader,
   Input,
 } from '@fluentui/react-components';
-import { useSharedStyles } from '../styles/sharedStyles';
+import { sharedStyles } from '../styles/sharedStyles';
 
 const DateTimeTab: React.FC = () => {
-  const styles = useSharedStyles();
+  const styles = sharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
 
   const addMessage = (message: string) => {
