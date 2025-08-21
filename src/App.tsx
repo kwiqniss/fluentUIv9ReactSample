@@ -18,14 +18,14 @@ import {
   Label,
   Field,
 } from '@fluentui/react-components';
-import BasicInputsTab from './components/BasicInputsTab';
-import DateTimeTab from './components/DateTimeTab';
-import SelectionTab from './components/SelectionTab';
-import AdvancedTab from './components/AdvancedTab';
-import { sharedStyles } from './styles/sharedStyles';
-import { appStyles } from './styles/appStyles';
-import appStrings from './strings/app.resx';
-import tabStrings from './strings/tabs.resx';
+import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
+import DateTimeTab from './components/DateTimeTab/DateTimeTab';
+import SelectionTab from './components/SelectionTab/SelectionTab';
+import AdvancedTab from './components/AdvancedTab/AdvancedTab';
+import { sharedStyles } from './sharedStyles';
+import { appStyles } from './appStyles';
+import appStrings from './app.resx';
+import tabStrings from './tabs.resx';
 
 const App: React.FC = () => {
   const styles = {

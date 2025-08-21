@@ -8,8 +8,8 @@ import {
   CardHeader,
   Input,
 } from '@fluentui/react-components';
-import { sharedStyles } from '../styles/sharedStyles';
-import strings from '../strings/components/datetime.resx';
+import { sharedStyles } from '../../sharedStyles';
+import strings from './datetime.resx';
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();

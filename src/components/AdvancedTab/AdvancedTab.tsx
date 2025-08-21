@@ -28,10 +28,10 @@ import {
   Delete20Regular,
   Info20Regular,
 } from '@fluentui/react-icons';
-import { sharedStyles } from '../styles/sharedStyles';
-import { advancedTabStyles } from '../styles/componentStyles/advancedTabStyles';
-import strings from '../strings/components/advanced.resx';
-import { formatString } from '../strings/utils/formatString';
+import { sharedStyles } from '../../sharedStyles';
+import { advancedTabStyles } from './advancedTabStyles';
+import strings from './advanced.resx';
+import { formatString } from '../../formatString';
 
 enum ProductCategory {
   Electronics = 'Electronics',
