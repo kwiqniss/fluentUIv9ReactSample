@@ -1,0 +1,108 @@
+# FluentUI v9 React TypeScript Sample
+
+A comprehensive demo application showcasing various FluentUI v9 input controls organized in a tabbed interface.
+
+## Features
+
+- **Tabbed Interface**: Clean organization of different control types
+- **Interactive Feedback**: Real-time messages showing user interactions
+- **Advanced Focus Management**: Focus restoration when switching between tabs
+- **Modal Dialog**: Contact information dialog with proper focus control
+- **Four Control Categories**:
+  - **Basic Inputs**: Text input, email, password, number, textarea, submit button, and dialog trigger
+  - **Date & Time**: Date picker, time picker, datetime-local, month, week
+  - **Selection Controls**: Combobox, dropdown, radio buttons, checkboxes, switch
+  - **Advanced Controls**: Slider, spin button, range inputs, progress bar, color picker, file input
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm
+
+### Installation
+
+1. Clone or download this project
+2. Navigate to the project directory
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+Start the development server:
+```bash
+npm start
+```
+
+The application will open in your browser at `http://localhost:3000`.
+
+### Build
+
+Build the project for production:
+```bash
+npm run build
+```
+
+For detailed build instructions and troubleshooting, see [BUILD.md](BUILD.md).
+
+## Project Structure
+
+```
+src/
+├── index.tsx              # Application entry point
+├── App.tsx                # Main application component with tab navigation
+└── components/
+    ├── BasicInputsTab.tsx     # Basic input controls
+    ├── DateTimeTab.tsx        # Date and time controls
+    ├── SelectionTab.tsx       # Selection and choice controls
+    └── AdvancedTab.tsx        # Advanced input controls
+```
+
+## Technology Stack
+
+- **React 18** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **FluentUI v9** - Microsoft's design system
+- **Webpack** - Module bundler
+
+## FluentUI v9 Components Used
+
+- Input, Textarea
+- Combobox, Dropdown
+- Radio, RadioGroup, Checkbox
+- Switch, Button
+- Slider, SpinButton
+- ProgressBar
+- Tab, TabList
+- Field, Label
+- Card, CardHeader
+- Dialog, DialogSurface, DialogTitle, DialogContent, DialogActions, DialogBody
+- makeStyles (styling)
+
+## Interaction Features
+
+Each tab includes an interactive message area that displays:
+- Focus and blur events
+- Value changes
+- Selection events
+- User actions
+- Dialog open/close events
+- Focus management notifications
+
+### Focus Management
+- **Tab Focus Restoration**: When switching between tabs, focus returns to the last focused element in that tab
+- **Dialog Focus Control**: When opening the contact dialog, focus automatically moves to the first input field
+- **Focus Restoration**: When closing the dialog, focus returns to the element that triggered it
+
+### Contact Dialog
+The Basic Inputs tab includes a "Open Contact Dialog" button that demonstrates:
+- Modal dialog with form inputs
+- Automatic focus management
+- Form validation
+- Proper dialog dismissal
+- Focus restoration to the triggering element
+
+This helps demonstrate the responsive nature of the FluentUI v9 components and provides immediate feedback for testing and learning purposes.
