@@ -15,7 +15,6 @@ import {
   teamsHighContrastTheme,
   Dropdown,
   Option,
-  Label,
   Field,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';

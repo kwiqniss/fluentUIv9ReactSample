@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Field,
-  Label,
   Body1,
   Caption1,
   Card,

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Label,
   Field,
   Body1,
   Caption1,
