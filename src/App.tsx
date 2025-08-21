@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  makeStyles,
   Tab,
   TabList,
   TabValue,
@@ -8,28 +7,16 @@ import {
   Caption1,
   SelectTabEvent,
   SelectTabData,
-  tokens,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab';
 import SelectionTab from './components/SelectionTab';
 import AdvancedTab from './components/AdvancedTab';
 import { useSharedStyles } from './styles/sharedStyles';
-
-const useStyles = makeStyles({
-  header: {
-    marginBottom: '1.25rem', 
-    textAlign: 'center', 
-    display: 'flex', 
-    flexDirection: 'column', 
-    gap: '0.25rem',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import { useAppStyles } from './styles/appStyles';
 
 const App: React.FC = () => {
-  const styles = useStyles();
+  const appStyles = useAppStyles();
   const sharedStyles = useSharedStyles();
   const [selectedTab, setSelectedTab] = useState<TabValue>('basic');
 
@@ -54,7 +41,7 @@ const App: React.FC = () => {
 
   return (
     <div className={sharedStyles.mainContainer}>
-      <div className={styles.header}>
+      <div className={appStyles.header}>
         <Body1 as="h1">FluentUI v9 Input Controls Demo 🚀</Body1>
         <Caption1>Explore various input controls with interactive feedback</Caption1>
       </div>

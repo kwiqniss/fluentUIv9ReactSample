@@ -13,7 +13,6 @@ import {
   Checkbox,
   Link,
   Text,
-  makeStyles,
   tokens,
 } from '@fluentui/react-components';
 import {
@@ -27,6 +26,7 @@ import {
   Delete20Regular,
 } from '@fluentui/react-icons';
 import { useSharedStyles } from '../styles/sharedStyles';
+import { useAdvancedTabStyles } from '../styles/advancedTabStyles';
 
 interface Product {
   id: string;
@@ -58,28 +58,9 @@ const defaultProducts: Product[] = [
   { id: '12', name: 'To Kill a Mockingbird', bingSearchUrl: 'https://www.bing.com/search?q=To+Kill+a+Mockingbird+book', category: 'Books' },
 ];
 
-const useProductListStyles = makeStyles({
-  selectedItem: {
-    backgroundColor: tokens.colorNeutralBackground3,
-    border: `2px solid ${tokens.colorBrandStroke2}`,
-    '&:hover': {
-      backgroundColor: tokens.colorNeutralBackground4,
-      border: `2px solid ${tokens.colorBrandStroke1}`,
-    },
-    '@media (forced-colors: active)': {
-      backgroundColor: 'Highlight',
-      color: 'HighlightText',
-      forcedColorAdjust: 'none',
-      '&:hover': {
-        backgroundColor: 'Highlight',
-      },
-    },
-  },
-});
-
 const AdvancedTab: React.FC = () => {
   const sharedStyles = useSharedStyles();
-  const productStyles = useProductListStyles();
+  const advancedTabStyles = useAdvancedTabStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(50);
   const [rangeStart, setRangeStart] = useState(20);
@@ -311,7 +292,7 @@ const AdvancedTab: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className={`${sharedStyles.listItem} ${isSelected ? productStyles.selectedItem : ''}`}
+                className={`${sharedStyles.listItem} ${isSelected ? advancedTabStyles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
                 <Checkbox
