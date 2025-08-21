@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState } from 'react';
 import {
   Field,
   Label,
@@ -75,17 +75,6 @@ const AdvancedTab: React.FC = () => {
     ...sharedStyles(),
     ...advancedTabStyles(),
   };
-  const baseId = useId();
-  
-  // ID constants for labeled inputs
-  const sliderId = `slider-${baseId}`;
-  const spinButtonId = `spin-button-${baseId}`;
-  const rangeStartId = `range-start-${baseId}`;
-  const rangeEndId = `range-end-${baseId}`;
-  const colorInputId = `color-input-${baseId}`;
-  const fileInputId = `file-input-${baseId}`;
-  const productNameId = `product-name-${baseId}`;
-  const productCategoryId = `product-category-${baseId}`;
   
   const [messages, setMessages] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(50);
@@ -314,7 +303,6 @@ const AdvancedTab: React.FC = () => {
           {products.map(product => {
             const isSelected = selectedProductIds.has(product.id);
             const categoryInfo = productCategories[product.category];
-            const checkboxId = `${baseId}-checkbox-${product.id}`;
             
             return (
               <div
@@ -322,9 +310,8 @@ const AdvancedTab: React.FC = () => {
                 className={`${styles.listItem} ${isSelected ? styles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
-                <Label htmlFor={checkboxId}>
+                <Label>
                   <Checkbox
-                    id={checkboxId}
                     checked={isSelected}
                     onChange={() => toggleProductSelection(product.id)}
                   />
@@ -337,7 +324,7 @@ const AdvancedTab: React.FC = () => {
                     {categoryInfo.icon}
                   </div>
                 </Tooltip>
-                <Label htmlFor={checkboxId} className={styles.flexOne}>
+                <Label className={styles.flexOne}>
                   <Text>{product.name}</Text>
                 </Label>
                 <Button

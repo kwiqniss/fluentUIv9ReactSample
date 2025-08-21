@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState } from 'react';
 import {
   Field,
   Label,
@@ -12,14 +12,6 @@ import { sharedStyles } from '../styles/sharedStyles';
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();
-  const baseId = useId();
-  
-  // ID constants for labeled inputs
-  const dateInputId = `date-input-${baseId}`;
-  const timeInputId = `time-input-${baseId}`;
-  const datetimeInputId = `datetime-input-${baseId}`;
-  const monthInputId = `month-input-${baseId}`;
-  const weekInputId = `week-input-${baseId}`;
   
   const [messages, setMessages] = useState<string[]>([]);
 
@@ -32,63 +24,58 @@ const DateTimeTab: React.FC = () => {
       <Body1>Date & Time Controls</Body1>
       
       <div className={styles.row}>
-        <div className={`${styles.field} ${styles.verticalStackTight}`}>
-          <Label htmlFor={dateInputId}>Date Input</Label>
+        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
+          Date Input
           <Input
-            id={dateInputId}
             type="date"
             onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
             onFocus={() => addMessage('Date picker focused')}
             onBlur={() => addMessage('Date picker lost focus')}
           />
-        </div>
+        </Label>
 
-        <div className={`${styles.field} ${styles.verticalStackTight}`}>
-          <Label htmlFor={timeInputId}>Time Input</Label>
+        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
+          Time Input
           <Input
-            id={timeInputId}
             type="time"
             onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
             onFocus={() => addMessage('Time picker focused')}
             onBlur={() => addMessage('Time picker lost focus')}
           />
-        </div>
+        </Label>
       </div>
 
       <div className={styles.row}>
-        <div className={`${styles.field} ${styles.verticalStackTight}`}>
-          <Label htmlFor={datetimeInputId}>DateTime Local</Label>
+        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
+          DateTime Local
           <Input
-            id={datetimeInputId}
             type="datetime-local"
             onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
             onFocus={() => addMessage('DateTime picker focused')}
             onBlur={() => addMessage('DateTime picker lost focus')}
           />
-        </div>
+        </Label>
 
-        <div className={`${styles.field} ${styles.verticalStackTight}`}>
-          <Label htmlFor={monthInputId}>Month Input</Label>
+        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
+          Month Input
           <Input
-            id={monthInputId}
             type="month"
             onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
             onFocus={() => addMessage('Month picker focused')}
             onBlur={() => addMessage('Month picker lost focus')}
           />
-        </div>
+        </Label>
       </div>
 
-      <div className={styles.verticalStackTight}>
-        <Label htmlFor={weekInputId}>Week Input</Label>
+      <Label className={styles.verticalStackTight}>
+        Week Input
         <Input
-          id={weekInputId}
           type="week"
           onChange={(e) => addMessage(`Week selected: ${e.target.value}`)}
           onFocus={() => addMessage('Week picker focused')}
           onBlur={() => addMessage('Week picker lost focus')}
         />
-      </div>
+      </Label>
 
       <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
