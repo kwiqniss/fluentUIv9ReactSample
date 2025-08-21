@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="submit" xml:space="preserve">
+    <!-- Generic submit button text for forms -->
+    <value>Submit</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <!-- Generic cancel button text for dialogs and forms -->
+    <value>Cancel</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <!-- Generic close button text for dialogs and modals -->
+    <value>Close</value>
+  </data>
+  <data name="add" xml:space="preserve">
+    <!-- Generic add button text for adding items -->
+    <value>Add</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <!-- Generic remove button text for removing items -->
+    <value>Remove</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <!-- Generic delete button text for deleting items -->
+    <value>Delete</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <!-- Status text indicating something is enabled -->
+    <value>Enabled</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <!-- Status text indicating something is disabled -->
+    <value>Disabled</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <!-- Label suffix or status indicating a field is required -->
+    <value>Required</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <!-- Label suffix or status indicating a field is optional -->
+    <value>Optional</value>
+  </data>
+</root>

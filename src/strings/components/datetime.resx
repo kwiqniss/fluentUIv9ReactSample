@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <!-- Section title for date and time controls tab -->
+    <value>Date &amp; Time Controls</value>
+  </data>
+  <data name="dateInput" xml:space="preserve">
+    <!-- Label for date picker input -->
+    <value>Date Input</value>
+  </data>
+  <data name="timeInput" xml:space="preserve">
+    <!-- Label for time picker input -->
+    <value>Time Input</value>
+  </data>
+  <data name="datetimeInput" xml:space="preserve">
+    <!-- Label for combined date and time picker -->
+    <value>DateTime Local</value>
+  </data>
+  <data name="monthInput" xml:space="preserve">
+    <!-- Label for month picker input -->
+    <value>Month Input</value>
+  </data>
+  <data name="weekInput" xml:space="preserve">
+    <!-- Label for week picker input -->
+    <value>Week Input</value>
+  </data>
+</root>

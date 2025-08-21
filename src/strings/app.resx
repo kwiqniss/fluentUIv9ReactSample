@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <!-- Main application title displayed in the page header -->
+    <value>FluentUI v9 Input Controls Demo 🚀</value>
+  </data>
+  <data name="subtitle" xml:space="preserve">
+    <!-- Application subtitle providing context about the demo -->
+    <value>Explore various input controls with interactive feedback</value>
+  </data>
+</root>

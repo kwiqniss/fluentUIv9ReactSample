@@ -14,7 +14,8 @@ import {
   Dropdown,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
-import { selectionStrings, commonStrings } from '../strings';
+import strings from '../strings/components/selection.resx';
+import commonStrings from '../strings/common.resx';
 
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
@@ -33,18 +34,18 @@ const SelectionTab: React.FC = () => {
     addMessage(`Checkbox "${key}" ${checked ? 'checked' : 'unchecked'}`);
   };
 
-  const countries = selectionStrings.options.countries;
-  const colors = selectionStrings.options.colors;
+  const countries = strings.countries.split(',').map(c => c.trim());
+  const colors = strings.colors.split(',').map(c => c.trim());
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{selectionStrings.title}</Body1>
+      <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {selectionStrings.labels.combobox}
+          {strings.combobox}
           <Combobox
-            placeholder={selectionStrings.placeholders.combobox}
+            placeholder={strings.comboboxPlaceholder}
             onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Combobox ${data.open ? 'opened' : 'closed'}`)}
           >
@@ -57,9 +58,9 @@ const SelectionTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {selectionStrings.labels.dropdown}
+          {strings.dropdown}
           <Dropdown
-            placeholder={selectionStrings.placeholders.dropdown}
+            placeholder={strings.dropdownPlaceholder}
             onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Dropdown ${data.open ? 'opened' : 'closed'}`)}
           >
@@ -74,7 +75,7 @@ const SelectionTab: React.FC = () => {
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {selectionStrings.labels.radioGroup}
+          {strings.radioGroup}
           <RadioGroup
             value={selectedRadio}
             onChange={(e, data) => {
@@ -82,36 +83,36 @@ const SelectionTab: React.FC = () => {
               addMessage(`Radio button selected: ${data.value}`);
             }}
           >
-            <Radio value="option1" label={selectionStrings.options.radioOptions[0]} />
-            <Radio value="option2" label={selectionStrings.options.radioOptions[1]} />
-            <Radio value="option3" label={selectionStrings.options.radioOptions[2]} />
+            <Radio value="option1" label={strings.radioOptions.split(",").map(c => c.trim())[0]} />
+            <Radio value="option2" label={strings.radioOptions.split(",").map(c => c.trim())[1]} />
+            <Radio value="option3" label={strings.radioOptions.split(",").map(c => c.trim())[2]} />
           </RadioGroup>
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {selectionStrings.labels.checkboxes}
+          {strings.checkboxes}
           <div className={styles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
-              label={selectionStrings.options.checkboxOptions[0]}
+              label={strings.checkboxOptions.split(",").map(c => c.trim())[0]}
             />
             <Checkbox
               checked={checkedItems.feature2 || false}
               onChange={(e, data) => handleCheckboxChange('feature2', data.checked === true)}
-              label={selectionStrings.options.checkboxOptions[1]}
+              label={strings.checkboxOptions.split(",").map(c => c.trim())[1]}
             />
             <Checkbox
               checked={checkedItems.feature3 || false}
               onChange={(e, data) => handleCheckboxChange('feature3', data.checked === true)}
-              label={selectionStrings.options.checkboxOptions[2]}
+              label={strings.checkboxOptions.split(",").map(c => c.trim())[2]}
             />
           </div>
         </Label>
       </div>
 
       <Label className={styles.verticalStackTight}>
-        {selectionStrings.labels.switchControl}
+        {strings.switchControl}
         <Switch
           checked={switchValue}
           onChange={(e, data) => {

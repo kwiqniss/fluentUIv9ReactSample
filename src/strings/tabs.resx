@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="basic" xml:space="preserve">
+    <!-- Tab label for basic input controls like text, email, password -->
+    <value>Basic Inputs</value>
+  </data>
+  <data name="datetime" xml:space="preserve">
+    <!-- Tab label for date and time picker controls -->
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="selection" xml:space="preserve">
+    <!-- Tab label for selection controls like dropdowns, radio buttons, checkboxes -->
+    <value>Selection Controls</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <!-- Tab label for advanced controls like sliders, color pickers, file uploads -->
+    <value>Advanced Controls</value>
+  </data>
+</root>

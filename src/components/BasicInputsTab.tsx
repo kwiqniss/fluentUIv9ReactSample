@@ -19,7 +19,8 @@ import {
   DialogBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
-import { basicStrings, commonStrings } from '../strings';
+import strings from '../strings/components/basic.resx';
+import commonStrings from '../strings/common.resx';
 
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();
@@ -62,11 +63,11 @@ const BasicInputsTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{basicStrings.title}</Body1>
+      <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {basicStrings.labels.textInput}
+          {strings.textInput}
           <Input
             value={textValue}
             onChange={(e) => {
@@ -75,12 +76,12 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Text input focused')}
             onBlur={() => addMessage('Text input lost focus')}
-            placeholder={basicStrings.placeholders.textInput}
+            placeholder={strings.textInputPlaceholder}
           />
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {basicStrings.labels.emailInput}
+          {strings.emailInput}
           <Input
             type="email"
             value={emailValue}
@@ -90,14 +91,14 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Email input focused')}
             onBlur={() => addMessage('Email input lost focus')}
-            placeholder={basicStrings.placeholders.emailInput}
+            placeholder={strings.emailInputPlaceholder}
           />
         </Label>
       </div>
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {basicStrings.labels.passwordInput}
+          {strings.passwordInput}
           <Input
             type="password"
             value={passwordValue}
@@ -107,24 +108,24 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Password input focused')}
             onBlur={() => addMessage('Password input lost focus')}
-            placeholder={basicStrings.placeholders.passwordInput}
+            placeholder={strings.passwordInputPlaceholder}
           />
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {basicStrings.labels.numberInput}
+          {strings.numberInput}
           <Input
             type="number"
             onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
             onFocus={() => addMessage('Number input focused')}
             onBlur={() => addMessage('Number input lost focus')}
-            placeholder={basicStrings.placeholders.numberInput}
+            placeholder={strings.numberInputPlaceholder}
           />
         </Label>
       </div>
 
       <Label className={styles.verticalStackTight}>
-        {basicStrings.labels.textarea}
+        {strings.textarea}
         <Textarea
           value={textareaValue}
           onChange={(e) => {
@@ -133,7 +134,7 @@ const BasicInputsTab: React.FC = () => {
           }}
           onFocus={() => addMessage('Textarea focused')}
           onBlur={() => addMessage('Textarea lost focus')}
-          placeholder={basicStrings.placeholders.textarea}
+          placeholder={strings.textareaPlaceholder}
           rows={4}
         />
       </Label>
@@ -150,7 +151,7 @@ const BasicInputsTab: React.FC = () => {
         onClick={handleOpenDialog}
         className={styles.buttonSpacing}
       >
-        {basicStrings.dialog.trigger}
+        {strings.openContactDialog}
       </Button>
 
       <Dialog 
@@ -167,11 +168,11 @@ const BasicInputsTab: React.FC = () => {
       >
         <DialogSurface>
           <DialogBody>
-            <DialogTitle>{basicStrings.dialog.title}</DialogTitle>
+            <DialogTitle>{strings.contactInformation}</DialogTitle>
             <DialogContent>
               <div className={styles.verticalStack}>
                 <Label className={styles.verticalStackTight} required>
-                  {basicStrings.dialog.labels.fullName}
+                  {strings.fullName}
                   <Input
                     value={dialogName}
                     onChange={(e) => {
@@ -180,12 +181,12 @@ const BasicInputsTab: React.FC = () => {
                     }}
                     onFocus={() => addMessage('Dialog name field focused')}
                     onBlur={() => addMessage('Dialog name field lost focus')}
-                    placeholder={basicStrings.dialog.placeholders.fullName}
+                    placeholder={strings.fullNamePlaceholder}
                   />
                 </Label>
                 
                 <Label className={styles.verticalStackTight} required>
-                  {basicStrings.dialog.labels.contactEmail}
+                  {strings.contactEmail}
                   <Input
                     type="email"
                     value={dialogEmail}
@@ -195,7 +196,7 @@ const BasicInputsTab: React.FC = () => {
                     }}
                     onFocus={() => addMessage('Dialog email field focused')}
                     onBlur={() => addMessage('Dialog email field lost focus')}
-                    placeholder={basicStrings.dialog.placeholders.contactEmail}
+                    placeholder={strings.contactEmailPlaceholder}
                   />
                 </Label>
               </div>
@@ -205,7 +206,7 @@ const BasicInputsTab: React.FC = () => {
                 <Button appearance="secondary">{commonStrings.cancel}</Button>
               </DialogTrigger>
               <Button appearance="primary" onClick={handleSubmitDialog}>
-                {basicStrings.dialog.submit}
+                {strings.submitContact}
               </Button>
             </DialogActions>
           </DialogBody>

@@ -9,7 +9,7 @@ import {
   Input,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
-import { datetimeStrings } from '../strings';
+import strings from '../strings/components/datetime.resx';
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();
@@ -22,11 +22,11 @@ const DateTimeTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{datetimeStrings.title}</Body1>
+      <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {datetimeStrings.labels.dateInput}
+          {strings.dateInput}
           <Input
             type="date"
             onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
@@ -36,7 +36,7 @@ const DateTimeTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {datetimeStrings.labels.timeInput}
+          {strings.timeInput}
           <Input
             type="time"
             onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
@@ -48,7 +48,7 @@ const DateTimeTab: React.FC = () => {
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {datetimeStrings.labels.datetimeInput}
+          {strings.datetimeInput}
           <Input
             type="datetime-local"
             onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
@@ -58,7 +58,7 @@ const DateTimeTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {datetimeStrings.labels.monthInput}
+          {strings.monthInput}
           <Input
             type="month"
             onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
@@ -69,7 +69,7 @@ const DateTimeTab: React.FC = () => {
       </div>
 
       <Label className={styles.verticalStackTight}>
-        {datetimeStrings.labels.weekInput}
+        {strings.weekInput}
         <Input
           type="week"
           onChange={(e) => addMessage(`Week selected: ${e.target.value}`)}

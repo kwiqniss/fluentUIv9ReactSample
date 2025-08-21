@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <!-- Section title for advanced controls tab -->
+    <value>Advanced Controls</value>
+  </data>
+  <data name="slider" xml:space="preserve">
+    <!-- Label for slider control with dynamic value placeholder -->
+    <value>Slider (Value: {0})</value>
+  </data>
+  <data name="spinButton" xml:space="preserve">
+    <!-- Label for spin button control with dynamic value placeholder -->
+    <value>Spin Button (Value: {0})</value>
+  </data>
+  <data name="rangeStart" xml:space="preserve">
+    <!-- Label for range input start value -->
+    <value>Range Input (Start)</value>
+  </data>
+  <data name="rangeEnd" xml:space="preserve">
+    <!-- Label for range input end value -->
+    <value>Range Input (End)</value>
+  </data>
+  <data name="progressSimulation" xml:space="preserve">
+    <!-- Label for progress bar simulation section -->
+    <value>Progress Simulation</value>
+  </data>
+  <data name="colorInput" xml:space="preserve">
+    <!-- Label for color picker input -->
+    <value>Color Input</value>
+  </data>
+  <data name="fileInput" xml:space="preserve">
+    <!-- Label for file upload input -->
+    <value>File Input</value>
+  </data>
+  <data name="productSelection" xml:space="preserve">
+    <!-- Label for product selection list section -->
+    <value>Product Selection List</value>
+  </data>
+  <data name="productName" xml:space="preserve">
+    <!-- Label for product name input field -->
+    <value>Product Name</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <!-- Label for product category field -->
+    <value>Category</value>
+  </data>
+  <data name="productNamePlaceholder" xml:space="preserve">
+    <!-- Placeholder text for product name input -->
+    <value>Enter product name...</value>
+  </data>
+  <data name="startProgress" xml:space="preserve">
+    <!-- Button text to start progress simulation -->
+    <value>Start Progress</value>
+  </data>
+  <data name="resetProgress" xml:space="preserve">
+    <!-- Button text to reset progress simulation -->
+    <value>Reset Progress</value>
+  </data>
+  <data name="inProgress" xml:space="preserve">
+    <!-- Status text shown while progress is running -->
+    <value>In Progress...</value>
+  </data>
+  <data name="addProduct" xml:space="preserve">
+    <!-- Button text to add a new product -->
+    <value>Add Product</value>
+  </data>
+  <data name="learnMore" xml:space="preserve">
+    <!-- Link text template for learning more about products -->
+    <value>Learn more about {0}</value>
+  </data>
+</root>

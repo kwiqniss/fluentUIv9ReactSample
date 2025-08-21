@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <!-- Section title for selection controls tab -->
+    <value>Selection Controls</value>
+  </data>
+  <data name="combobox" xml:space="preserve">
+    <!-- Label for combobox control with countries -->
+    <value>Combobox (Countries)</value>
+  </data>
+  <data name="dropdown" xml:space="preserve">
+    <!-- Label for dropdown control with colors -->
+    <value>Dropdown (Colors)</value>
+  </data>
+  <data name="radioGroup" xml:space="preserve">
+    <!-- Label for radio button group -->
+    <value>Radio Group</value>
+  </data>
+  <data name="checkboxes" xml:space="preserve">
+    <!-- Label for checkbox group -->
+    <value>Checkboxes</value>
+  </data>
+  <data name="switchControl" xml:space="preserve">
+    <!-- Label for toggle switch control -->
+    <value>Switch Control</value>
+  </data>
+  <data name="comboboxPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for country combobox -->
+    <value>Select a country</value>
+  </data>
+  <data name="dropdownPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for color dropdown -->
+    <value>Select a color</value>
+  </data>
+  <data name="countries" xml:space="preserve">
+    <!-- Comma-separated list of countries for combobox options -->
+    <value>United States,Canada,United Kingdom,Germany,France,Japan,Australia</value>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <!-- Comma-separated list of colors for dropdown options -->
+    <value>Red,Blue,Green,Yellow,Purple,Orange,Pink</value>
+  </data>
+  <data name="radioOptions" xml:space="preserve">
+    <!-- Comma-separated list of radio button options -->
+    <value>Option 1,Option 2,Option 3</value>
+  </data>
+  <data name="checkboxOptions" xml:space="preserve">
+    <!-- Comma-separated list of checkbox options -->
+    <value>Feature 1,Feature 2,Feature 3</value>
+  </data>
+</root>

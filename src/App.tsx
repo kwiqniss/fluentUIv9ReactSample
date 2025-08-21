@@ -14,7 +14,8 @@ import SelectionTab from './components/SelectionTab';
 import AdvancedTab from './components/AdvancedTab';
 import { sharedStyles } from './styles/sharedStyles';
 import { appStyles } from './styles/appStyles';
-import { appStrings, tabStrings } from './strings';
+import appStrings from './strings/app.resx';
+import tabStrings from './strings/tabs.resx';
 
 const App: React.FC = () => {
   const styles = {

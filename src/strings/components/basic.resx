@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <!-- Section title for basic input controls tab -->
+    <value>Basic Input Controls</value>
+  </data>
+  <data name="textInput" xml:space="preserve">
+    <!-- Label for standard text input field -->
+    <value>Text Input</value>
+  </data>
+  <data name="emailInput" xml:space="preserve">
+    <!-- Label for email input field with validation -->
+    <value>Email Input</value>
+  </data>
+  <data name="passwordInput" xml:space="preserve">
+    <!-- Label for password input field with masked characters -->
+    <value>Password Input</value>
+  </data>
+  <data name="numberInput" xml:space="preserve">
+    <!-- Label for numeric input field -->
+    <value>Number Input</value>
+  </data>
+  <data name="textarea" xml:space="preserve">
+    <!-- Label for multi-line text input area -->
+    <value>Textarea</value>
+  </data>
+  <data name="textInputPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for standard text input -->
+    <value>Enter some text...</value>
+  </data>
+  <data name="emailInputPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for email input -->
+    <value>Enter your email...</value>
+  </data>
+  <data name="passwordInputPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for password input -->
+    <value>Enter password...</value>
+  </data>
+  <data name="numberInputPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for number input -->
+    <value>Enter a number...</value>
+  </data>
+  <data name="textareaPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for multi-line textarea -->
+    <value>Enter multiple lines of text...</value>
+  </data>
+  <data name="openContactDialog" xml:space="preserve">
+    <!-- Button text to open contact information dialog -->
+    <value>Open Contact Dialog</value>
+  </data>
+  <data name="contactInformation" xml:space="preserve">
+    <!-- Title for contact information dialog -->
+    <value>Contact Information</value>
+  </data>
+  <data name="fullName" xml:space="preserve">
+    <!-- Label for full name input in dialog -->
+    <value>Full Name</value>
+  </data>
+  <data name="contactEmail" xml:space="preserve">
+    <!-- Label for contact email input in dialog -->
+    <value>Contact Email</value>
+  </data>
+  <data name="fullNamePlaceholder" xml:space="preserve">
+    <!-- Placeholder text for full name input -->
+    <value>Enter your full name</value>
+  </data>
+  <data name="contactEmailPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for contact email input -->
+    <value>Enter your contact email</value>
+  </data>
+  <data name="submitContact" xml:space="preserve">
+    <!-- Submit button text for contact form -->
+    <value>Submit Contact</value>
+  </data>
+</root>

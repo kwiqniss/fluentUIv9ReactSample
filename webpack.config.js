@@ -27,6 +27,14 @@ module.exports = (env, argv) => {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },
+        {
+          test: /\.resx$/,
+          use: [
+            {
+              loader: path.resolve(__dirname, 'loaders', 'resx-loader.js')
+            }
+          ],
+        },
       ],
     },
     resolve: {
