@@ -1,3 +1,5 @@
+This is a work in progress. Many patterns are to be replaced with patterns from v9. e.g. focus management.
+
 # FluentUI v9 React TypeScript Sample
 
 A comprehensive demo application showcasing various FluentUI v9 input controls organized in a tabbed interface.
