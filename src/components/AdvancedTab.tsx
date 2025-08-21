@@ -44,7 +44,7 @@ const AdvancedTab: React.FC = () => {
   };
 
   return (
-    <div className={sharedStyles.container}>
+    <div className={sharedStyles.tabContentStandardized}>
       <Body1>Advanced Controls</Body1>
       
       <div className={sharedStyles.row}>

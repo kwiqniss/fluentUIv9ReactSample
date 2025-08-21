@@ -18,6 +18,7 @@ const useStyles = makeStyles({
   container: {
     padding: '1.25rem',
     maxWidth: '75rem',
+    minWidth: '50rem',
     margin: '0 auto',
   },
   header: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
     padding: '1.25rem',
     backgroundColor: '#f9f9f9',
     borderRadius: '0.5rem',
+    minHeight: '30rem',
   },
 });
 

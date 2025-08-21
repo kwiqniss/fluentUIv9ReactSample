@@ -35,7 +35,7 @@ const SelectionTab: React.FC = () => {
   const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Pink'];
 
   return (
-    <div className={sharedStyles.container}>
+    <div className={sharedStyles.tabContentStandardized}>
       <Body1>Selection Controls</Body1>
       
       <div className={sharedStyles.row}>

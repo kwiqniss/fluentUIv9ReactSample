@@ -21,8 +21,8 @@ export const useSharedStyles = makeStyles({
   
   // Standard field styling with consistent width
   field: {
-    flex: '1',
-    minWidth: '18.75rem',
+    width: '18.75rem',
+    flexShrink: 0,
   },
   
   // Message area for displaying user interaction feedback
@@ -71,5 +71,13 @@ export const useSharedStyles = makeStyles({
     flexDirection: 'column',
     gap: '1rem',
     minWidth: '25rem',
+  },
+
+  // Standardized tab content layout (ensures all tabs have same dimensions)
+  tabContentStandardized: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.25rem',
+    minHeight: '25rem', // Fixed height to prevent layout shifts between tabs
   },
 });
