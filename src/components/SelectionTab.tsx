@@ -14,6 +14,7 @@ import {
   Dropdown,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
+import { selectionStrings, commonStrings } from '../strings';
 
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
@@ -32,18 +33,18 @@ const SelectionTab: React.FC = () => {
     addMessage(`Checkbox "${key}" ${checked ? 'checked' : 'unchecked'}`);
   };
 
-  const countries = ['United States', 'Canada', 'United Kingdom', 'Germany', 'France', 'Japan', 'Australia'];
-  const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Pink'];
+  const countries = selectionStrings.options.countries;
+  const colors = selectionStrings.options.colors;
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>Selection Controls</Body1>
+      <Body1>{selectionStrings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Combobox (Countries)
+          {selectionStrings.labels.combobox}
           <Combobox
-            placeholder="Select a country"
+            placeholder={selectionStrings.placeholders.combobox}
             onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Combobox ${data.open ? 'opened' : 'closed'}`)}
           >
@@ -56,9 +57,9 @@ const SelectionTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Dropdown (Colors)
+          {selectionStrings.labels.dropdown}
           <Dropdown
-            placeholder="Select a color"
+            placeholder={selectionStrings.placeholders.dropdown}
             onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
             onOpenChange={(e, data) => addMessage(`Dropdown ${data.open ? 'opened' : 'closed'}`)}
           >
@@ -73,7 +74,7 @@ const SelectionTab: React.FC = () => {
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Radio Group
+          {selectionStrings.labels.radioGroup}
           <RadioGroup
             value={selectedRadio}
             onChange={(e, data) => {
@@ -81,43 +82,43 @@ const SelectionTab: React.FC = () => {
               addMessage(`Radio button selected: ${data.value}`);
             }}
           >
-            <Radio value="option1" label="Option 1" />
-            <Radio value="option2" label="Option 2" />
-            <Radio value="option3" label="Option 3" />
+            <Radio value="option1" label={selectionStrings.options.radioOptions[0]} />
+            <Radio value="option2" label={selectionStrings.options.radioOptions[1]} />
+            <Radio value="option3" label={selectionStrings.options.radioOptions[2]} />
           </RadioGroup>
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Checkboxes
+          {selectionStrings.labels.checkboxes}
           <div className={styles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
-              label="Feature 1"
+              label={selectionStrings.options.checkboxOptions[0]}
             />
             <Checkbox
               checked={checkedItems.feature2 || false}
               onChange={(e, data) => handleCheckboxChange('feature2', data.checked === true)}
-              label="Feature 2"
+              label={selectionStrings.options.checkboxOptions[1]}
             />
             <Checkbox
               checked={checkedItems.feature3 || false}
               onChange={(e, data) => handleCheckboxChange('feature3', data.checked === true)}
-              label="Feature 3"
+              label={selectionStrings.options.checkboxOptions[2]}
             />
           </div>
         </Label>
       </div>
 
       <Label className={styles.verticalStackTight}>
-        Switch Control
+        {selectionStrings.labels.switchControl}
         <Switch
           checked={switchValue}
           onChange={(e, data) => {
             setSwitchValue(data.checked);
             addMessage(`Switch ${data.checked ? 'turned on' : 'turned off'}`);
           }}
-          label={switchValue ? 'Enabled' : 'Disabled'}
+          label={switchValue ? commonStrings.enabled : commonStrings.disabled}
         />
       </Label>
 

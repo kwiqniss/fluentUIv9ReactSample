@@ -14,6 +14,7 @@ import SelectionTab from './components/SelectionTab';
 import AdvancedTab from './components/AdvancedTab';
 import { sharedStyles } from './styles/sharedStyles';
 import { appStyles } from './styles/appStyles';
+import { appStrings, tabStrings } from './strings';
 
 const App: React.FC = () => {
   const styles = {
@@ -44,15 +45,15 @@ const App: React.FC = () => {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.header}>
-        <Body1 as="h1">FluentUI v9 Input Controls Demo 🚀</Body1>
-        <Caption1>Explore various input controls with interactive feedback</Caption1>
+        <Body1 as="h1">{appStrings.title}</Body1>
+        <Caption1>{appStrings.subtitle}</Caption1>
       </div>
 
       <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
-        <Tab value="basic">Basic Inputs</Tab>
-        <Tab value="datetime">Date & Time</Tab>
-        <Tab value="selection">Selection Controls</Tab>
-        <Tab value="advanced">Advanced Controls</Tab>
+        <Tab value="basic">{tabStrings.basic}</Tab>
+        <Tab value="datetime">{tabStrings.datetime}</Tab>
+        <Tab value="selection">{tabStrings.selection}</Tab>
+        <Tab value="advanced">{tabStrings.advanced}</Tab>
       </TabList>
 
       <div className={styles.cardContainer}>

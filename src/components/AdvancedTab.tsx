@@ -31,6 +31,7 @@ import {
 } from '@fluentui/react-icons';
 import { sharedStyles } from '../styles/sharedStyles';
 import { advancedTabStyles } from '../styles/componentStyles/advancedTabStyles';
+import { advancedStrings, formatString } from '../strings';
 
 enum ProductCategory {
   Electronics = 'Electronics',
@@ -152,10 +153,10 @@ const AdvancedTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>Advanced Controls</Body1>
+      <Body1>{advancedStrings.title}</Body1>
       
       <div className={styles.row}>
-        <Field label={`Slider (Value: ${sliderValue})`} className={styles.field}>
+        <Field label={formatString(advancedStrings.labels.slider, sliderValue.toString())} className={styles.field}>
           <Slider
             value={sliderValue}
             onChange={(e, data) => {
@@ -168,7 +169,7 @@ const AdvancedTab: React.FC = () => {
           />
         </Field>
 
-        <Field label={`Spin Button (Value: ${spinValue})`} className={styles.field}>
+        <Field label={formatString(advancedStrings.labels.spinButton, spinValue.toString())} className={styles.field}>
           <SpinButton
             value={spinValue}
             onChange={(e, data) => {
@@ -185,7 +186,7 @@ const AdvancedTab: React.FC = () => {
       </div>
 
       <div className={styles.row}>
-        <Field label="Range Input (Start)" className={styles.field}>
+        <Field label={advancedStrings.labels.rangeStart} className={styles.field}>
           <input
             type="range"
             value={rangeStart.toString()}
@@ -201,7 +202,7 @@ const AdvancedTab: React.FC = () => {
           <Caption1>Value: {rangeStart}</Caption1>
         </Field>
 
-        <Field label="Range Input (End)" className={styles.field}>
+        <Field label={advancedStrings.labels.rangeEnd} className={styles.field}>
           <input
             type="range"
             value={rangeEnd.toString()}
@@ -218,7 +219,7 @@ const AdvancedTab: React.FC = () => {
         </Field>
       </div>
 
-      <Field label="Progress Simulation">
+      <Field label={advancedStrings.labels.progressSimulation}>
         <div className={styles.verticalStackLoose}>
           <ProgressBar value={progress} max={100} />
           <Caption1>{progress}% Complete</Caption1>
@@ -227,12 +228,12 @@ const AdvancedTab: React.FC = () => {
             onClick={simulateProgress}
             disabled={progress > 0 && progress < 100}
           >
-            {progress === 100 ? 'Reset Progress' : progress > 0 ? 'In Progress...' : 'Start Progress'}
+            {progress === 100 ? advancedStrings.buttons.resetProgress : progress > 0 ? advancedStrings.buttons.inProgress : advancedStrings.buttons.startProgress}
           </Button>
         </div>
       </Field>
 
-      <Field label="Color Input">
+      <Field label={advancedStrings.labels.colorInput}>
         <input
           type="color"
           onChange={(e) => addMessage(`Color selected: ${e.target.value}`)}
@@ -242,7 +243,7 @@ const AdvancedTab: React.FC = () => {
         />
       </Field>
 
-      <Field label="File Input">
+      <Field label={advancedStrings.labels.fileInput}>
         <input
           type="file"
           onChange={(e) => {
@@ -258,7 +259,7 @@ const AdvancedTab: React.FC = () => {
       </Field>
 
       {/* Product Selection List */}
-      <Field label="Product Selection List">
+      <Field label={advancedStrings.labels.productSelection}>
         <div className={styles.summaryCard}>
           <div className={styles.verticalStackTight}>
             <Body1>Selected Products: {selectedProductIds.size} of {products.length}</Body1>
@@ -271,14 +272,14 @@ const AdvancedTab: React.FC = () => {
         </div>
 
         <div className={styles.horizontalFormRow}>
-          <Field label="Product Name">
+          <Field label={advancedStrings.labels.productName}>
             <Input
               value={newProductName}
               onChange={(e, data) => setNewProductName(data.value)}
-              placeholder="Enter product name..."
+              placeholder={advancedStrings.placeholders.productName}
             />
           </Field>
-          <Field label="Category">
+          <Field label={advancedStrings.labels.category}>
             <Dropdown
               value={newProductCategory}
               selectedOptions={[newProductCategory]}
@@ -295,7 +296,7 @@ const AdvancedTab: React.FC = () => {
             onClick={addNewProduct}
             disabled={!newProductName.trim()}
           >
-            Add Product
+            {advancedStrings.buttons.addProduct}
           </Button>
         </div>
 
@@ -336,7 +337,7 @@ const AdvancedTab: React.FC = () => {
                     addMessage(`Learning more about ${product.name}`);
                   }}
                   size="small"
-                  title={`Learn more about ${product.name}`}
+                  title={formatString(advancedStrings.buttons.learnMore, product.name)}
                 />
                 <Button
                   appearance="subtle"

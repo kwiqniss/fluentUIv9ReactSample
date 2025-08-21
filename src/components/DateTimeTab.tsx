@@ -9,6 +9,7 @@ import {
   Input,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
+import { datetimeStrings } from '../strings';
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();
@@ -21,11 +22,11 @@ const DateTimeTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>Date & Time Controls</Body1>
+      <Body1>{datetimeStrings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Date Input
+          {datetimeStrings.labels.dateInput}
           <Input
             type="date"
             onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
@@ -35,7 +36,7 @@ const DateTimeTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Time Input
+          {datetimeStrings.labels.timeInput}
           <Input
             type="time"
             onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
@@ -47,7 +48,7 @@ const DateTimeTab: React.FC = () => {
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          DateTime Local
+          {datetimeStrings.labels.datetimeInput}
           <Input
             type="datetime-local"
             onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
@@ -57,7 +58,7 @@ const DateTimeTab: React.FC = () => {
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Month Input
+          {datetimeStrings.labels.monthInput}
           <Input
             type="month"
             onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
@@ -68,7 +69,7 @@ const DateTimeTab: React.FC = () => {
       </div>
 
       <Label className={styles.verticalStackTight}>
-        Week Input
+        {datetimeStrings.labels.weekInput}
         <Input
           type="week"
           onChange={(e) => addMessage(`Week selected: ${e.target.value}`)}

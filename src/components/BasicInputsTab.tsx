@@ -19,6 +19,7 @@ import {
   DialogBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../styles/sharedStyles';
+import { basicStrings, commonStrings } from '../strings';
 
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();
@@ -61,11 +62,11 @@ const BasicInputsTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>Basic Input Controls</Body1>
+      <Body1>{basicStrings.title}</Body1>
       
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Text Input
+          {basicStrings.labels.textInput}
           <Input
             value={textValue}
             onChange={(e) => {
@@ -74,12 +75,12 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Text input focused')}
             onBlur={() => addMessage('Text input lost focus')}
-            placeholder="Enter some text..."
+            placeholder={basicStrings.placeholders.textInput}
           />
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Email Input
+          {basicStrings.labels.emailInput}
           <Input
             type="email"
             value={emailValue}
@@ -89,14 +90,14 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Email input focused')}
             onBlur={() => addMessage('Email input lost focus')}
-            placeholder="Enter your email..."
+            placeholder={basicStrings.placeholders.emailInput}
           />
         </Label>
       </div>
 
       <div className={styles.row}>
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Password Input
+          {basicStrings.labels.passwordInput}
           <Input
             type="password"
             value={passwordValue}
@@ -106,24 +107,24 @@ const BasicInputsTab: React.FC = () => {
             }}
             onFocus={() => addMessage('Password input focused')}
             onBlur={() => addMessage('Password input lost focus')}
-            placeholder="Enter password..."
+            placeholder={basicStrings.placeholders.passwordInput}
           />
         </Label>
 
         <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          Number Input
+          {basicStrings.labels.numberInput}
           <Input
             type="number"
             onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
             onFocus={() => addMessage('Number input focused')}
             onBlur={() => addMessage('Number input lost focus')}
-            placeholder="Enter a number..."
+            placeholder={basicStrings.placeholders.numberInput}
           />
         </Label>
       </div>
 
       <Label className={styles.verticalStackTight}>
-        Textarea
+        {basicStrings.labels.textarea}
         <Textarea
           value={textareaValue}
           onChange={(e) => {
@@ -132,7 +133,7 @@ const BasicInputsTab: React.FC = () => {
           }}
           onFocus={() => addMessage('Textarea focused')}
           onBlur={() => addMessage('Textarea lost focus')}
-          placeholder="Enter multiple lines of text..."
+          placeholder={basicStrings.placeholders.textarea}
           rows={4}
         />
       </Label>
@@ -141,7 +142,7 @@ const BasicInputsTab: React.FC = () => {
         appearance="primary"
         onClick={() => addMessage('Submit button clicked!')}
       >
-        Submit Form
+        {commonStrings.submit}
       </Button>
 
       <Button
@@ -149,7 +150,7 @@ const BasicInputsTab: React.FC = () => {
         onClick={handleOpenDialog}
         className={styles.buttonSpacing}
       >
-        Open Contact Dialog
+        {basicStrings.dialog.trigger}
       </Button>
 
       <Dialog 
@@ -166,11 +167,11 @@ const BasicInputsTab: React.FC = () => {
       >
         <DialogSurface>
           <DialogBody>
-            <DialogTitle>Contact Information</DialogTitle>
+            <DialogTitle>{basicStrings.dialog.title}</DialogTitle>
             <DialogContent>
               <div className={styles.verticalStack}>
                 <Label className={styles.verticalStackTight} required>
-                  Full Name
+                  {basicStrings.dialog.labels.fullName}
                   <Input
                     value={dialogName}
                     onChange={(e) => {
@@ -179,12 +180,12 @@ const BasicInputsTab: React.FC = () => {
                     }}
                     onFocus={() => addMessage('Dialog name field focused')}
                     onBlur={() => addMessage('Dialog name field lost focus')}
-                    placeholder="Enter your full name"
+                    placeholder={basicStrings.dialog.placeholders.fullName}
                   />
                 </Label>
                 
                 <Label className={styles.verticalStackTight} required>
-                  Contact Email
+                  {basicStrings.dialog.labels.contactEmail}
                   <Input
                     type="email"
                     value={dialogEmail}
@@ -194,17 +195,17 @@ const BasicInputsTab: React.FC = () => {
                     }}
                     onFocus={() => addMessage('Dialog email field focused')}
                     onBlur={() => addMessage('Dialog email field lost focus')}
-                    placeholder="Enter your contact email"
+                    placeholder={basicStrings.dialog.placeholders.contactEmail}
                   />
                 </Label>
               </div>
             </DialogContent>
             <DialogActions>
               <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">Cancel</Button>
+                <Button appearance="secondary">{commonStrings.cancel}</Button>
               </DialogTrigger>
               <Button appearance="primary" onClick={handleSubmitDialog}>
-                Submit Contact
+                {basicStrings.dialog.submit}
               </Button>
             </DialogActions>
           </DialogBody>
