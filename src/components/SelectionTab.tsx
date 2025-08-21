@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Label,
+  Field,
   Body1,
   Caption1,
   Card,
@@ -42,8 +43,7 @@ const SelectionTab: React.FC = () => {
       <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.combobox}
+        <Field label={strings.combobox} className={styles.field}>
           <Combobox
             placeholder={strings.comboboxPlaceholder}
             onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
@@ -55,10 +55,9 @@ const SelectionTab: React.FC = () => {
               </Option>
             ))}
           </Combobox>
-        </Label>
+        </Field>
 
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.dropdown}
+        <Field label={strings.dropdown} className={styles.field}>
           <Dropdown
             placeholder={strings.dropdownPlaceholder}
             onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
@@ -70,12 +69,11 @@ const SelectionTab: React.FC = () => {
               </Option>
             ))}
           </Dropdown>
-        </Label>
+        </Field>
       </div>
 
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.radioGroup}
+        <Field label={strings.radioGroup} className={styles.field}>
           <RadioGroup
             value={selectedRadio}
             onChange={(e, data) => {
@@ -87,10 +85,9 @@ const SelectionTab: React.FC = () => {
             <Radio value="option2" label={strings.radioOptions.split(",").map(c => c.trim())[1]} />
             <Radio value="option3" label={strings.radioOptions.split(",").map(c => c.trim())[2]} />
           </RadioGroup>
-        </Label>
+        </Field>
 
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.checkboxes}
+        <Field label={strings.checkboxes} className={styles.field}>
           <div className={styles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
@@ -108,11 +105,10 @@ const SelectionTab: React.FC = () => {
               label={strings.checkboxOptions.split(",").map(c => c.trim())[2]}
             />
           </div>
-        </Label>
+        </Field>
       </div>
 
-      <Label className={styles.verticalStackTight}>
-        {strings.switchControl}
+      <Field label={strings.switchControl}>
         <Switch
           checked={switchValue}
           onChange={(e, data) => {
@@ -121,7 +117,7 @@ const SelectionTab: React.FC = () => {
           }}
           label={switchValue ? commonStrings.enabled : commonStrings.disabled}
         />
-      </Label>
+      </Field>
 
       <Card className={styles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />

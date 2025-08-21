@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Label,
+  Field,
   Body1,
   Caption1,
   Card,
@@ -24,58 +25,52 @@ const DateTimeTab: React.FC = () => {
       <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.dateInput}
+        <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"
             onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
             onFocus={() => addMessage('Date picker focused')}
             onBlur={() => addMessage('Date picker lost focus')}
           />
-        </Label>
-
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.timeInput}
+        </Field>
+        <Field label={strings.timeInput} className={styles.field}>
           <Input
             type="time"
             onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
             onFocus={() => addMessage('Time picker focused')}
             onBlur={() => addMessage('Time picker lost focus')}
           />
-        </Label>
+        </Field>
       </div>
 
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.datetimeInput}
+        <Field label={strings.datetimeInput} className={styles.field}>
           <Input
             type="datetime-local"
             onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
             onFocus={() => addMessage('DateTime picker focused')}
             onBlur={() => addMessage('DateTime picker lost focus')}
           />
-        </Label>
+        </Field>
 
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.monthInput}
+        <Field label={strings.monthInput} className={styles.field}>
           <Input
             type="month"
             onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
             onFocus={() => addMessage('Month picker focused')}
             onBlur={() => addMessage('Month picker lost focus')}
           />
-        </Label>
+        </Field>
       </div>
 
-      <Label className={styles.verticalStackTight}>
-        {strings.weekInput}
+      <Field label={strings.weekInput}>
         <Input
           type="week"
           onChange={(e) => addMessage(`Week selected: ${e.target.value}`)}
           onFocus={() => addMessage('Week picker focused')}
           onBlur={() => addMessage('Week picker lost focus')}
         />
-      </Label>
+      </Field>
 
       <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Input,
   Label,
+  Field,
   Textarea,
   Button,
   Card,
@@ -64,8 +65,7 @@ const BasicInputsTab: React.FC = () => {
       <Body1>{strings.title}</Body1>
       
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.textInput}
+        <Field label={strings.textInput} className={styles.field}>
           <Input
             value={textValue}
             onChange={(e) => {
@@ -76,10 +76,9 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Text input lost focus')}
             placeholder={strings.textInputPlaceholder}
           />
-        </Label>
+        </Field>
 
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.emailInput}
+        <Field label={strings.emailInput} className={styles.field}>
           <Input
             type="email"
             value={emailValue}
@@ -91,12 +90,11 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Email input lost focus')}
             placeholder={strings.emailInputPlaceholder}
           />
-        </Label>
+        </Field>
       </div>
 
       <div className={styles.row}>
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.passwordInput}
+        <Field label={strings.passwordInput} className={styles.field}>
           <Input
             type="password"
             value={passwordValue}
@@ -108,10 +106,9 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Password input lost focus')}
             placeholder={strings.passwordInputPlaceholder}
           />
-        </Label>
+        </Field>
 
-        <Label className={`${styles.field} ${styles.verticalStackTight}`}>
-          {strings.numberInput}
+        <Field label={strings.numberInput} className={styles.field}>
           <Input
             type="number"
             onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
@@ -119,11 +116,10 @@ const BasicInputsTab: React.FC = () => {
             onBlur={() => addMessage('Number input lost focus')}
             placeholder={strings.numberInputPlaceholder}
           />
-        </Label>
+        </Field>
       </div>
 
-      <Label className={styles.verticalStackTight}>
-        {strings.textarea}
+      <Field label={strings.textarea}>
         <Textarea
           value={textareaValue}
           onChange={(e) => {
@@ -135,7 +131,7 @@ const BasicInputsTab: React.FC = () => {
           placeholder={strings.textareaPlaceholder}
           rows={4}
         />
-      </Label>
+      </Field>
 
       <Button
         appearance="primary"
@@ -169,8 +165,7 @@ const BasicInputsTab: React.FC = () => {
             <DialogTitle>{strings.contactInformation}</DialogTitle>
             <DialogContent>
               <div className={styles.verticalStack}>
-                <Label className={styles.verticalStackTight} required>
-                  {strings.fullName}
+                <Field label={strings.fullName} required>
                   <Input
                     value={dialogName}
                     onChange={(e) => {
@@ -181,10 +176,9 @@ const BasicInputsTab: React.FC = () => {
                     onBlur={() => addMessage('Dialog name field lost focus')}
                     placeholder={strings.fullNamePlaceholder}
                   />
-                </Label>
+                </Field>
                 
-                <Label className={styles.verticalStackTight} required>
-                  {strings.contactEmail}
+                <Field label={strings.contactEmail} required>
                   <Input
                     type="email"
                     value={dialogEmail}
@@ -196,7 +190,7 @@ const BasicInputsTab: React.FC = () => {
                     onBlur={() => addMessage('Dialog email field lost focus')}
                     placeholder={strings.contactEmailPlaceholder}
                   />
-                </Label>
+                </Field>
               </div>
             </DialogContent>
             <DialogActions>
