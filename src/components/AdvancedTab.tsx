@@ -36,11 +36,11 @@ interface Product {
 }
 
 const productCategories = {
-  Electronics: { icon: <Laptop20Regular />, color: tokens.colorBrandBackground },
-  Books: { icon: <Book20Regular />, color: tokens.colorPaletteGreenBackground2 },
-  Music: { icon: <MusicNote220Regular />, color: tokens.colorPalettePurpleBackground2 },
-  Gaming: { icon: <Games20Regular />, color: tokens.colorPaletteRedBackground2 },
-  Photography: { icon: <Camera20Regular />, color: tokens.colorPaletteYellowBackground2 },
+  Electronics: { icon: <Laptop20Regular />, color: tokens.colorPaletteBlueBackground2 },
+  Books: { icon: <Book20Regular />, color: tokens.colorPaletteTealBackground2 },
+  Music: { icon: <MusicNote220Regular />, color: tokens.colorPaletteNavyBackground2 },
+  Gaming: { icon: <Games20Regular />, color: tokens.colorPaletteForestBackground2 },
+  Photography: { icon: <Camera20Regular />, color: tokens.colorPaletteMarigoldBackground2 },
 };
 
 const defaultProducts: Product[] = [
@@ -62,7 +62,7 @@ const useProductListStyles = makeStyles({
   productList: {
     maxHeight: '25rem',
     overflowY: 'auto',
-    border: `1px solid ${tokens.colorNeutralStroke2}`,
+    border: `2px solid ${tokens.colorNeutralStroke1}`,
     borderRadius: tokens.borderRadiusMedium,
     backgroundColor: tokens.colorNeutralBackground1,
   },
@@ -70,20 +70,23 @@ const useProductListStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     padding: '0.75rem',
-    borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
+    borderBottom: `1px solid ${tokens.colorNeutralStroke1}`,
     cursor: 'pointer',
     '&:hover': {
       backgroundColor: tokens.colorNeutralBackground2,
+      borderBottom: `1px solid ${tokens.colorNeutralStroke2}`,
     },
     '&:last-child': {
       borderBottom: 'none',
     },
   },
   selectedItem: {
-    backgroundColor: tokens.colorBrandBackgroundSelected,
-    color: tokens.colorNeutralForegroundOnBrand,
+    backgroundColor: tokens.colorNeutralBackground3,
+    color: tokens.colorNeutralForeground1,
+    border: `2px solid ${tokens.colorBrandStroke2}`,
     '&:hover': {
-      backgroundColor: tokens.colorBrandBackgroundPressed,
+      backgroundColor: tokens.colorNeutralBackground4,
+      border: `2px solid ${tokens.colorBrandStroke1}`,
     },
     '@media (forced-colors: active)': {
       backgroundColor: 'Highlight',
@@ -114,7 +117,8 @@ const useProductListStyles = makeStyles({
   },
   categoryLabel: {
     fontSize: tokens.fontSizeBase200,
-    color: tokens.colorNeutralForeground2,
+    color: tokens.colorNeutralForeground3,
+    fontWeight: tokens.fontWeightMedium,
   },
   productLink: {
     marginLeft: '0.75rem',
