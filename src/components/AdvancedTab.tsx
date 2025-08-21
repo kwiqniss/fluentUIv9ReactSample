@@ -59,8 +59,10 @@ const defaultProducts: Product[] = [
 ];
 
 const AdvancedTab: React.FC = () => {
-  const sharedStyles = useSharedStyles();
-  const advancedTabStyles = useAdvancedTabStyles();
+  const styles = {
+    ...useSharedStyles(),
+    ...useAdvancedTabStyles(),
+  };
   const [messages, setMessages] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState(50);
   const [rangeStart, setRangeStart] = useState(20);
@@ -136,11 +138,11 @@ const AdvancedTab: React.FC = () => {
   };
 
   return (
-    <div className={sharedStyles.tabContentStandardized}>
+    <div className={styles.tabContentStandardized}>
       <Body1>Advanced Controls</Body1>
       
-      <div className={sharedStyles.row}>
-        <Field label={`Slider (Value: ${sliderValue})`} className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label={`Slider (Value: ${sliderValue})`} className={styles.field}>
           <Slider
             value={sliderValue}
             onChange={(e, data) => {
@@ -153,7 +155,7 @@ const AdvancedTab: React.FC = () => {
           />
         </Field>
 
-        <Field label={`Spin Button (Value: ${spinValue})`} className={sharedStyles.field}>
+        <Field label={`Spin Button (Value: ${spinValue})`} className={styles.field}>
           <SpinButton
             value={spinValue}
             onChange={(e, data) => {
@@ -169,8 +171,8 @@ const AdvancedTab: React.FC = () => {
         </Field>
       </div>
 
-      <div className={sharedStyles.row}>
-        <Field label="Range Input (Start)" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Range Input (Start)" className={styles.field}>
           <input
             type="range"
             value={rangeStart.toString()}
@@ -181,12 +183,12 @@ const AdvancedTab: React.FC = () => {
             }}
             min="0"
             max="100"
-            className={sharedStyles.fullWidth}
+            className={styles.fullWidth}
           />
           <Caption1>Value: {rangeStart}</Caption1>
         </Field>
 
-        <Field label="Range Input (End)" className={sharedStyles.field}>
+        <Field label="Range Input (End)" className={styles.field}>
           <input
             type="range"
             value={rangeEnd.toString()}
@@ -197,14 +199,14 @@ const AdvancedTab: React.FC = () => {
             }}
             min="0"
             max="100"
-            className={sharedStyles.fullWidth}
+            className={styles.fullWidth}
           />
           <Caption1>Value: {rangeEnd}</Caption1>
         </Field>
       </div>
 
       <Field label="Progress Simulation">
-        <div className={sharedStyles.verticalStackLoose}>
+        <div className={styles.verticalStackLoose}>
           <ProgressBar value={progress} max={100} />
           <Caption1>{progress}% Complete</Caption1>
           <Button
@@ -223,7 +225,7 @@ const AdvancedTab: React.FC = () => {
           onChange={(e) => addMessage(`Color selected: ${e.target.value}`)}
           onFocus={() => addMessage('Color picker focused')}
           onBlur={() => addMessage('Color picker lost focus')}
-          className={sharedStyles.colorInputSize}
+          className={styles.colorInputSize}
         />
       </Field>
 
@@ -238,14 +240,14 @@ const AdvancedTab: React.FC = () => {
           }}
           onFocus={() => addMessage('File input focused')}
           onBlur={() => addMessage('File input lost focus')}
-          className={sharedStyles.fullWidth}
+          className={styles.fullWidth}
         />
       </Field>
 
       {/* Product Selection List */}
       <Field label="Product Selection List">
-        <div className={sharedStyles.summaryCard}>
-          <div className={sharedStyles.verticalStackTight}>
+        <div className={styles.summaryCard}>
+          <div className={styles.verticalStackTight}>
             <Body1>Selected Products: {selectedProductIds.size} of {products.length}</Body1>
             <Caption1>
               Categories: {Array.from(new Set(
@@ -255,7 +257,7 @@ const AdvancedTab: React.FC = () => {
           </div>
         </div>
 
-        <div className={sharedStyles.horizontalFormRow}>
+        <div className={styles.horizontalFormRow}>
           <Field label="Product Name">
             <Input
               value={newProductName}
@@ -267,7 +269,7 @@ const AdvancedTab: React.FC = () => {
             <select 
               value={newProductCategory} 
               onChange={(e) => setNewProductCategory(e.target.value as Product['category'])}
-              className={sharedStyles.formInput}
+              className={styles.formInput}
             >
               {Object.keys(productCategories).map(category => (
                 <option key={category} value={category}>{category}</option>
@@ -284,7 +286,7 @@ const AdvancedTab: React.FC = () => {
           </Button>
         </div>
 
-        <div className={sharedStyles.scrollableList}>
+        <div className={styles.scrollableList}>
           {products.map(product => {
             const isSelected = selectedProductIds.has(product.id);
             const categoryInfo = productCategories[product.category];
@@ -292,7 +294,7 @@ const AdvancedTab: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className={`${sharedStyles.listItem} ${isSelected ? advancedTabStyles.selectedItem : ''}`}
+                className={`${styles.listItem} ${isSelected ? styles.selectedItem : ''}`}
                 onClick={() => toggleProductSelection(product.id)}
               >
                 <Checkbox
@@ -300,12 +302,12 @@ const AdvancedTab: React.FC = () => {
                   onChange={() => toggleProductSelection(product.id)}
                 />
                 <div 
-                  className={sharedStyles.circularIcon}
+                  className={styles.circularIcon}
                   style={{ backgroundColor: categoryInfo.color }}
                 >
                   {categoryInfo.icon}
                 </div>
-                <div className={sharedStyles.flexOne}>
+                <div className={styles.flexOne}>
                   <Text>{product.name}</Text>
                   <Text>{product.category}</Text>
                   <Link 
@@ -331,9 +333,9 @@ const AdvancedTab: React.FC = () => {
         </div>
       </Field>
 
-      <Card className={sharedStyles.messageAreaSpacing}>
+      <Card className={styles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
-        <div className={sharedStyles.messageScrollArea}>
+        <div className={styles.messageScrollArea}>
           {messages.length === 0 ? (
             <Caption1>Interact with the advanced controls above to see messages here...</Caption1>
           ) : (

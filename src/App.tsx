@@ -16,8 +16,10 @@ import { useSharedStyles } from './styles/sharedStyles';
 import { useAppStyles } from './styles/appStyles';
 
 const App: React.FC = () => {
-  const appStyles = useAppStyles();
-  const sharedStyles = useSharedStyles();
+  const styles = {
+    ...useSharedStyles(),
+    ...useAppStyles(),
+  };
   const [selectedTab, setSelectedTab] = useState<TabValue>('basic');
 
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
@@ -40,8 +42,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={sharedStyles.mainContainer}>
-      <div className={appStyles.header}>
+    <div className={styles.mainContainer}>
+      <div className={styles.header}>
         <Body1 as="h1">FluentUI v9 Input Controls Demo 🚀</Body1>
         <Caption1>Explore various input controls with interactive feedback</Caption1>
       </div>
@@ -53,7 +55,7 @@ const App: React.FC = () => {
         <Tab value="advanced">Advanced Controls</Tab>
       </TabList>
 
-      <div className={sharedStyles.cardContainer}>
+      <div className={styles.cardContainer}>
         {renderTabContent()}
       </div>
     </div>

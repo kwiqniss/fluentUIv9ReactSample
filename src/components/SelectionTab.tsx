@@ -16,7 +16,7 @@ import {
 import { useSharedStyles } from '../styles/sharedStyles';
 
 const SelectionTab: React.FC = () => {
-  const sharedStyles = useSharedStyles();
+  const styles = useSharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [selectedRadio, setSelectedRadio] = useState('option1');
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
@@ -35,11 +35,11 @@ const SelectionTab: React.FC = () => {
   const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Pink'];
 
   return (
-    <div className={sharedStyles.tabContentStandardized}>
+    <div className={styles.tabContentStandardized}>
       <Body1>Selection Controls</Body1>
       
-      <div className={sharedStyles.row}>
-        <Field label="Combobox (Countries)" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Combobox (Countries)" className={styles.field}>
           <Combobox
             placeholder="Select a country"
             onOptionSelect={(e, data) => addMessage(`Combobox selected: ${data.optionText}`)}
@@ -53,7 +53,7 @@ const SelectionTab: React.FC = () => {
           </Combobox>
         </Field>
 
-        <Field label="Dropdown (Colors)" className={sharedStyles.field}>
+        <Field label="Dropdown (Colors)" className={styles.field}>
           <Dropdown
             placeholder="Select a color"
             onOptionSelect={(e, data) => addMessage(`Dropdown selected: ${data.optionText}`)}
@@ -68,8 +68,8 @@ const SelectionTab: React.FC = () => {
         </Field>
       </div>
 
-      <div className={sharedStyles.row}>
-        <Field label="Radio Group" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Radio Group" className={styles.field}>
           <RadioGroup
             value={selectedRadio}
             onChange={(e, data) => {
@@ -83,8 +83,8 @@ const SelectionTab: React.FC = () => {
           </RadioGroup>
         </Field>
 
-        <Field label="Checkboxes" className={sharedStyles.field}>
-          <div className={sharedStyles.verticalStack}>
+        <Field label="Checkboxes" className={styles.field}>
+          <div className={styles.verticalStack}>
             <Checkbox
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
@@ -115,9 +115,9 @@ const SelectionTab: React.FC = () => {
         />
       </Field>
 
-      <Card className={sharedStyles.messageAreaSpacing}>
+      <Card className={styles.messageAreaSpacing}>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
-        <div className={sharedStyles.messageScrollArea}>
+        <div className={styles.messageScrollArea}>
           {messages.length === 0 ? (
             <Caption1>Interact with the selection controls above to see messages here...</Caption1>
           ) : (

@@ -10,7 +10,7 @@ import {
 import { useSharedStyles } from '../styles/sharedStyles';
 
 const DateTimeTab: React.FC = () => {
-  const sharedStyles = useSharedStyles();
+  const styles = useSharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
 
   const addMessage = (message: string) => {
@@ -18,11 +18,11 @@ const DateTimeTab: React.FC = () => {
   };
 
   return (
-    <div className={sharedStyles.tabContentStandardized}>
+    <div className={styles.tabContentStandardized}>
       <Body1>Date & Time Controls</Body1>
       
-      <div className={sharedStyles.row}>
-        <Field label="Date Input" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Date Input" className={styles.field}>
           <Input
             type="date"
             onChange={(e) => addMessage(`Date selected: ${e.target.value}`)}
@@ -31,7 +31,7 @@ const DateTimeTab: React.FC = () => {
           />
         </Field>
 
-        <Field label="Time Input" className={sharedStyles.field}>
+        <Field label="Time Input" className={styles.field}>
           <Input
             type="time"
             onChange={(e) => addMessage(`Time selected: ${e.target.value}`)}
@@ -41,8 +41,8 @@ const DateTimeTab: React.FC = () => {
         </Field>
       </div>
 
-      <div className={sharedStyles.row}>
-        <Field label="DateTime Local" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="DateTime Local" className={styles.field}>
           <Input
             type="datetime-local"
             onChange={(e) => addMessage(`DateTime selected: ${e.target.value}`)}
@@ -51,7 +51,7 @@ const DateTimeTab: React.FC = () => {
           />
         </Field>
 
-        <Field label="Month Input" className={sharedStyles.field}>
+        <Field label="Month Input" className={styles.field}>
           <Input
             type="month"
             onChange={(e) => addMessage(`Month selected: ${e.target.value}`)}
@@ -72,7 +72,7 @@ const DateTimeTab: React.FC = () => {
 
       <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
-        <div className={sharedStyles.messageScrollArea}>
+        <div className={styles.messageScrollArea}>
           {messages.length === 0 ? (
             <Caption1>Interact with the date/time controls above to see messages here...</Caption1>
           ) : (

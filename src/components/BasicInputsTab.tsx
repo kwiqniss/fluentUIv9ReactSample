@@ -21,7 +21,7 @@ import {
 import { useSharedStyles } from '../styles/sharedStyles';
 
 const BasicInputsTab: React.FC = () => {
-  const sharedStyles = useSharedStyles();
+  const styles = useSharedStyles();
   const [messages, setMessages] = useState<string[]>([]);
   const [textValue, setTextValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -59,11 +59,11 @@ const BasicInputsTab: React.FC = () => {
   };
 
   return (
-    <div className={sharedStyles.tabContentStandardized}>
+    <div className={styles.tabContentStandardized}>
       <Body1>Basic Input Controls</Body1>
       
-      <div className={sharedStyles.row}>
-        <Field label="Text Input" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Text Input" className={styles.field}>
           <Input
             value={textValue}
             onChange={(e) => {
@@ -76,7 +76,7 @@ const BasicInputsTab: React.FC = () => {
           />
         </Field>
 
-        <Field label="Email Input" className={sharedStyles.field}>
+        <Field label="Email Input" className={styles.field}>
           <Input
             type="email"
             value={emailValue}
@@ -91,8 +91,8 @@ const BasicInputsTab: React.FC = () => {
         </Field>
       </div>
 
-      <div className={sharedStyles.row}>
-        <Field label="Password Input" className={sharedStyles.field}>
+      <div className={styles.row}>
+        <Field label="Password Input" className={styles.field}>
           <Input
             type="password"
             value={passwordValue}
@@ -106,7 +106,7 @@ const BasicInputsTab: React.FC = () => {
           />
         </Field>
 
-        <Field label="Number Input" className={sharedStyles.field}>
+        <Field label="Number Input" className={styles.field}>
           <Input
             type="number"
             onChange={(e) => addMessage(`Number input changed to: ${e.target.value}`)}
@@ -141,7 +141,7 @@ const BasicInputsTab: React.FC = () => {
       <Button
         appearance="secondary"
         onClick={handleOpenDialog}
-        className={sharedStyles.buttonSpacing}
+        className={styles.buttonSpacing}
       >
         Open Contact Dialog
       </Button>
@@ -162,7 +162,7 @@ const BasicInputsTab: React.FC = () => {
           <DialogBody>
             <DialogTitle>Contact Information</DialogTitle>
             <DialogContent>
-              <div className={sharedStyles.verticalStack}>
+              <div className={styles.verticalStack}>
                 <Field label="Full Name" required>
                   <Input
                     value={dialogName}
@@ -205,7 +205,7 @@ const BasicInputsTab: React.FC = () => {
 
       <Card>
         <CardHeader header={<Body1>Interaction Messages</Body1>} />
-        <div className={sharedStyles.messageScrollArea}>
+        <div className={styles.messageScrollArea}>
           {messages.length === 0 ? (
             <Caption1>Interact with the controls above to see messages here...</Caption1>
           ) : (
