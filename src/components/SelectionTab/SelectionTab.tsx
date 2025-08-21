@@ -16,7 +16,16 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import selectionStrings from './selection.resx';
 import commonStrings from '../../common.resx';
-import { formCache, CACHE_KEYS, SelectionFormData } from '../../utils/formCache';
+import { formCache, CACHE_KEYS } from '../../utils/formCache';
+
+export interface SelectionFormData {
+  comboboxValue: string;
+  dropdownValue: string;
+  radioValue: string;
+  checkboxValues: { [key: string]: boolean };
+  switchValue: boolean;
+  messages: string[];
+}
 
 // Consolidated strings object
 const strings = {

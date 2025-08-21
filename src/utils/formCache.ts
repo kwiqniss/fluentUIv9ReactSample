@@ -57,55 +57,6 @@ class FormCache {
 // Create a singleton instance
 export const formCache = new FormCache();
 
-// Types for different tab form data
-export interface BasicInputsFormData {
-  textValue: string;
-  emailValue: string;
-  passwordValue: string;
-  textareaValue: string;
-  numberValue: string;
-  dialogName: string;
-  dialogEmail: string;
-  messages: string[];
-}
-
-export interface DateTimeFormData {
-  dateValue: string;
-  timeValue: string;
-  datetimeValue: string;
-  monthValue: string;
-  weekValue: string;
-  messages: string[];
-}
-
-export interface SelectionFormData {
-  comboboxValue: string;
-  dropdownValue: string;
-  radioValue: string;
-  checkboxValues: { [key: string]: boolean };
-  switchValue: boolean;
-  messages: string[];
-}
-
-export interface AdvancedFormData {
-  sliderValue: number;
-  spinButtonValue: number;
-  rangeValue: number;
-  colorValue: string;
-  fileValue: string;
-  progressValue: number;
-  messages: string[];
-}
-
-export interface ComponentShowcaseFormData {
-  searchValue: string;
-  toastCount: number;
-  accordionExpanded: { [key: string]: boolean };
-  menuSelection: string;
-  tableSelection: string[];
-  messages: string[];
-}
-
 // Cache keys for different tabs
 export const CACHE_KEYS = {
   BASIC_INPUTS: 'basicInputsTab',

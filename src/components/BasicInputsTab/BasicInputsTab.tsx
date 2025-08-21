@@ -19,13 +19,24 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import basicStrings from './basic.resx';
 import commonStrings from '../../common.resx';
-import { formCache, CACHE_KEYS, BasicInputsFormData } from '../../utils/formCache';
+import { formCache, CACHE_KEYS } from '../../utils/formCache';
 
 // Consolidated strings object
 const strings = {
   ...basicStrings,
   ...commonStrings,
 };
+
+export interface BasicInputsFormData {
+  textValue: string;
+  emailValue: string;
+  passwordValue: string;
+  textareaValue: string;
+  numberValue: string;
+  dialogName: string;
+  dialogEmail: string;
+  messages: string[];
+}
 
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();

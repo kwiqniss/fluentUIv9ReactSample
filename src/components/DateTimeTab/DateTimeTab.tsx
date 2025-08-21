@@ -9,7 +9,16 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import strings from './datetime.resx';
-import { formCache, CACHE_KEYS, DateTimeFormData } from '../../utils/formCache';
+import { formCache, CACHE_KEYS } from '../../utils/formCache';
+
+export interface DateTimeFormData {
+  dateValue: string;
+  timeValue: string;
+  datetimeValue: string;
+  monthValue: string;
+  weekValue: string;
+  messages: string[];
+}
 
 const DateTimeTab: React.FC = () => {
   const styles = sharedStyles();

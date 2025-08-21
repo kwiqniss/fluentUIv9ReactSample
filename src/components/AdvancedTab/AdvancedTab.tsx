@@ -31,7 +31,17 @@ import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './advancedTabStyles';
 import strings from './advanced.resx';
 import { formatString } from '../../formatString';
-import { formCache, CACHE_KEYS, AdvancedFormData } from '../../utils/formCache';
+import { formCache, CACHE_KEYS } from '../../utils/formCache';
+
+export interface AdvancedFormData {
+  sliderValue: number;
+  spinButtonValue: number;
+  rangeValue: number;
+  colorValue: string;
+  fileValue: string;
+  progressValue: number;
+  messages: string[];
+}
 
 enum ProductCategory {
   Electronics = 'Electronics',

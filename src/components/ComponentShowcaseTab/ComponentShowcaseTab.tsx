@@ -62,7 +62,16 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import { componentShowcaseStyles } from './componentShowcaseStyles';
 import strings from './showcase.resx';
-import { formCache, CACHE_KEYS, ComponentShowcaseFormData } from '../../utils/formCache';
+import { formCache, CACHE_KEYS } from '../../utils/formCache';
+
+export interface ComponentShowcaseFormData {
+  searchValue: string;
+  toastCount: number;
+  accordionExpanded: { [key: string]: boolean };
+  menuSelection: string;
+  tableSelection: string[];
+  messages: string[];
+}
 
 const ComponentShowcaseTab: React.FC = () => {
   const styles = { ...sharedStyles(), ...componentShowcaseStyles() };
