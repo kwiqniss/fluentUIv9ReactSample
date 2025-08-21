@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles,
   Input,
@@ -40,58 +40,19 @@ const BasicInputsTab: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogName, setDialogName] = useState('');
   const [dialogEmail, setDialogEmail] = useState('');
-  
-  // Focus management refs
-  const lastFocusedElement = useRef<HTMLElement | null>(null);
-  const dialogNameRef = useRef<HTMLInputElement>(null);
-  const calloutButtonRef = useRef<HTMLButtonElement>(null);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
   };
 
-  // Focus management
-  useEffect(() => {
-    if (isDialogOpen && dialogNameRef.current) {
-      // Focus the first input in the dialog when it opens
-      setTimeout(() => {
-        dialogNameRef.current?.focus();
-        addMessage('Dialog opened - focus set to name field');
-      }, 100);
-    }
-  }, [isDialogOpen]);
-
-  // Debug effect - remove this in production
-  useEffect(() => {
-    console.log('BasicInputsTab Debug:', {
-      textValue,
-      emailValue,
-      isDialogOpen,
-      messagesCount: messages.length
-    });
-  }, [textValue, emailValue, isDialogOpen, messages.length]);
-
   const handleOpenDialog = () => {
-    // Debug: Log current focus state
-    console.log('Opening dialog. Current focus:', document.activeElement);
-    
-    // Store the currently focused element
-    lastFocusedElement.current = document.activeElement as HTMLElement;
     setIsDialogOpen(true);
     addMessage('Opening contact dialog...');
   };
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
-    addMessage('Dialog closed - restoring focus');
-    
-    // Restore focus to the previously focused element
-    setTimeout(() => {
-      if (lastFocusedElement.current) {
-        lastFocusedElement.current.focus();
-        addMessage('Focus restored to previous element');
-      }
-    }, 100);
+    addMessage('Dialog closed');
   };
 
   const handleSubmitDialog = () => {
@@ -186,7 +147,6 @@ const BasicInputsTab: React.FC = () => {
       </Button>
 
       <Button
-        ref={calloutButtonRef}
         appearance="secondary"
         onClick={handleOpenDialog}
         className={styles.calloutButton}
@@ -194,7 +154,18 @@ const BasicInputsTab: React.FC = () => {
         Open Contact Dialog
       </Button>
 
-      <Dialog open={isDialogOpen}>
+      <Dialog 
+        open={isDialogOpen}
+        onOpenChange={(event, data) => {
+          setIsDialogOpen(data.open);
+          if (!data.open) {
+            addMessage('Dialog closed via FluentUI focus management');
+            setDialogName('');
+            setDialogEmail('');
+          }
+        }}
+        modalType="modal"
+      >
         <DialogSurface>
           <DialogBody>
             <DialogTitle>Contact Information</DialogTitle>
@@ -202,7 +173,6 @@ const BasicInputsTab: React.FC = () => {
               <div className={sharedStyles.dialogContent}>
                 <Field label="Full Name" required>
                   <Input
-                    ref={dialogNameRef}
                     value={dialogName}
                     onChange={(e) => {
                       setDialogName(e.target.value);
@@ -230,9 +200,9 @@ const BasicInputsTab: React.FC = () => {
               </div>
             </DialogContent>
             <DialogActions>
-              <Button appearance="secondary" onClick={handleCloseDialog}>
-                Cancel
-              </Button>
+              <DialogTrigger disableButtonEnhancement>
+                <Button appearance="secondary">Cancel</Button>
+              </DialogTrigger>
               <Button appearance="primary" onClick={handleSubmitDialog}>
                 Submit Contact
               </Button>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles,
   Tab,
@@ -42,32 +42,8 @@ const useStyles = makeStyles({
 const App: React.FC = () => {
   const styles = useStyles();
   const [selectedTab, setSelectedTab] = useState<TabValue>('basic');
-  
-  // Focus restoration for tabs
-  const tabFocusMap = useRef<{ [key: string]: HTMLElement | null }>({});
-  const tabContentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Restore focus when tab changes
-    const restoreFocus = () => {
-      const lastFocused = tabFocusMap.current[selectedTab as string];
-      if (lastFocused && document.contains(lastFocused)) {
-        setTimeout(() => {
-          lastFocused.focus();
-        }, 100);
-      }
-    };
-
-    restoreFocus();
-  }, [selectedTab]);
 
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
-    // Store the currently focused element before switching tabs
-    const currentlyFocused = document.activeElement as HTMLElement;
-    if (currentlyFocused && tabContentRef.current?.contains(currentlyFocused)) {
-      tabFocusMap.current[selectedTab as string] = currentlyFocused;
-    }
-    
     setSelectedTab(data.value);
   };
 
@@ -100,7 +76,7 @@ const App: React.FC = () => {
         <Tab value="advanced">Advanced Controls</Tab>
       </TabList>
 
-      <div ref={tabContentRef} className={styles.tabContent}>
+      <div className={styles.tabContent}>
         {renderTabContent()}
       </div>
     </div>
