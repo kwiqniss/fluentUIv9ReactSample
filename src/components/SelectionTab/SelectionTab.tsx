@@ -15,8 +15,14 @@ import {
   Dropdown,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import strings from './selection.resx';
+import selectionStrings from './selection.resx';
 import commonStrings from '../../common.resx';
+
+// Consolidated strings object
+const strings = {
+  ...selectionStrings,
+  ...commonStrings,
+};
 
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
@@ -115,7 +121,7 @@ const SelectionTab: React.FC = () => {
             setSwitchValue(data.checked);
             addMessage(`Switch ${data.checked ? 'turned on' : 'turned off'}`);
           }}
-          label={switchValue ? commonStrings.enabled : commonStrings.disabled}
+          label={switchValue ? strings.enabled : strings.disabled}
         />
       </Field>
 

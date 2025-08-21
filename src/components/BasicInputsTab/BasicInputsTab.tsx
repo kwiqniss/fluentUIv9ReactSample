@@ -18,8 +18,14 @@ import {
   DialogBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import strings from './basic.resx';
+import basicStrings from './basic.resx';
 import commonStrings from '../../common.resx';
+
+// Consolidated strings object
+const strings = {
+  ...basicStrings,
+  ...commonStrings,
+};
 
 const BasicInputsTab: React.FC = () => {
   const styles = sharedStyles();
@@ -137,7 +143,7 @@ const BasicInputsTab: React.FC = () => {
         appearance="primary"
         onClick={() => addMessage('Submit button clicked!')}
       >
-        {commonStrings.submit}
+        {strings.submit}
       </Button>
 
       <Button
@@ -195,7 +201,7 @@ const BasicInputsTab: React.FC = () => {
             </DialogContent>
             <DialogActions>
               <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">{commonStrings.cancel}</Button>
+                <Button appearance="secondary">{strings.cancel}</Button>
               </DialogTrigger>
               <Button appearance="primary" onClick={handleSubmitDialog}>
                 {strings.submitContact}

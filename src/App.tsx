@@ -27,6 +27,12 @@ import { appStyles } from './appStyles';
 import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 
+// Consolidated strings object
+const strings = {
+  ...appStrings,
+  ...tabStrings,
+};
+
 const App: React.FC = () => {
   const styles = {
     ...sharedStyles(),
@@ -83,19 +89,19 @@ const App: React.FC = () => {
     <FluentProvider theme={themes[selectedTheme].theme}>
       <div className={styles.mainContainer}>
         <div className={styles.header}>
-          <Body1 as="h1">{appStrings.title}</Body1>
-          <Caption1>{appStrings.subtitle}</Caption1>
+          <Body1 as="h1">{strings.title}</Body1>
+          <Caption1>{strings.subtitle}</Caption1>
         </div>
 
         <div className={styles.tabBarContainer}>
           <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
-            <Tab value="basic">{tabStrings.basic}</Tab>
-            <Tab value="datetime">{tabStrings.datetime}</Tab>
-            <Tab value="selection">{tabStrings.selection}</Tab>
-            <Tab value="advanced">{tabStrings.advanced}</Tab>
+            <Tab value="basic">{strings.basic}</Tab>
+            <Tab value="datetime">{strings.datetime}</Tab>
+            <Tab value="selection">{strings.selection}</Tab>
+            <Tab value="advanced">{strings.advanced}</Tab>
           </TabList>
 
-          <Field label={appStrings.themeSelector}>
+          <Field label={strings.themeSelector}>
             <Dropdown
               value={themes[selectedTheme].name}
               selectedOptions={[selectedTheme]}
