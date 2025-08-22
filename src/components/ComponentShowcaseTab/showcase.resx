@@ -213,4 +213,52 @@
   <data name="progressLabel" xml:space="preserve">
     <value>Progress: {0}%</value>
   </data>
+  <data name="interactive" xml:space="preserve">
+    <value>Interactive Components</value>
+  </data>
+  <data name="labelProgress" xml:space="preserve">
+    <value>Progress Bar</value>
+  </data>
+  <data name="loadingStates" xml:space="preserve">
+    <value>Loading States</value>
+  </data>
+  <data name="labelSkeleton" xml:space="preserve">
+    <value>Skeleton Loading</value>
+  </data>
+  <data name="buttonWarning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="toastSuccess" xml:space="preserve">
+    <value>Success Toast</value>
+  </data>
+  <data name="toastError" xml:space="preserve">
+    <value>Error Toast</value>
+  </data>
+  <data name="toastWarning" xml:space="preserve">
+    <value>Warning Toast</value>
+  </data>
+  <data name="toastInfo" xml:space="preserve">
+    <value>Info Toast</value>
+  </data>
+  <data name="cardLearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="cardContact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="labelBreadcrumbNavigation" xml:space="preserve">
+    <value>Breadcrumb Navigation</value>
+  </data>
+  <data name="labelAccordion" xml:space="preserve">
+    <value>Accordion Component</value>
+  </data>
+  <data name="labelMenuNavigation" xml:space="preserve">
+    <value>Menu Navigation</value>
+  </data>
+  <data name="labelCard" xml:space="preserve">
+    <value>Card Component</value>
+  </data>
+  <data name="searchFilter" xml:space="preserve">
+    <value>Search &amp; Filter</value>
+  </data>
 </root>

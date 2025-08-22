@@ -85,6 +85,18 @@ const ComponentShowcaseTab: React.FC = () => {
   const [searchValue, setSearchValue] = useState(initialData.searchValue);
   const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [messages, setMessages] = useState<string[]>(initialData.messages);
+  const [isSkeletonLoading, setIsSkeletonLoading] = useState(true);
+
+  // Simulate loading completion after 3 seconds
+  useEffect(() => {
+    if (isSkeletonLoading) {
+      const timer = setTimeout(() => {
+        setIsSkeletonLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSkeletonLoading]);
 
   // Save form data whenever state changes
   useEffect(() => {
@@ -342,17 +354,40 @@ const ComponentShowcaseTab: React.FC = () => {
         
         <div className={styles.componentCard}>
           <Field label={strings.labelSkeleton}>
-            <div>
-              <Skeleton>
-                <div>
-                  <SkeletonItem shape="circle" size={48} />
-                  <div>
-                    <SkeletonItem shape="rectangle" size={16} />
-                    <SkeletonItem shape="rectangle" size={12} />
+            <div className={styles.skeletonContainer}>
+              {isSkeletonLoading ? (
+                <Skeleton>
+                  <div className={styles.skeletonProfile}>
+                    <SkeletonItem shape="circle" size={48} />
+                    <div className={styles.skeletonText}>
+                      <SkeletonItem shape="rectangle" size={16} style={{ width: '200px', height: '16px', marginBottom: '8px' }} />
+                      <SkeletonItem shape="rectangle" size={12} style={{ width: '150px', height: '12px' }} />
+                    </div>
+                  </div>
+                </Skeleton>
+              ) : (
+                <div className={styles.skeletonProfile}>
+                  <Avatar
+                    name="Sarah Chen"
+                    size={48}
+                    color="colorful"
+                    style={{ marginRight: '12px' }}
+                  />
+                  <div className={styles.skeletonText}>
+                    <Text weight="semibold" size={400}>Sarah Chen</Text>
+                    <Caption1>Senior Software Engineer • Microsoft</Caption1>
                   </div>
                 </div>
-              </Skeleton>
+              )}
             </div>
+            <Button
+              appearance="secondary"
+              size="small"
+              onClick={() => setIsSkeletonLoading(true)}
+              style={{ marginTop: '12px' }}
+            >
+              {isSkeletonLoading ? 'Loading...' : 'Show Loading Demo'}
+            </Button>
           </Field>
         </div>
       </section>

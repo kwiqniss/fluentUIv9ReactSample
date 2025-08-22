@@ -145,6 +145,28 @@ export const componentShowcaseStyles = makeStyles({
     borderRadius: tokens.borderRadiusMedium,
   },
 
+  // Skeleton container
+  skeletonContainer: {
+    padding: '1rem',
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderRadius: tokens.borderRadiusMedium,
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+  },
+
+  // Skeleton profile layout
+  skeletonProfile: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'flex-start',
+  },
+
+  // Skeleton text content
+  skeletonText: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+  },
+
   // Toast demo area
   toastDemo: {
     display: 'flex',
