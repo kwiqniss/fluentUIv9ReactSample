@@ -70,13 +70,9 @@ const App: React.FC = () => {
         const shouldBeSticky = rect.top <= 0;
         setIsTabsSticky(shouldBeSticky);
         
-        // Update dimensions and position
-        if (!tabsHeight || !tabsWidth) {
-          setTabsHeight(tabContainerRef.current.offsetHeight);
-          setTabsWidth(tabContainerRef.current.offsetWidth);
-        }
-        
-        // Update left position for sticky tabs
+        // Update dimensions and position - always get current values
+        setTabsHeight(tabContainerRef.current.offsetHeight);
+        setTabsWidth(tabContainerRef.current.offsetWidth);
         setTabsLeft(rect.left);
       }
     };
@@ -89,7 +85,7 @@ const App: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [tabsHeight, tabsWidth]);
+  }, []);
   
   const styles = {
     ...sharedStyles(),
