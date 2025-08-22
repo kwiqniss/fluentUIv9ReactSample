@@ -15,7 +15,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
-import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { formCache } from '../../utils/formCache';
 import basicStrings from './BasicInputsTab.resx';
 
 const BasicInputsTab: React.FC = () => {
