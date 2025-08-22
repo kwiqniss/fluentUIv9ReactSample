@@ -4,19 +4,19 @@ import { MessageType, LogLevel } from '../types/enums';
  * Determines if a message should be logged based on the current log level
  */
 export const shouldLogMessage = (messageType: MessageType, logLevel: LogLevel): boolean => {
-  if (logLevel === LogLevel.Disabled) {
+  if (logLevel === LogLevel.None) {
     return false;
   }
   
-  if (logLevel === LogLevel.Error) {
+  if (logLevel === LogLevel.Errors) {
     return messageType === MessageType.Error;
   }
   
-  if (logLevel === LogLevel.Warning) {
+  if (logLevel === LogLevel.Warnings) {
     return messageType === MessageType.Error || messageType === MessageType.Warning;
   }
   
-  if (logLevel === LogLevel.Info) {
+  if (logLevel === LogLevel.Informational) {
     return messageType === MessageType.Error || 
            messageType === MessageType.Warning || 
            messageType === MessageType.Info;
@@ -34,16 +34,16 @@ export const shouldLogMessage = (messageType: MessageType, logLevel: LogLevel): 
  */
 export const getLogLevelDisplayName = (logLevel: LogLevel): string => {
   switch (logLevel) {
-    case LogLevel.Disabled:
-      return 'Disabled';
-    case LogLevel.Error:
-      return 'Error Only';
-    case LogLevel.Warning:
-      return 'Warning & Error';
-    case LogLevel.Info:
-      return 'Info, Warning & Error';
     case LogLevel.Verbose:
-      return 'All Messages (Verbose)';
+      return 'Verbose';
+    case LogLevel.Informational:
+      return 'Informational';
+    case LogLevel.Warnings:
+      return 'Warnings';
+    case LogLevel.Errors:
+      return 'Errors';
+    case LogLevel.None:
+      return 'None';
     default:
       return 'Unknown';
   }
@@ -54,16 +54,16 @@ export const getLogLevelDisplayName = (logLevel: LogLevel): string => {
  */
 export const getLogLevelDescription = (logLevel: LogLevel): string => {
   switch (logLevel) {
-    case LogLevel.Disabled:
-      return 'No messages logged';
-    case LogLevel.Error:
-      return 'Only error messages';
-    case LogLevel.Warning:
-      return 'Warning and error messages';
-    case LogLevel.Informational:
-      return 'Success, warning, and error messages';
     case LogLevel.Verbose:
       return 'All messages including info';
+    case LogLevel.Informational:
+      return 'Success, warning, and error messages';
+    case LogLevel.Warnings:
+      return 'Warning and error messages';
+    case LogLevel.Errors:
+      return 'Only error messages';
+    case LogLevel.None:
+      return 'No messages logged';
     default:
       return '';
   }

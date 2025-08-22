@@ -50,12 +50,13 @@ export const sharedStyles = makeStyles({
     },
   },
 
-  // Minimal container
+  // Minimal container with bottom padding for pinned footer
   mainContainer: {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     padding: tokens.spacingHorizontalM,
+    paddingBottom: '200px', // Account for pinned message footer
   },
 
   cardContainer: {

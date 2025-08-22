@@ -41,7 +41,8 @@ import {
   Toaster,
   useToastController,
   Caption1,
-  mergeClasses
+  mergeClasses,
+  Tooltip
 } from '@fluentui/react-components';
 import {
   HomeRegular,
@@ -214,7 +215,9 @@ const ComponentShowcaseTab: React.FC = () => {
               <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
                 <BreadcrumbItem>
                   <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
-                    <HomeRegular />
+                    <Tooltip content="Home" relationship="label">
+                      <HomeRegular />
+                    </Tooltip>
                     {strings.breadcrumbHome}
                   </Link>
                 </BreadcrumbItem>
@@ -246,7 +249,11 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuTrigger>
                   <Button
                     appearance={componentProps.button.outline}
-                    icon={<MoreHorizontalRegular />}
+                    icon={
+                      <Tooltip content="More options" relationship="label">
+                        <MoreHorizontalRegular />
+                      </Tooltip>
+                    }
                     onClick={() => addMessage('Menu opened')}
                   >
                     {strings.menuTrigger}
@@ -255,16 +262,22 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuPopover>
                   <MenuList>
                     <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
-                      <EditRegular />
+                      <Tooltip content="Edit item" relationship="label">
+                        <EditRegular />
+                      </Tooltip>
                       {strings.menuEdit}
                     </MenuItem>
                     <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
-                      <CopyRegular />
+                      <Tooltip content="Copy item" relationship="label">
+                        <CopyRegular />
+                      </Tooltip>
                       {strings.menuCopy}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
-                      <DeleteRegular />
+                      <Tooltip content="Delete item" relationship="label">
+                        <DeleteRegular />
+                      </Tooltip>
                       {strings.menuDelete}
                     </MenuItem>
                   </MenuList>

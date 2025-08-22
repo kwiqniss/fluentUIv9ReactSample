@@ -13,11 +13,15 @@ import {
 
 const useMessageManagerStyles = makeStyles({
   footer: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
     borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
     padding: tokens.spacingVerticalM,
     paddingBottom: tokens.spacingVerticalL,
-    marginTop: 'auto',
     backgroundColor: tokens.colorNeutralBackground1,
+    zIndex: 1000,
   },
   
   footerContent: {
@@ -241,7 +245,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
   return (
     <MessageContext.Provider value={messageContextValue}>
       {children}
-      {logLevel !== LogLevel.Disabled && <MessageFooter />}
+      {logLevel !== LogLevel.None && <MessageFooter />}
     </MessageContext.Provider>
   );
 };

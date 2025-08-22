@@ -40,7 +40,6 @@ import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
 import { LogLevel } from './types/enums';
 import { getLogLevelDisplayName } from './utils/logLevel';
-import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -255,7 +254,7 @@ const App: React.FC = () => {
                   selectedOptions={[logLevel]}
                   onOptionSelect={onLogLevelChange}
                 >
-                  {Object.values(LogLevel).map((level) => (
+                  {[LogLevel.Verbose, LogLevel.Informational, LogLevel.Warnings, LogLevel.Errors, LogLevel.None].map((level) => (
                     <Option key={level} value={level}>
                       {getLogLevelDisplayName(level)}
                     </Option>

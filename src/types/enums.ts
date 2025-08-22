@@ -10,11 +10,11 @@ export enum MessageType {
 }
 
 export enum LogLevel {
-  Disabled = 'disabled',   // Log nothing
-  Error = 'error',         // Log error only
-  Warning = 'warning',     // Log warning and error only
-  Info = 'info',           // Log info, warning, error (no success)
-  Verbose = 'verbose'      // Log everything (info, success, warning, error)
+  Verbose = 'verbose',         // Log everything (info, success, warning, error)
+  Informational = 'informational', // Log info, warning, error (no success)
+  Warnings = 'warnings',       // Log warning and error only
+  Errors = 'errors',           // Log error only  
+  None = 'none'                // Log nothing
 }
 
 export enum ButtonAppearance {
