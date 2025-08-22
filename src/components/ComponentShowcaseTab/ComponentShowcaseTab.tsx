@@ -89,6 +89,7 @@ const ComponentShowcaseTab: React.FC = () => {
   const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [isSkeletonLoading, setIsSkeletonLoading] = useState(true);
+  const [isCardLoading, setIsCardLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const [isProgressRunning, setIsProgressRunning] = useState(false);
 
@@ -102,6 +103,17 @@ const ComponentShowcaseTab: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [isSkeletonLoading]);
+
+  // Simulate card loading
+  useEffect(() => {
+    if (isCardLoading) {
+      const timer = setTimeout(() => {
+        setIsCardLoading(false);
+      }, 2500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isCardLoading]);
 
   // Save form data whenever state changes
   useEffect(() => {
@@ -202,51 +214,50 @@ const ComponentShowcaseTab: React.FC = () => {
   );
 
   return (
-    <div className={styles.tabContentStandardized}>
-      <div className={styles.tabContentStandardized}>
-        <Toaster toasterId={toasterId} />
-        
-        <Title2 >{strings.title}</Title2>
+    <div className={styles.container}>
+      <Toaster toasterId={toasterId} />
+      
+      <div className={styles.headerSection}>
+        <Title2 as="h2">{strings.title}</Title2>
+      </div>
 
       {/* Navigation Components Section */}
-      <section >
-        <Title3 >{strings.navigation}</Title3>
+      <section>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.navigation}</Title3>
         
-        <div className={styles.tabContentStandardized}>
-          <div className={styles.tabContentStandardized}>
+        <div className={styles.componentGrid}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelBreadcrumbNavigation}>
-              <div className={styles.tabContentStandardized}>
-                <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
-                  <BreadcrumbItem>
-                    <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
-                      <HomeRegular  />
-                      {strings.breadcrumbHome}
-                    </Link>
-                  </BreadcrumbItem>
-                  <BreadcrumbDivider />
-                  <BreadcrumbItem>
-                    <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Products clicked'); }}>
-                      {strings.breadcrumbProducts}
-                    </Link>
-                  </BreadcrumbItem>
-                  <BreadcrumbDivider />
-                  <BreadcrumbItem>
-                    <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Category clicked'); }}>
-                      {strings.breadcrumbCategory}
-                    </Link>
-                  </BreadcrumbItem>
-                  <BreadcrumbDivider />
-                  <BreadcrumbItem aria-current="page">
-                    <Text weight={componentProps.text.semibold} >
-                      {strings.breadcrumbCurrent}
-                    </Text>
-                  </BreadcrumbItem>
-                </Breadcrumb>
-              </div>
+              <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
+                <BreadcrumbItem>
+                  <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
+                    <HomeRegular />
+                    {strings.breadcrumbHome}
+                  </Link>
+                </BreadcrumbItem>
+                <BreadcrumbDivider />
+                <BreadcrumbItem>
+                  <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Products clicked'); }}>
+                    {strings.breadcrumbProducts}
+                  </Link>
+                </BreadcrumbItem>
+                <BreadcrumbDivider />
+                <BreadcrumbItem>
+                  <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Category clicked'); }}>
+                    {strings.breadcrumbCategory}
+                  </Link>
+                </BreadcrumbItem>
+                <BreadcrumbDivider />
+                <BreadcrumbItem aria-current="page">
+                  <Text weight={componentProps.text.semibold}>
+                    {strings.breadcrumbCurrent}
+                  </Text>
+                </BreadcrumbItem>
+              </Breadcrumb>
             </Field>
           </div>
 
-          <div className={styles.tabContentStandardized}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelMenuNavigation}>
               <Menu>
                 <MenuTrigger>
@@ -261,16 +272,16 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuPopover>
                   <MenuList>
                     <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
-                      <EditRegular  />
+                      <EditRegular />
                       {strings.menuEdit}
                     </MenuItem>
                     <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
-                      <CopyRegular  />
+                      <CopyRegular />
                       {strings.menuCopy}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
-                      <DeleteRegular  />
+                      <DeleteRegular />
                       {strings.menuDelete}
                     </MenuItem>
                   </MenuList>
@@ -282,41 +293,79 @@ const ComponentShowcaseTab: React.FC = () => {
       </section>
 
       {/* Layout Components Section */}
-      <section >
-        <Title3 >{strings.layouts}</Title3>
+      <section>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.layouts}</Title3>
         
-        <div className={styles.tabContentStandardized}>
-          <div className={styles.tabContentStandardized}>
+        <div className={styles.componentGrid}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelCard}>
-              <Card >
-                <CardHeader
-                  image={<Avatar name="Product" size={componentProps.size.size40} />}
-                  header={<Text weight={componentProps.text.semibold}>{strings.cardTitle}</Text>}
-                />
-                <CardPreview>
-                  <div>
-                    <Text>{strings.cardDescription}</Text>
-                  </div>
-                </CardPreview>
-                <CardFooter>
-                  <Button 
-                    appearance={componentProps.button.primary} 
-                    onClick={() => addMessage('Card: Learn more clicked')}
-                  >
-                    {strings.cardLearnMore}
-                  </Button>
-                  <Button 
-                    appearance={componentProps.button.subtle}
-                    onClick={() => addMessage('Card: Contact clicked')}
-                  >
-                    {strings.cardContact}
-                  </Button>
-                </CardFooter>
-              </Card>
+              <div className={styles.stableContainer}>
+                <Card>
+                  {isCardLoading ? (
+                    <Skeleton>
+                      <CardHeader
+                        image={<SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size40} />}
+                        header={<SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '120px' }} />}
+                        description={<SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '160px' }} />}
+                      />
+                      <CardPreview>
+                        <div>
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} />
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} />
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} />
+                        </div>
+                      </CardPreview>
+                      <CardFooter>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100px' }} />
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80px' }} />
+                        </div>
+                      </CardFooter>
+                    </Skeleton>
+                  ) : (
+                    <>
+                      <CardHeader
+                        image={<Avatar name="Sarah Chen" size={componentProps.size.size40} color={componentProps.avatar.colorful} />}
+                        header={<Text weight={componentProps.text.semibold}>Sarah Chen</Text>}
+                        description={<Text size={componentProps.text.size200}>Senior Software Engineer</Text>}
+                      />
+                      <CardPreview>
+                        <div>
+                          <Text>{strings.cardDescription}</Text>
+                        </div>
+                      </CardPreview>
+                      <CardFooter>
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <Button 
+                            appearance={componentProps.button.primary}
+                            onClick={() => addMessage('Card: Learn more clicked')}
+                          >
+                            {strings.cardLearnMore}
+                          </Button>
+                          <Button 
+                            appearance={componentProps.button.subtle}
+                            onClick={() => addMessage('Card: Contact clicked')}
+                          >
+                            {strings.cardContact}
+                          </Button>
+                        </div>
+                      </CardFooter>
+                    </>
+                  )}
+                </Card>
+                <Button 
+                  appearance={componentProps.button.secondary}
+                  onClick={() => setIsCardLoading(true)}
+                  disabled={isCardLoading}
+                  style={{ marginTop: '12px' }}
+                >
+                  {isCardLoading ? 'Loading...' : 'Demo Loading'}
+                </Button>
+              </div>
             </Field>
           </div>
 
-          <div className={styles.tabContentStandardized}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelAccordion}>
               <Accordion collapsible>
                 <AccordionItem value="requirements">
@@ -338,34 +387,35 @@ const ComponentShowcaseTab: React.FC = () => {
       </section>
 
       {/* Interactive Components Section */}
-      <section >
-        <Title3 >{strings.interactive}</Title3>
+      <section>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.interactive}</Title3>
         
-        <div className={styles.tabContentStandardized}>
-          <div className={styles.tabContentStandardized}>
+        <div className={styles.componentGrid}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelToastNotifications}>
-              <div className={styles.tabContentStandardized}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <Button 
-                  appearance={componentProps.button.primary} 
+                  appearance={componentProps.button.primary}
+                  size={componentProps.size.small}
                   onClick={() => showToast('success')}
                 >
                   {strings.buttonSuccess}
                 </Button>
                 <Button 
-                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('error')}
+                  size={componentProps.size.small}
                 >
                   {strings.buttonError}
                 </Button>
                 <Button 
-                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('warning')}
+                  size={componentProps.size.small}
                 >
                   {strings.buttonWarning}
                 </Button>
                 <Button 
-                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('info')}
+                  size={componentProps.size.small}
                 >
                   {strings.buttonInfo}
                 </Button>
@@ -373,14 +423,14 @@ const ComponentShowcaseTab: React.FC = () => {
             </Field>
           </div>
 
-          <div className={styles.tabContentStandardized}>
+          <div className={styles.componentItem}>
             <Field label={strings.labelProgress}>
               <div className={styles.tabContentStandardized}>
                 <ProgressBar value={progressValue} />
                 <Text>{formatString(strings.progressLabel, Math.round(progressValue * 100).toString())}</Text>
                 <Button
-                  appearance={componentProps.button.secondary}
-                  size={componentProps.size.small}
+                  appearance="secondary"
+                  size="small"
                   onClick={startProgressDemo}
                   disabled={isProgressRunning}
                   
@@ -395,7 +445,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Loading States Section */}
       <section>
-        <Title3 >{strings.loadingStates}</Title3>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.loadingStates}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSkeleton}>
@@ -403,10 +453,10 @@ const ComponentShowcaseTab: React.FC = () => {
               {isSkeletonLoading ? (
                 <Skeleton>
                   <div className={styles.tabContentStandardized}>
-                    <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size48} />
+                    <SkeletonItem shape="circle" size={48} />
                     <div className={styles.tabContentStandardized}>
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16}  />
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12}  />
+                      <SkeletonItem shape="rectangle" size={16} />
+                      <SkeletonItem shape="rectangle" size={12} />
                     </div>
                   </div>
                 </Skeleton>
@@ -414,8 +464,8 @@ const ComponentShowcaseTab: React.FC = () => {
                 <div className={styles.tabContentStandardized}>
                   <Avatar
                     name="Sarah Chen"
-                    size={componentProps.size.size48}
-                    color={componentProps.avatar.colorful}
+                    size={48}
+                    color="colorful"
                     
                   />
                   <div className={styles.tabContentStandardized}>
@@ -439,7 +489,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Search & Filter Section */}
       <section>
-        <Title3 >{strings.searchFilter}</Title3>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.searchFilter}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSearch}>
@@ -470,7 +520,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Data & Visualization Section */}
       <section >
-        <Title3 >{strings.dataVisualization}</Title3>
+        <Title3 className={styles.sectionHeader} as="h3">{strings.dataVisualization}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelDataTable}>
@@ -528,7 +578,7 @@ const ComponentShowcaseTab: React.FC = () => {
       {/* Message Log */}
       {messages.length > 0 && (
         <section>
-          <Title3 >{strings.activityLog}</Title3>
+          <Title3 className={styles.sectionHeader} as="h3">{strings.activityLog}</Title3>
           <div className={styles.tabContentStandardized}>
             {messages.slice(-10).map((message, index) => (
               <Caption1 key={index} >
@@ -538,7 +588,6 @@ const ComponentShowcaseTab: React.FC = () => {
           </div>
         </section>
       )}
-      </div>
     </div>
   );
 };

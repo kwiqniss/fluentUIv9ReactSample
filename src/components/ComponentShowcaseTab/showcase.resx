@@ -3,6 +3,9 @@
   <data name="title" xml:space="preserve">
     <value>Component Showcase</value>
   </data>
+  <data name="description" xml:space="preserve">
+    <value>Explore various FluentUI components including navigation, data display, feedback, and interactive elements</value>
+  </data>
   <data name="navigation" xml:space="preserve">
     <value>Navigation Components</value>
   </data>
@@ -37,7 +40,7 @@
     <value>Product Information</value>
   </data>
   <data name="cardDescription" xml:space="preserve">
-    <value>This card demonstrates the Card component with proper accessibility features including keyboard navigation and screen reader support.</value>
+    <value>Experienced in React, TypeScript, and FluentUI development. Currently working on accessibility improvements and component design systems.</value>
   </data>
   <data name="accordionTitle1" xml:space="preserve">
     <value>System Requirements</value>
