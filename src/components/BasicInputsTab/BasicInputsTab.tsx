@@ -254,7 +254,7 @@ const BasicInputsTab: React.FC = () => {
               </div>
             </DialogContent>
             <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
+              <DialogTrigger>
                 <Button appearance={button.secondary}>{strings.cancel}</Button>
               </DialogTrigger>
               <Button appearance={button.primary} onClick={handleSubmitDialog}>

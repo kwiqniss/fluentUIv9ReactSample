@@ -245,7 +245,7 @@ const ComponentShowcaseTab: React.FC = () => {
           <div className={styles.componentCard}>
             <Field label={strings.labelMenuNavigation}>
               <Menu>
-                <MenuTrigger disableButtonEnhancement>
+                <MenuTrigger>
                   <Button
                     appearance={componentProps.button.outline}
                     icon={<MoreHorizontalRegular />}
