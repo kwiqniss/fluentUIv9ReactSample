@@ -206,12 +206,7 @@ export const appStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground1,
     borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke3}`,
     padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalL}`,
-    boxShadow: `${tokens.shadow16}, 0 2px 8px rgba(0, 0, 0, 0.12)`,
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    borderRadius: `0 0 ${tokens.borderRadiusMedium} ${tokens.borderRadiusMedium}`,
-    backdropFilter: 'blur(8px) saturate(1.1)',
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke3}`,
-    borderTop: 'none',
   },
   tabSpacer: {
     height: 'var(--tabs-height, 0px)',
