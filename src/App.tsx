@@ -27,6 +27,8 @@ import {
   useOverflowMenu,
   useIsOverflowItemVisible,
   mergeClasses,
+  Toolbar,
+  ToolbarButton,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
@@ -254,7 +256,7 @@ const App: React.FC = () => {
                   selectedOptions={[logLevel]}
                   onOptionSelect={onLogLevelChange}
                 >
-                  {[LogLevel.Verbose, LogLevel.Informational, LogLevel.Warnings, LogLevel.Errors, LogLevel.None].map((level) => (
+                  {Object.values(LogLevel).map((level) => (
                     <Option key={level} value={level}>
                       {getLogLevelDisplayName(level)}
                     </Option>
@@ -265,30 +267,28 @@ const App: React.FC = () => {
           </div>
 
           <div className={styles.contentWrapper}>
-            <div>
-              <Overflow>
-                <div className={styles.container}>
-                  {allTabs.map((tab, index) => (
-                    <OverflowItem 
-                      key={tab.value} 
-                      id={tab.value}
-                      priority={index === 0 ? 1 : 0}
-                    >
-                      <Button
-                        appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
-                        onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                        className={mergeClasses(
-                          styles.tabButton,
-                          selectedTab === tab.value ? styles.tabButtonActive : styles.tabButtonInactive
-                        )}
+            <div className={styles.stickyToolbar}>
+              <Toolbar aria-label="Navigation tabs">
+                <Overflow>
+                  <div className={styles.container}>
+                    {allTabs.map((tab, index) => (
+                      <OverflowItem 
+                        key={tab.value} 
+                        id={tab.value}
+                        priority={index === 0 ? 1 : 0}
                       >
-                        {tab.label}
-                      </Button>
-                    </OverflowItem>
-                  ))}
-                  <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
-                </div>
-              </Overflow>
+                        <ToolbarButton
+                          appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
+                          onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                        >
+                          {tab.label}
+                        </ToolbarButton>
+                      </OverflowItem>
+                    ))}
+                    <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+                  </div>
+                </Overflow>
+              </Toolbar>
             </div>
 
             <div>

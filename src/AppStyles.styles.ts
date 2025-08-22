@@ -182,4 +182,13 @@ export const appStyles = makeStyles({
   tabButtonInactive: {
     borderBottom: `${tokens.strokeWidthThin} solid transparent`,
   },
+
+  // Sticky toolbar container
+  stickyToolbar: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+  },
 });
