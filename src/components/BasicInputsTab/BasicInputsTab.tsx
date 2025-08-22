@@ -131,7 +131,7 @@ const BasicInputsTab: React.FC = () => {
     <div className={styles.tabContentStandardized}>
       <div className={styles.container}>
         <div className={styles.componentItem}>
-          <Body1 as="h2">{basicStrings.title}</Body1>
+          <Body1 as="h2" className={styles.h2Heading}>{basicStrings.title}</Body1>
           <Caption1>{basicStrings.description}</Caption1>
         </div>
 
@@ -201,7 +201,7 @@ const BasicInputsTab: React.FC = () => {
             </PopoverTrigger>
             <PopoverSurface className={styles.popupForm}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Title3>Contact Information</Title3>
+                <Title3 as="h3" className={styles.h3Heading}>Contact Information</Title3>
                 
                 <Field label="Name" required>
                   <Input

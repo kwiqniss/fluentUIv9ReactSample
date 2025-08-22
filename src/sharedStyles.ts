@@ -150,4 +150,29 @@ export const sharedStyles = makeStyles({
       },
     },
   },
+
+  // Heading hierarchy styles
+  // H1 - Largest and boldest (page title)
+  h1Heading: {
+    fontSize: tokens.fontSizeHero900,
+    fontWeight: tokens.fontWeightBold,
+    lineHeight: tokens.lineHeightHero900,
+    marginBottom: tokens.spacingVerticalM,
+  },
+
+  // H2 - Large and bold (main tab headings)
+  h2Heading: {
+    fontSize: tokens.fontSizeHero700,
+    fontWeight: tokens.fontWeightSemibold,
+    lineHeight: tokens.lineHeightHero700,
+    marginBottom: tokens.spacingVerticalS,
+  },
+
+  // H3 - Medium heading (section headings)
+  h3Heading: {
+    fontSize: tokens.fontSizeBase500,
+    fontWeight: tokens.fontWeightSemibold,
+    lineHeight: tokens.lineHeightBase500,
+    marginBottom: tokens.spacingVerticalXS,
+  },
 });

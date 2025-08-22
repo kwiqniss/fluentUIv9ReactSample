@@ -9,6 +9,7 @@ import {
   ProgressBar,
   Button,
   SpinButton,
+  mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './AdvancedTab.styles';
@@ -91,7 +92,7 @@ const AdvancedTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1 className={styles.sectionTitle}>{strings.title}</Body1>
+      <Body1 as="h2" className={mergeClasses(styles.sectionTitle, styles.h2Heading)}>{strings.title}</Body1>
       
       <div className={styles.inputGrid}>
         <Field label={formatString(strings.slider, sliderValue.toString())} className={styles.field}>

@@ -40,7 +40,8 @@ import {
   ToastTitle,
   Toaster,
   useToastController,
-  Caption1
+  Caption1,
+  mergeClasses
 } from '@fluentui/react-components';
 import {
   HomeRegular,
@@ -204,12 +205,12 @@ const ComponentShowcaseTab: React.FC = () => {
       <Toaster toasterId={toasterId} />
       
       <div className={styles.headerSection}>
-        <Title2 as="h2">{strings.title}</Title2>
+        <Title2 as="h2" className={styles.h2Heading}>{strings.title}</Title2>
       </div>
 
       {/* Navigation Components Section */}
       <section>
-        <Title3 className={styles.sectionHeader} as="h3">{strings.navigation}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.navigation}</Title3>
         
         <div className={styles.componentGrid}>
           <div className={styles.componentItem}>
@@ -280,7 +281,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Layout Components Section */}
       <section>
-        <Title3 className={styles.sectionHeader} as="h3">{strings.layouts}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.layouts}</Title3>
         
         <div className={styles.componentGrid}>
           <div className={styles.componentItem}>
@@ -372,7 +373,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Interactive Components Section */}
       <section>
-        <Title3 className={styles.sectionHeader} as="h3">{strings.interactive}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.interactive}</Title3>
         
         <div className={styles.componentGrid}>
           <div className={styles.componentItem}>
@@ -429,7 +430,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Loading States Section */}
       <section>
-        <Title3 className={styles.sectionHeader} as="h3">{strings.loadingStates}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.loadingStates}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSkeleton}>
@@ -473,7 +474,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Search & Filter Section */}
       <section>
-        <Title3 className={styles.sectionHeader} as="h3">{strings.searchFilter}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.searchFilter}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSearch}>
@@ -504,7 +505,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Data & Visualization Section */}
       <section >
-        <Title3 className={styles.sectionHeader} as="h3">{strings.dataVisualization}</Title3>
+        <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.dataVisualization}</Title3>
         
         <div className={styles.tabContentStandardized}>
           <Field label={strings.labelDataTable}>
@@ -562,7 +563,7 @@ const ComponentShowcaseTab: React.FC = () => {
       {/* Message Log */}
       {messages.length > 0 && (
         <section>
-          <Title3 className={styles.sectionHeader} as="h3">{strings.activityLog}</Title3>
+          <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.activityLog}</Title3>
           <div className={styles.tabContentStandardized}>
             {messages.slice(-10).map((message, index) => (
               <Caption1 key={index} >

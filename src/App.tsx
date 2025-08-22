@@ -221,7 +221,7 @@ const App: React.FC = () => {
       <div className={styles.mainContainer}>
         <div className={styles.header}>
           <div className={styles.titleSection}>
-            <Body1 as="h1">{appStrings.title}</Body1>
+            <Body1 as="h1" className={styles.h1Heading}>{appStrings.title}</Body1>
             <Caption1>{appStrings.subtitle}</Caption1>
           </div>
           <div className={styles.themeSection}>

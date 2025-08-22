@@ -24,6 +24,7 @@ import {
   Badge,
   Text,
   Title3,
+  mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { selectionTabStyles } from './SelectionTab.styles';
@@ -141,7 +142,7 @@ const SelectionTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1 className={styles.sectionTitle}>{strings.title}</Body1>
+      <Body1 as="h2" className={mergeClasses(styles.sectionTitle, styles.h2Heading)}>{strings.title}</Body1>
       
       <div className={styles.inputGrid}>
         <Field label={strings.combobox} className={styles.field}>
@@ -231,7 +232,7 @@ const SelectionTab: React.FC = () => {
 
       {/* Multiselect Table Section */}
       <div className={styles.sectionContainer}>
-        <Title3 as="h3">Multiselect Table</Title3>
+        <Title3 as="h3" className={styles.h3Heading}>Multiselect Table</Title3>
         
         {tableSelection.length > 0 && (
           <div className={styles.componentItem}>
