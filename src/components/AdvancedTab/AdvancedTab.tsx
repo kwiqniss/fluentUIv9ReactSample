@@ -12,7 +12,7 @@ import {
   SpinButton,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import { advancedTabStyles } from './advancedTabStyles';
+import { advancedTabStyles } from './AdvancedTab.ts';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';

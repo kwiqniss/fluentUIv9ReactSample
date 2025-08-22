@@ -59,7 +59,7 @@ import {
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
-import { componentShowcaseStyles, componentProps } from './componentShowcaseStyles';
+import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.ts';
 import { sharedStyles } from '../../sharedStyles';
 import { badge, statusColor, size } from '../componentConstants';
 

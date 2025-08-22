@@ -14,7 +14,7 @@ import {
   Title3,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import { basicInputsTabStyles } from './basicInputsTabStyles';
+import { basicInputsTabStyles } from './BasicInputsTab.ts';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import basicStrings from './BasicInputsTab.resx';
 
