@@ -19,31 +19,31 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem', // ~24px
+    gap: '1.5rem',
   },
   headerSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.5rem', // ~8px
-    marginBottom: '0.5rem', // ~8px
+    gap: '0.5rem',
+    marginBottom: '0.5rem',
   },
   formGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))', // ~300px
+    gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))',
     maxWidth: '100%',
-    gap: '1rem', // ~16px
-    '@media (min-width: 48rem)': { // ~768px
-      gridTemplateColumns: '1fr 1fr', // Exactly 2 columns on larger screens
+    gap: '1rem',
+    '@media (min-width: 48rem)': {
+      gridTemplateColumns: '1fr 1fr',
     },
   },
   buttonSection: {
     display: 'flex',
-    gap: '0.75rem', // ~12px
+    gap: '0.75rem',
     alignItems: 'center',
-    marginTop: '1rem', // ~16px
+    marginTop: '1rem',
   },
   messageSection: {
-    marginTop: '1rem', // ~16px
+    marginTop: '1rem',
   },
 });
 
@@ -54,7 +54,6 @@ const BasicInputsTab: React.FC = () => {
     ...basicInputsTabStyles(),
   };
 
-  // Cache keys for this tab's fields
   const FIELD_KEYS = {
     TEXT: 'basic_text',
     EMAIL: 'basic_email', 
@@ -63,7 +62,6 @@ const BasicInputsTab: React.FC = () => {
     TEXTAREA: 'basic_textarea',
   };
 
-  // Form state with caching
   const [textValue, setTextValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXT) || '');
   const [emailValue, setEmailValue] = useState<string>(formCache.get<string>(FIELD_KEYS.EMAIL) || '');
   const [passwordValue, setPasswordValue] = useState<string>(formCache.get<string>(FIELD_KEYS.PASSWORD) || '');
@@ -73,7 +71,6 @@ const BasicInputsTab: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
 
-  // Event handlers with caching
   const handleTextChange = (value: string) => {
     setTextValue(value);
     formCache.set(FIELD_KEYS.TEXT, value);
@@ -106,7 +103,6 @@ const BasicInputsTab: React.FC = () => {
       setMessage(basicStrings.submitSuccess);
       setMessageType('success');
       
-      // Log the current form state
       console.log('Basic Inputs Form Submitted:', {
         text: textValue,
         email: emailValue,
@@ -119,7 +115,6 @@ const BasicInputsTab: React.FC = () => {
       setMessageType('warning');
     }
 
-    // Clear message after 3 seconds
     setTimeout(() => setMessage(''), 3000);
   };
 
@@ -130,7 +125,6 @@ const BasicInputsTab: React.FC = () => {
     setNumberValue('');
     setTextareaValue('');
     
-    // Clear cached values
     formCache.remove(FIELD_KEYS.TEXT);
     formCache.remove(FIELD_KEYS.EMAIL);
     formCache.remove(FIELD_KEYS.PASSWORD);
@@ -140,7 +134,6 @@ const BasicInputsTab: React.FC = () => {
     setMessage(basicStrings.clearSuccess);
     setMessageType('info');
 
-    // Clear message after 2 seconds
     setTimeout(() => setMessage(''), 2000);
   };
 

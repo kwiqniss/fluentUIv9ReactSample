@@ -33,7 +33,6 @@ const AdvancedTab: React.FC = () => {
     ...advancedTabStyles(),
   };
   
-  // Load cached data or use defaults
   const getCachedData = (): AdvancedFormData => {
     const cached = formCache.get<AdvancedFormData>(CACHE_KEYS.ADVANCED);
     return cached || {
@@ -55,7 +54,6 @@ const AdvancedTab: React.FC = () => {
   const [rangeEnd, setRangeEnd] = useState(initialData.rangeEnd);
   const [progress, setProgress] = useState(initialData.progress);
 
-  // Cache form data whenever state changes
   useEffect(() => {
     const formData: AdvancedFormData = {
       sliderValue,

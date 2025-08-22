@@ -43,7 +43,6 @@ import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 import { tokens } from '@fluentui/react-components';
 
-// Styles for overflow container following FluentUI samples
 const useOverflowStyles = makeStyles({
   container: {
     display: 'flex',
@@ -53,9 +52,8 @@ const useOverflowStyles = makeStyles({
     gap: tokens.spacingVerticalXS,
     alignItems: 'center',
   },
-  // Wrapper to align tabs and content
   contentWrapper: {
-    maxWidth: '75rem', // ~1200px
+    maxWidth: '75rem',
     width: '100%',
     margin: '0 auto',
     display: 'flex',
@@ -73,7 +71,6 @@ const App: React.FC = () => {
     ...appStyles(),
   };
 
-  // All tabs definition
   const allTabs = [
     { value: 'basic', label: tabStrings.basic },
     { value: 'datetime', label: tabStrings.datetime },
@@ -82,7 +79,6 @@ const App: React.FC = () => {
     { value: 'showcase', label: 'Components' }
   ];
 
-  // Extract tab from URL search params or default to 'basic'
   const getTabFromUrl = (): TabValue => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
@@ -92,7 +88,6 @@ const App: React.FC = () => {
 
   const [selectedTab, setSelectedTab] = useState<TabValue>(getTabFromUrl());
 
-  // Update selected tab when URL changes (browser back/forward)
   useEffect(() => {
     const urlTab = getTabFromUrl();
     if (urlTab !== selectedTab) {
@@ -100,7 +95,6 @@ const App: React.FC = () => {
     }
   }, [location.search]);
 
-  // Theme management
   const themes = {
     'web-light': { name: 'Web Light', theme: webLightTheme },
     'web-dark': { name: 'Web Dark', theme: webDarkTheme },
@@ -110,17 +104,14 @@ const App: React.FC = () => {
   };
 
   const [selectedTheme, setSelectedTheme] = useState<keyof typeof themes>(() => {
-    // Load theme from localStorage or default to 'web-light'
     const savedTheme = localStorage.getItem('fluentui-demo-theme') as keyof typeof themes;
     return (savedTheme && savedTheme in themes) ? savedTheme : 'web-light';
   });
 
-  // Save theme to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
   }, [selectedTheme]);
 
-  // Initialize URL with default tab if no tab parameter exists
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (!params.get('tab') || !allTabs.find(tab => tab.value === params.get('tab'))) {

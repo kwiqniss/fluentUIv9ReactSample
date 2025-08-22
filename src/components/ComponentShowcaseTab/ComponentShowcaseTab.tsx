@@ -63,7 +63,6 @@ import { componentShowcaseStyles, componentProps } from './componentShowcaseStyl
 import { sharedStyles } from '../../sharedStyles';
 import { badge, statusColor, size } from '../../styles/componentConstants';
 
-// Define the form data interface
 interface ComponentShowcaseFormData {
   searchValue: string;
   toastCount: number;
@@ -75,7 +74,6 @@ const ComponentShowcaseTab: React.FC = () => {
   const toasterId = useId();
   const { dispatchToast } = useToastController(toasterId);
 
-  // Load initial form data from cache
   const cached = formCache.get<ComponentShowcaseFormData>(CACHE_KEYS.COMPONENT_SHOWCASE);
   const initialData: ComponentShowcaseFormData = cached || {
     searchValue: '',
@@ -84,7 +82,6 @@ const ComponentShowcaseTab: React.FC = () => {
     tableSelection: [],
   };
 
-  // State management
   const [searchValue, setSearchValue] = useState(initialData.searchValue);
   const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [messages, setMessages] = useState<string[]>(initialData.messages);
@@ -93,7 +90,6 @@ const ComponentShowcaseTab: React.FC = () => {
   const [progressValue, setProgressValue] = useState(0);
   const [isProgressRunning, setIsProgressRunning] = useState(false);
 
-  // Simulate loading completion after 3 seconds
   useEffect(() => {
     if (isSkeletonLoading) {
       const timer = setTimeout(() => {
@@ -104,7 +100,6 @@ const ComponentShowcaseTab: React.FC = () => {
     }
   }, [isSkeletonLoading]);
 
-  // Simulate card loading
   useEffect(() => {
     if (isCardLoading) {
       const timer = setTimeout(() => {
@@ -115,7 +110,6 @@ const ComponentShowcaseTab: React.FC = () => {
     }
   }, [isCardLoading]);
 
-  // Save form data whenever state changes
   useEffect(() => {
     const formData = {
       searchValue,
@@ -126,19 +120,16 @@ const ComponentShowcaseTab: React.FC = () => {
     formCache.set(CACHE_KEYS.COMPONENT_SHOWCASE, formData);
   }, [searchValue, toastCount, messages]);
 
-  // Get styles
   const styles = {
     ...sharedStyles(),
     ...componentShowcaseStyles(),
   };
 
-  // Helper function to add messages
   const addMessage = (message: string) => {
     const timestamp = new Date().toLocaleTimeString();
     setMessages(prev => [...prev, `${timestamp}: ${message}`]);
   };
 
-  // Toast handlers
   const showToast = (type: 'success' | 'error' | 'warning' | 'info') => {
     const newCount = toastCount + 1;
     setToastCount(newCount);
@@ -177,7 +168,6 @@ const ComponentShowcaseTab: React.FC = () => {
     addMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} toast shown (#${newCount})`);
   };
 
-  // Progress bar demo function
   const startProgressDemo = () => {
     if (isProgressRunning) return;
     
@@ -187,7 +177,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
     let progress = 0;
     const interval = setInterval(() => {
-      progress += 0.05; // Increase by 5% each step
+      progress += 0.05;
       setProgressValue(progress);
       
       if (progress >= 1) {
@@ -195,10 +185,9 @@ const ComponentShowcaseTab: React.FC = () => {
         setIsProgressRunning(false);
         addMessage('Progress demo completed');
       }
-    }, 200); // Update every 200ms for smooth animation
+    }, 200);
   };
 
-  // Sample data for components
   const tableData = [
     { id: 1, name: 'John Smith', role: 'Software Engineer', department: 'Engineering', status: 'Active' },
     { id: 2, name: 'Sarah Johnson', role: 'Product Manager', department: 'Product', status: 'Active' },

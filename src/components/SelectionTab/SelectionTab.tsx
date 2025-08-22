@@ -41,7 +41,6 @@ export interface SelectionFormData {
   messages: string[];
 }
 
-// Consolidated strings object
 const strings = {
   ...selectionStrings,
   ...commonStrings,
@@ -53,13 +52,11 @@ const SelectionTab: React.FC = () => {
     ...selectionTabStyles(),
   };
   
-  // Generate unique ID suffix for form elements
   const idSuffix = useId();
   const feature1CheckboxId = `feature1-checkbox-${idSuffix}`;
   const feature2CheckboxId = `feature2-checkbox-${idSuffix}`;
   const feature3CheckboxId = `feature3-checkbox-${idSuffix}`;
   
-  // Load cached data or use defaults - this runs every time component mounts
   const getCachedData = (): SelectionFormData => {
     const cached = formCache.get<SelectionFormData>(CACHE_KEYS.SELECTION);
     return cached || {
@@ -73,7 +70,6 @@ const SelectionTab: React.FC = () => {
     };
   };
 
-  // Initialize state with cached data each time component mounts
   const initialData = getCachedData();
   
   const [messages, setMessages] = useState<string[]>(initialData.messages);
@@ -84,7 +80,6 @@ const SelectionTab: React.FC = () => {
   const [switchValue, setSwitchValue] = useState(initialData.switchValue);
   const [tableSelection, setTableSelection] = useState<string[]>(initialData.tableSelection);
 
-  // Cache form data whenever state changes
   useEffect(() => {
     const formData: SelectionFormData = {
       comboboxValue,
@@ -110,7 +105,6 @@ const SelectionTab: React.FC = () => {
   const countries = strings.countries.split(',').map(c => c.trim());
   const colors = strings.colors.split(',').map(c => c.trim());
 
-  // Sample table data for multiselect demonstration
   const tableData = [
     { id: '1', name: 'Alice Johnson', role: 'Product Manager', department: 'Product', status: 'Active' },
     { id: '2', name: 'Bob Smith', role: 'Software Engineer', department: 'Engineering', status: 'Active' },
@@ -120,7 +114,6 @@ const SelectionTab: React.FC = () => {
     { id: '6', name: 'Frank Wilson', role: 'Sales Representative', department: 'Sales', status: 'Active' },
   ];
 
-  // Table selection handlers
   const handleRowSelection = (itemId: string, selected: boolean) => {
     setTableSelection(prev => {
       const newSelection = selected 

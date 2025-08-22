@@ -27,7 +27,6 @@ const DateTimeTab: React.FC = () => {
     ...dateTimeTabStyles(),
   };
   
-  // Load cached data or use defaults - this runs every time component mounts
   const getCachedData = (): DateTimeFormData => {
     const cached = formCache.get<DateTimeFormData>(CACHE_KEYS.DATE_TIME);
     return cached || {
@@ -40,7 +39,6 @@ const DateTimeTab: React.FC = () => {
     };
   };
 
-  // Initialize state with cached data each time component mounts
   const initialData = getCachedData();
   
   const [messages, setMessages] = useState<string[]>(initialData.messages);
@@ -50,7 +48,6 @@ const DateTimeTab: React.FC = () => {
   const [monthValue, setMonthValue] = useState(initialData.monthValue);
   const [weekValue, setWeekValue] = useState(initialData.weekValue);
 
-  // Cache form data whenever state changes
   useEffect(() => {
     const formData: DateTimeFormData = {
       dateValue,
