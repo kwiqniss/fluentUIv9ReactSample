@@ -48,26 +48,41 @@ const BasicInputsTab: React.FC = () => {
   const handleTextChange = (value: string) => {
     setTextValue(value);
     formCache.set(FIELD_KEYS.TEXT, value);
+    if (value.trim()) {
+      addMessage(`Text input updated: ${value.substring(0, 20)}${value.length > 20 ? '...' : ''}`, 'info');
+    }
   };
 
   const handleEmailChange = (value: string) => {
     setEmailValue(value);
     formCache.set(FIELD_KEYS.EMAIL, value);
+    if (value.trim()) {
+      addMessage(`Email input updated: ${value}`, 'info');
+    }
   };
 
   const handlePasswordChange = (value: string) => {
     setPasswordValue(value);
     formCache.set(FIELD_KEYS.PASSWORD, value);
+    if (value.trim()) {
+      addMessage(`Password input updated (${value.length} characters)`, 'info');
+    }
   };
 
   const handleNumberChange = (value: string) => {
     setNumberValue(value);
     formCache.set(FIELD_KEYS.NUMBER, value);
+    if (value.trim()) {
+      addMessage(`Number input updated: ${value}`, 'info');
+    }
   };
 
   const handleTextareaChange = (value: string) => {
     setTextareaValue(value);
     formCache.set(FIELD_KEYS.TEXTAREA, value);
+    if (value.trim()) {
+      addMessage(`Textarea updated: ${value.substring(0, 30)}${value.length > 30 ? '...' : ''}`, 'info');
+    }
   };
 
   const handleSubmit = () => {
@@ -129,6 +144,8 @@ const BasicInputsTab: React.FC = () => {
               placeholder={strings.textPlaceholder}
               value={textValue}
               onChange={(_, data) => handleTextChange(data.value)}
+              onFocus={() => addMessage('Text input focused', 'info')}
+              onBlur={() => addMessage('Text input lost focus', 'info')}
             />
           </Field>
 
@@ -138,6 +155,8 @@ const BasicInputsTab: React.FC = () => {
               placeholder={strings.emailPlaceholder}
               value={emailValue}
               onChange={(_, data) => handleEmailChange(data.value)}
+              onFocus={() => addMessage('Email input focused', 'info')}
+              onBlur={() => addMessage('Email input lost focus', 'info')}
             />
           </Field>
 
@@ -147,6 +166,8 @@ const BasicInputsTab: React.FC = () => {
               placeholder={strings.passwordPlaceholder}
               value={passwordValue}
               onChange={(_, data) => handlePasswordChange(data.value)}
+              onFocus={() => addMessage('Password input focused', 'info')}
+              onBlur={() => addMessage('Password input lost focus', 'info')}
             />
           </Field>
 
@@ -156,6 +177,8 @@ const BasicInputsTab: React.FC = () => {
               placeholder={strings.numberPlaceholder}
               value={numberValue}
               onChange={(_, data) => handleNumberChange(data.value)}
+              onFocus={() => addMessage('Number input focused', 'info')}
+              onBlur={() => addMessage('Number input lost focus', 'info')}
             />
           </Field>
         </div>
@@ -165,6 +188,8 @@ const BasicInputsTab: React.FC = () => {
             placeholder={strings.textareaPlaceholder}
             value={textareaValue}
             onChange={(_, data) => handleTextareaChange(data.value)}
+            onFocus={() => addMessage('Textarea focused', 'info')}
+            onBlur={() => addMessage('Textarea lost focus', 'info')}
             rows={4}
             resize="vertical"
           />
@@ -180,7 +205,10 @@ const BasicInputsTab: React.FC = () => {
           
           <Popover 
             open={isPopoverOpen} 
-            onOpenChange={(_, data) => setIsPopoverOpen(data.open)}
+            onOpenChange={(_, data) => {
+              setIsPopoverOpen(data.open);
+              addMessage(data.open ? 'Popup form opened' : 'Popup form closed', 'info');
+            }}
           >
             <PopoverTrigger disableButtonEnhancement>
               <Button appearance="outline">
@@ -196,6 +224,7 @@ const BasicInputsTab: React.FC = () => {
                     placeholder="Enter your name"
                     value={popupName}
                     onChange={(_, data) => setPopupName(data.value)}
+                    onFocus={() => addMessage('Popup name field focused', 'info')}
                   />
                 </Field>
                 
@@ -205,6 +234,7 @@ const BasicInputsTab: React.FC = () => {
                     placeholder="Enter your email"
                     value={popupEmail}
                     onChange={(_, data) => setPopupEmail(data.value)}
+                    onFocus={() => addMessage('Popup email field focused', 'info')}
                   />
                 </Field>
                 
@@ -213,12 +243,19 @@ const BasicInputsTab: React.FC = () => {
                     placeholder="Enter your message (optional)"
                     value={popupMessage}
                     onChange={(_, data) => setPopupMessage(data.value)}
+                    onFocus={() => addMessage('Popup message field focused', 'info')}
                     rows={3}
                   />
                 </Field>
                 
                 <div className={styles.popupButtonContainer}>
-                  <Button appearance="secondary" onClick={handlePopupCancel}>
+                  <Button 
+                    appearance="secondary" 
+                    onClick={() => {
+                      handlePopupCancel();
+                      addMessage('Popup form cancelled', 'info');
+                    }}
+                  >
                     Cancel
                   </Button>
                   <Button 

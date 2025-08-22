@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Text, Button } from '@fluentui/react-components';
 import { useMessages } from '../utils/messageContext';
 import { sharedStyles } from '../SharedStyles.styles';
@@ -61,6 +61,14 @@ const AppFooter: React.FC = () => {
   const { messages, clearMessages } = useMessages();
   const footerStyles = useFooterStyles();
   const sharedStyleClasses = sharedStyles();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when messages are added
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <footer className={footerStyles.footer}>
@@ -78,7 +86,7 @@ const AppFooter: React.FC = () => {
           )}
         </div>
         
-        <div className={footerStyles.messagesContainer}>
+        <div ref={messagesContainerRef} className={footerStyles.messagesContainer}>
           {messages.length === 0 ? (
             <div className={footerStyles.emptyMessage}>
               No messages yet. Interact with the form controls above to see messages here.
