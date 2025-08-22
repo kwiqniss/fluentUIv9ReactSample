@@ -310,6 +310,11 @@ const App: React.FC = () => {
                 <TabList 
                   selectedValue={selectedTab}
                   onTabSelect={onTabSelect}
+                  size="large"
+                  appearance="subtle"
+                  style={{
+                    '--fui-TabList--gap': '8px'
+                  } as React.CSSProperties}
                 >
                   {allTabs.map((tab, index) => (
                     <OverflowItem 
@@ -317,7 +322,20 @@ const App: React.FC = () => {
                       id={tab.value}
                       priority={index === 0 ? 1 : 0}
                     >
-                      <Tab value={tab.value}>
+                      <Tab 
+                        value={tab.value}
+                        style={{
+                          border: `1px solid rgba(0, 0, 0, 0.08)`,
+                          borderBottom: 'none',
+                          borderRadius: '6px 6px 0 0',
+                          backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.08)' : 'rgba(0, 0, 0, 0.02)',
+                          marginRight: '2px',
+                          padding: '8px 16px',
+                          transition: 'all 0.2s ease',
+                          color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.7)',
+                          borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.15)' : 'rgba(0, 0, 0, 0.08)'
+                        } as React.CSSProperties}
+                      >
                         {tab.label}
                       </Tab>
                     </OverflowItem>
@@ -343,6 +361,11 @@ const App: React.FC = () => {
                     <TabList 
                       selectedValue={selectedTab}
                       onTabSelect={onTabSelect}
+                      size="large"
+                      appearance="subtle"
+                      style={{
+                        '--fui-TabList--gap': '8px'
+                      } as React.CSSProperties}
                     >
                       {allTabs.map((tab, index) => (
                         <OverflowItem 
@@ -350,7 +373,20 @@ const App: React.FC = () => {
                           id={`sticky-${tab.value}`}
                           priority={index === 0 ? 1 : 0}
                         >
-                          <Tab value={tab.value}>
+                          <Tab 
+                            value={tab.value}
+                            style={{
+                              border: `1px solid rgba(0, 0, 0, 0.08)`,
+                              borderBottom: 'none',
+                              borderRadius: '6px 6px 0 0',
+                              backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.08)' : 'rgba(0, 0, 0, 0.02)',
+                              marginRight: '2px',
+                              padding: '8px 16px',
+                              transition: 'all 0.2s ease',
+                              color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.7)',
+                              borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.15)' : 'rgba(0, 0, 0, 0.08)'
+                            } as React.CSSProperties}
+                          >
                             {tab.label}
                           </Tab>
                         </OverflowItem>
