@@ -23,6 +23,10 @@ import {
   MenuList,
   MenuItem,
   Button,
+  Overflow,
+  OverflowItem,
+  useOverflowMenu,
+  useIsOverflowItemVisible,
 } from '@fluentui/react-components';
 import { MoreHorizontalRegular } from '@fluentui/react-icons';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
@@ -32,6 +36,8 @@ import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
 import { sharedStyles } from './sharedStyles';
 import { appStyles } from './appStyles';
+import { remToPx } from './utils/remHelpers';
+import { formatString } from './formatString';
 import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 
@@ -128,6 +134,17 @@ const App: React.FC = () => {
     };
   }, []);
 
+  // FluentUI Overflow implementation
+  const { ref, overflowCount, isOverflowing } = useOverflowMenu<HTMLDivElement>();
+
+  // Overflow menu item component
+  const OverflowMenuItem: React.FC<{ id: string; label: string; onClick: () => void }> = ({ id, label, onClick }) => {
+    const isVisible = useIsOverflowItemVisible(id);
+    if (isVisible) return null;
+    
+    return <MenuItem onClick={onClick}>{label}</MenuItem>;
+  };
+
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
     const newTab = data.value;
     setSelectedTab(newTab);
@@ -167,25 +184,55 @@ const App: React.FC = () => {
         </div>
 
         <div className={styles.tabBarContainer}>
-          <div className={styles.tabListContainer}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {allTabs.map(tab => (
-                <Button
-                  key={tab.value}
-                  appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
-                  onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                  style={{
-                    borderRadius: '4px 4px 0 0',
-                    minHeight: '32px',
-                    border: 'none',
-                    borderBottom: selectedTab === tab.value ? '2px solid var(--colorBrandBackground)' : '1px solid transparent',
-                    marginRight: '4px'
-                  }}
-                >
-                  {tab.label}
-                </Button>
-              ))}
-            </div>
+          <div className={styles.tabListContainer} style={{ overflow: 'visible', width: '100%', flex: '1 1 auto' }}>
+            <Overflow ref={ref} padding={remToPx(3)}>
+              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                {allTabs.map(tab => (
+                  <OverflowItem key={tab.value} id={tab.value}>
+                    <Button
+                      appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
+                      onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                      style={{
+                        borderRadius: '4px 4px 0 0',
+                        minHeight: '32px',
+                        border: 'none',
+                        borderBottom: selectedTab === tab.value ? '2px solid var(--colorBrandBackground)' : '1px solid transparent',
+                        marginRight: '4px'
+                      }}
+                    >
+                      {tab.label}
+                    </Button>
+                  </OverflowItem>
+                ))}
+                
+                {/* Overflow Menu - Only show when there are items overflowing */}
+                {isOverflowing && (
+                  <Menu>
+                    <MenuTrigger disableButtonEnhancement>
+                      <Button
+                        appearance="subtle"
+                        icon={<MoreHorizontalRegular />}
+                        aria-label={formatString(appStrings.moreTabsButton, overflowCount.toString())}
+                      >
+                        {formatString(appStrings.moreTabsButton, overflowCount.toString())}
+                      </Button>
+                    </MenuTrigger>
+                    <MenuPopover>
+                      <MenuList>
+                        {allTabs.map(tab => (
+                          <OverflowMenuItem
+                            key={`overflow-${tab.value}`}
+                            id={tab.value}
+                            label={tab.label}
+                            onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                          />
+                        ))}
+                      </MenuList>
+                    </MenuPopover>
+                  </Menu>
+                )}
+              </div>
+            </Overflow>
           </div>
 
           <div className={styles.themeSelectorContainer}>
