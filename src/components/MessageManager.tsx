@@ -13,15 +13,10 @@ import {
 
 const useMessageManagerStyles = makeStyles({
   footer: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
     borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
     padding: tokens.spacingVerticalM,
     paddingBottom: tokens.spacingVerticalL,
     backgroundColor: tokens.colorNeutralBackground1,
-    zIndex: 1000,
   },
   
   footerContent: {
