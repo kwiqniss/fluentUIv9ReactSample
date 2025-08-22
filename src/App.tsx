@@ -223,8 +223,26 @@ const App: React.FC = () => {
     <FluentProvider theme={themes[selectedTheme].theme}>
       <div className={styles.mainContainer}>
         <div className={styles.header}>
-          <Body1 as="h1">{appStrings.title}</Body1>
-          <Caption1>{appStrings.subtitle}</Caption1>
+          <div>
+            <Body1 as="h1">{appStrings.title}</Body1>
+            <Caption1>{appStrings.subtitle}</Caption1>
+          </div>
+          <div className={styles.themeSelectorContainer}>
+            <Field label={appStrings.themeSelector}>
+              <Dropdown
+                value={themes[selectedTheme].name}
+                selectedOptions={[selectedTheme]}
+                onOptionSelect={onThemeChange}
+                className={styles.themeSelector}
+              >
+                {Object.entries(themes).map(([key, themeInfo]) => (
+                  <Option key={key} value={key}>
+                    {themeInfo.name}
+                  </Option>
+                ))}
+              </Dropdown>
+            </Field>
+          </div>
         </div>
 
         <div className={styles.tabBarContainer}>
@@ -255,23 +273,6 @@ const App: React.FC = () => {
               <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
             </div>
           </Overflow>
-
-          <div className={styles.themeSelectorContainer}>
-            <Field label={appStrings.themeSelector}>
-              <Dropdown
-                value={themes[selectedTheme].name}
-                selectedOptions={[selectedTheme]}
-                onOptionSelect={onThemeChange}
-                className={styles.themeSelector}
-              >
-                {Object.entries(themes).map(([key, themeInfo]) => (
-                  <Option key={key} value={key}>
-                    {themeInfo.name}
-                  </Option>
-                ))}
-              </Dropdown>
-            </Field>
-          </div>
         </div>
 
         <div className={styles.cardContainer}>

@@ -7,30 +7,30 @@ import { TAB_OVERFLOW_CONFIG } from './utils/remHelpers';
 export const appStyles = makeStyles({
   header: {
     marginBottom: '1.25rem', 
-    textAlign: 'center', 
     display: 'flex', 
-    flexDirection: 'column', 
-    gap: '0.25rem',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: '1rem',
+    '& > div:first-child': {
+      textAlign: 'center',
+      flex: '1',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '0.25rem',
+    },
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '1rem',
+      '& > div:first-child': {
+        textAlign: 'center',
+      },
+    },
   },
 
   tabBarContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
     marginBottom: '1rem',
-    gap: '1rem',
-    flexWrap: 'nowrap', // Prevent wrapping on desktop
-    '@media (max-width: 768px)': {
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      gap: '0.5rem',
-      flexWrap: 'wrap',
-    },
-    '@media (max-width: 480px)': {
-      gap: '0.25rem',
-    },
   },
 
   // Responsive tab list container - natural tab sizing with overflow menu
