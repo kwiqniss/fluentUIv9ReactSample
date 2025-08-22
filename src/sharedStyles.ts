@@ -79,4 +79,34 @@ export const sharedStyles = makeStyles({
     marginTop: tokens.spacingVerticalL,
     minWidth: '7.5rem', // ~120px
   },
+
+  // Global webkit date/time picker icon fix for dark theme
+  webkitIconFix: {
+    // Apply to any date/time input anywhere in the app
+    '& input[type="date"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="time"]::-webkit-time-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="datetime-local"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="month"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="week"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+  },
 });

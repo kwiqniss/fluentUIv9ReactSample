@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   Input,
+  mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { dateTimeTabStyles } from './dateTimeTabStyles';
@@ -65,7 +66,7 @@ const DateTimeTab: React.FC = () => {
   };
 
   return (
-    <div className={styles.tabContentStandardized}>
+    <div className={mergeClasses(styles.tabContentStandardized, styles.webkitIconFix)}>
       <Body1 className={styles.sectionTitle}>{strings.title}</Body1>
       
       <div className={styles.inputGrid}>
