@@ -16,7 +16,7 @@ import {
 import { sharedStyles } from '../../SharedStyles.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
 import { formCache } from '../../utils/formCache';
-import basicStrings from './BasicInputsTab.resx';
+import strings from './BasicInputsTab.resx';
 
 const BasicInputsTab: React.FC = () => {
   const styles = {
@@ -76,10 +76,10 @@ const BasicInputsTab: React.FC = () => {
     const hasContent = textValue || emailValue || passwordValue || numberValue || textareaValue;
     
     if (hasContent) {
-      setMessage(basicStrings.submitSuccess);
+      setMessage(strings.submitSuccess);
       setMessageType('success');
     } else {
-      setMessage(basicStrings.submitError);
+      setMessage(strings.submitError);
       setMessageType('warning');
     }
 
@@ -99,7 +99,7 @@ const BasicInputsTab: React.FC = () => {
     formCache.remove(FIELD_KEYS.NUMBER);
     formCache.remove(FIELD_KEYS.TEXTAREA);
 
-    setMessage(basicStrings.clearSuccess);
+    setMessage(strings.clearSuccess);
     setMessageType('info');
 
     setTimeout(() => setMessage(''), 2000);
@@ -131,50 +131,50 @@ const BasicInputsTab: React.FC = () => {
     <div className={styles.tabContentStandardized}>
       <div className={styles.container}>
         <div className={styles.componentItem}>
-          <Body1 as="h2" className={styles.h2Heading}>{basicStrings.title}</Body1>
-          <Caption1>{basicStrings.description}</Caption1>
+          <Body1 as="h2" className={styles.h2Heading}>{strings.title}</Body1>
+          <Caption1>{strings.description}</Caption1>
         </div>
 
         <div className={styles.formGrid}>
-          <Field label={basicStrings.textLabel} required>
+          <Field label={strings.textLabel} required>
             <Input
-              placeholder={basicStrings.textPlaceholder}
+              placeholder={strings.textPlaceholder}
               value={textValue}
               onChange={(_, data) => handleTextChange(data.value)}
             />
           </Field>
 
-          <Field label={basicStrings.emailLabel} required>
+          <Field label={strings.emailLabel} required>
             <Input
               type="email"
-              placeholder={basicStrings.emailPlaceholder}
+              placeholder={strings.emailPlaceholder}
               value={emailValue}
               onChange={(_, data) => handleEmailChange(data.value)}
             />
           </Field>
 
-          <Field label={basicStrings.passwordLabel} required>
+          <Field label={strings.passwordLabel} required>
             <Input
               type="password"
-              placeholder={basicStrings.passwordPlaceholder}
+              placeholder={strings.passwordPlaceholder}
               value={passwordValue}
               onChange={(_, data) => handlePasswordChange(data.value)}
             />
           </Field>
 
-          <Field label={basicStrings.numberLabel}>
+          <Field label={strings.numberLabel}>
             <Input
               type="number"
-              placeholder={basicStrings.numberPlaceholder}
+              placeholder={strings.numberPlaceholder}
               value={numberValue}
               onChange={(_, data) => handleNumberChange(data.value)}
             />
           </Field>
         </div>
 
-        <Field label={basicStrings.textareaLabel}>
+        <Field label={strings.textareaLabel}>
           <Textarea
-            placeholder={basicStrings.textareaPlaceholder}
+            placeholder={strings.textareaPlaceholder}
             value={textareaValue}
             onChange={(_, data) => handleTextareaChange(data.value)}
             rows={4}
@@ -184,10 +184,10 @@ const BasicInputsTab: React.FC = () => {
 
         <div className={styles.buttonContainer}>
           <Button appearance="primary" onClick={handleSubmit}>
-            {basicStrings.submitButton}
+            {strings.submitButton}
           </Button>
           <Button appearance="secondary" onClick={handleClear}>
-            {basicStrings.clearButton}
+            {strings.clearButton}
           </Button>
           
           <Popover 

@@ -72,6 +72,9 @@ export const sharedStyles = makeStyles({
     marginTop: tokens.spacingVerticalL,
     padding: tokens.spacingHorizontalM,
     maxWidth: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: tokens.spacingVerticalXS,
   },
 
   // Common container patterns
@@ -170,9 +173,9 @@ export const sharedStyles = makeStyles({
 
   // H3 - Medium heading (section headings)
   h3Heading: {
-    fontSize: tokens.fontSizeBase500,
+    fontSize: tokens.fontSizeBase400,
     fontWeight: tokens.fontWeightSemibold,
-    lineHeight: tokens.lineHeightBase500,
+    lineHeight: tokens.lineHeightBase400,
     marginBottom: tokens.spacingVerticalXS,
   },
 });

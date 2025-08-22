@@ -26,7 +26,6 @@ import {
   OverflowItem,
   useOverflowMenu,
   useIsOverflowItemVisible,
-  makeStyles,
   mergeClasses,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
@@ -230,7 +229,7 @@ const App: React.FC = () => {
         <div className={styles.contentWrapper}>
           <div>
             <Overflow>
-              <div className={mergeClasses(LineStyleSketch20Regular.container)}>
+              <div className={LineStyleSketch20Regular.container}>9
                 {allTabs.map((tab, index) => (
                   <OverflowItem 
                     key={tab.value} 

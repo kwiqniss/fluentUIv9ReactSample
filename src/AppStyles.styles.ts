@@ -60,7 +60,7 @@ export const appStyles = makeStyles({
   // Theme selector with strict width constraints
   themeSection: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'flex-end', // Changed from flex-start to flex-end
     flexShrink: 0,
     width: '8rem', // Fixed width for the entire section
     maxWidth: '8rem',
