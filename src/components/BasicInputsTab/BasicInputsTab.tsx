@@ -78,14 +78,6 @@ const BasicInputsTab: React.FC = () => {
     if (hasContent) {
       setMessage(basicStrings.submitSuccess);
       setMessageType('success');
-      
-      console.log('Basic Inputs Form Submitted:', {
-        text: textValue,
-        email: emailValue,
-        password: passwordValue ? '[HIDDEN]' : '',
-        number: numberValue,
-        textarea: textareaValue,
-      });
     } else {
       setMessage(basicStrings.submitError);
       setMessageType('warning');
