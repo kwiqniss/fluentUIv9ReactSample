@@ -84,6 +84,91 @@ const strings = {
 - Include context in string keys where needed
 - Support for RTL languages through proper text direction
 
+### 4. **Platform-First Responsive Design & Reflow** ✅
+**Why**: WCAG 2.1 AA requires content to reflow properly at 400% zoom without horizontal scrolling. Platform-first design respects user preferences and assistive technologies.
+
+**Core Principle**: **Trust the platform over custom breakpoints** - Use flexible CSS properties that allow natural content reflow rather than forcing specific layouts with media queries.
+
+**Implementation**:
+```typescript
+// ✅ GOOD: Platform-first header layout
+const headerStyles = makeStyles({
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between', // Natural space distribution
+    alignItems: 'flex-start',
+    gap: '1rem',
+    '& > div:first-child': {
+      textAlign: 'center',
+      flex: '1',                     // Flexible growth
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    // Only use media queries when absolutely necessary
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',       // Stack on narrow screens
+      alignItems: 'center',
+    },
+  },
+});
+
+// ✅ GOOD: Flexible overflow container
+const overflowStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    minWidth: 0,                    // Allow shrinking below content size
+    gap: '4px',
+    alignItems: 'center',
+    // No overflow: hidden - let FluentUI manage space
+  },
+});
+```
+
+**Best Practices**:
+- Use `flex: '1'` for flexible components that should grow/shrink
+- Set `minWidth: 0` to allow flex items to shrink below content size
+- Avoid `overflow: hidden` unless absolutely necessary - it interferes with reflow
+- Use `gap` instead of margins for consistent spacing
+- Let FluentUI Overflow component handle space detection naturally
+- Only add media queries for major layout changes, not minor adjustments
+
+**Accessibility Benefits**:
+- Content reflows naturally at any zoom level (WCAG 2.1 AA compliance)
+- Respects user's preferred zoom levels and font sizes
+- Works with assistive technologies that modify layout
+- Reduces maintenance burden of breakpoint management
+- Better performance on various screen sizes and orientations
+
+**Real Example - Theme Selector Positioning**:
+Instead of using media queries to position the theme selector, we moved it to the header with flexible layout that naturally adapts to available space. This ensures proper reflow at 400% zoom while maintaining usability.
+
+### 5. **FluentUI v9 Overflow for Responsive Navigation** ✅
+**Why**: Navigation must remain accessible and usable across all screen sizes without losing functionality.
+
+**Implementation**:
+```typescript
+// Overflow container with proper priority system
+{allTabs.map((tab, index) => (
+  <OverflowItem 
+    key={tab.value} 
+    id={tab.value}
+    priority={index === 0 ? 1 : 0}  // Ensure first tab always visible
+  >
+    <Button>{tab.label}</Button>
+  </OverflowItem>
+))}
+<OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+```
+
+**Best Practices**:
+- Always ensure at least one navigation item remains visible
+- Use priority system to control which items hide first
+- Provide proper overflow menu with all hidden items
+- Let FluentUI manage space detection and item visibility
+- Avoid custom overflow detection - trust the platform
+
 ## 🔧 **Technical Implementation Details**
 
 ### FluentUI Field Components
@@ -118,6 +203,15 @@ const strings = {
 - **Visual Impairments**: High contrast themes and scalable text
 - **Motor Impairments**: Keyboard navigation and focus management
 - **Cognitive Impairments**: Consistent patterns and clear labeling
+- **Reflow Support**: Content adapts naturally to 400% zoom (WCAG 2.1 AA)
+- **Platform Respect**: Works with assistive technologies that modify layout
+
+### For Developers
+- **Maintainable**: Platform-first design reduces breakpoint complexity
+- **Flexible**: Natural reflow adapts to any screen size or zoom level
+- **Accessible by Default**: FluentUI components include built-in accessibility
+- **Internationalization Ready**: Resource file infrastructure supports multiple languages
+- **Performance**: Fewer media queries and better CSS optimization
 
 ### for Developers
 - **Maintainable**: Centralized string management
