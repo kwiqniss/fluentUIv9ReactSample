@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Text, Button } from '@fluentui/react-components';
 import { makeStyles, tokens } from '@fluentui/react-components';
 import { MessageContext, Message, MessageContextType } from '../utils/messageContext';
-import { MessageType } from '../types/enums';
+import { MessageType, LogLevel } from '../types/enums';
+import { shouldLogMessage } from '../utils/logLevel';
 
 const useMessageManagerStyles = makeStyles({
   footer: {
@@ -80,18 +81,24 @@ const useMessageManagerStyles = makeStyles({
 
 interface MessageManagerProps {
   children: React.ReactNode;
+  logLevel: LogLevel;
 }
 
 /**
  * MessageManager component that provides centralized message state management
  * and renders the message display footer. Wraps children with MessageContext.
  */
-const MessageManager: React.FC<MessageManagerProps> = ({ children }) => {
+const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const styles = useMessageManagerStyles();
   
   const addMessage = useCallback((text: string, type: MessageType = MessageType.Info) => {
+    // Only add message if it should be logged at the current level
+    if (!shouldLogMessage(type, logLevel)) {
+      return;
+    }
+    
     const newMessage: Message = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       text,
@@ -99,7 +106,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children }) => {
       type,
     };
     setMessages(prev => [...prev, newMessage]);
-  }, []);
+  }, [logLevel]);
   
   const clearMessages = useCallback(() => {
     setMessages([]);
@@ -171,7 +178,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children }) => {
   return (
     <MessageContext.Provider value={messageContextValue}>
       {children}
-      <MessageFooter />
+      {logLevel !== LogLevel.Disabled && <MessageFooter />}
     </MessageContext.Provider>
   );
 };

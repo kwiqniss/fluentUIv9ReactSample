@@ -10,6 +10,8 @@ import {
   PopoverTrigger,
   PopoverSurface,
   Title3,
+  Dropdown,
+  Option,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
@@ -47,6 +49,10 @@ const BasicInputsTab: React.FC = () => {
   const [popupName, setPopupName] = useState<string>('');
   const [popupEmail, setPopupEmail] = useState<string>('');
   const [popupMessage, setPopupMessage] = useState<string>('');
+
+  // Custom message input state
+  const [customMessage, setCustomMessage] = useState<string>('');
+  const [selectedMessageType, setSelectedMessageType] = useState<MessageType>(MessageType.Info);
 
   const handleTextChange = (value: string) => {
     setTextValue(value);
@@ -133,6 +139,23 @@ const BasicInputsTab: React.FC = () => {
     setIsPopoverOpen(false);
   };
 
+  const handleSendCustomMessage = () => {
+    if (customMessage.trim()) {
+      addMessage(customMessage.trim(), selectedMessageType);
+      setCustomMessage('');
+    }
+  };
+
+  const getMessageTypeDisplayName = (messageType: MessageType): string => {
+    switch (messageType) {
+      case MessageType.Success: return 'Success';
+      case MessageType.Info: return 'Info';
+      case MessageType.Warning: return 'Warning';
+      case MessageType.Error: return 'Error';
+      default: return 'Info';
+    }
+  };
+
   return (
     <div className={styles.tabContentStandardized}>
       <div className={styles.container}>
@@ -197,6 +220,60 @@ const BasicInputsTab: React.FC = () => {
             resize="vertical"
           />
         </Field>
+
+        <div className={styles.componentItem}>
+          <Body1 as="h3" className={styles.h3Heading}>Custom Message Sender</Body1>
+          <Caption1>Send a custom message to test the logging system with different message types.</Caption1>
+          
+          <div className={styles.formGrid}>
+            <Field label="Message Type">
+              <Dropdown
+                value={getMessageTypeDisplayName(selectedMessageType)}
+                selectedOptions={[selectedMessageType]}
+                onOptionSelect={(_, data) => {
+                  if (data.optionValue && Object.values(MessageType).includes(data.optionValue as MessageType)) {
+                    setSelectedMessageType(data.optionValue as MessageType);
+                  }
+                }}
+              >
+                {Object.values(MessageType).map((type) => (
+                  <Option key={type} value={type}>
+                    {getMessageTypeDisplayName(type)}
+                  </Option>
+                ))}
+              </Dropdown>
+            </Field>
+
+            <Field label="Custom Message">
+              <Input
+                placeholder="Enter your custom message here..."
+                value={customMessage}
+                onChange={(_, data) => setCustomMessage(data.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && customMessage.trim()) {
+                    handleSendCustomMessage();
+                  }
+                }}
+              />
+            </Field>
+          </div>
+          
+          <div className={styles.buttonContainer}>
+            <Button 
+              appearance="primary" 
+              onClick={handleSendCustomMessage}
+              disabled={!customMessage.trim()}
+            >
+              Send Message
+            </Button>
+            <Button 
+              appearance="secondary" 
+              onClick={() => setCustomMessage('')}
+            >
+              Clear
+            </Button>
+          </div>
+        </div>
 
         <div className={styles.buttonContainer}>
           <Button appearance="primary" onClick={handleSubmit}>

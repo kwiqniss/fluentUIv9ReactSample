@@ -9,6 +9,14 @@ export enum MessageType {
   Error = 'error'
 }
 
+export enum LogLevel {
+  Disabled = 'disabled',   // Log nothing
+  Error = 'error',         // Log error only
+  Warning = 'warning',     // Log warning and error only
+  Info = 'info',           // Log info, warning, error (no success)
+  Verbose = 'verbose'      // Log everything (info, success, warning, error)
+}
+
 export enum ButtonAppearance {
   Primary = 'primary',
   Secondary = 'secondary',

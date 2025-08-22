@@ -38,11 +38,19 @@ import { sharedStyles } from './SharedStyles.styles';
 import { appStyles } from './AppStyles.styles';
 import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
+import { LogLevel } from './types/enums';
+import { getLogLevelDisplayName } from './utils/logLevel';
 import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Message logging state
+  const [isMessageLoggingEnabled, setIsMessageLoggingEnabled] = useState<boolean>(() => {
+    const saved = localStorage.getItem('fluentui-demo-messaging-enabled');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   
   const styles = {
     ...sharedStyles(),
@@ -91,9 +99,18 @@ const App: React.FC = () => {
     return (savedTheme && savedTheme in themes) ? savedTheme : 'web-light';
   });
 
+  const [logLevel, setLogLevel] = useState<LogLevel>(() => {
+    const savedLogLevel = localStorage.getItem('fluentui-demo-log-level') as LogLevel;
+    return (savedLogLevel && Object.values(LogLevel).includes(savedLogLevel)) ? savedLogLevel : LogLevel.Verbose;
+  });
+
   useEffect(() => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
   }, [selectedTheme]);
+
+  useEffect(() => {
+    localStorage.setItem('fluentui-demo-log-level', logLevel);
+  }, [logLevel]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -185,6 +202,12 @@ const App: React.FC = () => {
     }
   };
 
+  const onLogLevelChange = (event: any, data: any) => {
+    if (data.optionValue && Object.values(LogLevel).includes(data.optionValue as LogLevel)) {
+      setLogLevel(data.optionValue as LogLevel);
+    }
+  };
+
   const renderTabContent = () => {
     switch (selectedTab) {
       case 'basic':
@@ -204,7 +227,7 @@ const App: React.FC = () => {
 
   return (
     <FluentProvider theme={themes[selectedTheme].theme}>
-      <MessageManager>
+      <MessageManager logLevel={logLevel}>
         <div className={styles.mainContainer}>
           <div className={styles.header}>
             <div className={styles.titleSection}>
@@ -221,6 +244,20 @@ const App: React.FC = () => {
                   {Object.entries(themes).map(([key, themeInfo]) => (
                     <Option key={key} value={key}>
                       {themeInfo.name}
+                    </Option>
+                  ))}
+                </Dropdown>
+              </Field>
+              
+              <Field label={strings.logLevelSelector}>
+                <Dropdown
+                  value={getLogLevelDisplayName(logLevel)}
+                  selectedOptions={[logLevel]}
+                  onOptionSelect={onLogLevelChange}
+                >
+                  {Object.values(LogLevel).map((level) => (
+                    <Option key={level} value={level}>
+                      {getLogLevelDisplayName(level)}
                     </Option>
                   ))}
                 </Dropdown>
