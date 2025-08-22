@@ -91,6 +91,7 @@ const ComponentShowcaseTab: React.FC = () => {
     if (isSkeletonLoading) {
       const timer = setTimeout(() => {
         setIsSkeletonLoading(false);
+        addMessage('Skeleton loading demo completed', 'success');
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -101,6 +102,7 @@ const ComponentShowcaseTab: React.FC = () => {
     if (isCardLoading) {
       const timer = setTimeout(() => {
         setIsCardLoading(false);
+        addMessage('Card loading demo completed', 'success');
       }, 2500);
 
       return () => clearTimeout(timer);
@@ -333,7 +335,10 @@ const ComponentShowcaseTab: React.FC = () => {
                 </Card>
                 <Button 
                   appearance={componentProps.button.secondary}
-                  onClick={() => setIsCardLoading(true)}
+                  onClick={() => {
+                    setIsCardLoading(true);
+                    addMessage('Card loading demo started', 'info');
+                  }}
                   disabled={isCardLoading}
                   className={styles.buttonSpacingTop}
                 >
@@ -345,7 +350,15 @@ const ComponentShowcaseTab: React.FC = () => {
 
           <div className={styles.componentItem}>
             <Field label={strings.labelAccordion}>
-              <Accordion collapsible>
+              <Accordion 
+                collapsible
+                onToggle={(event, data) => {
+                  const itemValue = data.value;
+                  const isOpening = data.openItems.includes(itemValue);
+                  const title = itemValue === 'requirements' ? strings.accordionTitle1 : strings.accordionTitle2;
+                  addMessage(`Accordion "${title}" ${isOpening ? 'expanded' : 'collapsed'}`, 'info');
+                }}
+              >
                 <AccordionItem value="requirements">
                   <AccordionHeader>{strings.accordionTitle1}</AccordionHeader>
                   <AccordionPanel>
@@ -380,18 +393,21 @@ const ComponentShowcaseTab: React.FC = () => {
                   {strings.buttonSuccess}
                 </Button>
                 <Button 
+                  appearance={componentProps.button.primary}
                   onClick={() => showToast('error')}
                   size={componentProps.size.small}
                 >
                   {strings.buttonError}
                 </Button>
                 <Button 
+                  appearance={componentProps.button.primary}
                   onClick={() => showToast('warning')}
                   size={componentProps.size.small}
                 >
                   {strings.buttonWarning}
                 </Button>
                 <Button 
+                  appearance={componentProps.button.primary}
                   onClick={() => showToast('info')}
                   size={componentProps.size.small}
                 >
@@ -456,7 +472,10 @@ const ComponentShowcaseTab: React.FC = () => {
             <Button
               appearance={componentProps.button.secondary}
               size={componentProps.size.small}
-              onClick={() => setIsSkeletonLoading(true)}
+              onClick={() => {
+                setIsSkeletonLoading(true);
+                addMessage('Skeleton loading demo started', 'info');
+              }}
               
             >
               {isSkeletonLoading ? 'Loading...' : 'Show Loading Demo'}
