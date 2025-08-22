@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Tab,
@@ -17,7 +17,14 @@ import {
   Dropdown,
   Option,
   Field,
+  Menu,
+  MenuTrigger,
+  MenuPopover,
+  MenuList,
+  MenuItem,
+  Button,
 } from '@fluentui/react-components';
+import { MoreHorizontalRegular } from '@fluentui/react-icons';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
@@ -36,6 +43,22 @@ const App: React.FC = () => {
     ...sharedStyles(),
     ...appStyles(),
   };
+
+  // Tab overflow management with state locking
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const [visibleTabs, setVisibleTabs] = useState<string[]>([]);
+  const [overflowTabs, setOverflowTabs] = useState<string[]>([]);
+  const [moreButtonVisible, setMoreButtonVisible] = useState(false);
+  const lastContainerWidthRef = useRef<number>(0); // Track last width to prevent unnecessary recalcs
+
+  // All tabs definition
+  const allTabs = [
+    { value: 'basic', label: tabStrings.basic },
+    { value: 'datetime', label: tabStrings.datetime },
+    { value: 'selection', label: tabStrings.selection },
+    { value: 'advanced', label: tabStrings.advanced },
+    { value: 'showcase', label: 'Components' }
+  ];
 
   // Extract tab from URL search params or default to 'basic'
   const getTabFromUrl = (): TabValue => {
@@ -83,6 +106,174 @@ const App: React.FC = () => {
     }
   }, []);
 
+  // Tab overflow calculation with lock mechanism to prevent bouncing
+  const calculateTabOverflow = useCallback(() => {
+    if (!tabListRef.current) return;
+    
+    const container = tabListRef.current;
+    const containerWidth = container.offsetWidth;
+    const moreButtonWidth = 120;
+    
+    // Convert rem to px for calculations (assuming 16px = 1rem)
+    const remToPx = 16;
+    
+    // Get all tab elements - but only when More button is NOT visible to avoid feedback loop
+    const tabElements = container.querySelectorAll('[role="tab"]');
+    let totalTabsWidth = 0;
+    
+    // Calculate total width - this is the critical measurement
+    allTabs.forEach((tab, index) => {
+      if (tabElements[index]) {
+        const tabWidth = (tabElements[index] as HTMLElement).offsetWidth;
+        totalTabsWidth += tabWidth;
+      }
+    });
+    
+    // CRITICAL: Once More button is visible, NEVER recalculate or change state
+    // Only recalculate if More is hidden AND we have a significant size change
+    if (moreButtonVisible) {
+      // More button is visible - absolutely NO changes allowed
+      // Just return without doing anything to prevent bouncing
+      return;
+    }
+    
+    // More button is currently hidden - check if we need to show it
+    const showThreshold = 2 * remToPx; // 2rem buffer
+    
+    if (totalTabsWidth > containerWidth - showThreshold) {
+      // We need to show More button - calculate which tabs to show
+      const availableWidthForTabs = containerWidth - moreButtonWidth - (1 * remToPx);
+      let currentWidth = 0;
+      const visible: string[] = [];
+      const overflow: string[] = [];
+      
+      allTabs.forEach((tab, index) => {
+        if (tabElements[index]) {
+          const tabWidth = (tabElements[index] as HTMLElement).offsetWidth;
+          if (currentWidth + tabWidth <= availableWidthForTabs && visible.length > 0) {
+            visible.push(tab.value);
+            currentWidth += tabWidth;
+          } else if (visible.length === 0) {
+            // Always show first tab
+            visible.push(tab.value);
+            currentWidth += tabWidth;
+          } else {
+            overflow.push(tab.value);
+          }
+        }
+      });
+      
+      // Only show More if we actually have overflow tabs
+      if (overflow.length > 0) {
+        setVisibleTabs(visible);
+        setOverflowTabs(overflow);
+        setMoreButtonVisible(true);
+        // IMPORTANT: Once we set More to visible, we will never change it again
+      } else {
+        // All tabs fit, show them all
+        setVisibleTabs(allTabs.map(tab => tab.value));
+        setOverflowTabs([]);
+        setMoreButtonVisible(false);
+      }
+    } else {
+      // All tabs fit comfortably
+      setVisibleTabs(allTabs.map(tab => tab.value));
+      setOverflowTabs([]);
+      setMoreButtonVisible(false);
+    }
+  }, [allTabs, moreButtonVisible]);
+
+  // Handle window resize with proper More button reset logic and tab hiding
+  useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+    
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!tabListRef.current) return;
+        
+        const container = tabListRef.current;
+        const containerWidth = container.offsetWidth;
+        const moreButtonWidth = 120;
+        const remToPx = 16;
+        
+        if (moreButtonVisible) {
+          // More button is visible - we need to handle two scenarios:
+          // 1. Check if we can expand back to all tabs
+          // 2. Recalculate which tabs to show to prevent overlap
+          
+          const tabElements = container.querySelectorAll('[role="tab"]');
+          let totalTabsWidth = 0;
+          
+          // Calculate total width of all tabs
+          allTabs.forEach((tab, index) => {
+            if (tabElements[index]) {
+              const tabWidth = (tabElements[index] as HTMLElement).offsetWidth;
+              totalTabsWidth += tabWidth;
+            }
+          });
+          
+          // Check if we can expand back to show all tabs
+          const generousBuffer = 4 * remToPx; // 4rem buffer for comfortable fit
+          if (totalTabsWidth <= containerWidth - generousBuffer) {
+            // Enough space now - reset More button and show all tabs
+            setMoreButtonVisible(false);
+            setVisibleTabs(allTabs.map(tab => tab.value));
+            setOverflowTabs([]);
+          } else {
+            // Not enough space for all tabs - recalculate which tabs to show
+            // to prevent overlap with More button
+            const availableWidthForTabs = containerWidth - moreButtonWidth - (1 * remToPx);
+            let currentWidth = 0;
+            const visible: string[] = [];
+            const overflow: string[] = [];
+            
+            allTabs.forEach((tab, index) => {
+              if (tabElements[index]) {
+                const tabWidth = (tabElements[index] as HTMLElement).offsetWidth;
+                if (currentWidth + tabWidth <= availableWidthForTabs && visible.length > 0) {
+                  visible.push(tab.value);
+                  currentWidth += tabWidth;
+                } else if (visible.length === 0) {
+                  // Always show first tab
+                  visible.push(tab.value);
+                  currentWidth += tabWidth;
+                } else {
+                  overflow.push(tab.value);
+                }
+              }
+            });
+            
+            // Update the visible/overflow tabs to prevent overlap
+            if (overflow.length > 0) {
+              setVisibleTabs(visible);
+              setOverflowTabs(overflow);
+            }
+          }
+        } else {
+          // More button is hidden - normal calculation
+          calculateTabOverflow();
+        }
+        
+        lastContainerWidthRef.current = containerWidth;
+      }, 250);
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Initial calculation with delay to ensure DOM is ready
+    resizeTimeout = setTimeout(() => {
+      calculateTabOverflow();
+      if (tabListRef.current) {
+        lastContainerWidthRef.current = tabListRef.current.offsetWidth;
+      }
+    }, 200);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    };
+  }, [calculateTabOverflow, moreButtonVisible, allTabs]);
+
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
     const newTab = data.value;
     setSelectedTab(newTab);
@@ -122,28 +313,62 @@ const App: React.FC = () => {
         </div>
 
         <div className={styles.tabBarContainer}>
-          <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
-            <Tab value="basic">{tabStrings.basic}</Tab>
-            <Tab value="datetime">{tabStrings.datetime}</Tab>
-            <Tab value="selection">{tabStrings.selection}</Tab>
-            <Tab value="advanced">{tabStrings.advanced}</Tab>
-            <Tab value="showcase">Components</Tab>
-          </TabList>
+          <div className={styles.tabListContainer} ref={tabListRef}>
+            <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
+              {allTabs
+                .filter(tab => visibleTabs.includes(tab.value))
+                .map(tab => (
+                  <Tab key={tab.value} value={tab.value}>
+                    {tab.label}
+                  </Tab>
+                ))}
+            </TabList>
+            
+            {overflowTabs.length > 0 && (
+              <Menu>
+                <MenuTrigger disableButtonEnhancement>
+                  <Button
+                    appearance="subtle"
+                    icon={<MoreHorizontalRegular />}
+                    className={styles.moreButton}
+                  >
+                    More
+                  </Button>
+                </MenuTrigger>
+                <MenuPopover>
+                  <MenuList>
+                    {allTabs
+                      .filter(tab => overflowTabs.includes(tab.value))
+                      .map(tab => (
+                        <MenuItem
+                          key={tab.value}
+                          onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                        >
+                          {tab.label}
+                        </MenuItem>
+                      ))}
+                  </MenuList>
+                </MenuPopover>
+              </Menu>
+            )}
+          </div>
 
-          <Field label={appStrings.themeSelector}>
-            <Dropdown
-              value={themes[selectedTheme].name}
-              selectedOptions={[selectedTheme]}
-              onOptionSelect={onThemeChange}
-              className={styles.themeSelector}
-            >
-              {Object.entries(themes).map(([key, themeInfo]) => (
-                <Option key={key} value={key}>
-                  {themeInfo.name}
-                </Option>
-              ))}
-            </Dropdown>
-          </Field>
+          <div className={styles.themeSelectorContainer}>
+            <Field label={appStrings.themeSelector}>
+              <Dropdown
+                value={themes[selectedTheme].name}
+                selectedOptions={[selectedTheme]}
+                onOptionSelect={onThemeChange}
+                className={styles.themeSelector}
+              >
+                {Object.entries(themes).map(([key, themeInfo]) => (
+                  <Option key={key} value={key}>
+                    {themeInfo.name}
+                  </Option>
+                ))}
+              </Dropdown>
+            </Field>
+          </div>
         </div>
 
         <div className={styles.cardContainer}>

@@ -198,10 +198,11 @@ const ComponentShowcaseTab: React.FC = () => {
   );
 
   return (
-    <div className={styles.container}>
-      <Toaster toasterId={toasterId} />
-      
-      <Title2 className={styles.sectionHeader}>{strings.title}</Title2>
+    <div className={styles.responsiveWrapper}>
+      <div className={styles.container}>
+        <Toaster toasterId={toasterId} />
+        
+        <Title2 className={styles.sectionHeader}>{strings.title}</Title2>
 
       {/* Navigation Components Section */}
       <section className={styles.navigationSection}>
@@ -400,8 +401,8 @@ const ComponentShowcaseTab: React.FC = () => {
                   <div className={styles.skeletonProfile}>
                     <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size48} />
                     <div className={styles.skeletonText}>
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '200px', height: '16px', marginBottom: tokens.spacingVerticalS }} />
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '150px', height: '12px' }} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: 'min(200px, 80%)', height: '16px', marginBottom: tokens.spacingVerticalS }} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: 'min(150px, 60%)', height: '12px' }} />
                     </div>
                   </div>
                 </Skeleton>
@@ -533,6 +534,7 @@ const ComponentShowcaseTab: React.FC = () => {
           </div>
         </section>
       )}
+      </div>
     </div>
   );
 };

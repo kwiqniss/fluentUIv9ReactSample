@@ -7,11 +7,28 @@ export { componentConstants as componentProps } from '../../styles/componentCons
  * Styles for ComponentShowcaseTab with proper spacing and layout management
  */
 export const componentShowcaseStyles = makeStyles({
-  // Main container with consistent spacing
+  // Main container with responsive width
   container: {
     padding: '1.5rem',
-    maxWidth: '80rem',
+    maxWidth: '100%',
+    width: '100%',
     margin: '0 auto',
+    boxSizing: 'border-box',
+    overflowX: 'hidden', // Prevent horizontal overflow
+    '@media (max-width: 600px)': {
+      padding: '1rem',
+    },
+    '@media (max-width: 400px)': {
+      padding: '0.75rem',
+    },
+  },
+
+  // Responsive wrapper for all content
+  responsiveWrapper: {
+    width: '100%',
+    maxWidth: '100vw',
+    overflowX: 'hidden',
+    boxSizing: 'border-box',
   },
 
   // Section headers with consistent spacing
@@ -23,12 +40,19 @@ export const componentShowcaseStyles = makeStyles({
     },
   },
 
-  // Component grid layout
+  // Component grid layout - responsive for high zoom
   componentGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(20rem, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(16rem, 100%), 1fr))',
     gap: '2rem',
     marginBottom: '2rem',
+    '@media (max-width: 600px)': {
+      gap: '1.5rem',
+      gridTemplateColumns: '1fr', // Single column at very high zoom
+    },
+    '@media (max-width: 400px)': {
+      gap: '1rem',
+    },
   },
 
   // Individual component card
@@ -89,10 +113,10 @@ export const componentShowcaseStyles = makeStyles({
     display: 'inline-block',
   },
 
-  // Layout section with proper card spacing
+  // Layout section with responsive columns
   layoutSection: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(24rem, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(18rem, 100%), 1fr))',
     gap: '2rem',
     marginBottom: '2rem',
   },
@@ -130,10 +154,10 @@ export const componentShowcaseStyles = makeStyles({
     borderRadius: tokens.borderRadiusMedium,
   },
 
-  // Status indicators with consistent spacing
+  // Status indicators with responsive grid
   statusIndicators: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(16rem, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(14rem, 100%), 1fr))',
     gap: '1.5rem',
   },
 
@@ -192,11 +216,12 @@ export const componentShowcaseStyles = makeStyles({
     border: `1px solid ${tokens.colorNeutralStroke1}`,
   },
 
-  // Search area
+  // Search area - responsive width
   searchArea: {
     display: 'flex',
     flexDirection: 'column',
     gap: '1rem',
+    width: '100%',
     maxWidth: '24rem',
   },
 
@@ -224,10 +249,17 @@ export const componentShowcaseStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground1,
   },
 
-  // Table wrapper to prevent horizontal overflow
+  // Table wrapper to prevent horizontal overflow - critical for WCAG reflow
   tableWrapper: {
     overflowX: 'auto',
     maxWidth: '100%',
+    width: '100%',
+    '@media (max-width: 900px)': {
+      // At high zoom, allow table to scroll horizontally as last resort
+      // but ensure it doesn't break out of container
+      overflowX: 'auto',
+      WebkitOverflowScrolling: 'touch',
+    },
   },
 
   // Message log with consistent styling
@@ -258,9 +290,10 @@ export const componentShowcaseStyles = makeStyles({
     marginTop: '1rem',
   },
 
-  // Fixed width elements to prevent layout shifts
+  // Responsive width elements to prevent layout shifts
   fixedWidth: {
     width: '100%',
     maxWidth: '20rem',
+    minWidth: 'min(12rem, 100%)',
   },
 });

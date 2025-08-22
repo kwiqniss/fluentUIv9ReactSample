@@ -12,10 +12,12 @@ export const sharedStyles = makeStyles({
     flexWrap: 'wrap',
   },
   
-  // Standard field width - ensures consistent form layout
+  // Responsive field width - allows reflow at high zoom levels
   field: {
-    width: '18.75rem',
-    flexShrink: 0,
+    minWidth: '12rem',
+    maxWidth: '18.75rem',
+    flexGrow: 1,
+    flexShrink: 1,
   },
 
   // Message area - key functional styling
@@ -68,11 +70,20 @@ export const sharedStyles = makeStyles({
     height: '2.5rem',
   },
 
-  // Layout containers
+  // Layout containers - fully responsive for WCAG reflow compliance
   mainContainer: {
     padding: '1.25rem',
-    maxWidth: '75rem',
+    maxWidth: '100%',
+    width: '100%',
     margin: '0 auto',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
+    '@media (max-width: 600px)': {
+      padding: '1rem',
+    },
+    '@media (max-width: 400px)': {
+      padding: '0.75rem',
+    },
   },
 
   cardContainer: {
@@ -80,6 +91,16 @@ export const sharedStyles = makeStyles({
     padding: '1.25rem',
     backgroundColor: tokens.colorNeutralBackground2,
     borderRadius: tokens.borderRadiusMedium,
+    width: '100%',
+    boxSizing: 'border-box',
+    '@media (max-width: 600px)': {
+      padding: '1rem',
+      marginTop: '1rem',
+    },
+    '@media (max-width: 400px)': {
+      padding: '0.75rem',
+      marginTop: '0.75rem',
+    },
   },
 
   summaryCard: {
