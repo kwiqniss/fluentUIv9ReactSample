@@ -17,6 +17,7 @@ import {
   DialogBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
+import { button } from '../../styles/componentConstants';
 import basicStrings from './basic.resx';
 import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -189,14 +190,14 @@ const BasicInputsTab: React.FC = () => {
       </Field>
 
       <Button
-        appearance="primary"
+        appearance={button.primary}
         onClick={() => addMessage('Submit button clicked!')}
       >
         {strings.submit}
       </Button>
 
       <Button
-        appearance="secondary"
+        appearance={button.secondary}
         onClick={handleOpenDialog}
         className={styles.buttonSpacing}
       >
@@ -250,9 +251,9 @@ const BasicInputsTab: React.FC = () => {
             </DialogContent>
             <DialogActions>
               <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary">{strings.cancel}</Button>
+                <Button appearance={button.secondary}>{strings.cancel}</Button>
               </DialogTrigger>
-              <Button appearance="primary" onClick={handleSubmitDialog}>
+              <Button appearance={button.primary} onClick={handleSubmitDialog}>
                 {strings.submitContact}
               </Button>
             </DialogActions>

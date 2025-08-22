@@ -1,5 +1,8 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
+// Re-export shared constants for backwards compatibility
+export { componentConstants as componentProps } from '../../styles/componentConstants';
+
 /**
  * Styles for ComponentShowcaseTab with proper spacing and layout management
  */

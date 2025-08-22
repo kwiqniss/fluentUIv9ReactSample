@@ -29,6 +29,7 @@ import {
 } from '@fluentui/react-icons';
 import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './advancedTabStyles';
+import { button, size } from '../../styles/componentConstants';
 import strings from './advanced.resx';
 import { formatString } from '../../formatString';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -265,7 +266,7 @@ const AdvancedTab: React.FC = () => {
           <ProgressBar value={progress} max={100} />
           <Caption1>{progress}% Complete</Caption1>
           <Button
-            appearance="primary"
+            appearance={button.primary}
             onClick={simulateProgress}
             disabled={progress > 0 && progress < 100}
           >
@@ -332,7 +333,7 @@ const AdvancedTab: React.FC = () => {
             </Dropdown>
           </Field>
           <Button 
-            appearance="primary" 
+            appearance={button.primary} 
             icon={<Add20Regular />}
             onClick={addNewProduct}
             disabled={!newProductName.trim()}
@@ -370,24 +371,24 @@ const AdvancedTab: React.FC = () => {
                   <Text>{product.name}</Text>
                 </div>
                 <Button
-                  appearance="subtle"
+                  appearance={button.subtle}
                   icon={<Info20Regular />}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(product.bingSearchUrl, '_blank');
                     addMessage(`Learning more about ${product.name}`);
                   }}
-                  size="small"
+                  size={size.small}
                   title={formatString(strings.learnMore, product.name)}
                 />
                 <Button
-                  appearance="subtle"
+                  appearance={button.subtle}
                   icon={<Delete20Regular />}
                   onClick={(e) => {
                     e.stopPropagation();
                     removeProduct(product.id);
                   }}
-                  size="small"
+                  size={size.small}
                 />
               </div>
             );

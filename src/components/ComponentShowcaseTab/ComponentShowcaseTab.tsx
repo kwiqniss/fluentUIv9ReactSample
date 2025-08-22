@@ -59,7 +59,8 @@ import {
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 import strings from './showcase.resx';
-import { componentShowcaseStyles } from './componentShowcaseStyles';
+import { componentShowcaseStyles, componentProps } from './componentShowcaseStyles';
+import { badge, statusColor, size } from '../../styles/componentConstants';
 
 // Define the form data interface
 interface ComponentShowcaseFormData {
@@ -231,7 +232,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   </BreadcrumbItem>
                   <BreadcrumbDivider />
                   <BreadcrumbItem aria-current="page">
-                    <Text weight="semibold" style={{ color: tokens.colorNeutralForeground1 }}>
+                    <Text weight={componentProps.text.semibold} style={{ color: tokens.colorNeutralForeground1 }}>
                       {strings.breadcrumbCurrent}
                     </Text>
                   </BreadcrumbItem>
@@ -245,7 +246,7 @@ const ComponentShowcaseTab: React.FC = () => {
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
                   <Button
-                    appearance="outline"
+                    appearance={componentProps.button.outline}
                     icon={<MoreHorizontalRegular />}
                     onClick={() => addMessage('Menu opened')}
                   >
@@ -284,8 +285,8 @@ const ComponentShowcaseTab: React.FC = () => {
             <Field label={strings.labelCard}>
               <Card className={styles.componentCard}>
                 <CardHeader
-                  image={<Avatar name="Product" size={40} />}
-                  header={<Text weight="semibold">{strings.cardTitle}</Text>}
+                  image={<Avatar name="Product" size={componentProps.size.size40} />}
+                  header={<Text weight={componentProps.text.semibold}>{strings.cardTitle}</Text>}
                 />
                 <CardPreview>
                   <div>
@@ -294,13 +295,13 @@ const ComponentShowcaseTab: React.FC = () => {
                 </CardPreview>
                 <CardFooter>
                   <Button 
-                    appearance="primary" 
+                    appearance={componentProps.button.primary} 
                     onClick={() => addMessage('Card: Learn more clicked')}
                   >
                     {strings.cardLearnMore}
                   </Button>
                   <Button 
-                    appearance="subtle"
+                    appearance={componentProps.button.subtle}
                     onClick={() => addMessage('Card: Contact clicked')}
                   >
                     {strings.cardContact}
@@ -340,25 +341,25 @@ const ComponentShowcaseTab: React.FC = () => {
             <Field label={strings.labelToastNotifications}>
               <div className={styles.horizontalGroup}>
                 <Button 
-                  appearance="primary" 
+                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('success')}
                 >
                   {strings.buttonSuccess}
                 </Button>
                 <Button 
-                  appearance="primary" 
+                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('error')}
                 >
                   {strings.buttonError}
                 </Button>
                 <Button 
-                  appearance="primary" 
+                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('warning')}
                 >
                   {strings.buttonWarning}
                 </Button>
                 <Button 
-                  appearance="primary" 
+                  appearance={componentProps.button.primary} 
                   onClick={() => showToast('info')}
                 >
                   {strings.buttonInfo}
@@ -373,8 +374,8 @@ const ComponentShowcaseTab: React.FC = () => {
                 <ProgressBar value={progressValue} />
                 <Text>{formatString(strings.progressLabel, Math.round(progressValue * 100).toString())}</Text>
                 <Button
-                  appearance="secondary"
-                  size="small"
+                  appearance={componentProps.button.secondary}
+                  size={componentProps.size.small}
                   onClick={startProgressDemo}
                   disabled={isProgressRunning}
                   style={{ marginTop: tokens.spacingVerticalS }}
@@ -397,10 +398,10 @@ const ComponentShowcaseTab: React.FC = () => {
               {isSkeletonLoading ? (
                 <Skeleton>
                   <div className={styles.skeletonProfile}>
-                    <SkeletonItem shape="circle" size={48} />
+                    <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size48} />
                     <div className={styles.skeletonText}>
-                      <SkeletonItem shape="rectangle" size={16} style={{ width: '200px', height: '16px', marginBottom: tokens.spacingVerticalS }} />
-                      <SkeletonItem shape="rectangle" size={12} style={{ width: '150px', height: '12px' }} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '200px', height: '16px', marginBottom: tokens.spacingVerticalS }} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '150px', height: '12px' }} />
                     </div>
                   </div>
                 </Skeleton>
@@ -408,20 +409,20 @@ const ComponentShowcaseTab: React.FC = () => {
                 <div className={styles.skeletonProfile}>
                   <Avatar
                     name="Sarah Chen"
-                    size={48}
-                    color="colorful"
+                    size={componentProps.size.size48}
+                    color={componentProps.avatar.colorful}
                     style={{ marginRight: tokens.spacingHorizontalM }}
                   />
                   <div className={styles.skeletonText}>
-                    <Text weight="semibold" size={400}>Sarah Chen</Text>
+                    <Text weight={componentProps.text.semibold} size={componentProps.text.size400}>Sarah Chen</Text>
                     <Caption1>Senior Software Engineer • Microsoft</Caption1>
                   </div>
                 </div>
               )}
             </div>
             <Button
-              appearance="secondary"
-              size="small"
+              appearance={componentProps.button.secondary}
+              size={componentProps.size.small}
               onClick={() => setIsSkeletonLoading(true)}
               style={{ marginTop: tokens.spacingVerticalM }}
             >
@@ -484,7 +485,7 @@ const ComponentShowcaseTab: React.FC = () => {
                       <TableRow key={item.id}>
                         <TableCell>
                           <TableCellLayout media={
-                            <Avatar name={item.name} size={32} />
+                            <Avatar name={item.name} size={size.size32} />
                           }>
                             {item.name}
                           </TableCellLayout>
@@ -493,11 +494,11 @@ const ComponentShowcaseTab: React.FC = () => {
                         <TableCell>{item.department}</TableCell>
                         <TableCell>
                           <Badge 
-                            appearance="ghost"
+                            appearance={badge.ghost}
                             color={
-                              item.status === 'Active' ? 'success' :
-                              item.status === 'Away' ? 'warning' :
-                              item.status === 'Busy' ? 'danger' : 'subtle'
+                              item.status === 'Active' ? statusColor.success :
+                              item.status === 'Away' ? statusColor.warning :
+                              item.status === 'Busy' ? statusColor.danger : statusColor.subtle
                             }
                           >
                             {item.status}
