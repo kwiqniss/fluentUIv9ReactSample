@@ -58,7 +58,7 @@ import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
 import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.styles';
-import { sharedStyles } from '../../sharedStyles';
+import { sharedStyles } from '../../SharedStyles.styles';
 import { badge, statusColor, size } from '../componentConstants';
 
 interface ComponentShowcaseFormData {

@@ -11,7 +11,7 @@ import {
   SpinButton,
   mergeClasses,
 } from '@fluentui/react-components';
-import { sharedStyles } from '../../sharedStyles';
+import { sharedStyles } from '../../SharedStyles.styles';
 import { advancedTabStyles } from './AdvancedTab.styles';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';

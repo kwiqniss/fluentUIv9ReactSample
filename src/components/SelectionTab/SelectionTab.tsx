@@ -26,7 +26,7 @@ import {
   Title3,
   mergeClasses,
 } from '@fluentui/react-components';
-import { sharedStyles } from '../../sharedStyles';
+import { sharedStyles } from '../../SharedStyles.styles';
 import { selectionTabStyles } from './SelectionTab.styles';
 import selectionStrings from './SelectionTab.resx';
 import commonStrings from '../../common.resx';

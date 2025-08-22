@@ -13,7 +13,7 @@ import {
   PopoverSurface,
   Title3,
 } from '@fluentui/react-components';
-import { sharedStyles } from '../../sharedStyles';
+import { sharedStyles } from '../../SharedStyles.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
 import { formCache } from '../../utils/formCache';
 import basicStrings from './BasicInputsTab.resx';
