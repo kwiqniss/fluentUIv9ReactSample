@@ -230,11 +230,11 @@ const SelectionTab: React.FC = () => {
       </div>
 
       {/* Multiselect Table Section */}
-      <div className={styles.tableContainer}>
+      <div className={styles.sectionContainer}>
         <Title3 as="h3">Multiselect Table</Title3>
         
         {tableSelection.length > 0 && (
-          <div className={styles.selectedItemsContainer}>
+          <div className={styles.componentItem}>
             <Text>Selected items: {tableSelection.length} of {tableData.length}</Text>
             <Text size={200}>
               {tableSelection.map(id => tableData.find(item => item.id === id)?.name).join(', ')}
@@ -308,7 +308,7 @@ const SelectionTab: React.FC = () => {
           </TableBody>
         </Table>
 
-        <div className={styles.tableButtonContainer}>
+        <div className={styles.buttonContainer}>
           <Button 
             appearance="secondary"
             onClick={clearSelection}

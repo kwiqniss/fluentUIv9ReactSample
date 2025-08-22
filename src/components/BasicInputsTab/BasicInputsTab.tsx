@@ -21,12 +21,6 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     gap: '1.5rem',
   },
-  headerSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
-    marginBottom: '0.5rem',
-  },
   formGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))',
@@ -35,12 +29,6 @@ const useStyles = makeStyles({
     '@media (min-width: 48rem)': {
       gridTemplateColumns: '1fr 1fr',
     },
-  },
-  buttonSection: {
-    display: 'flex',
-    gap: '0.75rem',
-    alignItems: 'center',
-    marginTop: '1rem',
   },
   messageSection: {
     marginTop: '1rem',
@@ -140,7 +128,7 @@ const BasicInputsTab: React.FC = () => {
   return (
     <div className={styles.tabContentStandardized}>
       <div className={localStyles.container}>
-        <div className={localStyles.headerSection}>
+        <div className={styles.componentItem}>
           <Body1 as="h2">{basicStrings.title}</Body1>
           <Caption1>{basicStrings.description}</Caption1>
         </div>
@@ -192,7 +180,7 @@ const BasicInputsTab: React.FC = () => {
           />
         </Field>
 
-        <div className={localStyles.buttonSection}>
+        <div className={styles.buttonContainer}>
           <Button appearance="primary" onClick={handleSubmit}>
             {basicStrings.submitButton}
           </Button>

@@ -74,6 +74,47 @@ export const sharedStyles = makeStyles({
     maxWidth: '100%',
   },
 
+  // Common container patterns
+  sectionContainer: {
+    marginTop: tokens.spacingVerticalL,
+    marginBottom: tokens.spacingVerticalL,
+  },
+
+  // Flexible button container
+  buttonContainer: {
+    display: 'flex',
+    gap: tokens.spacingHorizontalS,
+    marginTop: tokens.spacingVerticalS,
+    flexWrap: 'wrap',
+  },
+
+  // Standard component item container
+  componentItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: tokens.spacingVerticalS,
+    minWidth: '17.5rem', // ~280px
+    maxWidth: '25rem',   // ~400px
+  },
+
+  // Common input constraints
+  inputConstraints: {
+    '& input': {
+      width: '100%',
+    },
+    '& textarea': {
+      width: '100%',
+      minHeight: '5rem', // ~80px
+    },
+  },
+
+  // Standard submit button
+  submitButton: {
+    marginTop: tokens.spacingVerticalL,
+    minWidth: '7.5rem', // ~120px
+    maxWidth: '12.5rem', // ~200px
+  },
+
   // Button styling
   actionButton: {
     marginTop: tokens.spacingVerticalL,
