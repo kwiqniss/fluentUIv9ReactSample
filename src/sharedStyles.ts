@@ -78,6 +78,9 @@ export const sharedStyles = makeStyles({
     margin: '0 auto',
     boxSizing: 'border-box',
     overflowX: 'hidden',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
     '@media (max-width: 600px)': {
       padding: '1rem',
     },
@@ -93,6 +96,7 @@ export const sharedStyles = makeStyles({
     borderRadius: tokens.borderRadiusMedium,
     width: '100%',
     boxSizing: 'border-box',
+    flex: '1',
     '@media (max-width: 600px)': {
       padding: '1rem',
       marginTop: '1rem',
