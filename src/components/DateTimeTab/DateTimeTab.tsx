@@ -8,6 +8,7 @@ import {
   Input,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
+import { dateTimeTabStyles } from './dateTimeTabStyles';
 import strings from './datetime.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 
@@ -21,7 +22,10 @@ export interface DateTimeFormData {
 }
 
 const DateTimeTab: React.FC = () => {
-  const styles = sharedStyles();
+  const styles = {
+    ...sharedStyles(),
+    ...dateTimeTabStyles(),
+  };
   
   // Load cached data or use defaults - this runs every time component mounts
   const getCachedData = (): DateTimeFormData => {

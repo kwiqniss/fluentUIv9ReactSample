@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
+  Tab,
+  TabList,
   TabValue,
   Body1,
   Caption1,
@@ -36,6 +38,7 @@ import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
 import { sharedStyles } from './sharedStyles';
 import { appStyles } from './appStyles';
+import { remToPx } from './utils/remHelpers';
 import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 

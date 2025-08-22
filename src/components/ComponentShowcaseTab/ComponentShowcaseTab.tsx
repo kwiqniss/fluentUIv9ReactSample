@@ -215,7 +215,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
                   <BreadcrumbItem>
                     <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
-                      <HomeRegular style={{ marginRight: tokens.spacingHorizontalXS }} />
+                      <HomeRegular className={styles.homeIcon} />
                       {strings.breadcrumbHome}
                     </Link>
                   </BreadcrumbItem>
@@ -233,7 +233,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   </BreadcrumbItem>
                   <BreadcrumbDivider />
                   <BreadcrumbItem aria-current="page">
-                    <Text weight={componentProps.text.semibold} style={{ color: tokens.colorNeutralForeground1 }}>
+                    <Text weight={componentProps.text.semibold} className={styles.breadcrumbCurrentText}>
                       {strings.breadcrumbCurrent}
                     </Text>
                   </BreadcrumbItem>
@@ -257,16 +257,16 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuPopover>
                   <MenuList>
                     <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
-                      <EditRegular style={{ marginRight: tokens.spacingHorizontalS }} />
+                      <EditRegular className={styles.editIcon} />
                       {strings.menuEdit}
                     </MenuItem>
                     <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
-                      <CopyRegular style={{ marginRight: tokens.spacingHorizontalS }} />
+                      <CopyRegular className={styles.copyIcon} />
                       {strings.menuCopy}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
-                      <DeleteRegular style={{ marginRight: tokens.spacingHorizontalS }} />
+                      <DeleteRegular className={styles.deleteIcon} />
                       {strings.menuDelete}
                     </MenuItem>
                   </MenuList>
@@ -379,7 +379,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   size={componentProps.size.small}
                   onClick={startProgressDemo}
                   disabled={isProgressRunning}
-                  style={{ marginTop: tokens.spacingVerticalS }}
+                  className={styles.marginTopSmall}
                 >
                   {isProgressRunning ? strings.progressButtonRunning : strings.progressButtonStart}
                 </Button>
@@ -401,8 +401,8 @@ const ComponentShowcaseTab: React.FC = () => {
                   <div className={styles.skeletonProfile}>
                     <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size48} />
                     <div className={styles.skeletonText}>
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: 'min(200px, 80%)', height: '16px', marginBottom: tokens.spacingVerticalS }} />
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: 'min(150px, 60%)', height: '12px' }} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} className={styles.skeletonItemWide} />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} className={styles.skeletonItemNarrow} />
                     </div>
                   </div>
                 </Skeleton>
@@ -412,7 +412,7 @@ const ComponentShowcaseTab: React.FC = () => {
                     name="Sarah Chen"
                     size={componentProps.size.size48}
                     color={componentProps.avatar.colorful}
-                    style={{ marginRight: tokens.spacingHorizontalM }}
+                    className={styles.marginRightMedium}
                   />
                   <div className={styles.skeletonText}>
                     <Text weight={componentProps.text.semibold} size={componentProps.text.size400}>Sarah Chen</Text>
@@ -425,7 +425,7 @@ const ComponentShowcaseTab: React.FC = () => {
               appearance={componentProps.button.secondary}
               size={componentProps.size.small}
               onClick={() => setIsSkeletonLoading(true)}
-              style={{ marginTop: tokens.spacingVerticalM }}
+              className={styles.marginTopMedium}
             >
               {isSkeletonLoading ? 'Loading...' : 'Show Loading Demo'}
             </Button>
@@ -511,7 +511,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 </Table>
                 
                 {searchValue && searchResults.length === 0 && (
-                  <div style={{ padding: tokens.spacingVerticalL, textAlign: 'center' }}>
+                  <div className={styles.emptyStateContainer}>
                     <Text>{strings.noResults}</Text>
                   </div>
                 )}

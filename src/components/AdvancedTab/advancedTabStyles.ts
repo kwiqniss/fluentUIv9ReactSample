@@ -20,4 +20,16 @@ export const advancedTabStyles = makeStyles({
       },
     },
   },
+
+  // Category icon with dynamic background color - base style
+  categoryIcon: {
+    width: '2rem',
+    height: '2rem',
+    borderRadius: tokens.borderRadiusCircular,
+    marginRight: '0.75rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor will be set inline since it's dynamic
+  },
 });

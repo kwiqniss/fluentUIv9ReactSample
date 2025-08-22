@@ -296,4 +296,57 @@ export const componentShowcaseStyles = makeStyles({
     maxWidth: '20rem',
     minWidth: 'min(12rem, 100%)',
   },
+
+  // Icon styles for inline usage
+  homeIcon: {
+    marginRight: tokens.spacingHorizontalXS,
+  },
+
+  editIcon: {
+    marginRight: tokens.spacingHorizontalS,
+  },
+
+  copyIcon: {
+    marginRight: tokens.spacingHorizontalS,
+  },
+
+  deleteIcon: {
+    marginRight: tokens.spacingHorizontalS,
+  },
+
+  // Text styles
+  breadcrumbCurrentText: {
+    color: tokens.colorNeutralForeground1,
+  },
+
+  // Spacing utilities
+  marginTopSmall: {
+    marginTop: tokens.spacingVerticalS,
+  },
+
+  marginTopMedium: {
+    marginTop: tokens.spacingVerticalM,
+  },
+
+  marginRightMedium: {
+    marginRight: tokens.spacingHorizontalM,
+  },
+
+  // Skeleton item styles
+  skeletonItemWide: {
+    width: 'min(200px, 80%)',
+    height: '16px',
+    marginBottom: tokens.spacingVerticalS,
+  },
+
+  skeletonItemNarrow: {
+    width: 'min(150px, 60%)',
+    height: '12px',
+  },
+
+  // Empty state styles
+  emptyStateContainer: {
+    padding: tokens.spacingVerticalL,
+    textAlign: 'center',
+  },
 });

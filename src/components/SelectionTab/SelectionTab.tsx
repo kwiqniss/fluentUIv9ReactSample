@@ -14,6 +14,7 @@ import {
   Dropdown,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
+import { selectionTabStyles } from './selectionTabStyles';
 import selectionStrings from './selection.resx';
 import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -34,7 +35,10 @@ const strings = {
 };
 
 const SelectionTab: React.FC = () => {
-  const styles = sharedStyles();
+  const styles = {
+    ...sharedStyles(),
+    ...selectionTabStyles(),
+  };
   
   // Generate unique ID suffix for form elements
   const idSuffix = useId();

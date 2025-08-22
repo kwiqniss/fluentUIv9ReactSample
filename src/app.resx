@@ -12,4 +12,8 @@
     <!-- Label for theme selection dropdown -->
     <value>Theme</value>
   </data>
+  <data name="moreTabsButton" xml:space="preserve">
+    <!-- Accessible label for the overflow menu button showing hidden tabs -->
+    <value>More tabs ({0})</value>
+  </data>
 </root>

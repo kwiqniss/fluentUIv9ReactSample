@@ -17,6 +17,7 @@ import {
   DialogBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
+import { basicInputsTabStyles } from './basicInputsTabStyles';
 import { button } from '../../styles/componentConstants';
 import basicStrings from './basic.resx';
 import commonStrings from '../../common.resx';
@@ -40,7 +41,10 @@ export interface BasicInputsFormData {
 }
 
 const BasicInputsTab: React.FC = () => {
-  const styles = sharedStyles();
+  const styles = {
+    ...sharedStyles(),
+    ...basicInputsTabStyles(),
+  };
   
   // Load cached data or use defaults - this runs every time component mounts
   const getCachedData = (): BasicInputsFormData => {

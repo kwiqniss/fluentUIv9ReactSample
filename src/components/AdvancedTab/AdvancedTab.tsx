@@ -361,7 +361,7 @@ const AdvancedTab: React.FC = () => {
                 </div>
                 <Tooltip content={product.category} relationship="label">
                   <div 
-                    className={styles.circularIcon}
+                    className={styles.categoryIcon}
                     style={{ backgroundColor: categoryInfo.color }}
                   >
                     {categoryInfo.icon}
