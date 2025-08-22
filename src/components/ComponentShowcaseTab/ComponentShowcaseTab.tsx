@@ -302,26 +302,34 @@ const ComponentShowcaseTab: React.FC = () => {
               <div className={styles.stableContainer}>
                 <Card>
                   {isCardLoading ? (
-                    <Skeleton>
-                      <CardHeader
-                        image={<SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size40} />}
-                        header={<SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '120px' }} />}
-                        description={<SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '160px' }} />}
-                      />
-                      <CardPreview>
-                        <div>
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} />
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} />
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} />
+                    <>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '12px', 
+                        padding: '16px 24px' 
+                      }}>
+                        <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size40} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '120px' }} />
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '160px' }} />
                         </div>
-                      </CardPreview>
-                      <CardFooter>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100px' }} />
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80px' }} />
-                        </div>
-                      </CardFooter>
-                    </Skeleton>
+                      </div>
+                      <div style={{ padding: '16px 24px' }}>
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100%', marginBottom: '8px' }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80%', marginBottom: '8px' }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '60%' }} />
+                      </div>
+                      <div style={{ 
+                        display: 'flex', 
+                        gap: '8px', 
+                        padding: '16px 24px',
+                        borderTop: '1px solid #e1e1e1'
+                      }}>
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100px' }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80px' }} />
+                      </div>
+                    </>
                   ) : (
                     <>
                       <CardHeader
