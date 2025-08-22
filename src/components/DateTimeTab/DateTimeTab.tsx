@@ -71,11 +71,13 @@ const DateTimeTab: React.FC = () => {
     <div className={styles.tabContentStandardized}>
       <Body1>{strings.title}</Body1>
       
+      {/* Date and Time inputs with enhanced icon contrast for all themes */}
       <div className={styles.row}>
         <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"
             value={dateValue}
+            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setDateValue(e.target.value);
               addMessage(`Date selected: ${e.target.value}`);
@@ -88,6 +90,7 @@ const DateTimeTab: React.FC = () => {
           <Input
             type="time"
             value={timeValue}
+            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setTimeValue(e.target.value);
               addMessage(`Time selected: ${e.target.value}`);
@@ -103,6 +106,7 @@ const DateTimeTab: React.FC = () => {
           <Input
             type="datetime-local"
             value={datetimeValue}
+            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setDatetimeValue(e.target.value);
               addMessage(`DateTime selected: ${e.target.value}`);
@@ -116,6 +120,7 @@ const DateTimeTab: React.FC = () => {
           <Input
             type="month"
             value={monthValue}
+            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setMonthValue(e.target.value);
               addMessage(`Month selected: ${e.target.value}`);
@@ -130,6 +135,7 @@ const DateTimeTab: React.FC = () => {
         <Input
           type="week"
           value={weekValue}
+          className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
           onChange={(e) => {
             setWeekValue(e.target.value);
             addMessage(`Week selected: ${e.target.value}`);
