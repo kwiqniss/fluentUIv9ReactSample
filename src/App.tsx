@@ -50,6 +50,7 @@ const App: React.FC = () => {
   const [visibleTabs, setVisibleTabs] = useState<string[]>([]);
   const [overflowTabs, setOverflowTabs] = useState<string[]>([]);
   const [moreButtonVisible, setMoreButtonVisible] = useState(false);
+  const [tabsReady, setTabsReady] = useState(false); // Track when initial calculation is complete
   const lastContainerWidthRef = useRef<number>(0); // Track last width to prevent unnecessary recalcs
 
   // All tabs definition
@@ -117,7 +118,8 @@ const App: React.FC = () => {
     // Get configuration values converted to pixels
     const { showThresholdPx, moreButtonWidthPx, bufferPx } = getTabOverflowConfigPx();
     
-    // Get all tab elements - but only when More button is NOT visible to avoid feedback loop
+    // Get tab elements from the measurement div when tabs are not ready,
+    // or from the visible TabList when they are ready
     const tabElements = container.querySelectorAll('[role="tab"]');
     let totalTabsWidth = 0;
     
@@ -128,6 +130,13 @@ const App: React.FC = () => {
         totalTabsWidth += tabWidth;
       }
     });
+    
+    // Skip calculation if we don't have proper measurements yet
+    if (totalTabsWidth === 0) {
+      // Retry after a very short delay to ensure DOM is ready
+      setTimeout(() => calculateTabOverflow(), 10);
+      return;
+    }
     
     // CRITICAL: Once More button is visible, NEVER recalculate or change state
     // Only recalculate if More is hidden AND we have a significant size change
@@ -164,21 +173,25 @@ const App: React.FC = () => {
       
       // Only show More if we actually have overflow tabs
       if (overflow.length > 0) {
+        // Batch state updates to minimize re-renders and flickering
         setVisibleTabs(visible);
         setOverflowTabs(overflow);
         setMoreButtonVisible(true);
+        setTabsReady(true); // Mark tabs as ready after calculation
         // IMPORTANT: Once we set More to visible, we will never change it again
       } else {
         // All tabs fit, show them all
         setVisibleTabs(allTabs.map(tab => tab.value));
         setOverflowTabs([]);
         setMoreButtonVisible(false);
+        setTabsReady(true); // Mark tabs as ready after calculation
       }
     } else {
       // All tabs fit comfortably
       setVisibleTabs(allTabs.map(tab => tab.value));
       setOverflowTabs([]);
       setMoreButtonVisible(false);
+      setTabsReady(true); // Mark tabs as ready after calculation
     }
   }, [allTabs, moreButtonVisible]);
 
@@ -219,6 +232,7 @@ const App: React.FC = () => {
             setMoreButtonVisible(false);
             setVisibleTabs(allTabs.map(tab => tab.value));
             setOverflowTabs([]);
+            setTabsReady(true); // Ensure tabs remain ready
           } else {
             // Not enough space for all tabs - recalculate which tabs to show
             // to prevent overlap with More button
@@ -247,6 +261,7 @@ const App: React.FC = () => {
             if (overflow.length > 0) {
               setVisibleTabs(visible);
               setOverflowTabs(overflow);
+              setTabsReady(true); // Ensure tabs remain ready
             }
           }
         } else {
@@ -259,13 +274,13 @@ const App: React.FC = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    // Initial calculation with delay to ensure DOM is ready
+    // Initial calculation with minimal delay to ensure DOM is ready
     resizeTimeout = setTimeout(() => {
       calculateTabOverflow();
       if (tabListRef.current) {
         lastContainerWidthRef.current = tabListRef.current.offsetWidth;
       }
-    }, 200);
+    }, 50); // Reduced from 200ms to 50ms for faster initial render
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -312,9 +327,38 @@ const App: React.FC = () => {
         </div>
 
         <div className={styles.tabBarContainer}>
-          <div className={styles.tabListContainer} ref={tabListRef}>
-            <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
-              {allTabs
+          <div 
+            className={styles.tabListContainer} 
+            ref={tabListRef}
+            style={{
+              opacity: tabsReady ? 1 : 0,
+              transition: 'opacity 0.3s ease-in-out'
+            }}
+          >
+            {/* Hidden measurement div - always renders all tabs for measurement */}
+            <div style={{ 
+              position: 'absolute', 
+              visibility: 'hidden',
+              pointerEvents: 'none',
+              top: 0,
+              left: 0,
+              width: '100%'
+            }}>
+              <TabList selectedValue={selectedTab} onTabSelect={() => {}}>
+                {allTabs.map(tab => (
+                  <Tab key={`measure-${tab.value}`} value={tab.value}>
+                    {tab.label}
+                  </Tab>
+                ))}
+              </TabList>
+            </div>
+            
+            {/* Visible tabs - only renders after calculation is complete */}
+            <TabList 
+              selectedValue={selectedTab} 
+              onTabSelect={onTabSelect}
+            >
+              {tabsReady && allTabs
                 .filter(tab => visibleTabs.includes(tab.value))
                 .map(tab => (
                   <Tab key={tab.value} value={tab.value}>
@@ -323,7 +367,7 @@ const App: React.FC = () => {
                 ))}
             </TabList>
             
-            {overflowTabs.length > 0 && (
+            {tabsReady && overflowTabs.length > 0 && (
               <Menu>
                 <MenuTrigger disableButtonEnhancement>
                   <Button
