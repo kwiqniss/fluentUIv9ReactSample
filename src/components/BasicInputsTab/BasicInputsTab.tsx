@@ -16,7 +16,7 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import { basicInputsTabStyles } from './basicInputsTabStyles';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
-import basicStrings from './basic.resx';
+import basicStrings from './BasicInputsTab.resx';
 
 const BasicInputsTab: React.FC = () => {
   const styles = {

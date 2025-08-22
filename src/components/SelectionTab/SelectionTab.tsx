@@ -27,7 +27,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { selectionTabStyles } from './selectionTabStyles';
-import selectionStrings from './selection.resx';
+import selectionStrings from './SelectionTab.resx';
 import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 

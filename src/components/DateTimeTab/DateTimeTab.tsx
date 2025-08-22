@@ -10,7 +10,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { dateTimeTabStyles } from './dateTimeTabStyles';
-import strings from './datetime.resx';
+import strings from './DateTimeTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 
 export interface DateTimeFormData {

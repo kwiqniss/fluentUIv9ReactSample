@@ -39,7 +39,7 @@ import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentSho
 import { sharedStyles } from './sharedStyles';
 import { appStyles } from './appStyles';
 import { remToPx } from './utils/remHelpers';
-import appStrings from './app.resx';
+import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
 import { tokens } from '@fluentui/react-components';
 

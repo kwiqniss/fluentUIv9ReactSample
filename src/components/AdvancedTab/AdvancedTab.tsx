@@ -14,7 +14,7 @@ import {
 import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './advancedTabStyles';
 import { button } from '../componentConstants';
-import strings from './advanced.resx';
+import strings from './AdvancedTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 

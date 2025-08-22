@@ -58,7 +58,7 @@ import {
 } from '@fluentui/react-icons';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
-import strings from './showcase.resx';
+import strings from './ComponentShowcaseTab.resx';
 import { componentShowcaseStyles, componentProps } from './componentShowcaseStyles';
 import { sharedStyles } from '../../sharedStyles';
 import { badge, statusColor, size } from '../componentConstants';
