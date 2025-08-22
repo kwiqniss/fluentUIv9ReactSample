@@ -9,7 +9,7 @@ import {
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import { dateTimeTabStyles } from './DateTimeTab.ts';
+import { dateTimeTabStyles } from './DateTimeTab.styles';
 import strings from './DateTimeTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 

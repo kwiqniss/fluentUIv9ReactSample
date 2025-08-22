@@ -36,13 +36,11 @@ import {
   ProgressBar,
   Skeleton,
   SkeletonItem,
-  SpinButton,
   Toast,
   ToastTitle,
   Toaster,
   useToastController,
-  Caption1,
-  tokens
+  Caption1
 } from '@fluentui/react-components';
 import {
   HomeRegular,
@@ -53,13 +51,12 @@ import {
   InfoRegular,
   CheckmarkCircleRegular,
   WarningRegular,
-  ErrorCircleRegular,
-  DismissCircleRegular
+  ErrorCircleRegular
 } from '@fluentui/react-icons';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
-import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.ts';
+import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.styles';
 import { sharedStyles } from '../../sharedStyles';
 import { badge, statusColor, size } from '../componentConstants';
 

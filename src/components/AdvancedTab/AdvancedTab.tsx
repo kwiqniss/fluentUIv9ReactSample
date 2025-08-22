@@ -6,13 +6,12 @@ import {
   Card,
   CardHeader,
   Slider,
-  Input,
   ProgressBar,
   Button,
   SpinButton,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import { advancedTabStyles } from './AdvancedTab.ts';
+import { advancedTabStyles } from './AdvancedTab.styles';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';

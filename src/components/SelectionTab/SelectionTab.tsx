@@ -26,7 +26,7 @@ import {
   Title3,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
-import { selectionTabStyles } from './SelectionTab.ts';
+import { selectionTabStyles } from './SelectionTab.styles';
 import selectionStrings from './SelectionTab.resx';
 import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
