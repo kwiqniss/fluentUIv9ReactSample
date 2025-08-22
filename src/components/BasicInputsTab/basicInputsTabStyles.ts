@@ -45,4 +45,20 @@ export const basicInputsTabStyles = makeStyles({
     marginTop: tokens.spacingVerticalL,
     maxWidth: '9.375rem', // ~150px
   },
+
+  // Popup form styles
+  popupForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: tokens.spacingVerticalM,
+    padding: tokens.spacingHorizontalL,
+    minWidth: '18.75rem', // ~300px
+  },
+
+  popupButtonContainer: {
+    display: 'flex',
+    gap: tokens.spacingHorizontalS,
+    justifyContent: 'flex-end',
+    marginTop: tokens.spacingVerticalS,
+  },
 });

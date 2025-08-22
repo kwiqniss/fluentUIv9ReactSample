@@ -8,6 +8,10 @@ import {
   Caption1,
   MessageBar,
   MessageBarBody,
+  Popover,
+  PopoverTrigger,
+  PopoverSurface,
+  Title3,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { basicInputsTabStyles } from './basicInputsTabStyles';
@@ -36,6 +40,12 @@ const BasicInputsTab: React.FC = () => {
   
   const [message, setMessage] = useState<string>('');
   const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
+
+  // Popover form state
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const [popupName, setPopupName] = useState<string>('');
+  const [popupEmail, setPopupEmail] = useState<string>('');
+  const [popupMessage, setPopupMessage] = useState<string>('');
 
   const handleTextChange = (value: string) => {
     setTextValue(value);
@@ -103,6 +113,28 @@ const BasicInputsTab: React.FC = () => {
     setTimeout(() => setMessage(''), 2000);
   };
 
+  const handlePopupSubmit = () => {
+    if (popupName && popupEmail) {
+      setMessage(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`);
+      setMessageType('success');
+      
+      // Clear popup form
+      setPopupName('');
+      setPopupEmail('');
+      setPopupMessage('');
+      setIsPopoverOpen(false);
+      
+      setTimeout(() => setMessage(''), 3000);
+    }
+  };
+
+  const handlePopupCancel = () => {
+    setPopupName('');
+    setPopupEmail('');
+    setPopupMessage('');
+    setIsPopoverOpen(false);
+  };
+
   return (
     <div className={styles.tabContentStandardized}>
       <div className={styles.container}>
@@ -165,6 +197,61 @@ const BasicInputsTab: React.FC = () => {
           <Button appearance="secondary" onClick={handleClear}>
             {basicStrings.clearButton}
           </Button>
+          
+          <Popover 
+            open={isPopoverOpen} 
+            onOpenChange={(_, data) => setIsPopoverOpen(data.open)}
+          >
+            <PopoverTrigger disableButtonEnhancement>
+              <Button appearance="outline">
+                Open Contact Form
+              </Button>
+            </PopoverTrigger>
+            <PopoverSurface className={styles.popupForm}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <Title3>Contact Information</Title3>
+                
+                <Field label="Name" required>
+                  <Input
+                    placeholder="Enter your name"
+                    value={popupName}
+                    onChange={(_, data) => setPopupName(data.value)}
+                  />
+                </Field>
+                
+                <Field label="Email" required>
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={popupEmail}
+                    onChange={(_, data) => setPopupEmail(data.value)}
+                  />
+                </Field>
+                
+                <Field label="Message">
+                  <Textarea
+                    placeholder="Enter your message (optional)"
+                    value={popupMessage}
+                    onChange={(_, data) => setPopupMessage(data.value)}
+                    rows={3}
+                  />
+                </Field>
+                
+                <div className={styles.popupButtonContainer}>
+                  <Button appearance="secondary" onClick={handlePopupCancel}>
+                    Cancel
+                  </Button>
+                  <Button 
+                    appearance="primary" 
+                    onClick={handlePopupSubmit}
+                    disabled={!popupName || !popupEmail}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </div>
+            </PopoverSurface>
+          </Popover>
         </div>
 
         {message && (
