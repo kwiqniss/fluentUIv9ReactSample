@@ -31,15 +31,15 @@ export const appStyles = makeStyles({
     
     // Make the dropdown smaller
     '& > div': { // Target the Field
-      minWidth: '140px',
+      minWidth: '8.75rem', // ~140px
     },
     
     '& [role="combobox"]': { // Target the Dropdown
-      minWidth: '140px',
+      minWidth: '8.75rem', // ~140px
       fontSize: tokens.fontSizeBase200,
     },
     
-    '@media (max-width: 768px)': {
+    '@media (max-width: 48rem)': { // ~768px
       position: 'static',
       marginTop: tokens.spacingVerticalS,
     },

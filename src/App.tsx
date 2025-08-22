@@ -41,6 +41,7 @@ import { appStyles } from './appStyles';
 import { remToPx } from './utils/remHelpers';
 import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
+import { tokens } from '@fluentui/react-components';
 
 // Styles for overflow container following FluentUI samples
 const useOverflowStyles = makeStyles({
@@ -49,12 +50,12 @@ const useOverflowStyles = makeStyles({
     flexWrap: 'nowrap',
     minWidth: 0,
     overflow: 'hidden',
-    gap: '4px',
+    gap: tokens.spacingVerticalXS,
     alignItems: 'center',
   },
   // Wrapper to align tabs and content
   contentWrapper: {
-    maxWidth: '1200px',
+    maxWidth: '75rem', // ~1200px
     width: '100%',
     margin: '0 auto',
     display: 'flex',
@@ -266,12 +267,12 @@ const App: React.FC = () => {
                       appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
                       onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
                       style={{
-                        borderRadius: '4px 4px 0 0',
-                        minHeight: '32px',
+                        borderRadius: `${tokens.borderRadiusSmall} ${tokens.borderRadiusSmall} 0 0`,
+                        minHeight: '2rem', // ~32px
                         border: 'none',
-                        borderBottom: selectedTab === tab.value ? '2px solid var(--colorBrandBackground)' : '1px solid transparent',
+                        borderBottom: selectedTab === tab.value ? `${tokens.strokeWidthThick} solid var(--colorBrandBackground)` : `${tokens.strokeWidthThin} solid transparent`,
                         whiteSpace: 'nowrap',
-                        padding: '8px 12px'
+                        padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalM}`
                       }}
                     >
                       {tab.label}

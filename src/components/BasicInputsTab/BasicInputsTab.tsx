@@ -19,31 +19,31 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '24px',
+    gap: '1.5rem', // ~24px
   },
   headerSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '8px',
-    marginBottom: '8px',
+    gap: '0.5rem', // ~8px
+    marginBottom: '0.5rem', // ~8px
   },
   formGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))', // ~300px
     maxWidth: '100%',
-    gap: '16px',
-    '@media (min-width: 768px)': {
+    gap: '1rem', // ~16px
+    '@media (min-width: 48rem)': { // ~768px
       gridTemplateColumns: '1fr 1fr', // Exactly 2 columns on larger screens
     },
   },
   buttonSection: {
     display: 'flex',
-    gap: '12px',
+    gap: '0.75rem', // ~12px
     alignItems: 'center',
-    marginTop: '16px',
+    marginTop: '1rem', // ~16px
   },
   messageSection: {
-    marginTop: '16px',
+    marginTop: '1rem', // ~16px
   },
 });
 

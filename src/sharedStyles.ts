@@ -8,18 +8,18 @@ export const sharedStyles = makeStyles({
   // Use FluentUI-style grid layout for inputs
   inputGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(17.5rem, 1fr))', // ~280px
     gap: tokens.spacingHorizontalL,
     marginBottom: tokens.spacingVerticalL,
-    '@media (min-width: 768px)': {
+    '@media (min-width: 48rem)': { // ~768px
       gridTemplateColumns: '1fr 1fr', // Exactly 2 columns on larger screens
     },
   },
   
   // Individual field styling
   field: {
-    minWidth: '280px',
-    maxWidth: '400px',
+    minWidth: '17.5rem', // ~280px
+    maxWidth: '25rem',   // ~400px
     
     // Constrain input elements
     '& input, & textarea': {
@@ -27,7 +27,7 @@ export const sharedStyles = makeStyles({
     },
     
     '& textarea': {
-      minHeight: '80px',
+      minHeight: '5rem', // ~80px
     },
   },
 
@@ -37,7 +37,7 @@ export const sharedStyles = makeStyles({
     flexDirection: 'column',
     gap: tokens.spacingVerticalXL,
     padding: tokens.spacingHorizontalL,
-    maxWidth: '1200px',
+    maxWidth: '75rem', // ~1200px
     width: '100%',
   },
 
@@ -67,7 +67,7 @@ export const sharedStyles = makeStyles({
 
   // Message areas
   messageScrollArea: {
-    maxHeight: '200px',
+    maxHeight: '12.5rem', // ~200px
     overflowY: 'auto',
     marginTop: tokens.spacingVerticalL,
     padding: tokens.spacingHorizontalM,
@@ -77,6 +77,6 @@ export const sharedStyles = makeStyles({
   // Button styling
   actionButton: {
     marginTop: tokens.spacingVerticalL,
-    minWidth: '120px',
+    minWidth: '7.5rem', // ~120px
   },
 });

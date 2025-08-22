@@ -10,7 +10,7 @@ export const dateTimeTabStyles = makeStyles({
   dateTimeInput: {
     marginBottom: tokens.spacingVerticalM,
     width: '100%',
-    maxWidth: '300px',
+    maxWidth: '18.75rem', // ~300px
     
     // Minimal picker icon contrast enhancement
     '& input[type="date"]::-webkit-calendar-picker-indicator, & input[type="time"]::-webkit-time-picker-indicator, & input[type="datetime-local"]::-webkit-calendar-picker-indicator, & input[type="month"]::-webkit-calendar-picker-indicator, & input[type="week"]::-webkit-calendar-picker-indicator': {

@@ -306,28 +306,28 @@ const ComponentShowcaseTab: React.FC = () => {
                       <div style={{ 
                         display: 'flex', 
                         alignItems: 'center', 
-                        gap: '12px', 
-                        padding: '16px 24px' 
+                        gap: tokens.spacingHorizontalM, 
+                        padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}` 
                       }}>
                         <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size40} />
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '120px' }} />
-                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '160px' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalXS }}>
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '7.5rem' }} />
+                          <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '10rem' }} />
                         </div>
                       </div>
-                      <div style={{ padding: '16px 24px' }}>
-                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100%', marginBottom: '8px' }} />
-                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80%', marginBottom: '8px' }} />
+                      <div style={{ padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}` }}>
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100%', marginBottom: tokens.spacingVerticalXS }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80%', marginBottom: tokens.spacingVerticalXS }} />
                         <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} style={{ width: '60%' }} />
                       </div>
                       <div style={{ 
                         display: 'flex', 
-                        gap: '8px', 
-                        padding: '16px 24px',
-                        borderTop: '1px solid #e1e1e1'
+                        gap: tokens.spacingHorizontalS, 
+                        padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
+                        borderTop: `1px solid ${tokens.colorNeutralStroke2}`
                       }}>
-                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '100px' }} />
-                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '80px' }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '6.25rem' }} />
+                        <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} style={{ width: '5rem' }} />
                       </div>
                     </>
                   ) : (
@@ -343,7 +343,7 @@ const ComponentShowcaseTab: React.FC = () => {
                         </div>
                       </CardPreview>
                       <CardFooter>
-                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', gap: tokens.spacingHorizontalS, flexWrap: 'wrap' }}>
                           <Button 
                             appearance={componentProps.button.primary}
                             onClick={() => addMessage('Card: Learn more clicked')}
@@ -365,7 +365,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   appearance={componentProps.button.secondary}
                   onClick={() => setIsCardLoading(true)}
                   disabled={isCardLoading}
-                  style={{ marginTop: '12px' }}
+                  style={{ marginTop: tokens.spacingVerticalM }}
                 >
                   {isCardLoading ? 'Loading...' : 'Demo Loading'}
                 </Button>
@@ -401,7 +401,7 @@ const ComponentShowcaseTab: React.FC = () => {
         <div className={styles.componentGrid}>
           <div className={styles.componentItem}>
             <Field label={strings.labelToastNotifications}>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: tokens.spacingHorizontalS, flexWrap: 'wrap' }}>
                 <Button 
                   appearance={componentProps.button.primary}
                   size={componentProps.size.small}

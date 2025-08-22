@@ -7,19 +7,19 @@ export const basicInputsTabStyles = makeStyles({
   // Constrain input elements specifically for this tab
   inputConstraints: {
     '& input': {
-      maxWidth: '350px',
+      maxWidth: '21.875rem', // ~350px
       width: '100%',
     },
     '& textarea': {
-      maxWidth: '450px', 
+      maxWidth: '28.125rem', // ~450px
       width: '100%',
-      minHeight: '80px',
+      minHeight: '5rem', // ~80px
     },
   },
 
   // Button with proper spacing
   submitButton: {
     marginTop: tokens.spacingVerticalL,
-    maxWidth: '150px',
+    maxWidth: '9.375rem', // ~150px
   },
 });

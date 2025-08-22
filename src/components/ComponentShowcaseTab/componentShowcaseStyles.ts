@@ -18,8 +18,8 @@ export const componentShowcaseStyles = makeStyles({
   headerSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '8px',
-    marginBottom: '8px',
+    gap: tokens.spacingVerticalS,
+    marginBottom: tokens.spacingVerticalS,
   },
 
   // Grid layout for components - fits 2 side by side on larger screens
@@ -40,8 +40,8 @@ export const componentShowcaseStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
-    minWidth: '280px',
-    maxWidth: '400px',
+    minWidth: '17.5rem', // ~280px
+    maxWidth: '25rem',   // ~400px
     
     // Ensure Field labels are above inputs
     '& .fui-Field': {
@@ -52,14 +52,14 @@ export const componentShowcaseStyles = makeStyles({
     
     // Constrain input and button widths
     '& input, & textarea, & [role="combobox"], & [role="listbox"]': {
-      maxWidth: '220px',
+      maxWidth: '13.75rem', // ~220px
       width: '100%',
     },
     
     // Make buttons more compact
     '& button': {
-      maxWidth: '180px',
-      minWidth: '100px',
+      maxWidth: '11.25rem', // ~180px
+      minWidth: '6.25rem',  // ~100px
     },
     
     // Flex button groups to use space efficiently
@@ -72,14 +72,14 @@ export const componentShowcaseStyles = makeStyles({
 
   // Fixed height container for loading demos to prevent layout shift
   stableContainer: {
-    minHeight: '280px', // Fixed height to accommodate card content
+    minHeight: '17.5rem', // ~280px - Fixed height to accommodate card content
     display: 'flex',
     flexDirection: 'column',
   },
 
   // Message log with basic styling
   messageLog: {
-    maxHeight: '200px',
+    maxHeight: '12.5rem', // ~200px
     overflowY: 'auto',
     marginTop: tokens.spacingVerticalL,
     padding: tokens.spacingHorizontalM,
