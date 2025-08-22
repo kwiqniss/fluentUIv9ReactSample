@@ -12,6 +12,18 @@ import {
   RadioGroup,
   Switch,
   Dropdown,
+  Table,
+  TableHeader,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+  TableBody,
+  TableCellLayout,
+  Avatar,
+  Button,
+  Badge,
+  Text,
+  Title3,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { selectionTabStyles } from './selectionTabStyles';
@@ -25,6 +37,7 @@ export interface SelectionFormData {
   radioValue: string;
   checkboxValues: { [key: string]: boolean };
   switchValue: boolean;
+  tableSelection: string[];
   messages: string[];
 }
 
@@ -55,6 +68,7 @@ const SelectionTab: React.FC = () => {
       radioValue: 'option1',
       checkboxValues: {},
       switchValue: false,
+      tableSelection: [],
       messages: [],
     };
   };
@@ -68,6 +82,7 @@ const SelectionTab: React.FC = () => {
   const [selectedRadio, setSelectedRadio] = useState(initialData.radioValue);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(initialData.checkboxValues);
   const [switchValue, setSwitchValue] = useState(initialData.switchValue);
+  const [tableSelection, setTableSelection] = useState<string[]>(initialData.tableSelection);
 
   // Cache form data whenever state changes
   useEffect(() => {
@@ -77,10 +92,11 @@ const SelectionTab: React.FC = () => {
       radioValue: selectedRadio,
       checkboxValues: checkedItems,
       switchValue,
+      tableSelection,
       messages,
     };
     formCache.set(CACHE_KEYS.SELECTION, formData);
-  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, messages]);
+  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, tableSelection, messages]);
 
   const addMessage = (message: string) => {
     setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
@@ -93,6 +109,42 @@ const SelectionTab: React.FC = () => {
 
   const countries = strings.countries.split(',').map(c => c.trim());
   const colors = strings.colors.split(',').map(c => c.trim());
+
+  // Sample table data for multiselect demonstration
+  const tableData = [
+    { id: '1', name: 'Alice Johnson', role: 'Product Manager', department: 'Product', status: 'Active' },
+    { id: '2', name: 'Bob Smith', role: 'Software Engineer', department: 'Engineering', status: 'Active' },
+    { id: '3', name: 'Carol Davis', role: 'UX Designer', department: 'Design', status: 'Away' },
+    { id: '4', name: 'David Brown', role: 'Data Scientist', department: 'Engineering', status: 'Busy' },
+    { id: '5', name: 'Eva Martinez', role: 'Marketing Manager', department: 'Marketing', status: 'Active' },
+    { id: '6', name: 'Frank Wilson', role: 'Sales Representative', department: 'Sales', status: 'Active' },
+  ];
+
+  // Table selection handlers
+  const handleRowSelection = (itemId: string, selected: boolean) => {
+    setTableSelection(prev => {
+      const newSelection = selected 
+        ? [...prev, itemId]
+        : prev.filter(id => id !== itemId);
+      
+      addMessage(`Row ${selected ? 'selected' : 'deselected'}: ${tableData.find(item => item.id === itemId)?.name}`);
+      return newSelection;
+    });
+  };
+
+  const handleSelectAll = (selected: boolean) => {
+    const newSelection = selected ? tableData.map(item => item.id) : [];
+    setTableSelection(newSelection);
+    addMessage(`${selected ? 'Selected all' : 'Deselected all'} table rows (${newSelection.length} items)`);
+  };
+
+  const clearSelection = () => {
+    setTableSelection([]);
+    addMessage('Cleared table selection');
+  };
+
+  const isAllSelected = tableSelection.length === tableData.length;
+  const isIndeterminate = tableSelection.length > 0 && tableSelection.length < tableData.length;
 
   return (
     <div className={styles.tabContentStandardized}>
@@ -182,6 +234,93 @@ const SelectionTab: React.FC = () => {
             label={switchValue ? strings.enabled : strings.disabled}
           />
         </Field>
+      </div>
+
+      {/* Multiselect Table Section */}
+      <div className={styles.tableContainer}>
+        <Title3 as="h3">Multiselect Table</Title3>
+        
+        {tableSelection.length > 0 && (
+          <div className={styles.selectedItemsContainer}>
+            <Text>Selected items: {tableSelection.length} of {tableData.length}</Text>
+            <Text size={200}>
+              {tableSelection.map(id => tableData.find(item => item.id === id)?.name).join(', ')}
+            </Text>
+          </div>
+        )}
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHeaderCell className={styles.checkboxCell}>
+                <Checkbox
+                  checked={isIndeterminate ? "mixed" : isAllSelected}
+                  onChange={(_, data) => handleSelectAll(data.checked === true)}
+                  aria-label="Select all rows"
+                />
+              </TableHeaderCell>
+              <TableHeaderCell>Name</TableHeaderCell>
+              <TableHeaderCell>Role</TableHeaderCell>
+              <TableHeaderCell>Department</TableHeaderCell>
+              <TableHeaderCell>Status</TableHeaderCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {tableData.map((item) => {
+              const isSelected = tableSelection.includes(item.id);
+              return (
+                <TableRow 
+                  key={item.id}
+                  className={isSelected ? styles.selectedTableRow : undefined}
+                >
+                  <TableCell className={styles.checkboxCell}>
+                    <Checkbox
+                      checked={isSelected}
+                      onChange={(_, data) => handleRowSelection(item.id, data.checked === true)}
+                      aria-label={`Select ${item.name}`}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TableCellLayout media={<Avatar name={item.name} size={32} />}>
+                      {item.name}
+                    </TableCellLayout>
+                  </TableCell>
+                  <TableCell>{item.role}</TableCell>
+                  <TableCell>{item.department}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      appearance="ghost"
+                      color={
+                        item.status === 'Active' ? 'success' :
+                        item.status === 'Away' ? 'warning' :
+                        item.status === 'Busy' ? 'danger' : 'subtle'
+                      }
+                    >
+                      {item.status}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+
+        <div className={styles.tableButtonContainer}>
+          <Button 
+            appearance="secondary"
+            onClick={clearSelection}
+            disabled={tableSelection.length === 0}
+          >
+            Clear Selection
+          </Button>
+          <Button
+            appearance="primary"
+            onClick={() => addMessage(`Action performed on ${tableSelection.length} selected items`)}
+            disabled={tableSelection.length === 0}
+          >
+            Process Selected ({tableSelection.length})
+          </Button>
+        </div>
       </div>
 
       <Card className={styles.cardContainer}>
