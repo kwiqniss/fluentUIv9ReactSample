@@ -1,7 +1,7 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 // Re-export shared constants for backwards compatibility
-export { componentConstants as componentProps } from '../../styles/componentConstants';
+export { componentConstants as componentProps } from '../componentConstants';
 
 /**
  * Essential ComponentShowcase styles

@@ -13,7 +13,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { advancedTabStyles } from './advancedTabStyles';
-import { button } from '../../styles/componentConstants';
+import { button } from '../componentConstants';
 import strings from './advanced.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';

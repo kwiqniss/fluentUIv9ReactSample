@@ -61,7 +61,7 @@ import { formatString } from '../../formatString';
 import strings from './showcase.resx';
 import { componentShowcaseStyles, componentProps } from './componentShowcaseStyles';
 import { sharedStyles } from '../../sharedStyles';
-import { badge, statusColor, size } from '../../styles/componentConstants';
+import { badge, statusColor, size } from '../componentConstants';
 
 interface ComponentShowcaseFormData {
   searchValue: string;
