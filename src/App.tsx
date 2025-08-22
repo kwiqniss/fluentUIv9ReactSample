@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   TabValue,
@@ -33,41 +33,16 @@ import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
 import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
-import AppFooter from './components/AppFooter';
+import MessageManager from './components/MessageManager';
 import { sharedStyles } from './SharedStyles.styles';
 import { appStyles } from './AppStyles.styles';
 import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
-import { MessageContext, Message, MessageContextType } from './utils/messageContext';
-import { MessageType } from './types/enums';
 import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Message state management
-  const [messages, setMessages] = useState<Message[]>([]);
-  
-  const addMessage = useCallback((text: string, type: MessageType = MessageType.Info) => {
-    const newMessage: Message = {
-      id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      text,
-      timestamp: new Date(),
-      type,
-    };
-    setMessages(prev => [...prev, newMessage]);
-  }, []);
-  
-  const clearMessages = useCallback(() => {
-    setMessages([]);
-  }, []);
-  
-  const messageContextValue: MessageContextType = {
-    messages,
-    addMessage,
-    clearMessages,
-  };
   
   const styles = {
     ...sharedStyles(),
@@ -228,7 +203,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <MessageContext.Provider value={messageContextValue}>
+    <MessageManager>
       <FluentProvider theme={themes[selectedTheme].theme}>
         <div className={styles.mainContainer}>
           <div className={styles.header}>
@@ -284,11 +259,9 @@ const App: React.FC = () => {
               {renderTabContent()}
             </div>
           </div>
-          
-          <AppFooter />
         </div>
       </FluentProvider>
-    </MessageContext.Provider>
+    </MessageManager>
   );
 };
 

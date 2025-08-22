@@ -15,11 +15,13 @@ import { sharedStyles } from '../../SharedStyles.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
 import { formCache } from '../../utils/formCache';
 import { useMessages } from '../../utils/messageContext';
+import { useMessageLogger } from '../../hooks/useMessageLogger';
 import { MessageType } from '../../types/enums';
 import strings from './BasicInputsTab.resx';
 
 const BasicInputsTab: React.FC = () => {
   const { addMessage } = useMessages();
+  const { logSuccess, logWarning, logInfo, logInteraction } = useMessageLogger();
   
   const styles = {
     ...sharedStyles(),
@@ -90,9 +92,9 @@ const BasicInputsTab: React.FC = () => {
     const hasContent = textValue || emailValue || passwordValue || numberValue || textareaValue;
     
     if (hasContent) {
-      addMessage(strings.submitSuccess, MessageType.Success);
+      logSuccess(strings.submitSuccess);
     } else {
-      addMessage(strings.submitError, MessageType.Warning);
+      logWarning(strings.submitError);
     }
   };
 
@@ -109,12 +111,12 @@ const BasicInputsTab: React.FC = () => {
     formCache.remove(FIELD_KEYS.NUMBER);
     formCache.remove(FIELD_KEYS.TEXTAREA);
 
-    addMessage(strings.clearSuccess, MessageType.Info);
+    logInfo(strings.clearSuccess);
   };
 
   const handlePopupSubmit = () => {
     if (popupName && popupEmail) {
-      addMessage(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`, MessageType.Success);
+      logSuccess(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`);
       
       // Clear popup form
       setPopupName('');
@@ -145,8 +147,8 @@ const BasicInputsTab: React.FC = () => {
               placeholder={strings.textPlaceholder}
               value={textValue}
               onChange={(_, data) => handleTextChange(data.value)}
-              onFocus={() => addMessage('Text input focused', MessageType.Info)}
-              onBlur={() => addMessage('Text input lost focus', MessageType.Info)}
+              onFocus={() => logInteraction('Text input', 'focused')}
+              onBlur={() => logInteraction('Text input', 'lost focus')}
             />
           </Field>
 
