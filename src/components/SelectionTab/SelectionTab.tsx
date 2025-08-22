@@ -264,7 +264,17 @@ const SelectionTab: React.FC = () => {
               return (
                 <TableRow 
                   key={item.id}
-                  className={isSelected ? styles.selectedTableRow : undefined}
+                  className={isSelected ? styles.selectedTableRowInteractive : styles.tableRow}
+                  onClick={() => handleRowSelection(item.id, !isSelected)}
+                  tabIndex={0}
+                  role="button"
+                  aria-pressed={isSelected}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleRowSelection(item.id, !isSelected);
+                    }
+                  }}
                 >
                   <TableCell className={styles.checkboxCell}>
                     <Checkbox
