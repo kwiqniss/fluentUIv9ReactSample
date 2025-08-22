@@ -16,4 +16,8 @@
     <!-- Accessible label for the overflow menu button showing hidden tabs -->
     <value>More tabs ({0})</value>
   </data>
+  <data name="components" xml:space="preserve">
+    <!-- Components tab label -->
+    <value>Components</value>
+  </data>
 </root>

@@ -38,42 +38,28 @@ import { sharedStyles } from './SharedStyles.styles';
 import { appStyles } from './AppStyles.styles';
 import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
-import { tokens } from '@fluentui/react-components';
-
-const useOverflowStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    minWidth: 0,
-    overflow: 'hidden',
-    gap: tokens.spacingVerticalXS,
-    alignItems: 'center',
-  },
-  contentWrapper: {
-    maxWidth: '75rem',
-    width: '100%',
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-});
+import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const overflowStyles = useOverflowStyles();
   
   const styles = {
     ...sharedStyles(),
     ...appStyles(),
   };
 
+  const strings = {
+    ...appStrings,
+    ...tabStrings,
+  }
+
   const allTabs = [
-    { value: 'basic', label: tabStrings.basic },
-    { value: 'datetime', label: tabStrings.datetime },
-    { value: 'selection', label: tabStrings.selection },
-    { value: 'advanced', label: tabStrings.advanced },
-    { value: 'showcase', label: 'Components' }
+    { value: 'basic', label: strings.basic },
+    { value: 'datetime', label: strings.datetime },
+    { value: 'selection', label: strings.selection },
+    { value: 'advanced', label: strings.advanced },
+    { value: 'showcase', label: strings.components }
   ];
 
   const getTabFromUrl = (): TabValue => {
@@ -221,11 +207,11 @@ const App: React.FC = () => {
       <div className={styles.mainContainer}>
         <div className={styles.header}>
           <div className={styles.titleSection}>
-            <Body1 as="h1" className={styles.h1Heading}>{appStrings.title}</Body1>
-            <Caption1>{appStrings.subtitle}</Caption1>
+            <Body1 as="h1" className={styles.h1Heading}>{strings.title}</Body1>
+            <Caption1>{strings.subtitle}</Caption1>
           </div>
           <div className={styles.themeSection}>
-            <Field label={appStrings.themeSelector}>
+            <Field label={strings.themeSelector}>
               <Dropdown
                 value={themes[selectedTheme].name}
                 selectedOptions={[selectedTheme]}
@@ -241,10 +227,10 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className={overflowStyles.contentWrapper}>
+        <div className={styles.contentWrapper}>
           <div>
             <Overflow>
-              <div className={mergeClasses(overflowStyles.container)}>
+              <div className={mergeClasses(LineStyleSketch20Regular.container)}>
                 {allTabs.map((tab, index) => (
                   <OverflowItem 
                     key={tab.value} 

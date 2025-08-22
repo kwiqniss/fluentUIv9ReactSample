@@ -4,6 +4,21 @@ import { makeStyles, tokens } from '@fluentui/react-components';
  * Minimal App component styles
  */
 export const appStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    minWidth: 0,
+    overflow: 'hidden',
+    gap: tokens.spacingVerticalXS,
+    alignItems: 'center',
+  },
+  contentWrapper: {
+    maxWidth: '75rem',
+    width: '100%',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+  },
   // Responsive header layout with proper container padding
   header: {
     display: 'flex',
