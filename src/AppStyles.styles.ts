@@ -191,4 +191,10 @@ export const appStyles = makeStyles({
     backgroundColor: tokens.colorNeutralBackground1,
     borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
   },
+
+  // Tab container for FluentUI TabList
+  tabContainer: {
+    borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+    padding: `0 ${tokens.spacingHorizontalL}`,
+  },
 });

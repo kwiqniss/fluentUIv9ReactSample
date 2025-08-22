@@ -27,8 +27,8 @@ import {
   useOverflowMenu,
   useIsOverflowItemVisible,
   mergeClasses,
-  Toolbar,
-  ToolbarButton,
+  TabList,
+  Tab,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
@@ -267,28 +267,26 @@ const App: React.FC = () => {
           </div>
 
           <div className={styles.contentWrapper}>
-            <div className={styles.stickyToolbar}>
-              <Toolbar aria-label="Navigation tabs">
-                <Overflow>
-                  <div className={styles.container}>
-                    {allTabs.map((tab, index) => (
-                      <OverflowItem 
-                        key={tab.value} 
-                        id={tab.value}
-                        priority={index === 0 ? 1 : 0}
-                      >
-                        <ToolbarButton
-                          appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
-                          onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                        >
-                          {tab.label}
-                        </ToolbarButton>
-                      </OverflowItem>
-                    ))}
-                    <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
-                  </div>
-                </Overflow>
-              </Toolbar>
+            <div className={styles.tabContainer}>
+              <Overflow>
+                <TabList 
+                  selectedValue={selectedTab}
+                  onTabSelect={onTabSelect}
+                >
+                  {allTabs.map((tab, index) => (
+                    <OverflowItem 
+                      key={tab.value} 
+                      id={tab.value}
+                      priority={index === 0 ? 1 : 0}
+                    >
+                      <Tab value={tab.value}>
+                        {tab.label}
+                      </Tab>
+                    </OverflowItem>
+                  ))}
+                  <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+                </TabList>
+              </Overflow>
             </div>
 
             <div>
