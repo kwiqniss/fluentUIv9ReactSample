@@ -314,7 +314,7 @@ const BasicInputsTab: React.FC = () => {
                 }
               }}
             >
-              {Object.values(MessageType).map((type) => (
+              {[MessageType.Success, MessageType.Info, MessageType.Warning, MessageType.Error].map((type) => (
                 <Option key={type} value={type}>
                   {getMessageTypeDisplayName(type)}
                 </Option>
