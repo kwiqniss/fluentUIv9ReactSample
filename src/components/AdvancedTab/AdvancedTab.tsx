@@ -65,16 +65,18 @@ const AdvancedTab: React.FC = () => {
   const simulateProgress = () => {
     if (progress === 100) {
       setProgress(0);
-      addMessage('Progress reset');
+      addMessage('Progress reset to start new demo', 'info');
       return;
     }
+    
+    addMessage('Progress bar demo started', 'info');
     
     const interval = setInterval(() => {
       setProgress(prev => {
         const newValue = prev + Math.random() * 10;
         if (newValue >= 100) {
           clearInterval(interval);
-          addMessage('Progress completed!');
+          addMessage('Progress demo completed!', 'success');
           return 100;
         }
         return newValue;
