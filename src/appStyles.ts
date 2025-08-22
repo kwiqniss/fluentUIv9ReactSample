@@ -1,4 +1,5 @@
 import { makeStyles } from '@fluentui/react-components';
+import { TAB_OVERFLOW_CONFIG } from './utils/remHelpers';
 
 /**
  * Styles specific to the main App component
@@ -66,6 +67,7 @@ export const appStyles = makeStyles({
   moreButton: {
     flex: '0 0 auto',
     marginLeft: '0.5rem',
+    minWidth: `${TAB_OVERFLOW_CONFIG.moreButtonWidth}rem`, // Ensure consistent width for calculations
   },
 
   // Theme selector with responsive behavior

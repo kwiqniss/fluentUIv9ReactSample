@@ -32,6 +32,7 @@ import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
 import { sharedStyles } from './sharedStyles';
 import { appStyles } from './appStyles';
+import { getTabOverflowConfigPx } from './utils/remHelpers';
 import appStrings from './app.resx';
 import tabStrings from './tabs.resx';
 
@@ -112,10 +113,9 @@ const App: React.FC = () => {
     
     const container = tabListRef.current;
     const containerWidth = container.offsetWidth;
-    const moreButtonWidth = 120;
     
-    // Convert rem to px for calculations (assuming 16px = 1rem)
-    const remToPx = 16;
+    // Get configuration values converted to pixels
+    const { showThresholdPx, moreButtonWidthPx, bufferPx } = getTabOverflowConfigPx();
     
     // Get all tab elements - but only when More button is NOT visible to avoid feedback loop
     const tabElements = container.querySelectorAll('[role="tab"]');
@@ -138,11 +138,10 @@ const App: React.FC = () => {
     }
     
     // More button is currently hidden - check if we need to show it
-    const showThreshold = 2 * remToPx; // 2rem buffer
-    
-    if (totalTabsWidth > containerWidth - showThreshold) {
+    if (totalTabsWidth > containerWidth - showThresholdPx) {
       // We need to show More button - calculate which tabs to show
-      const availableWidthForTabs = containerWidth - moreButtonWidth - (1 * remToPx);
+      // Reserve space for More button plus buffer
+      const availableWidthForTabs = containerWidth - moreButtonWidthPx - bufferPx;
       let currentWidth = 0;
       const visible: string[] = [];
       const overflow: string[] = [];
@@ -194,8 +193,9 @@ const App: React.FC = () => {
         
         const container = tabListRef.current;
         const containerWidth = container.offsetWidth;
-        const moreButtonWidth = 120;
-        const remToPx = 16;
+        
+        // Get configuration values converted to pixels
+        const { generousBufferPx, moreButtonWidthPx, bufferPx } = getTabOverflowConfigPx();
         
         if (moreButtonVisible) {
           // More button is visible - we need to handle two scenarios:
@@ -214,8 +214,7 @@ const App: React.FC = () => {
           });
           
           // Check if we can expand back to show all tabs
-          const generousBuffer = 4 * remToPx; // 4rem buffer for comfortable fit
-          if (totalTabsWidth <= containerWidth - generousBuffer) {
+          if (totalTabsWidth <= containerWidth - generousBufferPx) {
             // Enough space now - reset More button and show all tabs
             setMoreButtonVisible(false);
             setVisibleTabs(allTabs.map(tab => tab.value));
@@ -223,7 +222,7 @@ const App: React.FC = () => {
           } else {
             // Not enough space for all tabs - recalculate which tabs to show
             // to prevent overlap with More button
-            const availableWidthForTabs = containerWidth - moreButtonWidth - (1 * remToPx);
+            const availableWidthForTabs = containerWidth - moreButtonWidthPx - bufferPx;
             let currentWidth = 0;
             const visible: string[] = [];
             const overflow: string[] = [];
