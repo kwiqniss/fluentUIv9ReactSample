@@ -328,12 +328,13 @@ const App: React.FC = () => {
                           border: `1px solid rgba(0, 0, 0, 0.08)`,
                           borderBottom: 'none',
                           borderRadius: '6px 6px 0 0',
-                          backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.08)' : 'rgba(0, 0, 0, 0.02)',
+                          backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
                           marginRight: '2px',
                           padding: '8px 16px',
                           transition: 'all 0.2s ease',
-                          color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.7)',
-                          borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.15)' : 'rgba(0, 0, 0, 0.08)'
+                          color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.8)',
+                          borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.3)' : 'rgba(0, 0, 0, 0.15)',
+                          boxShadow: selectedTab === tab.value ? '0 2px 6px rgba(0, 120, 212, 0.2)' : '0 2px 4px rgba(0, 0, 0, 0.12)'
                         } as React.CSSProperties}
                       >
                         {tab.label}
@@ -379,12 +380,13 @@ const App: React.FC = () => {
                               border: `1px solid rgba(0, 0, 0, 0.08)`,
                               borderBottom: 'none',
                               borderRadius: '6px 6px 0 0',
-                              backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.08)' : 'rgba(0, 0, 0, 0.02)',
+                              backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
                               marginRight: '2px',
                               padding: '8px 16px',
                               transition: 'all 0.2s ease',
-                              color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.7)',
-                              borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.15)' : 'rgba(0, 0, 0, 0.08)'
+                              color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.8)',
+                              borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.3)' : 'rgba(0, 0, 0, 0.15)',
+                              boxShadow: selectedTab === tab.value ? '0 2px 6px rgba(0, 120, 212, 0.2)' : '0 2px 4px rgba(0, 0, 0, 0.12)'
                             } as React.CSSProperties}
                           >
                             {tab.label}
