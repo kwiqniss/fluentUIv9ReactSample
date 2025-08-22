@@ -15,6 +15,9 @@
   <data name="breadcrumbCategory" xml:space="preserve">
     <value>Electronics</value>
   </data>
+  <data name="breadcrumbCurrent" xml:space="preserve">
+    <value>Component Showcase</value>
+  </data>
   <data name="menuTrigger" xml:space="preserve">
     <value>Options Menu</value>
   </data>

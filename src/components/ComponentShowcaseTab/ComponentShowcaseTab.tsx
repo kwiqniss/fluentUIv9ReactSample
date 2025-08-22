@@ -41,7 +41,8 @@ import {
   ToastTitle,
   Toaster,
   useToastController,
-  Caption1
+  Caption1,
+  tokens
 } from '@fluentui/react-components';
 import {
   HomeRegular,
@@ -86,6 +87,8 @@ const ComponentShowcaseTab: React.FC = () => {
   const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [isSkeletonLoading, setIsSkeletonLoading] = useState(true);
+  const [progressValue, setProgressValue] = useState(0);
+  const [isProgressRunning, setIsProgressRunning] = useState(false);
 
   // Simulate loading completion after 3 seconds
   useEffect(() => {
@@ -157,6 +160,27 @@ const ComponentShowcaseTab: React.FC = () => {
     addMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} toast shown (#${newCount})`);
   };
 
+  // Progress bar demo function
+  const startProgressDemo = () => {
+    if (isProgressRunning) return;
+    
+    setProgressValue(0);
+    setIsProgressRunning(true);
+    addMessage('Progress demo started');
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 0.05; // Increase by 5% each step
+      setProgressValue(progress);
+      
+      if (progress >= 1) {
+        clearInterval(interval);
+        setIsProgressRunning(false);
+        addMessage('Progress demo completed');
+      }
+    }, 200); // Update every 200ms for smooth animation
+  };
+
   // Sample data for components
   const tableData = [
     { id: 1, name: 'John Smith', role: 'Software Engineer', department: 'Engineering', status: 'Active' },
@@ -189,7 +213,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
                   <BreadcrumbItem>
                     <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
-                      <HomeRegular style={{ marginRight: '4px' }} />
+                      <HomeRegular style={{ marginRight: tokens.spacingHorizontalXS }} />
                       {strings.breadcrumbHome}
                     </Link>
                   </BreadcrumbItem>
@@ -204,6 +228,12 @@ const ComponentShowcaseTab: React.FC = () => {
                     <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Category clicked'); }}>
                       {strings.breadcrumbCategory}
                     </Link>
+                  </BreadcrumbItem>
+                  <BreadcrumbDivider />
+                  <BreadcrumbItem aria-current="page">
+                    <Text weight="semibold" style={{ color: tokens.colorNeutralForeground1 }}>
+                      {strings.breadcrumbCurrent}
+                    </Text>
                   </BreadcrumbItem>
                 </Breadcrumb>
               </div>
@@ -225,16 +255,16 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuPopover>
                   <MenuList>
                     <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
-                      <EditRegular style={{ marginRight: '8px' }} />
+                      <EditRegular style={{ marginRight: tokens.spacingHorizontalS }} />
                       {strings.menuEdit}
                     </MenuItem>
                     <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
-                      <CopyRegular style={{ marginRight: '8px' }} />
+                      <CopyRegular style={{ marginRight: tokens.spacingHorizontalS }} />
                       {strings.menuCopy}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
-                      <DeleteRegular style={{ marginRight: '8px' }} />
+                      <DeleteRegular style={{ marginRight: tokens.spacingHorizontalS }} />
                       {strings.menuDelete}
                     </MenuItem>
                   </MenuList>
@@ -340,8 +370,17 @@ const ComponentShowcaseTab: React.FC = () => {
           <div className={styles.componentCard}>
             <Field label={strings.labelProgress}>
               <div className={styles.verticalGroup}>
-                <ProgressBar value={0.75} />
-                <Text>{formatString(strings.progressLabel, '75')}</Text>
+                <ProgressBar value={progressValue} />
+                <Text>{formatString(strings.progressLabel, Math.round(progressValue * 100).toString())}</Text>
+                <Button
+                  appearance="secondary"
+                  size="small"
+                  onClick={startProgressDemo}
+                  disabled={isProgressRunning}
+                  style={{ marginTop: tokens.spacingVerticalS }}
+                >
+                  {isProgressRunning ? 'Running...' : 'Start Progress Demo'}
+                </Button>
               </div>
             </Field>
           </div>
@@ -360,7 +399,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   <div className={styles.skeletonProfile}>
                     <SkeletonItem shape="circle" size={48} />
                     <div className={styles.skeletonText}>
-                      <SkeletonItem shape="rectangle" size={16} style={{ width: '200px', height: '16px', marginBottom: '8px' }} />
+                      <SkeletonItem shape="rectangle" size={16} style={{ width: '200px', height: '16px', marginBottom: tokens.spacingVerticalS }} />
                       <SkeletonItem shape="rectangle" size={12} style={{ width: '150px', height: '12px' }} />
                     </div>
                   </div>
@@ -371,7 +410,7 @@ const ComponentShowcaseTab: React.FC = () => {
                     name="Sarah Chen"
                     size={48}
                     color="colorful"
-                    style={{ marginRight: '12px' }}
+                    style={{ marginRight: tokens.spacingHorizontalM }}
                   />
                   <div className={styles.skeletonText}>
                     <Text weight="semibold" size={400}>Sarah Chen</Text>
@@ -384,7 +423,7 @@ const ComponentShowcaseTab: React.FC = () => {
               appearance="secondary"
               size="small"
               onClick={() => setIsSkeletonLoading(true)}
-              style={{ marginTop: '12px' }}
+              style={{ marginTop: tokens.spacingVerticalM }}
             >
               {isSkeletonLoading ? 'Loading...' : 'Show Loading Demo'}
             </Button>
@@ -470,7 +509,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 </Table>
                 
                 {searchValue && searchResults.length === 0 && (
-                  <div style={{ padding: '16px', textAlign: 'center' }}>
+                  <div style={{ padding: tokens.spacingVerticalL, textAlign: 'center' }}>
                     <Text>{strings.noResults}</Text>
                   </div>
                 )}
