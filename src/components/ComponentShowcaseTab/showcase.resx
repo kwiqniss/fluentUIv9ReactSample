@@ -264,4 +264,10 @@
   <data name="searchFilter" xml:space="preserve">
     <value>Search &amp; Filter</value>
   </data>
+  <data name="progressButtonStart" xml:space="preserve">
+    <value>Start Progress Demo</value>
+  </data>
+  <data name="progressButtonRunning" xml:space="preserve">
+    <value>Running...</value>
+  </data>
 </root>

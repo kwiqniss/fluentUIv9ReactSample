@@ -380,7 +380,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   disabled={isProgressRunning}
                   style={{ marginTop: tokens.spacingVerticalS }}
                 >
-                  {isProgressRunning ? 'Running...' : 'Start Progress Demo'}
+                  {isProgressRunning ? strings.progressButtonRunning : strings.progressButtonStart}
                 </Button>
               </div>
             </Field>
