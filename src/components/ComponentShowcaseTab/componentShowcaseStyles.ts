@@ -15,6 +15,9 @@ export const componentShowcaseStyles = makeStyles({
     marginBottom: tokens.spacingVerticalL,
     maxWidth: '1200px', // Constrain grid width
     width: '100%',
+    '@media (min-width: 768px)': {
+      gridTemplateColumns: '1fr 1fr', // Exactly 2 columns on larger screens
+    },
   },
 
   // Essential card styling with input constraints

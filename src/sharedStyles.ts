@@ -11,6 +11,9 @@ export const sharedStyles = makeStyles({
     gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
     gap: tokens.spacingHorizontalL,
     marginBottom: tokens.spacingVerticalL,
+    '@media (min-width: 768px)': {
+      gridTemplateColumns: '1fr 1fr', // Exactly 2 columns on larger screens
+    },
   },
   
   // Individual field styling
