@@ -8,7 +8,7 @@ export const appStyles = makeStyles({
     display: 'flex',
     flexWrap: 'nowrap',
     minWidth: 0,
-    overflow: 'hidden',
+    overflow: 'visible',
     gap: tokens.spacingVerticalXS,
     alignItems: 'center',
   },
@@ -194,7 +194,23 @@ export const appStyles = makeStyles({
 
   // Tab container for FluentUI TabList
   tabContainer: {
+    backgroundColor: tokens.colorNeutralBackground1,
     borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
     padding: `0 ${tokens.spacingHorizontalL}`,
+    transition: 'box-shadow 0.2s ease',
+  },
+  tabContainerSticky: {
+    position: 'fixed',
+    top: 0,
+    zIndex: 100,
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+    padding: `0 ${tokens.spacingHorizontalL}`,
+    boxShadow: tokens.shadow8,
+    transition: 'box-shadow 0.2s ease',
+  },
+  tabSpacer: {
+    height: 'var(--tabs-height, 0px)',
+    visibility: 'hidden',
   },
 });

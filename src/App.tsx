@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   TabValue,
@@ -29,6 +29,8 @@ import {
   mergeClasses,
   TabList,
   Tab,
+  Portal,
+  useScrollbarWidth,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
@@ -52,6 +54,42 @@ const App: React.FC = () => {
     const saved = localStorage.getItem('fluentui-demo-messaging-enabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
+  
+  // Sticky tab positioning state
+  const [isTabsSticky, setIsTabsSticky] = useState(false);
+  const [tabsHeight, setTabsHeight] = useState(0);
+  const [tabsWidth, setTabsWidth] = useState(0);
+  const [tabsLeft, setTabsLeft] = useState(0);
+  const tabContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Scroll event handler for sticky positioning
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tabContainerRef.current) {
+        const rect = tabContainerRef.current.getBoundingClientRect();
+        const shouldBeSticky = rect.top <= 0;
+        setIsTabsSticky(shouldBeSticky);
+        
+        // Update dimensions and position
+        if (!tabsHeight || !tabsWidth) {
+          setTabsHeight(tabContainerRef.current.offsetHeight);
+          setTabsWidth(tabContainerRef.current.offsetWidth);
+        }
+        
+        // Update left position for sticky tabs
+        setTabsLeft(rect.left);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [tabsHeight, tabsWidth]);
   
   const styles = {
     ...sharedStyles(),
@@ -267,7 +305,11 @@ const App: React.FC = () => {
           </div>
 
           <div className={styles.contentWrapper}>
-            <div className={styles.tabContainer}>
+            <div 
+              ref={tabContainerRef}
+              className={styles.tabContainer}
+              style={{ '--tabs-height': `${tabsHeight}px` } as React.CSSProperties}
+            >
               <Overflow>
                 <TabList 
                   selectedValue={selectedTab}
@@ -288,6 +330,46 @@ const App: React.FC = () => {
                 </TabList>
               </Overflow>
             </div>
+
+            {/* Sticky Portal when scrolled past */}
+            {isTabsSticky && (
+              <Portal>
+                <div 
+                  className={styles.tabContainerSticky}
+                  style={{ 
+                    '--tabs-height': `${tabsHeight}px`,
+                    width: `${tabsWidth}px`,
+                    left: `${tabsLeft}px`,
+                    right: 'auto'
+                  } as React.CSSProperties}
+                >
+                  <Overflow>
+                    <TabList 
+                      selectedValue={selectedTab}
+                      onTabSelect={onTabSelect}
+                    >
+                      {allTabs.map((tab, index) => (
+                        <OverflowItem 
+                          key={`sticky-${tab.value}`} 
+                          id={`sticky-${tab.value}`}
+                          priority={index === 0 ? 1 : 0}
+                        >
+                          <Tab value={tab.value}>
+                            {tab.label}
+                          </Tab>
+                        </OverflowItem>
+                      ))}
+                      <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+                    </TabList>
+                  </Overflow>
+                </div>
+              </Portal>
+            )}
+
+            {/* Spacer to maintain layout when sticky is active */}
+            {isTabsSticky && (
+              <div className={styles.tabSpacer} style={{ height: `${tabsHeight}px` }} />
+            )}
 
             <div>
               {renderTabContent()}
