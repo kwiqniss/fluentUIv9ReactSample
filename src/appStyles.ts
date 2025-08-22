@@ -41,7 +41,6 @@ export const appStyles = makeStyles({
     flex: '1 1 auto',
     minWidth: 0, // Allow shrinking below content size
     maxWidth: '100%',
-    overflow: 'hidden', // Hide overflow
     // TabList should take available space
     '& [role="tablist"]': {
       display: 'flex',
