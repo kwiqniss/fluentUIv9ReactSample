@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import {
   Field,
   Body1,
@@ -35,6 +35,12 @@ const strings = {
 
 const SelectionTab: React.FC = () => {
   const styles = sharedStyles();
+  
+  // Generate unique ID suffix for form elements
+  const idSuffix = useId();
+  const feature1CheckboxId = `feature1-checkbox-${idSuffix}`;
+  const feature2CheckboxId = `feature2-checkbox-${idSuffix}`;
+  const feature3CheckboxId = `feature3-checkbox-${idSuffix}`;
   
   // Load cached data or use defaults - this runs every time component mounts
   const getCachedData = (): SelectionFormData => {
@@ -144,16 +150,19 @@ const SelectionTab: React.FC = () => {
         <Field label={strings.checkboxes} className={styles.field}>
           <div className={styles.verticalStack}>
             <Checkbox
+              id={feature1CheckboxId}
               checked={checkedItems.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[0]}
             />
             <Checkbox
+              id={feature2CheckboxId}
               checked={checkedItems.feature2 || false}
               onChange={(e, data) => handleCheckboxChange('feature2', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[1]}
             />
             <Checkbox
+              id={feature3CheckboxId}
               checked={checkedItems.feature3 || false}
               onChange={(e, data) => handleCheckboxChange('feature3', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[2]}
