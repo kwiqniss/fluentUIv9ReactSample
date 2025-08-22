@@ -327,7 +327,7 @@ const App: React.FC = () => {
                         style={{
                           border: `2px solid`,
                           borderBottom: 'none',
-                          borderRadius: '12px 8px 0 0',
+                          borderRadius: '8px 12px 0 0',
                           backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
                           marginRight: '4px',
                           marginTop: selectedTab === tab.value ? '0' : '6px',
@@ -413,7 +413,7 @@ const App: React.FC = () => {
                             style={{
                               border: `2px solid`,
                               borderBottom: 'none',
-                              borderRadius: '12px 8px 0 0',
+                              borderRadius: '8px 12px 0 0',
                               backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
                               marginRight: '4px',
                               marginTop: selectedTab === tab.value ? '0' : '6px',
