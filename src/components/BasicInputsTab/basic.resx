@@ -4,6 +4,70 @@
     <!-- Section title for basic input controls tab -->
     <value>Basic Input Controls</value>
   </data>
+  <data name="description" xml:space="preserve">
+    <!-- Description for basic input controls tab -->
+    <value>Demonstrate basic form input controls with validation and caching</value>
+  </data>
+  <data name="textLabel" xml:space="preserve">
+    <!-- Label for standard text input field -->
+    <value>Text Input</value>
+  </data>
+  <data name="emailLabel" xml:space="preserve">
+    <!-- Label for email input field with validation -->
+    <value>Email Input</value>
+  </data>
+  <data name="passwordLabel" xml:space="preserve">
+    <!-- Label for password input field with masked characters -->
+    <value>Password Input</value>
+  </data>
+  <data name="numberLabel" xml:space="preserve">
+    <!-- Label for numeric input field -->
+    <value>Number Input</value>
+  </data>
+  <data name="textareaLabel" xml:space="preserve">
+    <!-- Label for multi-line text input area -->
+    <value>Textarea</value>
+  </data>
+  <data name="textPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for standard text input -->
+    <value>Enter some text...</value>
+  </data>
+  <data name="emailPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for email input -->
+    <value>Enter your email...</value>
+  </data>
+  <data name="passwordPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for password input -->
+    <value>Enter password...</value>
+  </data>
+  <data name="numberPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for number input -->
+    <value>Enter a number...</value>
+  </data>
+  <data name="textareaPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for multi-line textarea -->
+    <value>Enter multiple lines of text...</value>
+  </data>
+  <data name="submitButton" xml:space="preserve">
+    <!-- Submit button text -->
+    <value>Submit Form</value>
+  </data>
+  <data name="clearButton" xml:space="preserve">
+    <!-- Clear button text -->
+    <value>Clear All</value>
+  </data>
+  <data name="submitSuccess" xml:space="preserve">
+    <!-- Success message when form is submitted -->
+    <value>Form submitted successfully!</value>
+  </data>
+  <data name="submitError" xml:space="preserve">
+    <!-- Error message when form has no content -->
+    <value>Please fill in at least one field before submitting.</value>
+  </data>
+  <data name="clearSuccess" xml:space="preserve">
+    <!-- Success message when form is cleared -->
+    <value>All fields cleared successfully!</value>
+  </data>
   <data name="textInput" xml:space="preserve">
     <!-- Label for standard text input field -->
     <value>Text Input</value>

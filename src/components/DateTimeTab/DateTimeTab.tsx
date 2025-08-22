@@ -69,15 +69,13 @@ const DateTimeTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{strings.title}</Body1>
+      <Body1 className={styles.sectionTitle}>{strings.title}</Body1>
       
-      {/* Date and Time inputs with enhanced icon contrast for all themes */}
-      <div className={styles.row}>
+      <div className={styles.inputGrid}>
         <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"
             value={dateValue}
-            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setDateValue(e.target.value);
               addMessage(`Date selected: ${e.target.value}`);
@@ -86,11 +84,11 @@ const DateTimeTab: React.FC = () => {
             onBlur={() => addMessage('Date picker lost focus')}
           />
         </Field>
+
         <Field label={strings.timeInput} className={styles.field}>
           <Input
             type="time"
             value={timeValue}
-            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setTimeValue(e.target.value);
               addMessage(`Time selected: ${e.target.value}`);
@@ -99,14 +97,11 @@ const DateTimeTab: React.FC = () => {
             onBlur={() => addMessage('Time picker lost focus')}
           />
         </Field>
-      </div>
 
-      <div className={styles.row}>
         <Field label={strings.datetimeInput} className={styles.field}>
           <Input
             type="datetime-local"
             value={datetimeValue}
-            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setDatetimeValue(e.target.value);
               addMessage(`DateTime selected: ${e.target.value}`);
@@ -120,7 +115,6 @@ const DateTimeTab: React.FC = () => {
           <Input
             type="month"
             value={monthValue}
-            className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
             onChange={(e) => {
               setMonthValue(e.target.value);
               addMessage(`Month selected: ${e.target.value}`);
@@ -129,34 +123,31 @@ const DateTimeTab: React.FC = () => {
             onBlur={() => addMessage('Month picker lost focus')}
           />
         </Field>
+
+        <Field label={strings.weekInput} className={styles.field}>
+          <Input
+            type="week"
+            value={weekValue}
+            onChange={(e) => {
+              setWeekValue(e.target.value);
+              addMessage(`Week selected: ${e.target.value}`);
+            }}
+            onFocus={() => addMessage('Week picker focused')}
+            onBlur={() => addMessage('Week picker lost focus')}
+          />
+        </Field>
       </div>
 
-      <Field label={strings.weekInput}>
-        <Input
-          type="week"
-          value={weekValue}
-          className={`${styles.dateTimeInput} ${styles.dateTimeInputFluentAware}`}
-          onChange={(e) => {
-            setWeekValue(e.target.value);
-            addMessage(`Week selected: ${e.target.value}`);
-          }}
-          onFocus={() => addMessage('Week picker focused')}
-          onBlur={() => addMessage('Week picker lost focus')}
-        />
-      </Field>
-
-      <Card>
-        <CardHeader header={<Body1>Interaction Messages</Body1>} />
+      <Card className={styles.cardContainer}>
+        <CardHeader>
+          <Body1>{strings.userInteractionLog}</Body1>
+        </CardHeader>
         <div className={styles.messageScrollArea}>
-          {messages.length === 0 ? (
-            <Caption1>Interact with the date/time controls above to see messages here...</Caption1>
-          ) : (
-            messages.map((message, index) => (
-              <div key={index}>
-                <Caption1>{message}</Caption1>
-              </div>
-            ))
-          )}
+          {messages.map((message, index) => (
+            <Caption1 key={index}>
+              {message}
+            </Caption1>
+          ))}
         </div>
       </Card>
     </div>

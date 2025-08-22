@@ -96,9 +96,9 @@ const SelectionTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{strings.title}</Body1>
+      <Body1 className={styles.sectionTitle}>{strings.title}</Body1>
       
-      <div className={styles.row}>
+      <div className={styles.inputGrid}>
         <Field label={strings.combobox} className={styles.field}>
           <Combobox
             value={comboboxValue}
@@ -134,9 +134,7 @@ const SelectionTab: React.FC = () => {
             ))}
           </Dropdown>
         </Field>
-      </div>
 
-      <div className={styles.row}>
         <Field label={strings.radioGroup} className={styles.field}>
           <RadioGroup
             value={selectedRadio}
@@ -152,7 +150,7 @@ const SelectionTab: React.FC = () => {
         </Field>
 
         <Field label={strings.checkboxes} className={styles.field}>
-          <div className={styles.verticalStack}>
+          <div>
             <Checkbox
               id={feature1CheckboxId}
               checked={checkedItems.feature1 || false}
@@ -173,31 +171,29 @@ const SelectionTab: React.FC = () => {
             />
           </div>
         </Field>
+
+        <Field label={strings.switchControl} className={styles.field}>
+          <Switch
+            checked={switchValue}
+            onChange={(e, data) => {
+              setSwitchValue(data.checked);
+              addMessage(`Switch ${data.checked ? 'turned on' : 'turned off'}`);
+            }}
+            label={switchValue ? strings.enabled : strings.disabled}
+          />
+        </Field>
       </div>
 
-      <Field label={strings.switchControl}>
-        <Switch
-          checked={switchValue}
-          onChange={(e, data) => {
-            setSwitchValue(data.checked);
-            addMessage(`Switch ${data.checked ? 'turned on' : 'turned off'}`);
-          }}
-          label={switchValue ? strings.enabled : strings.disabled}
-        />
-      </Field>
-
-      <Card className={styles.messageAreaSpacing}>
-        <CardHeader header={<Body1>Interaction Messages</Body1>} />
+      <Card className={styles.cardContainer}>
+        <CardHeader>
+          <Body1>{strings.userInteractionLog}</Body1>
+        </CardHeader>
         <div className={styles.messageScrollArea}>
-          {messages.length === 0 ? (
-            <Caption1>Interact with the selection controls above to see messages here...</Caption1>
-          ) : (
-            messages.map((message, index) => (
-              <div key={index}>
-                <Caption1>{message}</Caption1>
-              </div>
-            ))
-          )}
+          {messages.map((message, index) => (
+            <Caption1 key={index}>
+              {message}
+            </Caption1>
+          ))}
         </div>
       </Card>
     </div>

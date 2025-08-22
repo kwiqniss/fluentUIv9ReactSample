@@ -60,6 +60,7 @@ import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { formatString } from '../../formatString';
 import strings from './showcase.resx';
 import { componentShowcaseStyles, componentProps } from './componentShowcaseStyles';
+import { sharedStyles } from '../../sharedStyles';
 import { badge, statusColor, size } from '../../styles/componentConstants';
 
 // Define the form data interface
@@ -114,7 +115,10 @@ const ComponentShowcaseTab: React.FC = () => {
   }, [searchValue, toastCount, messages]);
 
   // Get styles
-  const styles = componentShowcaseStyles();
+  const styles = {
+    ...sharedStyles(),
+    ...componentShowcaseStyles(),
+  };
 
   // Helper function to add messages
   const addMessage = (message: string) => {
@@ -198,24 +202,24 @@ const ComponentShowcaseTab: React.FC = () => {
   );
 
   return (
-    <div className={styles.responsiveWrapper}>
-      <div className={styles.container}>
+    <div className={styles.tabContentStandardized}>
+      <div className={styles.tabContentStandardized}>
         <Toaster toasterId={toasterId} />
         
-        <Title2 className={styles.sectionHeader}>{strings.title}</Title2>
+        <Title2 >{strings.title}</Title2>
 
       {/* Navigation Components Section */}
-      <section className={styles.navigationSection}>
-        <Title3 className={styles.sectionHeader}>{strings.navigation}</Title3>
+      <section >
+        <Title3 >{strings.navigation}</Title3>
         
-        <div className={styles.componentGrid}>
-          <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelBreadcrumbNavigation}>
-              <div className={styles.breadcrumbContainer}>
+              <div className={styles.tabContentStandardized}>
                 <Breadcrumb aria-label={strings.ariaBreadcrumbNavigation}>
                   <BreadcrumbItem>
                     <Link href="#" onClick={(e) => { e.preventDefault(); addMessage('Breadcrumb: Home clicked'); }}>
-                      <HomeRegular className={styles.homeIcon} />
+                      <HomeRegular  />
                       {strings.breadcrumbHome}
                     </Link>
                   </BreadcrumbItem>
@@ -233,7 +237,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   </BreadcrumbItem>
                   <BreadcrumbDivider />
                   <BreadcrumbItem aria-current="page">
-                    <Text weight={componentProps.text.semibold} className={styles.breadcrumbCurrentText}>
+                    <Text weight={componentProps.text.semibold} >
                       {strings.breadcrumbCurrent}
                     </Text>
                   </BreadcrumbItem>
@@ -242,7 +246,7 @@ const ComponentShowcaseTab: React.FC = () => {
             </Field>
           </div>
 
-          <div className={styles.componentCard}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelMenuNavigation}>
               <Menu>
                 <MenuTrigger>
@@ -257,16 +261,16 @@ const ComponentShowcaseTab: React.FC = () => {
                 <MenuPopover>
                   <MenuList>
                     <MenuItem onClick={() => addMessage('Menu: Edit selected')}>
-                      <EditRegular className={styles.editIcon} />
+                      <EditRegular  />
                       {strings.menuEdit}
                     </MenuItem>
                     <MenuItem onClick={() => addMessage('Menu: Copy selected')}>
-                      <CopyRegular className={styles.copyIcon} />
+                      <CopyRegular  />
                       {strings.menuCopy}
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => addMessage('Menu: Delete selected')}>
-                      <DeleteRegular className={styles.deleteIcon} />
+                      <DeleteRegular  />
                       {strings.menuDelete}
                     </MenuItem>
                   </MenuList>
@@ -278,13 +282,13 @@ const ComponentShowcaseTab: React.FC = () => {
       </section>
 
       {/* Layout Components Section */}
-      <section className={styles.layoutSection}>
-        <Title3 className={styles.sectionHeader}>{strings.layouts}</Title3>
+      <section >
+        <Title3 >{strings.layouts}</Title3>
         
-        <div className={styles.componentGrid}>
-          <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelCard}>
-              <Card className={styles.componentCard}>
+              <Card >
                 <CardHeader
                   image={<Avatar name="Product" size={componentProps.size.size40} />}
                   header={<Text weight={componentProps.text.semibold}>{strings.cardTitle}</Text>}
@@ -312,7 +316,7 @@ const ComponentShowcaseTab: React.FC = () => {
             </Field>
           </div>
 
-          <div className={styles.componentCard}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelAccordion}>
               <Accordion collapsible>
                 <AccordionItem value="requirements">
@@ -334,13 +338,13 @@ const ComponentShowcaseTab: React.FC = () => {
       </section>
 
       {/* Interactive Components Section */}
-      <section className={styles.interactiveSection}>
-        <Title3 className={styles.sectionHeader}>{strings.interactive}</Title3>
+      <section >
+        <Title3 >{strings.interactive}</Title3>
         
-        <div className={styles.componentGrid}>
-          <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelToastNotifications}>
-              <div className={styles.horizontalGroup}>
+              <div className={styles.tabContentStandardized}>
                 <Button 
                   appearance={componentProps.button.primary} 
                   onClick={() => showToast('success')}
@@ -369,9 +373,9 @@ const ComponentShowcaseTab: React.FC = () => {
             </Field>
           </div>
 
-          <div className={styles.componentCard}>
+          <div className={styles.tabContentStandardized}>
             <Field label={strings.labelProgress}>
-              <div className={styles.verticalGroup}>
+              <div className={styles.tabContentStandardized}>
                 <ProgressBar value={progressValue} />
                 <Text>{formatString(strings.progressLabel, Math.round(progressValue * 100).toString())}</Text>
                 <Button
@@ -379,7 +383,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   size={componentProps.size.small}
                   onClick={startProgressDemo}
                   disabled={isProgressRunning}
-                  className={styles.marginTopSmall}
+                  
                 >
                   {isProgressRunning ? strings.progressButtonRunning : strings.progressButtonStart}
                 </Button>
@@ -391,30 +395,30 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Loading States Section */}
       <section>
-        <Title3 className={styles.sectionHeader}>{strings.loadingStates}</Title3>
+        <Title3 >{strings.loadingStates}</Title3>
         
-        <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSkeleton}>
-            <div className={styles.skeletonContainer}>
+            <div className={styles.tabContentStandardized}>
               {isSkeletonLoading ? (
                 <Skeleton>
-                  <div className={styles.skeletonProfile}>
+                  <div className={styles.tabContentStandardized}>
                     <SkeletonItem shape={componentProps.skeleton.circle} size={componentProps.size.size48} />
-                    <div className={styles.skeletonText}>
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16} className={styles.skeletonItemWide} />
-                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12} className={styles.skeletonItemNarrow} />
+                    <div className={styles.tabContentStandardized}>
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size16}  />
+                      <SkeletonItem shape={componentProps.skeleton.rectangle} size={componentProps.size.size12}  />
                     </div>
                   </div>
                 </Skeleton>
               ) : (
-                <div className={styles.skeletonProfile}>
+                <div className={styles.tabContentStandardized}>
                   <Avatar
                     name="Sarah Chen"
                     size={componentProps.size.size48}
                     color={componentProps.avatar.colorful}
-                    className={styles.marginRightMedium}
+                    
                   />
-                  <div className={styles.skeletonText}>
+                  <div className={styles.tabContentStandardized}>
                     <Text weight={componentProps.text.semibold} size={componentProps.text.size400}>Sarah Chen</Text>
                     <Caption1>Senior Software Engineer • Microsoft</Caption1>
                   </div>
@@ -425,7 +429,7 @@ const ComponentShowcaseTab: React.FC = () => {
               appearance={componentProps.button.secondary}
               size={componentProps.size.small}
               onClick={() => setIsSkeletonLoading(true)}
-              className={styles.marginTopMedium}
+              
             >
               {isSkeletonLoading ? 'Loading...' : 'Show Loading Demo'}
             </Button>
@@ -435,11 +439,11 @@ const ComponentShowcaseTab: React.FC = () => {
 
       {/* Search & Filter Section */}
       <section>
-        <Title3 className={styles.sectionHeader}>{strings.searchFilter}</Title3>
+        <Title3 >{strings.searchFilter}</Title3>
         
-        <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
           <Field label={strings.labelSearch}>
-            <div className={styles.searchArea}>
+            <div className={styles.tabContentStandardized}>
               <SearchBox
                 placeholder={strings.searchPlaceholder}
                 value={searchValue}
@@ -455,7 +459,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 }}
               />
               {searchValue && (
-                <div className={styles.searchResults}>
+                <div className={styles.tabContentStandardized}>
                   <Text>{`Found ${searchResults.length} results for "${searchValue}"`}</Text>
                 </div>
               )}
@@ -465,13 +469,13 @@ const ComponentShowcaseTab: React.FC = () => {
       </section>
 
       {/* Data & Visualization Section */}
-      <section className={styles.dataSection}>
-        <Title3 className={styles.sectionHeader}>{strings.dataVisualization}</Title3>
+      <section >
+        <Title3 >{strings.dataVisualization}</Title3>
         
-        <div className={styles.componentCard}>
+        <div className={styles.tabContentStandardized}>
           <Field label={strings.labelDataTable}>
-            <div className={styles.tableContainer}>
-              <div className={styles.tableWrapper}>
+            <div className={styles.tabContentStandardized}>
+              <div className={styles.tabContentStandardized}>
                 <Table aria-label={strings.ariaEmployeeTable} role="table">
                   <TableHeader>
                     <TableRow>
@@ -511,7 +515,7 @@ const ComponentShowcaseTab: React.FC = () => {
                 </Table>
                 
                 {searchValue && searchResults.length === 0 && (
-                  <div className={styles.emptyStateContainer}>
+                  <div className={styles.tabContentStandardized}>
                     <Text>{strings.noResults}</Text>
                   </div>
                 )}
@@ -524,10 +528,10 @@ const ComponentShowcaseTab: React.FC = () => {
       {/* Message Log */}
       {messages.length > 0 && (
         <section>
-          <Title3 className={styles.sectionHeader}>{strings.activityLog}</Title3>
-          <div className={styles.messageLog}>
+          <Title3 >{strings.activityLog}</Title3>
+          <div className={styles.tabContentStandardized}>
             {messages.slice(-10).map((message, index) => (
-              <Caption1 key={index} className={styles.messageItem}>
+              <Caption1 key={index} >
                 {message}
               </Caption1>
             ))}

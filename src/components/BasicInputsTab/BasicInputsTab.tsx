@@ -1,284 +1,217 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Input,
   Field,
+  Input,
   Textarea,
   Button,
-  Card,
-  CardHeader,
+  makeStyles,
   Body1,
   Caption1,
-  Dialog,
-  DialogTrigger,
-  DialogSurface,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  DialogBody,
+  MessageBar,
+  MessageBarBody,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../sharedStyles';
 import { basicInputsTabStyles } from './basicInputsTabStyles';
-import { button } from '../../styles/componentConstants';
-import basicStrings from './basic.resx';
-import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import basicStrings from './basic.resx';
 
-// Consolidated strings object
-const strings = {
-  ...basicStrings,
-  ...commonStrings,
-};
-
-export interface BasicInputsFormData {
-  textValue: string;
-  emailValue: string;
-  passwordValue: string;
-  textareaValue: string;
-  numberValue: string;
-  dialogName: string;
-  dialogEmail: string;
-  messages: string[];
-}
+const useStyles = makeStyles({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '24px',
+  },
+  headerSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    marginBottom: '8px',
+  },
+  formGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '16px',
+  },
+  buttonSection: {
+    display: 'flex',
+    gap: '12px',
+    alignItems: 'center',
+    marginTop: '16px',
+  },
+  messageSection: {
+    marginTop: '16px',
+  },
+});
 
 const BasicInputsTab: React.FC = () => {
+  const localStyles = useStyles();
   const styles = {
     ...sharedStyles(),
     ...basicInputsTabStyles(),
   };
+
+  // Cache keys for this tab's fields
+  const FIELD_KEYS = {
+    TEXT: 'basic_text',
+    EMAIL: 'basic_email', 
+    PASSWORD: 'basic_password',
+    NUMBER: 'basic_number',
+    TEXTAREA: 'basic_textarea',
+  };
+
+  // Form state with caching
+  const [textValue, setTextValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXT) || '');
+  const [emailValue, setEmailValue] = useState<string>(formCache.get<string>(FIELD_KEYS.EMAIL) || '');
+  const [passwordValue, setPasswordValue] = useState<string>(formCache.get<string>(FIELD_KEYS.PASSWORD) || '');
+  const [numberValue, setNumberValue] = useState<string>(formCache.get<string>(FIELD_KEYS.NUMBER) || '');
+  const [textareaValue, setTextareaValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXTAREA) || '');
   
-  // Load cached data or use defaults - this runs every time component mounts
-  const getCachedData = (): BasicInputsFormData => {
-    const cached = formCache.get<BasicInputsFormData>(CACHE_KEYS.BASIC_INPUTS);
-    return cached || {
-      textValue: '',
-      emailValue: '',
-      passwordValue: '',
-      textareaValue: '',
-      numberValue: '',
-      dialogName: '',
-      dialogEmail: '',
-      messages: [],
-    };
+  const [message, setMessage] = useState<string>('');
+  const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
+
+  // Event handlers with caching
+  const handleTextChange = (value: string) => {
+    setTextValue(value);
+    formCache.set(FIELD_KEYS.TEXT, value);
   };
 
-  // Initialize state with cached data each time component mounts
-  const initialData = getCachedData();
-  
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
-  const [textValue, setTextValue] = useState(initialData.textValue);
-  const [emailValue, setEmailValue] = useState(initialData.emailValue);
-  const [passwordValue, setPasswordValue] = useState(initialData.passwordValue);
-  const [textareaValue, setTextareaValue] = useState(initialData.textareaValue);
-  const [numberValue, setNumberValue] = useState(initialData.numberValue);
-  
-  // Dialog state
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogName, setDialogName] = useState(initialData.dialogName);
-  const [dialogEmail, setDialogEmail] = useState(initialData.dialogEmail);
-
-  // Cache form data whenever state changes
-  useEffect(() => {
-    const formData: BasicInputsFormData = {
-      textValue,
-      emailValue,
-      passwordValue,
-      textareaValue,
-      numberValue,
-      dialogName,
-      dialogEmail,
-      messages,
-    };
-    formCache.set(CACHE_KEYS.BASIC_INPUTS, formData);
-  }, [textValue, emailValue, passwordValue, textareaValue, numberValue, dialogName, dialogEmail, messages]);
-
-  const addMessage = (message: string) => {
-    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
+  const handleEmailChange = (value: string) => {
+    setEmailValue(value);
+    formCache.set(FIELD_KEYS.EMAIL, value);
   };
 
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true);
-    addMessage('Opening contact dialog...');
+  const handlePasswordChange = (value: string) => {
+    setPasswordValue(value);
+    formCache.set(FIELD_KEYS.PASSWORD, value);
   };
 
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    addMessage('Dialog closed');
+  const handleNumberChange = (value: string) => {
+    setNumberValue(value);
+    formCache.set(FIELD_KEYS.NUMBER, value);
   };
 
-  const handleSubmitDialog = () => {
-    if (dialogName.trim() && dialogEmail.trim()) {
-      addMessage(`Contact form submitted: Name="${dialogName}", Email="${dialogEmail}"`);
-      setDialogName('');
-      setDialogEmail('');
-      handleCloseDialog();
+  const handleTextareaChange = (value: string) => {
+    setTextareaValue(value);
+    formCache.set(FIELD_KEYS.TEXTAREA, value);
+  };
+
+  const handleSubmit = () => {
+    const hasContent = textValue || emailValue || passwordValue || numberValue || textareaValue;
+    
+    if (hasContent) {
+      setMessage(basicStrings.submitSuccess);
+      setMessageType('success');
+      
+      // Log the current form state
+      console.log('Basic Inputs Form Submitted:', {
+        text: textValue,
+        email: emailValue,
+        password: passwordValue ? '[HIDDEN]' : '',
+        number: numberValue,
+        textarea: textareaValue,
+      });
     } else {
-      addMessage('Please fill in all required fields in the dialog');
+      setMessage(basicStrings.submitError);
+      setMessageType('warning');
     }
+
+    // Clear message after 3 seconds
+    setTimeout(() => setMessage(''), 3000);
+  };
+
+  const handleClear = () => {
+    setTextValue('');
+    setEmailValue('');
+    setPasswordValue('');
+    setNumberValue('');
+    setTextareaValue('');
+    
+    // Clear cached values
+    formCache.remove(FIELD_KEYS.TEXT);
+    formCache.remove(FIELD_KEYS.EMAIL);
+    formCache.remove(FIELD_KEYS.PASSWORD);
+    formCache.remove(FIELD_KEYS.NUMBER);
+    formCache.remove(FIELD_KEYS.TEXTAREA);
+
+    setMessage(basicStrings.clearSuccess);
+    setMessageType('info');
+
+    // Clear message after 2 seconds
+    setTimeout(() => setMessage(''), 2000);
   };
 
   return (
     <div className={styles.tabContentStandardized}>
-      <Body1>{strings.title}</Body1>
-      
-      <div className={styles.row}>
-        <Field label={strings.textInput} className={styles.field}>
-          <Input
-            value={textValue}
-            onChange={(e) => {
-              setTextValue(e.target.value);
-              addMessage(`Text input changed to: "${e.target.value}"`);
-            }}
-            onFocus={() => addMessage('Text input focused')}
-            onBlur={() => addMessage('Text input lost focus')}
-            placeholder={strings.textInputPlaceholder}
-          />
-        </Field>
-
-        <Field label={strings.emailInput} className={styles.field}>
-          <Input
-            type="email"
-            value={emailValue}
-            onChange={(e) => {
-              setEmailValue(e.target.value);
-              addMessage(`Email input changed to: "${e.target.value}"`);
-            }}
-            onFocus={() => addMessage('Email input focused')}
-            onBlur={() => addMessage('Email input lost focus')}
-            placeholder={strings.emailInputPlaceholder}
-          />
-        </Field>
-      </div>
-
-      <div className={styles.row}>
-        <Field label={strings.passwordInput} className={styles.field}>
-          <Input
-            type="password"
-            value={passwordValue}
-            onChange={(e) => {
-              setPasswordValue(e.target.value);
-              addMessage(`Password input changed (${e.target.value.length} characters)`);
-            }}
-            onFocus={() => addMessage('Password input focused')}
-            onBlur={() => addMessage('Password input lost focus')}
-            placeholder={strings.passwordInputPlaceholder}
-          />
-        </Field>
-
-        <Field label={strings.numberInput} className={styles.field}>
-          <Input
-            type="number"
-            value={numberValue}
-            onChange={(e) => {
-              setNumberValue(e.target.value);
-              addMessage(`Number input changed to: ${e.target.value}`);
-            }}
-            onFocus={() => addMessage('Number input focused')}
-            onBlur={() => addMessage('Number input lost focus')}
-            placeholder={strings.numberInputPlaceholder}
-          />
-        </Field>
-      </div>
-
-      <Field label={strings.textarea}>
-        <Textarea
-          value={textareaValue}
-          onChange={(e) => {
-            setTextareaValue(e.target.value);
-            addMessage(`Textarea changed (${e.target.value.length} characters)`);
-          }}
-          onFocus={() => addMessage('Textarea focused')}
-          onBlur={() => addMessage('Textarea lost focus')}
-          placeholder={strings.textareaPlaceholder}
-          rows={4}
-        />
-      </Field>
-
-      <Button
-        appearance={button.primary}
-        onClick={() => addMessage('Submit button clicked!')}
-      >
-        {strings.submit}
-      </Button>
-
-      <Button
-        appearance={button.secondary}
-        onClick={handleOpenDialog}
-        className={styles.buttonSpacing}
-      >
-        {strings.openContactDialog}
-      </Button>
-
-      <Dialog 
-        open={isDialogOpen}
-        onOpenChange={(event, data) => {
-          setIsDialogOpen(data.open);
-          if (!data.open) {
-            addMessage('Dialog closed via FluentUI focus management');
-            setDialogName('');
-            setDialogEmail('');
-          }
-        }}
-        modalType="modal"
-      >
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>{strings.contactInformation}</DialogTitle>
-            <DialogContent>
-              <div className={styles.verticalStack}>
-                <Field label={strings.fullName} required>
-                  <Input
-                    value={dialogName}
-                    onChange={(e) => {
-                      setDialogName(e.target.value);
-                      addMessage(`Dialog name field changed: "${e.target.value}"`);
-                    }}
-                    onFocus={() => addMessage('Dialog name field focused')}
-                    onBlur={() => addMessage('Dialog name field lost focus')}
-                    placeholder={strings.fullNamePlaceholder}
-                  />
-                </Field>
-                
-                <Field label={strings.contactEmail} required>
-                  <Input
-                    type="email"
-                    value={dialogEmail}
-                    onChange={(e) => {
-                      setDialogEmail(e.target.value);
-                      addMessage(`Dialog email field changed: "${e.target.value}"`);
-                    }}
-                    onFocus={() => addMessage('Dialog email field focused')}
-                    onBlur={() => addMessage('Dialog email field lost focus')}
-                    placeholder={strings.contactEmailPlaceholder}
-                  />
-                </Field>
-              </div>
-            </DialogContent>
-            <DialogActions>
-              <DialogTrigger>
-                <Button appearance={button.secondary}>{strings.cancel}</Button>
-              </DialogTrigger>
-              <Button appearance={button.primary} onClick={handleSubmitDialog}>
-                {strings.submitContact}
-              </Button>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
-
-      <Card>
-        <CardHeader header={<Body1>Interaction Messages</Body1>} />
-        <div className={styles.messageScrollArea}>
-          {messages.length === 0 ? (
-            <Caption1>Interact with the controls above to see messages here...</Caption1>
-          ) : (
-            messages.map((message, index) => (
-              <div key={index}>
-                <Caption1>{message}</Caption1>
-              </div>
-            ))
-          )}
+      <div className={localStyles.container}>
+        <div className={localStyles.headerSection}>
+          <Body1 as="h2">{basicStrings.title}</Body1>
+          <Caption1>{basicStrings.description}</Caption1>
         </div>
-      </Card>
+
+        <div className={localStyles.formGrid}>
+          <Field label={basicStrings.textLabel} required>
+            <Input
+              placeholder={basicStrings.textPlaceholder}
+              value={textValue}
+              onChange={(_, data) => handleTextChange(data.value)}
+            />
+          </Field>
+
+          <Field label={basicStrings.emailLabel} required>
+            <Input
+              type="email"
+              placeholder={basicStrings.emailPlaceholder}
+              value={emailValue}
+              onChange={(_, data) => handleEmailChange(data.value)}
+            />
+          </Field>
+
+          <Field label={basicStrings.passwordLabel} required>
+            <Input
+              type="password"
+              placeholder={basicStrings.passwordPlaceholder}
+              value={passwordValue}
+              onChange={(_, data) => handlePasswordChange(data.value)}
+            />
+          </Field>
+
+          <Field label={basicStrings.numberLabel}>
+            <Input
+              type="number"
+              placeholder={basicStrings.numberPlaceholder}
+              value={numberValue}
+              onChange={(_, data) => handleNumberChange(data.value)}
+            />
+          </Field>
+        </div>
+
+        <Field label={basicStrings.textareaLabel}>
+          <Textarea
+            placeholder={basicStrings.textareaPlaceholder}
+            value={textareaValue}
+            onChange={(_, data) => handleTextareaChange(data.value)}
+            rows={4}
+            resize="vertical"
+          />
+        </Field>
+
+        <div className={localStyles.buttonSection}>
+          <Button appearance="primary" onClick={handleSubmit}>
+            {basicStrings.submitButton}
+          </Button>
+          <Button appearance="secondary" onClick={handleClear}>
+            {basicStrings.clearButton}
+          </Button>
+        </div>
+
+        {message && (
+          <div className={localStyles.messageSection}>
+            <MessageBar intent={messageType}>
+              <MessageBarBody>{message}</MessageBarBody>
+            </MessageBar>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

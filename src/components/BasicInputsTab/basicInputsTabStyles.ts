@@ -1,10 +1,25 @@
-import { makeStyles } from '@fluentui/react-components';
+import { makeStyles, tokens } from '@fluentui/react-components';
 
 /**
- * BasicInputsTab specific styles
- * Combined with shared styles at usage time
+ * BasicInputsTab specific styles with input constraints
  */
 export const basicInputsTabStyles = makeStyles({
-  // Component-specific styles can be added here
-  // For now, this component only uses shared styles
+  // Constrain input elements specifically for this tab
+  inputConstraints: {
+    '& input': {
+      maxWidth: '350px',
+      width: '100%',
+    },
+    '& textarea': {
+      maxWidth: '450px', 
+      width: '100%',
+      minHeight: '80px',
+    },
+  },
+
+  // Button with proper spacing
+  submitButton: {
+    marginTop: tokens.spacingVerticalL,
+    maxWidth: '150px',
+  },
 });

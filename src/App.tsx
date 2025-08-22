@@ -52,6 +52,14 @@ const useOverflowStyles = makeStyles({
     gap: '4px',
     alignItems: 'center',
   },
+  // Wrapper to align tabs and content
+  contentWrapper: {
+    maxWidth: '1200px',
+    width: '100%',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+  },
 });
 
 const App: React.FC = () => {
@@ -223,17 +231,16 @@ const App: React.FC = () => {
     <FluentProvider theme={themes[selectedTheme].theme}>
       <div className={styles.mainContainer}>
         <div className={styles.header}>
-          <div>
+          <div className={styles.titleSection}>
             <Body1 as="h1">{appStrings.title}</Body1>
             <Caption1>{appStrings.subtitle}</Caption1>
           </div>
-          <div className={styles.themeSelectorContainer}>
+          <div className={styles.themeSection}>
             <Field label={appStrings.themeSelector}>
               <Dropdown
                 value={themes[selectedTheme].name}
                 selectedOptions={[selectedTheme]}
                 onOptionSelect={onThemeChange}
-                className={styles.themeSelector}
               >
                 {Object.entries(themes).map(([key, themeInfo]) => (
                   <Option key={key} value={key}>
@@ -245,38 +252,40 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.tabBarContainer}>
-          <Overflow>
-            <div className={mergeClasses(overflowStyles.container)}>
-              {allTabs.map((tab, index) => (
-                <OverflowItem 
-                  key={tab.value} 
-                  id={tab.value}
-                  priority={index === 0 ? 1 : 0}
-                >
-                  <Button
-                    appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
-                    onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                    style={{
-                      borderRadius: '4px 4px 0 0',
-                      minHeight: '32px',
-                      border: 'none',
-                      borderBottom: selectedTab === tab.value ? '2px solid var(--colorBrandBackground)' : '1px solid transparent',
-                      whiteSpace: 'nowrap',
-                      padding: '8px 12px'
-                    }}
+        <div className={overflowStyles.contentWrapper}>
+          <div>
+            <Overflow>
+              <div className={mergeClasses(overflowStyles.container)}>
+                {allTabs.map((tab, index) => (
+                  <OverflowItem 
+                    key={tab.value} 
+                    id={tab.value}
+                    priority={index === 0 ? 1 : 0}
                   >
-                    {tab.label}
-                  </Button>
-                </OverflowItem>
-              ))}
-              <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
-            </div>
-          </Overflow>
-        </div>
+                    <Button
+                      appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
+                      onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                      style={{
+                        borderRadius: '4px 4px 0 0',
+                        minHeight: '32px',
+                        border: 'none',
+                        borderBottom: selectedTab === tab.value ? '2px solid var(--colorBrandBackground)' : '1px solid transparent',
+                        whiteSpace: 'nowrap',
+                        padding: '8px 12px'
+                      }}
+                    >
+                      {tab.label}
+                    </Button>
+                  </OverflowItem>
+                ))}
+                <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+              </div>
+            </Overflow>
+          </div>
 
-        <div className={styles.cardContainer}>
-          {renderTabContent()}
+          <div>
+            {renderTabContent()}
+          </div>
         </div>
       </div>
     </FluentProvider>

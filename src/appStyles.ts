@@ -1,91 +1,47 @@
-import { makeStyles } from '@fluentui/react-components';
-import { TAB_OVERFLOW_CONFIG } from './utils/remHelpers';
+import { makeStyles, tokens } from '@fluentui/react-components';
 
 /**
- * Styles specific to the main App component
+ * Minimal App component styles
  */
 export const appStyles = makeStyles({
+  // Clean header layout
   header: {
-    marginBottom: '1.25rem', 
-    display: 'flex', 
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    gap: '1rem',
-    '& > div:first-child': {
-      textAlign: 'center',
-      flex: '1',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '0.25rem',
-    },
-    '@media (max-width: 768px)': {
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '1rem',
-      '& > div:first-child': {
-        textAlign: 'center',
-      },
-    },
-  },
-
-  tabBarContainer: {
-    marginBottom: '1rem',
-  },
-
-  // Responsive tab list container - natural tab sizing with overflow menu
-  tabListContainer: {
     display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: '0.5rem',
-    flex: '1 1 auto',
-    minWidth: 0, // Allow shrinking below content size
-    maxWidth: '100%',
-    // TabList should take available space
-    '& [role="tablist"]': {
-      display: 'flex',
-      flexWrap: 'nowrap',
-      gap: '0.25rem',
-      minWidth: 0,
-      flex: '1 1 auto',
-    },
-    // Let tabs size naturally to their content
-    '& [role="tab"]': {
-      flex: '0 0 auto', // Don't grow or shrink, use natural size
-      whiteSpace: 'nowrap',
-      minWidth: 'auto',
-      maxWidth: 'none',
-    },
-    '@media (max-width: 768px)': {
-      order: 1,
-      width: '100%',
-    },
+    position: 'relative',
+    marginBottom: tokens.spacingVerticalL,
+    padding: tokens.spacingHorizontalM,
+    width: '100%',
   },
 
-  // More button for overflow tabs
-  moreButton: {
-    flex: '0 0 auto',
-    marginLeft: '0.5rem',
-    minWidth: `${TAB_OVERFLOW_CONFIG.moreButtonWidth}rem`, // Ensure consistent width for calculations
+  // Centered title section
+  titleSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    gap: tokens.spacingVerticalXS,
   },
 
-  // Theme selector with responsive behavior
-  themeSelectorContainer: {
-    flex: '0 0 auto',
-    '@media (max-width: 768px)': {
-      order: 0,
-      alignSelf: 'flex-end',
-      minWidth: '200px',
+  // Theme selector positioned absolutely to the right
+  themeSection: {
+    position: 'absolute',
+    right: tokens.spacingHorizontalM,
+    
+    // Make the dropdown smaller
+    '& > div': { // Target the Field
+      minWidth: '140px',
     },
-  },
-
-  themeSelector: {
-    minWidth: '8rem',
-    maxWidth: '160px',
-    flexGrow: 1,
+    
+    '& [role="combobox"]': { // Target the Dropdown
+      minWidth: '140px',
+      fontSize: tokens.fontSizeBase200,
+    },
+    
     '@media (max-width: 768px)': {
-      alignSelf: 'flex-end',
-      maxWidth: '100%',
+      position: 'static',
+      marginTop: tokens.spacingVerticalS,
     },
   },
 });
