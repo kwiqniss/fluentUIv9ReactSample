@@ -62,6 +62,14 @@ const App: React.FC = () => {
   const [tabsLeft, setTabsLeft] = useState(0);
   const tabContainerRef = useRef<HTMLDivElement>(null);
   
+  // Shared tab styling function
+  const getTabClassName = (tabValue: string, isSelected: boolean) => {
+    return mergeClasses(
+      styles.tabBase,
+      isSelected ? styles.tabSelected : styles.tabUnselected
+    );
+  };
+  
   // Scroll event handler for sticky positioning
   useEffect(() => {
     const handleScroll = () => {
@@ -324,52 +332,7 @@ const App: React.FC = () => {
                     >
                       <Tab 
                         value={tab.value}
-                        style={{
-                          border: `2px solid`,
-                          borderBottom: 'none',
-                          borderRadius: '8px 12px 0 0',
-                          backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
-                          marginRight: '4px',
-                          marginTop: selectedTab === tab.value ? '0' : '6px',
-                          padding: selectedTab === tab.value ? '8px 16px 12px' : '6px 14px 8px',
-                          transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                          color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.8)',
-                          borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.4)' : 'rgba(0, 0, 0, 0.2)',
-                          boxShadow: selectedTab === tab.value ? 
-                            '0 -2px 8px rgba(0, 120, 212, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)' : 
-                            '0 1px 4px rgba(0, 0, 0, 0.08)',
-                          position: 'relative',
-                          zIndex: selectedTab === tab.value ? 2 : 1,
-                          transform: selectedTab === tab.value ? 'translateY(-2px)' : 'translateY(0)',
-                        } as React.CSSProperties}
-                        onMouseEnter={(e) => {
-                          if (selectedTab !== tab.value) {
-                            (e.target as HTMLElement).style.marginTop = '3px';
-                            (e.target as HTMLElement).style.padding = '7px 15px 10px';
-                            (e.target as HTMLElement).style.transform = 'translateY(-1px)';
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (selectedTab !== tab.value) {
-                            (e.target as HTMLElement).style.marginTop = '6px';
-                            (e.target as HTMLElement).style.padding = '6px 14px 8px';
-                            (e.target as HTMLElement).style.transform = 'translateY(0)';
-                          }
-                        }}
-                        onFocus={(e) => {
-                          if (selectedTab !== tab.value) {
-                            (e.target as HTMLElement).style.marginTop = '3px';
-                            (e.target as HTMLElement).style.padding = '7px 15px 10px';
-                            (e.target as HTMLElement).style.transform = 'translateY(-1px)';
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (selectedTab !== tab.value) {
-                            (e.target as HTMLElement).style.marginTop = '6px';
-                            (e.target as HTMLElement).style.padding = '6px 14px 8px';
-                            (e.target as HTMLElement).style.transform = 'translateY(0)';
-                          }
-                        }}
+                        className={getTabClassName(tab.value, selectedTab === tab.value)}
                       >
                         {tab.label}
                       </Tab>
@@ -410,52 +373,7 @@ const App: React.FC = () => {
                         >
                           <Tab 
                             value={tab.value}
-                            style={{
-                              border: `2px solid`,
-                              borderBottom: 'none',
-                              borderRadius: '8px 12px 0 0',
-                              backgroundColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.18)' : 'rgba(0, 0, 0, 0.1)',
-                              marginRight: '4px',
-                              marginTop: selectedTab === tab.value ? '0' : '6px',
-                              padding: selectedTab === tab.value ? '8px 16px 12px' : '6px 14px 8px',
-                              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                              color: selectedTab === tab.value ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0.8)',
-                              borderColor: selectedTab === tab.value ? 'rgba(0, 120, 212, 0.4)' : 'rgba(0, 0, 0, 0.2)',
-                              boxShadow: selectedTab === tab.value ? 
-                                '0 -2px 8px rgba(0, 120, 212, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)' : 
-                                '0 1px 4px rgba(0, 0, 0, 0.08)',
-                              position: 'relative',
-                              zIndex: selectedTab === tab.value ? 2 : 1,
-                              transform: selectedTab === tab.value ? 'translateY(-2px)' : 'translateY(0)',
-                            } as React.CSSProperties}
-                            onMouseEnter={(e) => {
-                              if (selectedTab !== tab.value) {
-                                (e.target as HTMLElement).style.marginTop = '3px';
-                                (e.target as HTMLElement).style.padding = '7px 15px 10px';
-                                (e.target as HTMLElement).style.transform = 'translateY(-1px)';
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (selectedTab !== tab.value) {
-                                (e.target as HTMLElement).style.marginTop = '6px';
-                                (e.target as HTMLElement).style.padding = '6px 14px 8px';
-                                (e.target as HTMLElement).style.transform = 'translateY(0)';
-                              }
-                            }}
-                            onFocus={(e) => {
-                              if (selectedTab !== tab.value) {
-                                (e.target as HTMLElement).style.marginTop = '3px';
-                                (e.target as HTMLElement).style.padding = '7px 15px 10px';
-                                (e.target as HTMLElement).style.transform = 'translateY(-1px)';
-                              }
-                            }}
-                            onBlur={(e) => {
-                              if (selectedTab !== tab.value) {
-                                (e.target as HTMLElement).style.marginTop = '6px';
-                                (e.target as HTMLElement).style.padding = '6px 14px 8px';
-                                (e.target as HTMLElement).style.transform = 'translateY(0)';
-                              }
-                            }}
+                            className={getTabClassName(tab.value, selectedTab === tab.value)}
                           >
                             {tab.label}
                           </Tab>

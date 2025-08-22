@@ -233,4 +233,63 @@ export const appStyles = makeStyles({
     height: 'var(--tabs-height, 0px)',
     visibility: 'hidden',
   },
+  
+  // Tab hover states using CSS
+  tabHover: {
+    '&:hover:not([aria-selected="true"])': {
+      marginTop: '3px !important',
+      padding: '7px 15px 10px !important',
+      transform: 'translateY(-1px) !important',
+    },
+    '&:focus:not([aria-selected="true"])': {
+      marginTop: '3px !important',
+      padding: '7px 15px 10px !important',
+      transform: 'translateY(-1px) !important',
+    },
+  },
+  
+  // Base tab styles
+  tabBase: {
+    border: '2px solid',
+    borderBottom: 'none',
+    borderRadius: '8px 12px 0 0',
+    marginRight: '4px',
+    transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+    position: 'relative' as const,
+  },
+  
+  tabSelected: {
+    backgroundColor: 'rgba(0, 120, 212, 0.18)',
+    marginTop: '0',
+    padding: '8px 16px 12px',
+    color: 'rgba(0, 0, 0, 0.95)',
+    border: '2px solid rgba(0, 120, 212, 0.4)',
+    borderBottom: 'none',
+    boxShadow: '0 -2px 8px rgba(0, 120, 212, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1)',
+    zIndex: 2,
+    transform: 'translateY(-2px)',
+  },
+  
+  tabUnselected: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    marginTop: '6px',
+    padding: '6px 14px 8px',
+    color: 'rgba(0, 0, 0, 0.8)',
+    border: '2px solid rgba(0, 0, 0, 0.2)',
+    borderBottom: 'none',
+    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.08)',
+    zIndex: 1,
+    transform: 'translateY(0)',
+    
+    '&:hover': {
+      marginTop: '3px',
+      padding: '7px 15px 10px',
+      transform: 'translateY(-1px)',
+    },
+    '&:focus': {
+      marginTop: '3px',
+      padding: '7px 15px 10px', 
+      transform: 'translateY(-1px)',
+    },
+  },
 });
