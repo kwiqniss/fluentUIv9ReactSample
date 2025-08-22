@@ -4,7 +4,6 @@ import {
   Input,
   Textarea,
   Button,
-  makeStyles,
   Body1,
   Caption1,
   MessageBar,
@@ -15,28 +14,7 @@ import { basicInputsTabStyles } from './basicInputsTabStyles';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import basicStrings from './basic.resx';
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-  },
-  formGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))',
-    maxWidth: '100%',
-    gap: '1rem',
-    '@media (min-width: 48rem)': {
-      gridTemplateColumns: '1fr 1fr',
-    },
-  },
-  messageSection: {
-    marginTop: '1rem',
-  },
-});
-
 const BasicInputsTab: React.FC = () => {
-  const localStyles = useStyles();
   const styles = {
     ...sharedStyles(),
     ...basicInputsTabStyles(),
@@ -127,13 +105,13 @@ const BasicInputsTab: React.FC = () => {
 
   return (
     <div className={styles.tabContentStandardized}>
-      <div className={localStyles.container}>
+      <div className={styles.container}>
         <div className={styles.componentItem}>
           <Body1 as="h2">{basicStrings.title}</Body1>
           <Caption1>{basicStrings.description}</Caption1>
         </div>
 
-        <div className={localStyles.formGrid}>
+        <div className={styles.formGrid}>
           <Field label={basicStrings.textLabel} required>
             <Input
               placeholder={basicStrings.textPlaceholder}
@@ -190,7 +168,7 @@ const BasicInputsTab: React.FC = () => {
         </div>
 
         {message && (
-          <div className={localStyles.messageSection}>
+          <div className={styles.messageSection}>
             <MessageBar intent={messageType}>
               <MessageBarBody>{message}</MessageBarBody>
             </MessageBar>
