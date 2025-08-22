@@ -39,6 +39,7 @@ import { appStyles } from './AppStyles.styles';
 import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
 import { MessageContext, Message, MessageContextType } from './utils/messageContext';
+import { MessageType } from './types/enums';
 import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
@@ -48,7 +49,7 @@ const App: React.FC = () => {
   // Message state management
   const [messages, setMessages] = useState<Message[]>([]);
   
-  const addMessage = useCallback((text: string, type: Message['type'] = 'info') => {
+  const addMessage = useCallback((text: string, type: MessageType = MessageType.Info) => {
     const newMessage: Message = {
       id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       text,

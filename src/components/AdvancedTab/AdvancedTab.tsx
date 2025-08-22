@@ -12,6 +12,7 @@ import {
 import { sharedStyles } from '../../SharedStyles.styles';
 import { advancedTabStyles } from './AdvancedTab.styles';
 import { useMessages } from '../../utils/messageContext';
+import { MessageType } from '../../types/enums';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -65,18 +66,18 @@ const AdvancedTab: React.FC = () => {
   const simulateProgress = () => {
     if (progress === 100) {
       setProgress(0);
-      addMessage('Progress reset to start new demo', 'info');
+      addMessage('Progress reset to start new demo', MessageType.Info);
       return;
     }
     
-    addMessage('Progress bar demo started', 'info');
+    addMessage('Progress bar demo started', MessageType.Info);
     
     const interval = setInterval(() => {
       setProgress(prev => {
         const newValue = prev + Math.random() * 10;
         if (newValue >= 100) {
           clearInterval(interval);
-          addMessage('Progress demo completed!', 'success');
+          addMessage('Progress demo completed!', MessageType.Success);
           return 100;
         }
         return newValue;

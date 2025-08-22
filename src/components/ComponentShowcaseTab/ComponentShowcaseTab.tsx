@@ -56,6 +56,7 @@ import {
 } from '@fluentui/react-icons';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 import { useMessages } from '../../utils/messageContext';
+import { MessageType } from '../../types/enums';
 import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
 import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.styles';
@@ -91,7 +92,7 @@ const ComponentShowcaseTab: React.FC = () => {
     if (isSkeletonLoading) {
       const timer = setTimeout(() => {
         setIsSkeletonLoading(false);
-        addMessage('Skeleton loading demo completed', 'success');
+        addMessage('Skeleton loading demo completed', MessageType.Success);
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -102,7 +103,7 @@ const ComponentShowcaseTab: React.FC = () => {
     if (isCardLoading) {
       const timer = setTimeout(() => {
         setIsCardLoading(false);
-        addMessage('Card loading demo completed', 'success');
+        addMessage('Card loading demo completed', MessageType.Success);
       }, 2500);
 
       return () => clearTimeout(timer);
@@ -123,27 +124,27 @@ const ComponentShowcaseTab: React.FC = () => {
     ...componentShowcaseStyles(),
   };
 
-  const showToast = (type: 'success' | 'error' | 'warning' | 'info') => {
+  const showToast = (type: MessageType) => {
     const newCount = toastCount + 1;
     setToastCount(newCount);
 
     const toastContent = {
-      success: { 
+      [MessageType.Success]: { 
         title: `${strings.toastSuccess} #${newCount}`, 
         intent: 'success' as const,
         icon: <CheckmarkCircleRegular />
       },
-      error: { 
+      [MessageType.Error]: { 
         title: `${strings.toastError} #${newCount}`, 
         intent: 'error' as const,
         icon: <ErrorCircleRegular />
       },
-      warning: { 
+      [MessageType.Warning]: { 
         title: `${strings.toastWarning} #${newCount}`, 
         intent: 'warning' as const,
         icon: <WarningRegular />
       },
-      info: { 
+      [MessageType.Info]: { 
         title: `${strings.toastInfo} #${newCount}`, 
         intent: 'info' as const,
         icon: <InfoRegular />
@@ -337,7 +338,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   appearance={componentProps.button.secondary}
                   onClick={() => {
                     setIsCardLoading(true);
-                    addMessage('Card loading demo started', 'info');
+                    addMessage('Card loading demo started', MessageType.Info);
                   }}
                   disabled={isCardLoading}
                   className={styles.buttonSpacingTop}
@@ -356,7 +357,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   const itemValue = data.value;
                   const isOpening = data.openItems.includes(itemValue);
                   const title = itemValue === 'requirements' ? strings.accordionTitle1 : strings.accordionTitle2;
-                  addMessage(`Accordion "${title}" ${isOpening ? 'expanded' : 'collapsed'}`, 'info');
+                  addMessage(`Accordion "${title}" ${isOpening ? 'expanded' : 'collapsed'}`, MessageType.Info);
                 }}
               >
                 <AccordionItem value="requirements">
@@ -388,27 +389,27 @@ const ComponentShowcaseTab: React.FC = () => {
                 <Button 
                   appearance={componentProps.button.primary}
                   size={componentProps.size.small}
-                  onClick={() => showToast('success')}
+                  onClick={() => showToast(MessageType.Success)}
                 >
                   {strings.buttonSuccess}
                 </Button>
                 <Button 
                   appearance={componentProps.button.primary}
-                  onClick={() => showToast('error')}
+                  onClick={() => showToast(MessageType.Error)}
                   size={componentProps.size.small}
                 >
                   {strings.buttonError}
                 </Button>
                 <Button 
                   appearance={componentProps.button.primary}
-                  onClick={() => showToast('warning')}
+                  onClick={() => showToast(MessageType.Warning)}
                   size={componentProps.size.small}
                 >
                   {strings.buttonWarning}
                 </Button>
                 <Button 
                   appearance={componentProps.button.primary}
-                  onClick={() => showToast('info')}
+                  onClick={() => showToast(MessageType.Info)}
                   size={componentProps.size.small}
                 >
                   {strings.buttonInfo}
@@ -474,7 +475,7 @@ const ComponentShowcaseTab: React.FC = () => {
               size={componentProps.size.small}
               onClick={() => {
                 setIsSkeletonLoading(true);
-                addMessage('Skeleton loading demo started', 'info');
+                addMessage('Skeleton loading demo started', MessageType.Info);
               }}
               
             >

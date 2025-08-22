@@ -1,11 +1,13 @@
+import { ButtonAppearance, ComponentSize, TextWeight, InputType, BadgeAppearance, StatusColor, AvatarColor, SkeletonShape } from '../types/enums';
+
 /**
  * Shared component property constants for consistent styling across the application
  */
 export const componentConstants = {
   // Text styling
   text: {
-    semibold: 'semibold' as const,
-    regular: 'regular' as const,
+    semibold: TextWeight.Semibold,
+    regular: TextWeight.Regular,
     size200: 200 as const,
     size300: 300 as const,
     size400: 400 as const,
@@ -14,18 +16,18 @@ export const componentConstants = {
   
   // Button appearances
   button: {
-    primary: 'primary' as const,
-    secondary: 'secondary' as const,
-    outline: 'outline' as const,
-    subtle: 'subtle' as const,
-    transparent: 'transparent' as const,
+    primary: ButtonAppearance.Primary,
+    secondary: ButtonAppearance.Secondary,
+    outline: ButtonAppearance.Outline,
+    subtle: ButtonAppearance.Subtle,
+    transparent: ButtonAppearance.Transparent,
   },
   
   // Component sizes
   size: {
-    small: 'small' as const,
-    medium: 'medium' as const,
-    large: 'large' as const,
+    small: ComponentSize.Small,
+    medium: ComponentSize.Medium,
+    large: ComponentSize.Large,
     size16: 16 as const,
     size24: 24 as const,
     size32: 32 as const,
@@ -36,45 +38,45 @@ export const componentConstants = {
   
   // Avatar colors and variants
   avatar: {
-    colorful: 'colorful' as const,
-    neutral: 'neutral' as const,
-    brand: 'brand' as const,
+    colorful: AvatarColor.Colorful,
+    neutral: AvatarColor.Neutral,
+    brand: AvatarColor.Brand,
   },
   
   // Skeleton shapes
   skeleton: {
-    circle: 'circle' as const,
-    rectangle: 'rectangle' as const,
-    square: 'square' as const,
+    circle: SkeletonShape.Circle,
+    rectangle: SkeletonShape.Rectangle,
+    square: SkeletonShape.Square,
   },
   
   // Input types
   input: {
-    text: 'text' as const,
-    email: 'email' as const,
-    password: 'password' as const,
-    number: 'number' as const,
-    tel: 'tel' as const,
-    url: 'url' as const,
-    search: 'search' as const,
+    text: InputType.Text,
+    email: InputType.Email,
+    password: InputType.Password,
+    number: InputType.Number,
+    tel: InputType.Tel,
+    url: InputType.Url,
+    search: InputType.Search,
   },
   
   // Badge appearances
   badge: {
-    filled: 'filled' as const,
-    ghost: 'ghost' as const,
-    outline: 'outline' as const,
-    tint: 'tint' as const,
+    filled: BadgeAppearance.Filled,
+    ghost: BadgeAppearance.Ghost,
+    outline: BadgeAppearance.Outline,
+    tint: BadgeAppearance.Tint,
   },
   
   // Colors for badges and status indicators
   statusColor: {
-    success: 'success' as const,
-    warning: 'warning' as const,
-    danger: 'danger' as const,
-    info: 'info' as const,
-    subtle: 'subtle' as const,
-    brand: 'brand' as const,
+    success: StatusColor.Success,
+    warning: StatusColor.Warning,
+    danger: StatusColor.Danger,
+    info: StatusColor.Info,
+    subtle: StatusColor.Subtle,
+    brand: StatusColor.Brand,
   },
 } as const;
 

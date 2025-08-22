@@ -1,15 +1,16 @@
 import { createContext, useContext } from 'react';
+import { MessageType } from '../types/enums';
 
 export interface Message {
   id: string;
   text: string;
   timestamp: Date;
-  type?: 'info' | 'success' | 'warning' | 'error';
+  type?: MessageType;
 }
 
 export interface MessageContextType {
   messages: Message[];
-  addMessage: (text: string, type?: Message['type']) => void;
+  addMessage: (text: string, type?: MessageType) => void;
   clearMessages: () => void;
 }
 
