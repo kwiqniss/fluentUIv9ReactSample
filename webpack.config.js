@@ -61,6 +61,13 @@ module.exports = (env, argv) => {
       hot: true,
       open: false,
       historyApiFallback: true, // For SPA routing
+      client: {
+        overlay: {
+          warnings: false,
+          errors: false, // Disable error overlay completely to avoid ResizeObserver errors
+        },
+        logging: 'warn', // Reduce console noise
+      },
     },
     optimization: {
       splitChunks: isDevelopment ? false : {
