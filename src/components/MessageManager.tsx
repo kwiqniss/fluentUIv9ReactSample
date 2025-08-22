@@ -8,6 +8,7 @@ const useMessageManagerStyles = makeStyles({
   footer: {
     borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
     padding: tokens.spacingVerticalM,
+    paddingBottom: tokens.spacingVerticalL,
     marginTop: 'auto',
     backgroundColor: tokens.colorNeutralBackground1,
   },
@@ -56,28 +57,24 @@ const useMessageManagerStyles = makeStyles({
     padding: tokens.spacingVerticalS,
   },
 
+  // Subtle type indicators (optional left border accents)
   messageSuccess: {
     borderLeftColor: tokens.colorPaletteGreenBorder2,
-    borderLeftWidth: '4px',
-    backgroundColor: tokens.colorPaletteGreenBackground1,
+    borderLeftWidth: '2px',
   },
   
   messageError: {
     borderLeftColor: tokens.colorPaletteRedBorder2,
-    borderLeftWidth: '4px',
-    backgroundColor: tokens.colorPaletteRedBackground1,
+    borderLeftWidth: '2px',
   },
   
   messageWarning: {
     borderLeftColor: tokens.colorPaletteYellowBorder2,
-    borderLeftWidth: '4px',
-    backgroundColor: tokens.colorPaletteYellowBackground1,
+    borderLeftWidth: '2px',
   },
   
   messageInfo: {
-    borderLeftColor: tokens.colorPaletteBlueBorderActive,
-    borderLeftWidth: '4px',
-    backgroundColor: tokens.colorPaletteBlueBackground2,
+    // No special styling for info - keeps the neutral theme look
   },
 });
 
@@ -146,7 +143,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children }) => {
               size="small" 
               onClick={clearMessages}
             >
-              Clear ({messages.length})
+              Clear
             </Button>
           )}
         </div>

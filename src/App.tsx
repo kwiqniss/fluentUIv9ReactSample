@@ -203,8 +203,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <MessageManager>
-      <FluentProvider theme={themes[selectedTheme].theme}>
+    <FluentProvider theme={themes[selectedTheme].theme}>
+      <MessageManager>
         <div className={styles.mainContainer}>
           <div className={styles.header}>
             <div className={styles.titleSection}>
@@ -260,8 +260,8 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
-      </FluentProvider>
-    </MessageManager>
+      </MessageManager>
+    </FluentProvider>
   );
 };
 
