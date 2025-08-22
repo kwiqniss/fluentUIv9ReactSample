@@ -3,8 +3,6 @@ import {
   Field,
   Body1,
   Caption1,
-  Card,
-  CardHeader,
   Slider,
   ProgressBar,
   Button,
@@ -13,6 +11,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { advancedTabStyles } from './AdvancedTab.styles';
+import { useMessages } from '../../utils/messageContext';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -24,10 +23,10 @@ export interface AdvancedFormData {
   rangeStart: number;
   rangeEnd: number;
   progress: number;
-  messages: string[];
 }
 
 const AdvancedTab: React.FC = () => {
+  const { addMessage } = useMessages();
   const styles = {
     ...sharedStyles(),
     ...advancedTabStyles(),
@@ -41,13 +40,11 @@ const AdvancedTab: React.FC = () => {
       rangeStart: 25,
       rangeEnd: 75,
       progress: 0,
-      messages: [],
     };
   };
 
   const initialData = getCachedData();
   
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [sliderValue, setSliderValue] = useState(initialData.sliderValue);
   const [spinValue, setSpinValue] = useState(initialData.spinValue);
   const [rangeStart, setRangeStart] = useState(initialData.rangeStart);
@@ -61,14 +58,9 @@ const AdvancedTab: React.FC = () => {
       rangeStart,
       rangeEnd,
       progress,
-      messages,
     };
     formCache.set(CACHE_KEYS.ADVANCED, formData);
-  }, [sliderValue, spinValue, rangeStart, rangeEnd, progress, messages]);
-
-  const addMessage = (message: string) => {
-    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
-  };
+  }, [sliderValue, spinValue, rangeStart, rangeEnd, progress]);
 
   const simulateProgress = () => {
     if (progress === 100) {
@@ -195,19 +187,6 @@ const AdvancedTab: React.FC = () => {
           </Button>
         </div>
       </Field>
-
-      <Card className={styles.cardContainer}>
-        <CardHeader>
-          <Body1>{strings.userInteractionLog}</Body1>
-        </CardHeader>
-        <div className={styles.messageScrollArea}>
-          {messages.map((message, index) => (
-            <Caption1 key={index}>
-              {message}
-            </Caption1>
-          ))}
-        </div>
-      </Card>
     </div>
   );
 };

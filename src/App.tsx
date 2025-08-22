@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   TabValue,
@@ -33,15 +33,40 @@ import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
 import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
+import AppFooter from './components/AppFooter';
 import { sharedStyles } from './SharedStyles.styles';
 import { appStyles } from './AppStyles.styles';
 import appStrings from './App.resx';
 import tabStrings from './tabs.resx';
+import { MessageContext, Message, MessageContextType } from './utils/messageContext';
 import { LineStyleSketch20Regular } from '@fluentui/react-icons';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Message state management
+  const [messages, setMessages] = useState<Message[]>([]);
+  
+  const addMessage = useCallback((text: string, type: Message['type'] = 'info') => {
+    const newMessage: Message = {
+      id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      text,
+      timestamp: new Date(),
+      type,
+    };
+    setMessages(prev => [...prev, newMessage]);
+  }, []);
+  
+  const clearMessages = useCallback(() => {
+    setMessages([]);
+  }, []);
+  
+  const messageContextValue: MessageContextType = {
+    messages,
+    addMessage,
+    clearMessages,
+  };
   
   const styles = {
     ...sharedStyles(),
@@ -202,63 +227,67 @@ const App: React.FC = () => {
   };
 
   return (
-    <FluentProvider theme={themes[selectedTheme].theme}>
-      <div className={styles.mainContainer}>
-        <div className={styles.header}>
-          <div className={styles.titleSection}>
-            <Body1 as="h1" className={styles.h1Heading}>{strings.title}</Body1>
-            <Caption1>{strings.subtitle}</Caption1>
+    <MessageContext.Provider value={messageContextValue}>
+      <FluentProvider theme={themes[selectedTheme].theme}>
+        <div className={styles.mainContainer}>
+          <div className={styles.header}>
+            <div className={styles.titleSection}>
+              <Body1 as="h1" className={styles.h1Heading}>{strings.title}</Body1>
+              <Caption1>{strings.subtitle}</Caption1>
+            </div>
+            <div className={styles.themeSection}>
+              <Field label={strings.themeSelector}>
+                <Dropdown
+                  value={themes[selectedTheme].name}
+                  selectedOptions={[selectedTheme]}
+                  onOptionSelect={onThemeChange}
+                >
+                  {Object.entries(themes).map(([key, themeInfo]) => (
+                    <Option key={key} value={key}>
+                      {themeInfo.name}
+                    </Option>
+                  ))}
+                </Dropdown>
+              </Field>
+            </div>
           </div>
-          <div className={styles.themeSection}>
-            <Field label={strings.themeSelector}>
-              <Dropdown
-                value={themes[selectedTheme].name}
-                selectedOptions={[selectedTheme]}
-                onOptionSelect={onThemeChange}
-              >
-                {Object.entries(themes).map(([key, themeInfo]) => (
-                  <Option key={key} value={key}>
-                    {themeInfo.name}
-                  </Option>
-                ))}
-              </Dropdown>
-            </Field>
-          </div>
-        </div>
 
-        <div className={styles.contentWrapper}>
-          <div>
-            <Overflow>
-              <div className={LineStyleSketch20Regular.container}>
-                {allTabs.map((tab, index) => (
-                  <OverflowItem 
-                    key={tab.value} 
-                    id={tab.value}
-                    priority={index === 0 ? 1 : 0}
-                  >
-                    <Button
-                      appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
-                      onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                      className={mergeClasses(
-                        styles.tabButton,
-                        selectedTab === tab.value ? styles.tabButtonActive : styles.tabButtonInactive
-                      )}
+          <div className={styles.contentWrapper}>
+            <div>
+              <Overflow>
+                <div className={styles.container}>
+                  {allTabs.map((tab, index) => (
+                    <OverflowItem 
+                      key={tab.value} 
+                      id={tab.value}
+                      priority={index === 0 ? 1 : 0}
                     >
-                      {tab.label}
-                    </Button>
-                  </OverflowItem>
-                ))}
-                <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
-              </div>
-            </Overflow>
-          </div>
+                      <Button
+                        appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
+                        onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+                        className={mergeClasses(
+                          styles.tabButton,
+                          selectedTab === tab.value ? styles.tabButtonActive : styles.tabButtonInactive
+                        )}
+                      >
+                        {tab.label}
+                      </Button>
+                    </OverflowItem>
+                  ))}
+                  <OverflowMenu itemIds={allTabs.map(tab => tab.value)} />
+                </div>
+              </Overflow>
+            </div>
 
-          <div>
-            {renderTabContent()}
+            <div>
+              {renderTabContent()}
+            </div>
           </div>
+          
+          <AppFooter />
         </div>
-      </div>
-    </FluentProvider>
+      </FluentProvider>
+    </MessageContext.Provider>
   );
 };
 

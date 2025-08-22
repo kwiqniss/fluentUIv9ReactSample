@@ -28,6 +28,7 @@ import {
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { selectionTabStyles } from './SelectionTab.styles';
+import { useMessages } from '../../utils/messageContext';
 import selectionStrings from './SelectionTab.resx';
 import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
@@ -39,7 +40,6 @@ export interface SelectionFormData {
   checkboxValues: { [key: string]: boolean };
   switchValue: boolean;
   tableSelection: string[];
-  messages: string[];
 }
 
 const strings = {
@@ -48,6 +48,8 @@ const strings = {
 };
 
 const SelectionTab: React.FC = () => {
+  const { addMessage } = useMessages();
+  
   const styles = {
     ...sharedStyles(),
     ...selectionTabStyles(),
@@ -67,13 +69,11 @@ const SelectionTab: React.FC = () => {
       checkboxValues: {},
       switchValue: false,
       tableSelection: [],
-      messages: [],
     };
   };
 
   const initialData = getCachedData();
   
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [comboboxValue, setComboboxValue] = useState(initialData.comboboxValue);
   const [dropdownValue, setDropdownValue] = useState(initialData.dropdownValue);
   const [selectedRadio, setSelectedRadio] = useState(initialData.radioValue);
@@ -89,14 +89,9 @@ const SelectionTab: React.FC = () => {
       checkboxValues: checkedItems,
       switchValue,
       tableSelection,
-      messages,
     };
     formCache.set(CACHE_KEYS.SELECTION, formData);
-  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, tableSelection, messages]);
-
-  const addMessage = (message: string) => {
-    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
-  };
+  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, tableSelection]);
 
   const handleCheckboxChange = (key: string, checked: boolean) => {
     setCheckedItems(prev => ({ ...prev, [key]: checked }));
@@ -326,19 +321,6 @@ const SelectionTab: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      <Card className={styles.cardContainer}>
-        <CardHeader>
-          <Body1>{strings.userInteractionLog}</Body1>
-        </CardHeader>
-        <div className={styles.messageScrollArea}>
-          {messages.map((message, index) => (
-            <Caption1 key={index}>
-              {message}
-            </Caption1>
-          ))}
-        </div>
-      </Card>
     </div>
   );
 };

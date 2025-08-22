@@ -55,6 +55,7 @@ import {
   ErrorCircleRegular
 } from '@fluentui/react-icons';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { useMessages } from '../../utils/messageContext';
 import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
 import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.styles';
@@ -64,11 +65,11 @@ import { badge, statusColor, size } from '../componentConstants';
 interface ComponentShowcaseFormData {
   searchValue: string;
   toastCount: number;
-  messages: string[];
   tableSelection: string[];
 }
 
 const ComponentShowcaseTab: React.FC = () => {
+  const { addMessage } = useMessages();
   const toasterId = useId();
   const { dispatchToast } = useToastController(toasterId);
 
@@ -76,13 +77,11 @@ const ComponentShowcaseTab: React.FC = () => {
   const initialData: ComponentShowcaseFormData = cached || {
     searchValue: '',
     toastCount: 0,
-    messages: [],
     tableSelection: [],
   };
 
   const [searchValue, setSearchValue] = useState(initialData.searchValue);
   const [toastCount, setToastCount] = useState(initialData.toastCount);
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [isSkeletonLoading, setIsSkeletonLoading] = useState(true);
   const [isCardLoading, setIsCardLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
@@ -112,20 +111,14 @@ const ComponentShowcaseTab: React.FC = () => {
     const formData = {
       searchValue,
       toastCount,
-      messages,
       tableSelection: [],
     };
     formCache.set(CACHE_KEYS.COMPONENT_SHOWCASE, formData);
-  }, [searchValue, toastCount, messages]);
+  }, [searchValue, toastCount]);
 
   const styles = {
     ...sharedStyles(),
     ...componentShowcaseStyles(),
-  };
-
-  const addMessage = (message: string) => {
-    const timestamp = new Date().toLocaleTimeString();
-    setMessages(prev => [...prev, `${timestamp}: ${message}`]);
   };
 
   const showToast = (type: 'success' | 'error' | 'warning' | 'info') => {
@@ -560,19 +553,6 @@ const ComponentShowcaseTab: React.FC = () => {
         </div>
       </section>
 
-      {/* Message Log */}
-      {messages.length > 0 && (
-        <section>
-          <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.activityLog}</Title3>
-          <div className={styles.tabContentStandardized}>
-            {messages.slice(-10).map((message, index) => (
-              <Caption1 key={index} >
-                {message}
-              </Caption1>
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 };

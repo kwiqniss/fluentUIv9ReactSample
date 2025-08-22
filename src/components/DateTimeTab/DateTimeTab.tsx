@@ -3,13 +3,12 @@ import {
   Field,
   Body1,
   Caption1,
-  Card,
-  CardHeader,
   Input,
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { dateTimeTabStyles } from './DateTimeTab.styles';
+import { useMessages } from '../../utils/messageContext';
 import strings from './DateTimeTab.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 
@@ -19,10 +18,11 @@ export interface DateTimeFormData {
   datetimeValue: string;
   monthValue: string;
   weekValue: string;
-  messages: string[];
 }
 
 const DateTimeTab: React.FC = () => {
+  const { addMessage } = useMessages();
+  
   const styles = {
     ...sharedStyles(),
     ...dateTimeTabStyles(),
@@ -36,13 +36,11 @@ const DateTimeTab: React.FC = () => {
       datetimeValue: '',
       monthValue: '',
       weekValue: '',
-      messages: [],
     };
   };
 
   const initialData = getCachedData();
   
-  const [messages, setMessages] = useState<string[]>(initialData.messages);
   const [dateValue, setDateValue] = useState(initialData.dateValue);
   const [timeValue, setTimeValue] = useState(initialData.timeValue);
   const [datetimeValue, setDatetimeValue] = useState(initialData.datetimeValue);
@@ -56,14 +54,9 @@ const DateTimeTab: React.FC = () => {
       datetimeValue,
       monthValue,
       weekValue,
-      messages,
     };
     formCache.set(CACHE_KEYS.DATE_TIME, formData);
-  }, [dateValue, timeValue, datetimeValue, monthValue, weekValue, messages]);
-
-  const addMessage = (message: string) => {
-    setMessages(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
-  };
+  }, [dateValue, timeValue, datetimeValue, monthValue, weekValue]);
 
   return (
     <div className={mergeClasses(styles.tabContentStandardized, styles.webkitIconFix)}>
@@ -135,19 +128,6 @@ const DateTimeTab: React.FC = () => {
           />
         </Field>
       </div>
-
-      <Card className={styles.cardContainer}>
-        <CardHeader>
-          <Body1>{strings.userInteractionLog}</Body1>
-        </CardHeader>
-        <div className={styles.messageScrollArea}>
-          {messages.map((message, index) => (
-            <Caption1 key={index}>
-              {message}
-            </Caption1>
-          ))}
-        </div>
-      </Card>
     </div>
   );
 };

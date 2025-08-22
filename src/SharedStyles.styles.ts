@@ -173,9 +173,9 @@ export const sharedStyles = makeStyles({
 
   // H3 - Medium heading (section headings)
   h3Heading: {
-    fontSize: tokens.fontSizeBase400,
+    fontSize: tokens.fontSizeBase300,
     fontWeight: tokens.fontWeightSemibold,
-    lineHeight: tokens.lineHeightBase400,
+    lineHeight: tokens.lineHeightBase300,
     marginBottom: tokens.spacingVerticalXS,
   },
 });

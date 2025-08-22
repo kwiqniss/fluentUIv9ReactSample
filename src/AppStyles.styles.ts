@@ -18,6 +18,7 @@ export const appStyles = makeStyles({
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
+    flex: '1', // Allow content area to grow and push footer down
   },
   // Responsive header layout with proper container padding
   header: {
@@ -60,10 +61,11 @@ export const appStyles = makeStyles({
   // Theme selector with strict width constraints
   themeSection: {
     display: 'flex',
-    alignItems: 'flex-end', // Changed from flex-start to flex-end
+    alignItems: 'flex-end', // Align to bottom of the container
     flexShrink: 0,
     width: '8rem', // Fixed width for the entire section
     maxWidth: '8rem',
+    height: '4rem', // Match expected height to align with subtitle line
     
     // Target the Field component directly
     '& > *': { // All direct children

@@ -6,8 +6,6 @@ import {
   Button,
   Body1,
   Caption1,
-  MessageBar,
-  MessageBarBody,
   Popover,
   PopoverTrigger,
   PopoverSurface,
@@ -16,9 +14,12 @@ import {
 import { sharedStyles } from '../../SharedStyles.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
 import { formCache } from '../../utils/formCache';
+import { useMessages } from '../../utils/messageContext';
 import strings from './BasicInputsTab.resx';
 
 const BasicInputsTab: React.FC = () => {
+  const { addMessage } = useMessages();
+  
   const styles = {
     ...sharedStyles(),
     ...basicInputsTabStyles(),
@@ -37,9 +38,6 @@ const BasicInputsTab: React.FC = () => {
   const [passwordValue, setPasswordValue] = useState<string>(formCache.get<string>(FIELD_KEYS.PASSWORD) || '');
   const [numberValue, setNumberValue] = useState<string>(formCache.get<string>(FIELD_KEYS.NUMBER) || '');
   const [textareaValue, setTextareaValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXTAREA) || '');
-  
-  const [message, setMessage] = useState<string>('');
-  const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
 
   // Popover form state
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
@@ -76,14 +74,10 @@ const BasicInputsTab: React.FC = () => {
     const hasContent = textValue || emailValue || passwordValue || numberValue || textareaValue;
     
     if (hasContent) {
-      setMessage(strings.submitSuccess);
-      setMessageType('success');
+      addMessage(strings.submitSuccess, 'success');
     } else {
-      setMessage(strings.submitError);
-      setMessageType('warning');
+      addMessage(strings.submitError, 'warning');
     }
-
-    setTimeout(() => setMessage(''), 3000);
   };
 
   const handleClear = () => {
@@ -99,24 +93,18 @@ const BasicInputsTab: React.FC = () => {
     formCache.remove(FIELD_KEYS.NUMBER);
     formCache.remove(FIELD_KEYS.TEXTAREA);
 
-    setMessage(strings.clearSuccess);
-    setMessageType('info');
-
-    setTimeout(() => setMessage(''), 2000);
+    addMessage(strings.clearSuccess, 'info');
   };
 
   const handlePopupSubmit = () => {
     if (popupName && popupEmail) {
-      setMessage(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`);
-      setMessageType('success');
+      addMessage(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`, 'success');
       
       // Clear popup form
       setPopupName('');
       setPopupEmail('');
       setPopupMessage('');
       setIsPopoverOpen(false);
-      
-      setTimeout(() => setMessage(''), 3000);
     }
   };
 
@@ -245,14 +233,6 @@ const BasicInputsTab: React.FC = () => {
             </PopoverSurface>
           </Popover>
         </div>
-
-        {message && (
-          <div className={styles.messageSection}>
-            <MessageBar intent={messageType}>
-              <MessageBarBody>{message}</MessageBarBody>
-            </MessageBar>
-          </div>
-        )}
       </div>
     </div>
   );
