@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { Text, Button } from '@fluentui/react-components';
+import { Text, Button, Tooltip } from '@fluentui/react-components';
 import { makeStyles, tokens } from '@fluentui/react-components';
 import { MessageContext, Message, MessageContextType } from '../utils/messageContext';
 import { MessageType, LogLevel } from '../types/enums';
@@ -162,14 +162,38 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
     
     switch (messageType) {
       case MessageType.Success:
-        return <CheckmarkCircleRegular style={{ ...iconStyle, color: tokens.colorPaletteGreenBorder2 }} />;
+        return (
+          <Tooltip content="Success message" relationship="label">
+            <CheckmarkCircleRegular 
+              style={{ ...iconStyle, color: tokens.colorPaletteGreenBorder2 }} 
+            />
+          </Tooltip>
+        );
       case MessageType.Error:
-        return <ErrorCircleRegular style={{ ...iconStyle, color: tokens.colorPaletteRedBorder2 }} />;
+        return (
+          <Tooltip content="Error message" relationship="label">
+            <ErrorCircleRegular 
+              style={{ ...iconStyle, color: tokens.colorPaletteRedBorder2 }} 
+            />
+          </Tooltip>
+        );
       case MessageType.Warning:
-        return <WarningRegular style={{ ...iconStyle, color: tokens.colorPaletteYellowBorder2 }} />;
+        return (
+          <Tooltip content="Warning message" relationship="label">
+            <WarningRegular 
+              style={{ ...iconStyle, color: tokens.colorPaletteYellowBorder2 }} 
+            />
+          </Tooltip>
+        );
       case MessageType.Info:
       default:
-        return <InfoRegular style={{ ...iconStyle, color: tokens.colorNeutralForeground2 }} />;
+        return (
+          <Tooltip content="Information message" relationship="label">
+            <InfoRegular 
+              style={{ ...iconStyle, color: tokens.colorNeutralForeground2 }} 
+            />
+          </Tooltip>
+        );
     }
   };
 

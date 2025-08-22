@@ -34,11 +34,30 @@ export const appStyles = makeStyles({
     minHeight: '4rem',
     boxSizing: 'border-box',
     
-    '@media (max-width: 60rem)': {
-      flexDirection: 'column',
-      alignItems: 'center',
+    // When wrapping occurs, controls go to start of new line
+    '& > *:nth-child(2)': {
+      order: 2,
+    },
+    
+    // Medium screens: force wrap to keep H1 text from wrapping
+    '@media (max-width: 64rem)': {
+      '& > *:nth-child(2)': {
+        order: 2,
+        alignSelf: 'flex-start',
+        width: '100%',
+        justifyContent: 'flex-start',
+      },
+    },
+    
+    // Small screens: same behavior but adjust spacing
+    '@media (max-width: 48rem)': {
       gap: tokens.spacingVerticalS,
-      paddingRight: tokens.spacingHorizontalL,
+      '& > *:nth-child(2)': {
+        order: 2,
+        alignSelf: 'flex-start',
+        width: '100%',
+        justifyContent: 'flex-start',
+      },
     },
   },
 
@@ -51,6 +70,20 @@ export const appStyles = makeStyles({
     gap: tokens.spacingVerticalXS,
     flex: '1',
     minWidth: '0', // Allow shrinking
+    
+    // Prevent text wrapping in H1 until dropdowns are moved down
+    '& h1': {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      
+      // Allow text wrapping on very small screens where dropdowns are already wrapped
+      '@media (max-width: 32rem)': {
+        whiteSpace: 'normal',
+        overflow: 'visible',
+        textOverflow: 'unset',
+      },
+    },
   },
 
   // Subtitle styling
@@ -58,13 +91,21 @@ export const appStyles = makeStyles({
     flexShrink: 0,
   },
 
-  // Controls section for theme and verbosity dropdowns - now on the right, stacked vertically
+  // Controls section for theme and verbosity dropdowns - responsive positioning
   controlsSection: {
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
     alignItems: 'flex-end',
     flexShrink: 0,
+    
+    // When wrapped to new line: horizontal layout, left-aligned
+    '@media (max-width: 64rem)': {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: tokens.spacingHorizontalM,
+      justifyContent: 'flex-start',
+    },
     
     // Theme dropdown - standard width
     '& > *:first-child': {
@@ -122,11 +163,6 @@ export const appStyles = makeStyles({
       fontSize: tokens.fontSizeBase200,
       marginBottom: tokens.spacingVerticalXXS,
       whiteSpace: 'nowrap',
-    },
-    
-    '@media (max-width: 60rem)': { // Mobile breakpoint
-      gap: tokens.spacingVerticalXS,
-      alignItems: 'center',
     },
   },
 
