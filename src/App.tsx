@@ -266,14 +266,10 @@ const App: React.FC = () => {
                     <Button
                       appearance={selectedTab === tab.value ? 'primary' : 'subtle'}
                       onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
-                      style={{
-                        borderRadius: `${tokens.borderRadiusSmall} ${tokens.borderRadiusSmall} 0 0`,
-                        minHeight: '2rem', // ~32px
-                        border: 'none',
-                        borderBottom: selectedTab === tab.value ? `${tokens.strokeWidthThick} solid var(--colorBrandBackground)` : `${tokens.strokeWidthThin} solid transparent`,
-                        whiteSpace: 'nowrap',
-                        padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalM}`
-                      }}
+                      className={mergeClasses(
+                        styles.tabButton,
+                        selectedTab === tab.value ? styles.tabButtonActive : styles.tabButtonInactive
+                      )}
                     >
                       {tab.label}
                     </Button>

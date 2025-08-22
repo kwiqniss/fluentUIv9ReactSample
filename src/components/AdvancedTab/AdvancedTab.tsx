@@ -165,7 +165,7 @@ const AdvancedTab: React.FC = () => {
             onChange={(e) => addMessage(`Color selected: ${e.target.value}`)}
             onFocus={() => addMessage('Color picker focused')}
             onBlur={() => addMessage('Color picker lost focus')}
-            style={{ width: "3rem", height: "2.5rem" }} // ~48px x ~40px
+            className={styles.colorInput}
           />
         </Field>
 

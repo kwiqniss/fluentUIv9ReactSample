@@ -44,4 +44,21 @@ export const appStyles = makeStyles({
       marginTop: tokens.spacingVerticalS,
     },
   },
+
+  // Tab button styles
+  tabButton: {
+    borderRadius: `${tokens.borderRadiusSmall} ${tokens.borderRadiusSmall} 0 0`,
+    minHeight: '2rem', // ~32px
+    border: 'none',
+    whiteSpace: 'nowrap',
+    padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalM}`,
+  },
+
+  tabButtonActive: {
+    borderBottom: `${tokens.strokeWidthThick} solid var(--colorBrandBackground)`,
+  },
+
+  tabButtonInactive: {
+    borderBottom: `${tokens.strokeWidthThin} solid transparent`,
+  },
 });

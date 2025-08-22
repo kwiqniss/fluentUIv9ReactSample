@@ -108,4 +108,71 @@ export const componentShowcaseStyles = makeStyles({
     flexDirection: 'column',
     gap: tokens.spacingVerticalL, // Consistent spacing between components in a section
   },
+
+  // Skeleton card styles
+  skeletonCardHeader: {
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: tokens.spacingHorizontalM, 
+    padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
+  },
+
+  skeletonCardHeaderContent: {
+    display: 'flex', 
+    flexDirection: 'column', 
+    gap: tokens.spacingVerticalXS,
+  },
+
+  skeletonCardHeaderName: {
+    width: '7.5rem',
+  },
+
+  skeletonCardHeaderTitle: {
+    width: '10rem',
+  },
+
+  skeletonCardBody: {
+    padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
+  },
+
+  skeletonCardBodyFull: {
+    width: '100%', 
+    marginBottom: tokens.spacingVerticalXS,
+  },
+
+  skeletonCardBodyMost: {
+    width: '80%', 
+    marginBottom: tokens.spacingVerticalXS,
+  },
+
+  skeletonCardBodyPartial: {
+    width: '60%',
+  },
+
+  skeletonCardFooter: {
+    display: 'flex', 
+    gap: tokens.spacingHorizontalS, 
+    padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
+    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+  },
+
+  skeletonCardFooterButton1: {
+    width: '6.25rem',
+  },
+
+  skeletonCardFooterButton2: {
+    width: '5rem',
+  },
+
+  // Button container styles
+  buttonContainer: {
+    display: 'flex', 
+    gap: tokens.spacingHorizontalS, 
+    flexWrap: 'wrap',
+  },
+
+  // Spacing for buttons and controls
+  buttonSpacingTop: {
+    marginTop: tokens.spacingVerticalM,
+  },
 });
