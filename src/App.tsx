@@ -229,7 +229,7 @@ const App: React.FC = () => {
         <div className={styles.contentWrapper}>
           <div>
             <Overflow>
-              <div className={LineStyleSketch20Regular.container}>9
+              <div className={LineStyleSketch20Regular.container}>
                 {allTabs.map((tab, index) => (
                   <OverflowItem 
                     key={tab.value} 
