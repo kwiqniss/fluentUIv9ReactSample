@@ -46,6 +46,14 @@ export const basicInputsTabStyles = makeStyles({
     maxWidth: '9.375rem', // ~150px
   },
 
+  // Button container
+  buttonContainer: {
+    display: 'flex',
+    gap: tokens.spacingHorizontalS,
+    flexWrap: 'wrap',
+    marginTop: tokens.spacingVerticalM,
+  },
+
   // Popup form styles
   popupForm: {
     display: 'flex',
@@ -60,5 +68,18 @@ export const basicInputsTabStyles = makeStyles({
     gap: tokens.spacingHorizontalS,
     justifyContent: 'flex-end',
     marginTop: tokens.spacingVerticalS,
+  },
+
+  // Custom message section - constrain the dropdown and input width
+  customMessageGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: tokens.spacingVerticalM,
+    maxWidth: '25rem', // ~400px - narrower than the shared formGrid
+    
+    // Keep single column even on larger screens for this specific section
+    '@media (min-width: 48rem)': {
+      gridTemplateColumns: '1fr',
+    },
   },
 });

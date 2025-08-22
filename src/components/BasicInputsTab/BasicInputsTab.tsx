@@ -14,6 +14,7 @@ import {
   Option,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
+import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
 import { formCache } from '../../utils/formCache';
 import { useMessages } from '../../utils/messageContext';
@@ -27,6 +28,7 @@ const BasicInputsTab: React.FC = () => {
   
   const styles = {
     ...sharedStyles(),
+    ...sharedLayoutStyles(),
     ...basicInputsTabStyles(),
   };
 
@@ -157,14 +159,13 @@ const BasicInputsTab: React.FC = () => {
   };
 
   return (
-    <div className={styles.tabContentStandardized}>
-      <div className={styles.container}>
-        <div className={styles.componentItem}>
-          <Body1 as="h2" className={styles.h2Heading}>{strings.title}</Body1>
-          <Caption1>{strings.description}</Caption1>
-        </div>
+    <div className={styles.tabContainer}>
+      <div className={styles.headerSection}>
+        <Title3>{strings.title}</Title3>
+        <Caption1>{strings.description}</Caption1>
+      </div>
 
-        <div className={styles.formGrid}>
+      <div className={styles.formGrid}>
           <Field label={strings.textLabel} required>
             <Input
               placeholder={strings.textPlaceholder}
@@ -207,21 +208,21 @@ const BasicInputsTab: React.FC = () => {
               onBlur={() => addMessage('Number input lost focus', MessageType.Info)}
             />
           </Field>
+
+          <Field label={strings.textareaLabel}>
+            <Textarea
+              placeholder={strings.textareaPlaceholder}
+              value={textareaValue}
+              onChange={(_, data) => handleTextareaChange(data.value)}
+              onFocus={() => addMessage('Textarea focused', MessageType.Info)}
+              onBlur={() => addMessage('Textarea lost focus', MessageType.Info)}
+              rows={4}
+              resize="vertical"
+            />
+          </Field>
         </div>
 
-        <Field label={strings.textareaLabel}>
-          <Textarea
-            placeholder={strings.textareaPlaceholder}
-            value={textareaValue}
-            onChange={(_, data) => handleTextareaChange(data.value)}
-            onFocus={() => addMessage('Textarea focused', MessageType.Info)}
-            onBlur={() => addMessage('Textarea lost focus', MessageType.Info)}
-            rows={4}
-            resize="vertical"
-          />
-        </Field>
-
-        <div className={styles.buttonContainer}>
+        <div className={styles.actionsSection}>
           <Button appearance="primary" onClick={handleSubmit}>
             {strings.submitButton}
           </Button>
@@ -243,7 +244,7 @@ const BasicInputsTab: React.FC = () => {
             </PopoverTrigger>
             <PopoverSurface className={styles.popupForm}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Title3 as="h3" className={styles.h3Heading}>Contact Information</Title3>
+                <Title3 as="h3">Contact Information</Title3>
                 
                 <Field label="Name" required>
                   <Input
@@ -296,14 +297,13 @@ const BasicInputsTab: React.FC = () => {
             </PopoverSurface>
           </Popover>
         </div>
-      </div>
 
-      {/* Custom Message Sender moved to bottom */}
-      <div className={styles.componentItem}>
-        <Body1 as="h3" className={styles.h3Heading}>Custom Message Sender</Body1>
+      {/* Custom Message Sender section */}
+      <div className={styles.section}>
+        <Title3 as="h3">Custom Message Sender</Title3>
         <Caption1>Send a custom message to test the logging system with different message types.</Caption1>
         
-        <div className={styles.formGrid}>
+        <div className={styles.customMessageGrid}>
           <Field label="Message Type">
             <Dropdown
               value={getMessageTypeDisplayName(selectedMessageType)}
@@ -336,7 +336,7 @@ const BasicInputsTab: React.FC = () => {
           </Field>
         </div>
         
-        <div className={styles.buttonContainer}>
+        <div className={styles.actionsSection}>
           <Button 
             appearance="primary" 
             onClick={handleSendCustomMessage}
