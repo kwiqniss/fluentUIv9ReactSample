@@ -232,9 +232,9 @@ const App: React.FC = () => {
           <div className={styles.header}>
             <div className={styles.titleSection}>
               <Body1 as="h1" className={styles.h1Heading}>{strings.title}</Body1>
-              <Caption1>{strings.subtitle}</Caption1>
+              <Caption1 className={styles.subtitle}>{strings.subtitle}</Caption1>
             </div>
-            <div className={styles.themeSection}>
+            <div className={styles.controlsSection}>
               <Field label={strings.themeSelector}>
                 <Dropdown
                   value={themes[selectedTheme].name}

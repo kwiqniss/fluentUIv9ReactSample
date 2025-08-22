@@ -4,6 +4,12 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 import { MessageContext, Message, MessageContextType } from '../utils/messageContext';
 import { MessageType, LogLevel } from '../types/enums';
 import { shouldLogMessage } from '../utils/logLevel';
+import {
+  CheckmarkCircleRegular,
+  InfoRegular,
+  WarningRegular,
+  ErrorCircleRegular,
+} from '@fluentui/react-icons';
 
 const useMessageManagerStyles = makeStyles({
   footer: {
@@ -49,6 +55,18 @@ const useMessageManagerStyles = makeStyles({
     border: `1px solid ${tokens.colorNeutralStroke1}`,
     fontSize: tokens.fontSizeBase200,
     lineHeight: tokens.lineHeightBase200,
+    display: 'flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalXS,
+  },
+
+  messageIcon: {
+    fontSize: tokens.fontSizeBase400, // Increased from Base200 to Base400
+    flexShrink: 0,
+  },
+
+  messageText: {
+    flex: 1,
   },
   
   emptyMessage: {
@@ -139,6 +157,22 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
     }
   };
 
+  const getMessageIcon = (messageType?: MessageType) => {
+    const iconStyle = { fontSize: tokens.fontSizeBase400 };
+    
+    switch (messageType) {
+      case MessageType.Success:
+        return <CheckmarkCircleRegular style={{ ...iconStyle, color: tokens.colorPaletteGreenBorder2 }} />;
+      case MessageType.Error:
+        return <ErrorCircleRegular style={{ ...iconStyle, color: tokens.colorPaletteRedBorder2 }} />;
+      case MessageType.Warning:
+        return <WarningRegular style={{ ...iconStyle, color: tokens.colorPaletteYellowBorder2 }} />;
+      case MessageType.Info:
+      default:
+        return <InfoRegular style={{ ...iconStyle, color: tokens.colorNeutralForeground2 }} />;
+    }
+  };
+
   const MessageFooter = () => (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -166,7 +200,12 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
                 key={message.id} 
                 className={`${styles.messageItem} ${getMessageTypeClass(message.type)}`}
               >
-                <Text>{message.text}</Text>
+                <div className={styles.messageIcon}>
+                  {getMessageIcon(message.type)}
+                </div>
+                <div className={styles.messageText}>
+                  <Text>{message.text}</Text>
+                </div>
               </div>
             ))
           )}
