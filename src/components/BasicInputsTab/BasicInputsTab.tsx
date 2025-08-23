@@ -63,6 +63,18 @@ const BasicInputsTab: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const resetForm = () => {
+    const defaultData: BasicInputsFormData = {
+      textValue: '',
+      emailValue: '',
+      passwordValue: '',
+      numberValue: '',
+      textareaValue: '',
+    };
+    setFormData(defaultData);
+    addMessage('Basic inputs form reset to defaults');
+  };
+
   const handleTextChange = (value: string) => {
     updateField('textValue', value);
     if (value.trim()) {
@@ -158,8 +170,18 @@ const BasicInputsTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <Title3>{strings.title}</Title3>
-        <Caption1>{strings.description}</Caption1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Title3>{strings.title}</Title3>
+            <Caption1>{strings.description}</Caption1>
+          </div>
+          <Button 
+            appearance="secondary"
+            onClick={resetForm}
+          >
+            Reset Tab
+          </Button>
+        </div>
       </div>
 
       <div className={styles.formGrid}>

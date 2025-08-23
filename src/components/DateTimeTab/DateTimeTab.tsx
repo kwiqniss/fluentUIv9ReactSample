@@ -4,6 +4,7 @@ import {
   Caption1,
   Input,
   Title3,
+  Button,
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
@@ -42,11 +43,33 @@ const DateTimeTab: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const resetForm = () => {
+    const defaultData: DateTimeFormData = {
+      dateValue: '',
+      timeValue: '',
+      datetimeValue: '',
+      monthValue: '',
+      weekValue: '',
+    };
+    setFormData(defaultData);
+    addMessage('Date/time form reset to defaults');
+  };
+
   return (
     <div className={mergeClasses(styles.tabContainer, styles.webkitIconFix)}>
       <div className={styles.headerSection}>
-        <Title3>{strings.title}</Title3>
-        <Caption1>Date and time input controls for temporal data collection.</Caption1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Title3>{strings.title}</Title3>
+            <Caption1>Date and time input controls for temporal data collection.</Caption1>
+          </div>
+          <Button 
+            appearance="secondary"
+            onClick={resetForm}
+          >
+            Reset Tab
+          </Button>
+        </div>
       </div>
 
       <div className={styles.formGrid}>

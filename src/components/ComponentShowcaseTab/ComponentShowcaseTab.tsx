@@ -91,6 +91,20 @@ const ComponentShowcaseTab: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const resetForm = () => {
+    const defaultData: ComponentShowcaseFormData = {
+      searchValue: '',
+      toastCount: 0,
+      tableSelection: [],
+    };
+    setFormData(defaultData);
+    setIsSkeletonLoading(true);
+    setIsCardLoading(false);
+    setProgressValue(0);
+    setIsProgressRunning(false);
+    addMessage('Component showcase form reset to defaults');
+  };
+
   useEffect(() => {
     if (isSkeletonLoading) {
       const timer = setTimeout(() => {
@@ -196,8 +210,18 @@ const ComponentShowcaseTab: React.FC = () => {
       <Toaster toasterId={toasterId} />
       
       <div className={styles.headerSection}>
-        <Title3>{strings.title}</Title3>
-        <Caption1>Comprehensive showcase of FluentUI v9 components and their interactions.</Caption1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Title3>{strings.title}</Title3>
+            <Caption1>Comprehensive showcase of FluentUI v9 components and their interactions.</Caption1>
+          </div>
+          <Button 
+            appearance="secondary"
+            onClick={resetForm}
+          >
+            Reset Tab
+          </Button>
+        </div>
       </div>
 
       {/* Navigation Components Section */}

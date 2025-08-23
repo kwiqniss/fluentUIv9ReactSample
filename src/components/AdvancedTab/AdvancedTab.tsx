@@ -49,6 +49,19 @@ const AdvancedTab: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const resetForm = () => {
+    const defaultData: AdvancedFormData = {
+      sliderValue: 50,
+      spinValue: 5,
+      rangeStart: 25,
+      rangeEnd: 75,
+      progress: 0,
+    };
+    setFormData(defaultData);
+    setProgress(0);
+    addMessage('Advanced form reset to defaults');
+  };
+
   const simulateProgress = () => {
     if (progress === 100) {
       setProgress(0);
@@ -74,8 +87,18 @@ const AdvancedTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <Title3>{strings.title}</Title3>
-        <Caption1>Advanced input controls for complex user interactions.</Caption1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Title3>{strings.title}</Title3>
+            <Caption1>Advanced input controls for complex user interactions.</Caption1>
+          </div>
+          <Button 
+            appearance="secondary"
+            onClick={resetForm}
+          >
+            Reset Tab
+          </Button>
+        </div>
       </div>
 
       <div className={styles.formGrid}>

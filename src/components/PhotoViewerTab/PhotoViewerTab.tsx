@@ -291,6 +291,17 @@ const PhotoViewerTab: React.FC = () => {
   const updateLastViewedPhotoIndex = useCallback((index: number) => {
     setPersistentState(prev => ({ ...prev, lastViewedPhotoIndex: index }));
   }, [setPersistentState]);
+
+  const resetForm = () => {
+    const defaultData: PhotoViewerPersistentState = {
+      galleryLayout: 'grid',
+      lastViewedPhotoIndex: 0,
+      focusedPhotoIndex: 0,
+    };
+    setPersistentState(defaultData);
+    setViewerState(prev => ({ ...prev, currentIndex: 0, scale: 1, isOpen: false }));
+    addMessage('Photo viewer reset to defaults');
+  };
   
   // Use our viewport dimensions hook
   const viewportDimensions = useViewportDimensions(0.9);
@@ -1010,6 +1021,13 @@ const PhotoViewerTab: React.FC = () => {
               aria-label="Collage layout"
             >
               Collage
+            </Button>
+            <Button 
+              appearance="secondary"
+              onClick={resetForm}
+              size="small"
+            >
+              Reset Tab
             </Button>
           </div>
         </div>

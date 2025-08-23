@@ -75,6 +75,19 @@ const SelectionTab: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const resetForm = () => {
+    const defaultData: SelectionFormData = {
+      comboboxValue: '',
+      dropdownValue: '',
+      radioValue: 'option1',
+      checkboxValues: {},
+      switchValue: false,
+      tableSelection: [],
+    };
+    setFormData(defaultData);
+    addMessage('Selection form reset to defaults');
+  };
+
   const handleCheckboxChange = (key: string, checked: boolean) => {
     const newCheckboxValues = { ...formData.checkboxValues, [key]: checked };
     updateField('checkboxValues')(newCheckboxValues);
@@ -119,8 +132,18 @@ const SelectionTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <Title3>{strings.title}</Title3>
-        <Caption1>Selection controls for user input and choice management.</Caption1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div>
+            <Title3>{strings.title}</Title3>
+            <Caption1>Selection controls for user input and choice management.</Caption1>
+          </div>
+          <Button 
+            appearance="secondary"
+            onClick={resetForm}
+          >
+            Reset Tab
+          </Button>
+        </div>
       </div>
 
       <div className={styles.formGrid}>
@@ -259,7 +282,10 @@ const SelectionTab: React.FC = () => {
                   <TableCell className={styles.checkboxCell}>
                     <Checkbox
                       checked={isSelected}
-                      onChange={(_, data) => handleRowSelection(item.id, data.checked === true)}
+                      onChange={(e, data) => {
+                        e.stopPropagation(); // Prevent double-selection from row click
+                        handleRowSelection(item.id, data.checked === true);
+                      }}
                       aria-label={formatString(commonStrings.selectRowAriaLabel, item.name)}
                     />
                   </TableCell>
