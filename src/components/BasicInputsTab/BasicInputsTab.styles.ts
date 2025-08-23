@@ -1,32 +1,9 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
 /**
- * BasicInputsTab specific styles with input constraints
+ * BasicInputsTab specific styles
  */
 export const basicInputsTabStyles = makeStyles({
-  // Container layout
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-  },
-
-  // Form grid layout
-  formGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(18.75rem, 1fr))',
-    maxWidth: '100%',
-    gap: '1rem',
-    '@media (min-width: 48rem)': {
-      gridTemplateColumns: '1fr 1fr',
-    },
-  },
-
-  // Message section spacing
-  messageSection: {
-    marginTop: '1rem',
-  },
-
   // Constrain input elements specifically for this tab
   inputConstraints: {
     '& input': {
@@ -40,18 +17,17 @@ export const basicInputsTabStyles = makeStyles({
     },
   },
 
-  // Button with proper spacing
-  submitButton: {
-    marginTop: tokens.spacingVerticalL,
-    maxWidth: '9.375rem', // ~150px
-  },
-
-  // Button container
-  buttonContainer: {
-    display: 'flex',
-    gap: tokens.spacingHorizontalS,
-    flexWrap: 'wrap',
-    marginTop: tokens.spacingVerticalM,
+  // Custom message section - constrained dropdown and input
+  customMessageGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: tokens.spacingVerticalM,
+    maxWidth: '25rem', // ~400px - narrower than the shared formGrid
+    
+    // Keep single column even on larger screens for this specific section
+    '@media (min-width: 48rem)': {
+      gridTemplateColumns: '1fr',
+    },
   },
 
   // Popup form styles
@@ -68,18 +44,5 @@ export const basicInputsTabStyles = makeStyles({
     gap: tokens.spacingHorizontalS,
     justifyContent: 'flex-end',
     marginTop: tokens.spacingVerticalS,
-  },
-
-  // Custom message section - constrain the dropdown and input width
-  customMessageGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    gap: tokens.spacingVerticalM,
-    maxWidth: '25rem', // ~400px - narrower than the shared formGrid
-    
-    // Keep single column even on larger screens for this specific section
-    '@media (min-width: 48rem)': {
-      gridTemplateColumns: '1fr',
-    },
   },
 });

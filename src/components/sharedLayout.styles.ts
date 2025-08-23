@@ -52,4 +52,65 @@ export const sharedLayoutStyles = makeStyles({
     flexDirection: 'column',
     gap: tokens.spacingVerticalL,
   },
+
+  // Legacy section container for backward compatibility
+  sectionContainer: {
+    marginTop: tokens.spacingVerticalL,
+    marginBottom: tokens.spacingVerticalL,
+  },
+
+  // Standard component item container
+  componentItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: tokens.spacingVerticalS,
+    minWidth: '17.5rem', // ~280px
+    maxWidth: '25rem',   // ~400px
+  },
+
+  // Flexible button container
+  buttonContainer: {
+    display: 'flex',
+    gap: tokens.spacingHorizontalS,
+    marginTop: tokens.spacingVerticalS,
+    flexWrap: 'wrap',
+  },
+
+  // H3 heading style
+  h3Heading: {
+    fontSize: tokens.fontSizeBase300,
+    fontWeight: tokens.fontWeightSemibold,
+    lineHeight: tokens.lineHeightBase300,
+    marginBottom: tokens.spacingVerticalXS,
+  },
+
+  // Global webkit date/time picker icon fix for dark theme
+  webkitIconFix: {
+    // Apply to any date/time input anywhere in the app
+    '& input[type="date"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="time"]::-webkit-time-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="datetime-local"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="month"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+    '& input[type="week"]::-webkit-calendar-picker-indicator': {
+      '@media (prefers-color-scheme: dark)': {
+        filter: 'invert(1) !important',
+      },
+    },
+  },
 });

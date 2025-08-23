@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useId } from 'react';
 import {
   Field,
-  Body1,
   Caption1,
   Card,
   CardHeader,

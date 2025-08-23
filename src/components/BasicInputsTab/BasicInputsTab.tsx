@@ -4,7 +4,6 @@ import {
   Input,
   Textarea,
   Button,
-  Body1,
   Caption1,
   Popover,
   PopoverTrigger,

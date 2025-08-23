@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Field,
-  Body1,
   Caption1,
   Slider,
   ProgressBar,
