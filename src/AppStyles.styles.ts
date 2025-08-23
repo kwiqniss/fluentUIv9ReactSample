@@ -314,45 +314,45 @@ export const appStyles = makeStyles({
     marginTop: '0',
     paddingTop: tokens.spacingVerticalXS,
     paddingRight: tokens.spacingHorizontalSNudge,
-    paddingBottom: tokens.spacingVerticalS,
+    paddingBottom: tokens.spacingVerticalXS, // Consistent with paddingTop
     paddingLeft: tokens.spacingHorizontalSNudge,
     color: tokens.colorBrandForeground1,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandStroke2}`,
     borderBottom: 'none',
     boxShadow: tokens.shadow16,
     zIndex: 2,
-    transform: `translateY(-${tokens.spacingVerticalXXS})`,
+    transform: 'translateY(0)', // Remove vertical movement
   },
   
   tabUnselected: {
     backgroundColor: tokens.colorNeutralBackground3,
-    marginTop: tokens.spacingVerticalXXS,
-    paddingTop: tokens.spacingVerticalXXS,
+    marginTop: '0', // Match selected tab margin
+    paddingTop: tokens.spacingVerticalXS, // Match selected tab padding
     paddingRight: tokens.spacingHorizontalXS,
-    paddingBottom: tokens.spacingVerticalXXS,
+    paddingBottom: tokens.spacingVerticalXS, // Match selected tab padding
     paddingLeft: tokens.spacingHorizontalXS,
     color: tokens.colorNeutralForeground2,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
     borderBottom: 'none',
     boxShadow: tokens.shadow2,
     zIndex: 1,
-    transform: 'translateY(0)',
+    transform: 'translateY(0)', // Same as selected tab
     
     '&:hover': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXXS,
+      paddingTop: tokens.spacingVerticalXS, // Consistent padding
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS,
+      paddingBottom: tokens.spacingVerticalXS, // Consistent padding
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: `translateY(-${tokens.spacingVerticalXXS})`,
+      transform: 'translateY(0)', // No vertical movement
     },
     '&:focus': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXXS,
+      paddingTop: tokens.spacingVerticalXS, // Consistent padding
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS,
+      paddingBottom: tokens.spacingVerticalXS, // Consistent padding
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: `translateY(-${tokens.spacingVerticalXXS})`,
+      transform: 'translateY(0)', // No vertical movement
     },
   },
 });
