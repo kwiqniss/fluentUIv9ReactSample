@@ -157,6 +157,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
+    
+    // Set body background color to match theme
+    document.body.style.backgroundColor = themes[selectedTheme].theme.colorNeutralBackground1;
   }, [selectedTheme]);
 
   useEffect(() => {

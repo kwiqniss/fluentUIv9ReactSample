@@ -23,6 +23,8 @@ export const appStyles = makeStyles({
     flexDirection: 'column',
     // Use minimum height to ensure we fill screen, but no max height constraint
     minHeight: 'var(--main-container-min-height, 100vh)',
+    // Set background color to match theme and cover scrollbar gutter
+    backgroundColor: tokens.colorNeutralBackground1,
   },
   
   h1Heading: {
