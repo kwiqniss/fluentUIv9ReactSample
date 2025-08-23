@@ -6,7 +6,8 @@ import {
   Button, 
   mergeClasses,
   useRestoreFocusTarget,
-  useRestoreFocusSource
+  useRestoreFocusSource,
+  Portal,
 } from '@fluentui/react-components';
 import { 
   ChevronLeftRegular, 
@@ -1271,19 +1272,20 @@ const PhotoViewerTab: React.FC = () => {
 
       {/* Photo Viewer Modal */}
       {viewerState.isOpen && (
-        <div 
-          className={styles.viewerOverlay}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) closeViewer();
-          }}
-          onMouseMove={handleControlsVisibility}
-          onMouseLeave={handleMouseLeave}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="viewer-title"
-          aria-describedby="viewer-instructions"
-          {...restoreFocusTargetAttribute}
-        >
+        <Portal>
+          <div 
+            className={styles.viewerOverlay}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closeViewer();
+            }}
+            onMouseMove={handleControlsVisibility}
+            onMouseLeave={handleMouseLeave}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="viewer-title"
+            aria-describedby="viewer-instructions"
+            {...restoreFocusTargetAttribute}
+          >
           <div 
             ref={viewerRef}
             className={styles.viewerContainer}
@@ -1418,6 +1420,7 @@ const PhotoViewerTab: React.FC = () => {
             </div>
           </div>
         </div>
+        </Portal>
       )}
     </div>
   );

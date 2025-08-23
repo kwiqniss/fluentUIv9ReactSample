@@ -193,7 +193,7 @@ export const photoViewerStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000,
+    zIndex: 9999, // Increased to ensure it's above all other elements including tabs
     padding: SIZES.viewerPadding,
     touchAction: 'none', // Prevent all default touch behaviors on the entire overlay
   },
@@ -257,7 +257,7 @@ export const photoViewerStyles = makeStyles({
     color: tokens.colorNeutralForeground1,
     boxShadow: tokens.shadow16,
     transition: `all ${tokens.durationFast} ${tokens.curveEasyEase}`,
-    zIndex: 10,
+    zIndex: 10001, // Above the photo viewer overlay and zoom controls
 
     '&:hover': {
       backgroundColor: tokens.colorNeutralBackground1Hover,
@@ -294,7 +294,7 @@ export const photoViewerStyles = makeStyles({
     boxShadow: tokens.shadow16,
     transition: `all ${tokens.durationFast} ${tokens.curveEasyEase}`,
     opacity: 0,
-    zIndex: 10,
+    zIndex: 10001, // Above the photo viewer overlay and zoom controls
 
     '&:hover': {
       backgroundColor: tokens.colorNeutralBackground1Hover,
@@ -340,7 +340,7 @@ export const photoViewerStyles = makeStyles({
     padding: tokens.spacingVerticalXS, // Minimal padding
     boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px', // Slightly stronger shadow
     backdropFilter: 'blur(8px)', 
-    zIndex: 1000,
+    zIndex: 10000, // Above the photo viewer overlay
     opacity: 0.4, // Slightly less transparent (was 0.3)
     transition: `all ${tokens.durationSlow} ${tokens.curveEasyEase}`, // Slow, smooth transitions
     
