@@ -32,6 +32,7 @@ export const appStyles = makeStyles({
   h1Heading: {
     margin: 0,
     fontWeight: tokens.fontWeightSemibold,
+    lineHeight: tokens.lineHeightBase500,
   },
   
   // Responsive header layout with proper container padding
@@ -41,8 +42,9 @@ export const appStyles = makeStyles({
     alignItems: 'flex-start',
     flexWrap: 'wrap',
     gap: tokens.spacingHorizontalM,
-    marginBottom: tokens.spacingVerticalL,
-    padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
+    marginBottom: tokens.spacingVerticalS,
+    padding: `${tokens.spacingVerticalL} ${tokens.spacingHorizontalL}`,
+    paddingBottom: tokens.spacingVerticalL,
     paddingRight: `calc(${tokens.spacingHorizontalL} - ${tokens.spacingHorizontalS})`, // Small gap from edge
     width: '100%',
     minHeight: '4rem',
@@ -81,9 +83,10 @@ export const appStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
-    gap: tokens.spacingVerticalXS,
+    gap: tokens.spacingVerticalXL,
     flex: '1',
     minWidth: '0', // Allow shrinking
+    paddingTop: tokens.spacingVerticalXXL,
     
     // Prevent text wrapping in H1 until dropdowns are moved down
     '& h1': {
@@ -103,13 +106,14 @@ export const appStyles = makeStyles({
   // Subtitle styling
   subtitle: {
     flexShrink: 0,
+    opacity: 0.8, // Slightly muted to create hierarchy
   },
 
   // Controls section for theme and verbosity dropdowns - responsive positioning
   controlsSection: {
     display: 'flex',
     flexDirection: 'column',
-    gap: tokens.spacingVerticalS,
+    gap: tokens.spacingVerticalXS,
     alignItems: 'flex-end',
     flexShrink: 0,
     
@@ -129,10 +133,10 @@ export const appStyles = makeStyles({
       width: '100%',
     },
     
-    // Theme dropdown - standard width
+    // Theme dropdown - reduced width for better balance
     '& > *:first-child': {
-      width: '12rem',
-      maxWidth: '12rem',
+      width: '10rem',
+      maxWidth: '10rem',
       
       '@media (max-width: 32rem)': {
         width: '100%',
@@ -140,8 +144,8 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Field': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         
         '@media (max-width: 32rem)': {
           width: '100% !important',
@@ -150,8 +154,8 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Dropdown': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         minWidth: 'unset !important',
         
         '@media (max-width: 32rem)': {
@@ -161,8 +165,8 @@ export const appStyles = makeStyles({
       },
       
       '& [role="combobox"]': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         minWidth: 'unset !important',
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,
@@ -175,10 +179,10 @@ export const appStyles = makeStyles({
       },
     },
     
-    // Verbosity dropdown - wider to fit text on one line
+    // Verbosity dropdown - reduced width for better balance
     '& > *:last-child': {
-      width: '12rem',
-      maxWidth: '12rem',
+      width: '10rem',
+      maxWidth: '10rem',
       
       '@media (max-width: 32rem)': {
         width: '100%',
@@ -186,8 +190,8 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Field': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         
         '@media (max-width: 32rem)': {
           width: '100% !important',
@@ -196,8 +200,8 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Dropdown': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         minWidth: 'unset !important',
         
         '@media (max-width: 32rem)': {
@@ -207,8 +211,8 @@ export const appStyles = makeStyles({
       },
       
       '& [role="combobox"]': {
-        width: '12rem !important',
-        maxWidth: '12rem !important',
+        width: '10rem !important',
+        maxWidth: '10rem !important',
         minWidth: 'unset !important',
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,

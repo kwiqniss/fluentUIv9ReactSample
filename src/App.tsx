@@ -4,6 +4,8 @@ import {
   TabValue,
   Body1,
   Caption1,
+  Title1,
+  Subtitle1,
   SelectTabEvent,
   SelectTabData,
   FluentProvider,
@@ -275,8 +277,8 @@ const App: React.FC = () => {
         <div className={styles.mainContainer}>
           <div className={styles.header}>
             <div className={styles.titleSection}>
-              <Body1 as="h1" className={styles.h1Heading}>{strings.title}</Body1>
-              <Caption1 className={styles.subtitle}>{strings.subtitle}</Caption1>
+              <Title1 as="h1" className={styles.h1Heading}>{strings.title}</Title1>
+              <Subtitle1 className={styles.subtitle}>{strings.subtitle}</Subtitle1>
             </div>
             <div className={styles.controlsSection}>
               <Field label={strings.themeSelector}>
