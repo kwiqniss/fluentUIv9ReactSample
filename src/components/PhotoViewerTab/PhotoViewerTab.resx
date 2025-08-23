@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="title" xml:space="preserve">
+    <value>Photo Viewer</value>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>Interactive photo gallery with zoom, pan, and navigation capabilities</value>
+  </data>
+  <data name="gridViewLabel" xml:space="preserve">
+    <value>Photo Grid</value>
+  </data>
+  <data name="photoLabel" xml:space="preserve">
+    <value>Photo {0} of {1}</value>
+  </data>
+  <data name="previousPhoto" xml:space="preserve">
+    <value>Previous photo</value>
+  </data>
+  <data name="nextPhoto" xml:space="preserve">
+    <value>Next photo</value>
+  </data>
+  <data name="closeViewer" xml:space="preserve">
+    <value>Close photo viewer</value>
+  </data>
+  <data name="zoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="zoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="resetZoom" xml:space="preserve">
+    <value>Reset zoom to fit</value>
+  </data>
+  <data name="photoInstructions" xml:space="preserve">
+    <value>Click on any photo to open the full-screen viewer. Use arrow keys or navigation buttons to browse photos.</value>
+  </data>
+  <data name="viewerInstructions" xml:space="preserve">
+    <value>Use arrow keys to navigate, +/- to zoom, or Escape to close. Click and drag to pan when zoomed.</value>
+  </data>
+  <data name="photoTitle" xml:space="preserve">
+    <value>Photo {0}</value>
+  </data>
+</root>

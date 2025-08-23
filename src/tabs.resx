@@ -16,4 +16,8 @@
     <!-- Tab label for advanced controls like sliders, color pickers, file uploads -->
     <value>Advanced Controls</value>
   </data>
+  <data name="photos" xml:space="preserve">
+    <!-- Tab label for photo viewer and gallery functionality -->
+    <value>Photo Viewer</value>
+  </data>
 </root>

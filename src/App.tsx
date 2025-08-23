@@ -40,6 +40,7 @@ import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
 import AdvancedTab from './components/AdvancedTab/AdvancedTab';
 import ComponentShowcaseTab from './components/ComponentShowcaseTab/ComponentShowcaseTab';
+import PhotoViewerTab from './components/PhotoViewerTab/PhotoViewerTab';
 import MessageManager from './components/MessageManager';
 import { sharedStyles } from './SharedStyles.styles';
 import { appStyles } from './AppStyles.styles';
@@ -111,13 +112,14 @@ const App: React.FC = () => {
     { value: 'datetime', label: strings.datetime },
     { value: 'selection', label: strings.selection },
     { value: 'advanced', label: strings.advanced },
-    { value: 'showcase', label: strings.components }
+    { value: 'showcase', label: strings.components },
+    { value: 'photos', label: strings.photos }
   ];
 
   const getTabFromUrl = (): TabValue => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    const validTabs = ['basic', 'datetime', 'selection', 'advanced', 'showcase'];
+    const validTabs = ['basic', 'datetime', 'selection', 'advanced', 'showcase', 'photos'];
     return (tab && validTabs.includes(tab)) ? tab : 'basic';
   };
 
@@ -294,6 +296,8 @@ const App: React.FC = () => {
         return <AdvancedTab />;
       case 'showcase':
         return <ComponentShowcaseTab />;
+      case 'photos':
+        return <PhotoViewerTab />;
       default:
         return <BasicInputsTab />;
     }
