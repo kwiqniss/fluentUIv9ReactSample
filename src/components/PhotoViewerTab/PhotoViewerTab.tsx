@@ -197,7 +197,11 @@ interface PhotoViewerState {
 }
 
 const PhotoViewerTab: React.FC = () => {
-  const [galleryLayout, setGalleryLayout] = useState<'grid' | 'random'>('grid');
+  // Initialize gallery layout from localStorage, defaulting to 'grid'
+  const [galleryLayout, setGalleryLayout] = useState<'grid' | 'random'>(() => {
+    const saved = localStorage.getItem('photoViewer-galleryLayout');
+    return (saved === 'grid' || saved === 'random') ? saved : 'grid';
+  });
   const [viewerState, setViewerState] = useState<PhotoViewerState>({
     isOpen: false,
     currentIndex: 0,
@@ -561,6 +565,17 @@ const PhotoViewerTab: React.FC = () => {
     const dy = touch1.clientY - touch2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
   };
+
+  // Gallery layout handlers
+  const handleGridLayout = useCallback(() => {
+    setGalleryLayout('grid');
+    addMessage('Gallery layout set to Grid view - preference saved', MessageType.Info);
+  }, [addMessage]);
+
+  const handleRandomLayout = useCallback(() => {
+    setGalleryLayout('random');
+    addMessage('Gallery layout set to Random tessellation - preference saved', MessageType.Info);
+  }, [addMessage]);
 
   // Photo viewer actions
   const openViewer = useCallback((index: number) => {
@@ -1153,6 +1168,11 @@ const PhotoViewerTab: React.FC = () => {
     };
   }, [viewerState.isOpen]);
 
+  // Save gallery layout preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('photoViewer-galleryLayout', galleryLayout);
+  }, [galleryLayout]);
+
   // Calculate image transform
   const imageTransform = `scale(${viewerState.scale}) translate(${viewerState.translateX / viewerState.scale}px, ${viewerState.translateY / viewerState.scale}px)`;
   
@@ -1195,7 +1215,7 @@ const PhotoViewerTab: React.FC = () => {
             <Button
               appearance={galleryLayout === 'grid' ? 'primary' : 'secondary'}
               icon={<GridRegular />}
-              onClick={() => setGalleryLayout('grid')}
+              onClick={handleGridLayout}
               size="small"
               aria-label="Grid layout"
             >
@@ -1204,7 +1224,7 @@ const PhotoViewerTab: React.FC = () => {
             <Button
               appearance={galleryLayout === 'random' ? 'primary' : 'secondary'}
               icon={<AppsRegular />}
-              onClick={() => setGalleryLayout('random')}
+              onClick={handleRandomLayout}
               size="small"
               aria-label="Random size layout"
             >
