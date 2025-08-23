@@ -121,20 +121,43 @@ export const appStyles = makeStyles({
       justifyContent: 'flex-start',
     },
     
+    // Very small screens: stack vertically again and reduce width
+    '@media (max-width: 32rem)': {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: tokens.spacingVerticalS,
+      width: '100%',
+    },
+    
     // Theme dropdown - standard width
     '& > *:first-child': {
       width: '12rem',
       maxWidth: '12rem',
       
+      '@media (max-width: 32rem)': {
+        width: '100%',
+        maxWidth: '16rem', // Cap maximum width on small screens
+      },
+      
       '& .fui-Field': {
         width: '12rem !important',
         maxWidth: '12rem !important',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
       
       '& .fui-Dropdown': {
         width: '12rem !important',
         maxWidth: '12rem !important',
         minWidth: 'unset !important',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
       
       '& [role="combobox"]': {
@@ -144,6 +167,11 @@ export const appStyles = makeStyles({
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,
         boxSizing: 'border-box',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
     },
     
@@ -152,15 +180,30 @@ export const appStyles = makeStyles({
       width: '12rem',
       maxWidth: '12rem',
       
+      '@media (max-width: 32rem)': {
+        width: '100%',
+        maxWidth: '16rem', // Cap maximum width on small screens
+      },
+      
       '& .fui-Field': {
         width: '12rem !important',
         maxWidth: '12rem !important',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
       
       '& .fui-Dropdown': {
         width: '12rem !important',
         maxWidth: '12rem !important',
         minWidth: 'unset !important',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
       
       '& [role="combobox"]': {
@@ -170,6 +213,11 @@ export const appStyles = makeStyles({
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,
         boxSizing: 'border-box',
+        
+        '@media (max-width: 32rem)': {
+          width: '100% !important',
+          maxWidth: '16rem !important',
+        },
       },
     },
     
