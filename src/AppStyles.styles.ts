@@ -21,7 +21,8 @@ export const appStyles = makeStyles({
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: 'var(--container-min-height, 100vh)',
+    // Use minimum height to ensure we fill screen, but no max height constraint
+    minHeight: 'var(--main-container-min-height, 100vh)',
   },
   
   h1Heading: {
