@@ -3,12 +3,12 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main
+      # - main  # TODO: UNCOMMENT BEFORE PULL REQUEST
       - deploymentTroubleshooting
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - main
+      # - main  # TODO: UNCOMMENT BEFORE PULL REQUEST
       - deploymentTroubleshooting
 
 jobs:
