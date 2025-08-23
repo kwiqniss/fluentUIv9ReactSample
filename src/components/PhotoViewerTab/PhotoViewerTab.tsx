@@ -1342,34 +1342,37 @@ const PhotoViewerTab: React.FC = () => {
 
             {/* Zoom Controls */}
             <div className={styles.zoomControls}>
-              <button
+              <Button
+                appearance="subtle"
+                size="small"
+                shape="circular"
                 className={styles.zoomButton}
                 onClick={zoomOut}
                 disabled={viewerState.scale <= viewerState.originalFitScale}
                 aria-label={strings.zoomOut}
-                tabIndex={0}
-              >
-                <SubtractRegular />
-              </button>
+                icon={<SubtractRegular />}
+              />
 
-              <button
+              <Button
+                appearance="subtle"
+                size="small"
+                shape="circular"
                 className={styles.zoomButton}
                 onClick={resetZoom}
                 aria-label={strings.resetZoom}
-                tabIndex={0}
-              >
-                <ArrowMaximizeRegular />
-              </button>
+                icon={<ArrowMaximizeRegular />}
+              />
 
-              <button
+              <Button
+                appearance="subtle"
+                size="small"
+                shape="circular"
                 className={styles.zoomButton}
                 onClick={zoomIn}
                 disabled={viewerState.scale >= 5}
                 aria-label={strings.zoomIn}
-                tabIndex={0}
-              >
-                <AddRegular />
-              </button>
+                icon={<AddRegular />}
+              />
             </div>
 
             {/* Photo Info */}

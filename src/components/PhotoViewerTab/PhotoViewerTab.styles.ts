@@ -7,7 +7,7 @@ const SIZES = {
   gridItemMaxWidth: '20rem',
   viewerPadding: '2rem',
   controlButtonSize: '3rem',
-  zoomButtonSize: '3rem', // Increased from 2.5rem for better touch targets
+  zoomButtonSize: '1.5rem', // Very small for subtle controls
   closeButtonSize: '2.5rem',
   maxImageWidth: '90vw',
   maxImageHeight: '90vh',
@@ -329,68 +329,83 @@ export const photoViewerStyles = makeStyles({
   // Zoom Controls
   zoomControls: {
     position: 'absolute',
-    bottom: tokens.spacingVerticalM,
+    bottom: '8px', // Very bottom with just a small gap
     left: '50%',
-    transform: 'translateX(-50%)',
+    transform: 'translateX(-50%) scale(0.7)', // Start smaller
     display: 'flex',
-    gap: tokens.spacingHorizontalS, // Increased gap for better separation
-    backgroundColor: tokens.colorNeutralBackground1, // Strong white background
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`, // Subtle border
-    borderRadius: tokens.borderRadiusLarge, // Larger radius for modern look
-    padding: tokens.spacingVerticalS, // Increased padding for better touch targets
-    boxShadow: tokens.shadow28, // Strong shadow for better contrast against photos
-    backdropFilter: 'blur(12px)', // Enhanced backdrop blur for better contrast
+    gap: tokens.spacingHorizontalXS, // Very tight spacing
+    backgroundColor: 'rgba(255, 255, 255, 0.15)', // Slightly less transparent background
+    border: `${tokens.strokeWidthThin} solid rgba(255, 255, 255, 0.25)`, // Slightly less transparent border
+    borderRadius: tokens.borderRadiusMedium,
+    padding: tokens.spacingVerticalXS, // Minimal padding
+    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px', // Slightly stronger shadow
+    backdropFilter: 'blur(8px)', 
+    zIndex: 1000,
+    opacity: 0.4, // Slightly less transparent (was 0.3)
+    transition: `all ${tokens.durationSlow} ${tokens.curveEasyEase}`, // Slow, smooth transitions
+    
+    // Expand and become visible on hover
+    '&:hover': {
+      opacity: 1, // Full opacity on hover
+      transform: 'translateX(-50%) scale(1.1)', // Slightly larger than normal when expanded
+      backgroundColor: tokens.colorNeutralBackground1, // Solid background on hover
+      border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+      boxShadow: tokens.shadow28, // Strong shadow on hover
+      padding: tokens.spacingVerticalS, // More padding when expanded
+    },
+    
+    // Also expand when any child has focus
+    '&:has(:focus-visible)': {
+      opacity: 1,
+      transform: 'translateX(-50%) scale(1.1)', // Slightly larger when focused
+      backgroundColor: tokens.colorNeutralBackground1,
+      border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
+      boxShadow: tokens.shadow28,
+      padding: tokens.spacingVerticalS, // More padding when expanded
+    },
   },
 
   zoomButton: {
-    width: SIZES.zoomButtonSize,
-    height: SIZES.zoomButtonSize,
-    backgroundColor: tokens.colorNeutralBackground1, // Clean white background
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`, // Subtle border instead of thick dark one
-    borderRadius: tokens.borderRadiusSmall,
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: tokens.fontSizeBase500, // Large icons
-    color: tokens.colorNeutralForeground1, // Bright dark icons for maximum contrast
-    fontWeight: tokens.fontWeightBold, // Bold icons for better visibility
+    // FluentUI Button will handle sizing, but we can override if needed
+    minWidth: SIZES.zoomButtonSize,
+    minHeight: SIZES.zoomButtonSize,
+    
+    // Enhanced theming for better visibility against photo backgrounds (simplified)
+    boxShadow: tokens.shadow16, // Strong shadow for visibility
+    backdropFilter: 'blur(8px)', // Backdrop blur for better contrast
+    
+    // Ensure icons are visible
+    fontSize: tokens.fontSizeBase500,
+    fontWeight: tokens.fontWeightSemibold, // Semibold instead of bold for better balance
+    
+    // Enhanced transitions
     transition: `all ${tokens.durationFast} ${tokens.curveEasyEase}`,
-    position: 'relative',
-    boxShadow: tokens.shadow4,
 
     '&:hover:not(:disabled)': {
-      backgroundColor: tokens.colorBrandBackground,
-      color: tokens.colorNeutralForegroundOnBrand, // Bright white on brand
-      transform: 'scale(1.08)',
-      border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandBackground}`,
-      boxShadow: tokens.shadow16,
+      transform: 'scale(1.05)', // Subtle scale instead of aggressive transform
+      boxShadow: tokens.shadow28, // Stronger shadow on hover
     },
 
-    '&:focus': {
-      outline: `${tokens.strokeWidthThick} solid ${tokens.colorBrandBackground}`,
-      outlineOffset: tokens.spacingHorizontalXXS,
+    '&:focus-visible': {
+      // Let FluentUI handle focus styling, just ensure visibility
+      boxShadow: `${tokens.shadow16}, 0 0 0 2px ${tokens.colorStrokeFocus2}`,
+      backgroundColor: `${tokens.colorNeutralBackground1} !important`,
     },
 
     '&:active:not(:disabled)': {
-      backgroundColor: tokens.colorBrandBackgroundPressed,
-      color: tokens.colorNeutralForegroundOnBrand,
-      transform: 'scale(0.95)',
+      backgroundColor: `${tokens.colorBrandBackgroundPressed} !important`,
+      color: `${tokens.colorNeutralForegroundOnBrand} !important`,
+      transform: 'scale(0.95) !important',
     },
 
     '&:disabled': {
-      opacity: 0.5, // Lower opacity for reduced contrast
-      cursor: 'not-allowed',
-      color: tokens.colorNeutralForegroundDisabled, // Muted grey for icons
-      backgroundColor: tokens.colorNeutralBackgroundDisabled, // Grey background
-      border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeDisabled}`, // Subtle grey border
-      fontWeight: 'normal', // Normal weight for disabled state
-      boxShadow: 'none', // No shadow when disabled
+      opacity: 0.5, // Clear disabled state
+      boxShadow: tokens.shadow4, // Reduced shadow when disabled
       
       '&:hover': {
         transform: 'none', // No hover effects when disabled
-        opacity: 0.5, // Maintain low contrast on hover
-        color: tokens.colorNeutralForegroundDisabled, // Keep muted color on hover
+        opacity: 0.5, // Maintain disabled appearance
+        boxShadow: tokens.shadow4, // Keep reduced shadow
       },
     },
   },
