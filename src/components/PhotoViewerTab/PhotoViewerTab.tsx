@@ -15,12 +15,13 @@ import { MessageType } from '../../types/enums';
 import { formatString } from '../../formatString';
 import photoViewerStrings from './PhotoViewerTab.resx';
 
-// Stock photos data with various sizes for testing - 37 curated images including massive JWST
+// Stock photos data with optimized thumbnails for performance - 37 curated images including massive JWST
 const STOCK_PHOTOS = [
   // James Webb Space Telescope - Ultra High Resolution Images (Massive!)
   {
     id: 1,
     src: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=4000&h=3000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Carina Nebula - Ultra high resolution star formation',
     width: 4000,
     height: 3000,
@@ -28,6 +29,7 @@ const STOCK_PHOTOS = [
   {
     id: 2,
     src: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=6000&h=4000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Deep Field - Massive resolution view of distant galaxies',
     width: 6000,
     height: 4000,
@@ -35,6 +37,7 @@ const STOCK_PHOTOS = [
   {
     id: 3,
     src: 'https://images.unsplash.com/photo-1414609245224-afa02bfb3fda?w=8000&h=6000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1414609245224-afa02bfb3fda?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Southern Ring Nebula - Ridiculously high resolution dying star',
     width: 8000,
     height: 6000,
@@ -43,6 +46,7 @@ const STOCK_PHOTOS = [
   {
     id: 4,
     src: 'https://images.unsplash.com/photo-1446776887592-b5df174dd3f6?w=5000&h=3500&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1446776887592-b5df174dd3f6?w=400&h=280&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Galaxy Cluster - Massive gravitational lensing effect',
     width: 5000,
     height: 3500,
@@ -50,6 +54,7 @@ const STOCK_PHOTOS = [
   {
     id: 5,
     src: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=7000&h=4000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?w=400&h=229&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Exoplanet Atmosphere - Unprecedented detail of distant world',
     width: 7000,
     height: 4000,
@@ -58,6 +63,7 @@ const STOCK_PHOTOS = [
   {
     id: 6,
     src: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=12000&h=8000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'JWST Ultra Deep Field - Insanely high resolution cosmic vista',
     width: 12000,
     height: 8000,
@@ -65,6 +71,7 @@ const STOCK_PHOTOS = [
   {
     id: 7,
     src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Mountain landscape at sunset',
     width: 800,
     height: 600,
@@ -72,6 +79,7 @@ const STOCK_PHOTOS = [
   {
     id: 8,
     src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Forest path in autumn',
     width: 1200,
     height: 800,
@@ -79,6 +87,7 @@ const STOCK_PHOTOS = [
   {
     id: 9,
     src: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=900&h=1200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&h=533&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Ocean waves on beach',
     width: 900,
     height: 1200,
@@ -86,200 +95,237 @@ const STOCK_PHOTOS = [
   {
     id: 10,
     src: 'https://images.unsplash.com/photo-1485470733090-0aae1788d5af?w=1600&h=900&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1485470733090-0aae1788d5af?w=400&h=225&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'City skyline at night',
     width: 1600,
     height: 900,
   },
   {
-    id: 5,
+    id: 11,
     src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1000&h=600&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=240&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Alpine lake reflection',
     width: 1000,
     height: 600,
   },
   {
-    id: 6,
+    id: 12,
     src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=700&h=1000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=571&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Desert landscape with cacti',
     width: 700,
     height: 1000,
   },
   {
-    id: 7,
+    id: 13,
     src: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?w=1400&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?w=400&h=229&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Tropical waterfall',
     width: 1400,
     height: 800,
   },
   {
-    id: 8,
+    id: 14,
     src: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&h=1200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Snowy mountain peaks',
     width: 800,
     height: 1200,
   },
   {
-    id: 9,
+    id: 15,
     src: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=1100&h=700&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&h=255&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Golden hour landscape',
     width: 1100,
     height: 700,
   },
   {
-    id: 10,
+    id: 16,
     src: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1100&h=700&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&h=255&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Wildlife deer in meadow',
     width: 1100,
     height: 700,
   },
   {
-    id: 11,
+    id: 17,
     src: 'https://images.unsplash.com/photo-1444927714506-8492d94b5ba0?w=900&h=600&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1444927714506-8492d94b5ba0?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Starry night sky',
     width: 900,
     height: 600,
   },
   {
-    id: 12,
+    id: 18,
     src: 'https://images.unsplash.com/photo-1520637836862-4d197d17c735?w=1200&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1520637836862-4d197d17c735?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Cherry blossoms in spring',
     width: 1200,
     height: 800,
   },
   {
-    id: 13,
+    id: 19,
     src: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=1200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Misty forest morning',
     width: 800,
     height: 1200,
   },
   {
-    id: 14,
+    id: 20,
     src: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&h=900&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&h=225&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Rolling green hills',
     width: 1600,
     height: 900,
   },
   {
-    id: 15,
+    id: 21,
     src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1000&h=750&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Tropical beach paradise',
     width: 1000,
     height: 750,
   },
   {
-    id: 16,
+    id: 22,
     src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&h=1000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=571&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Lighthouse on rocky coast',
     width: 700,
     height: 1000,
   },
   {
-    id: 17,
+    id: 23,
     src: 'https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=1300&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?w=400&h=246&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Vintage train in countryside',
     width: 1300,
     height: 800,
   },
   {
-    id: 18,
+    id: 24,
     src: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=850&h=1100&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?w=400&h=518&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Abstract architecture patterns',
     width: 850,
     height: 1100,
   },
   {
-    id: 19,
+    id: 25,
     src: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1100&h=650&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=236&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Colorful hot air balloons',
     width: 1100,
     height: 650,
   },
   {
-    id: 20,
+    id: 26,
     src: 'https://images.unsplash.com/photo-1488554378835-f7acf46e6c98?w=900&h=1350&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1488554378835-f7acf46e6c98?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Rustic wooden bridge',
     width: 900,
     height: 1350,
   },
   {
-    id: 21,
+    id: 27,
     src: 'https://images.unsplash.com/photo-1474524955719-b9f87c50ce47?w=1400&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1474524955719-b9f87c50ce47?w=400&h=229&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Peaceful lake at dawn',
     width: 1400,
     height: 800,
   },
   {
-    id: 22,
+    id: 28,
     src: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&h=1200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Urban street art mural',
     width: 800,
     height: 1200,
   },
   {
-    id: 23,
+    id: 29,
     src: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&h=700&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=233&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Sunflower field in summer',
     width: 1200,
     height: 700,
   },
   {
-    id: 24,
+    id: 30,
     src: 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=750&h=1000&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=400&h=533&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Ancient castle ruins',
     width: 750,
     height: 1000,
   },
   {
-    id: 25,
+    id: 31,
     src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1500&h=850&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=227&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Dramatic storm clouds',
     width: 1500,
     height: 850,
   },
   {
-    id: 26,
+    id: 32,
     src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=900&h=1200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=533&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Lone tree in field',
     width: 900,
     height: 1200,
   },
   {
-    id: 27,
+    id: 33,
     src: 'https://images.unsplash.com/photo-1434394354979-a235cd36269d?w=1100&h=600&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1434394354979-a235cd36269d?w=400&h=218&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Mountain river rapids',
     width: 1100,
     height: 600,
   },
   {
-    id: 28,
+    id: 34,
     src: 'https://images.unsplash.com/photo-1520637836862-4d197d17c735?w=800&h=1100&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1520637836862-4d197d17c735?w=400&h=550&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Gothic cathedral interior',
     width: 800,
     height: 1100,
   },
   {
-    id: 29,
+    id: 35,
     src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1300&h=750&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=231&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Colorful autumn foliage',
     width: 1300,
     height: 750,
   },
   {
-    id: 30,
+    id: 36,
     src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=700&h=1050&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Zen garden with stones',
     width: 700,
     height: 1050,
   },
   {
-    id: 31,
+    id: 37,
     src: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1200&h=800&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
     alt: 'Majestic eagle in flight',
     width: 1200,
     height: 800,
   }
 ];
+
+interface Photo {
+  id: number;
+  src: string;
+  thumbnailSrc: string;
+  alt: string;
+  width: number;
+  height: number;
+}
 
 interface PhotoViewerState {
   isOpen: boolean;
@@ -923,7 +969,7 @@ const PhotoViewerTab: React.FC = () => {
             tabIndex={0}
           >
             <img 
-              src={photo.src} 
+              src={photo.thumbnailSrc} 
               alt=""
               role="presentation"
               className={styles.thumbnailImage}
