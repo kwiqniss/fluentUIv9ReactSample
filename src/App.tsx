@@ -218,7 +218,15 @@ const App: React.FC = () => {
     if (!tab) return null;
     
     return (
-      <MenuItem onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}>
+      <MenuItem 
+        onClick={() => onTabSelect({} as SelectTabEvent, { value: tab.value } as SelectTabData)}
+        style={{
+          minHeight: '44px', // Ensure minimum touch target size
+          padding: `${tokens.spacingVerticalS} ${tokens.spacingHorizontalM}`,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         {tab.label}
       </MenuItem>
     );
@@ -237,7 +245,16 @@ const App: React.FC = () => {
           <MenuButton ref={ref}>+{overflowCount} items</MenuButton>
         </MenuTrigger>
         <MenuPopover>
-          <MenuList>
+          <MenuList
+            style={{
+              maxHeight: 'min(70vh, 400px)', // Limit height to 70% of viewport or 400px, whichever is smaller
+              minHeight: '120px', // Ensure minimum height for usability
+              overflowY: 'auto', // Enable vertical scrolling
+              scrollbarWidth: 'thin', // Thin scrollbars for better UX
+              padding: tokens.spacingVerticalXS, // Add some padding for touch targets
+              boxSizing: 'border-box',
+            }}
+          >
             {itemIds.map((id) => (
               <OverflowMenuItem key={id} id={id} />
             ))}
