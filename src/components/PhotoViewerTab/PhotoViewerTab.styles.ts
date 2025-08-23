@@ -62,6 +62,11 @@ export const photoViewerStyles = makeStyles({
     gap: SIZES.gridGap,
     width: '100%',
     justifyContent: 'center',
+
+    // Hide focus outline on gallery container - focus is shown on selected photo
+    '&:focus': {
+      outline: 'none',
+    },
   },
 
   // Random Size Grid Layout - Full container fill with precise tessellation
@@ -80,6 +85,11 @@ export const photoViewerStyles = makeStyles({
     overflow: 'hidden',
     padding: '4px',
     boxSizing: 'border-box',
+
+    // Hide focus outline on gallery container - focus is shown on selected photo
+    '&:focus': {
+      outline: 'none',
+    },
   },
 
   photoThumbnail: {
@@ -105,6 +115,13 @@ export const photoViewerStyles = makeStyles({
     '&:focus': {
       outline: `${tokens.strokeWidthThick} solid ${tokens.colorBrandBackground}`,
       outlineOffset: tokens.spacingHorizontalXXS,
+    },
+
+    '&[aria-selected="true"]': {
+      outline: `${tokens.strokeWidthThicker} solid ${tokens.colorBrandBackground}`,
+      outlineOffset: tokens.spacingHorizontalXXS,
+      boxShadow: tokens.shadow8,
+      zIndex: 12,
     },
   },
 
@@ -134,6 +151,14 @@ export const photoViewerStyles = makeStyles({
       outline: `${tokens.strokeWidthThick} solid ${tokens.colorBrandBackground}`,
       outlineOffset: '1px',
       zIndex: 11,
+    },
+
+    '&[aria-selected="true"]': {
+      outline: `${tokens.strokeWidthThicker} solid ${tokens.colorBrandBackground}`,
+      outlineOffset: '1px',
+      boxShadow: tokens.shadow8,
+      zIndex: 12,
+      transform: 'scale(1.01)', // Slightly more prominent when selected
     },
   },
 

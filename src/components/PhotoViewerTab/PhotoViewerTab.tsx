@@ -477,6 +477,40 @@ const PhotoViewerTab: React.FC = () => {
   
   const [randomLayout] = useState(generateRandomThumbnailSizes);
 
+  // State for gallery focus management
+  const [focusedPhotoIndex, setFocusedPhotoIndex] = useState<number>(0);
+  const [galleryHasFocus, setGalleryHasFocus] = useState<boolean>(false);
+
+  // Get visual tab order (but now used for arrow key navigation)
+  const getVisualTabOrder = useCallback(() => {
+    if (galleryLayout === 'grid') {
+      // Grid layout already follows natural order (left-to-right, top-to-bottom)
+      return STOCK_PHOTOS.map((_, index) => index);
+    }
+    
+    // For random layout, sort by visual position (top-to-bottom, left-to-right)
+    const photoPositions = STOCK_PHOTOS.map((_, index) => {
+      const layout = randomLayout[index];
+      if (!layout) return { index, row: 0, col: 0 };
+      
+      return {
+        index,
+        row: layout.startRow,
+        col: layout.startCol,
+      };
+    });
+    
+    // Sort by visual position: first by row, then by column
+    photoPositions.sort((a, b) => {
+      if (a.row !== b.row) return a.row - b.row;
+      return a.col - b.col;
+    });
+    
+    return photoPositions.map(pos => pos.index);
+  }, [galleryLayout, randomLayout]);
+
+  const visualTabOrder = getVisualTabOrder();
+
   // Get style for random thumbnail based on its layout position
   const getRandomThumbnailStyle = (index: number) => {
     const layout = randomLayout[index];
@@ -556,6 +590,78 @@ const PhotoViewerTab: React.FC = () => {
     });
     addMessage(`Opened photo ${index + 1}: ${STOCK_PHOTOS[index].alt}`, MessageType.Info);
   }, [addMessage]);
+
+  // Handle keyboard navigation within gallery
+  const handleGalleryKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!galleryHasFocus) return;
+
+    const currentVisualIndex = visualTabOrder.indexOf(focusedPhotoIndex);
+    let newVisualIndex = currentVisualIndex;
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault();
+        newVisualIndex = Math.min(visualTabOrder.length - 1, currentVisualIndex + 1);
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        newVisualIndex = Math.max(0, currentVisualIndex - 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        newVisualIndex = 0;
+        break;
+      case 'End':
+        e.preventDefault();
+        newVisualIndex = visualTabOrder.length - 1;
+        break;
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        openViewer(focusedPhotoIndex);
+        return;
+      case 'Tab':
+        // Allow normal tab behavior to exit gallery
+        setGalleryHasFocus(false);
+        return;
+    }
+
+    if (newVisualIndex !== currentVisualIndex) {
+      const newPhotoIndex = visualTabOrder[newVisualIndex];
+      setFocusedPhotoIndex(newPhotoIndex);
+      
+      // Focus the new photo button
+      if (thumbnailRefs.current[newPhotoIndex]) {
+        thumbnailRefs.current[newPhotoIndex]?.focus();
+      }
+    }
+  }, [galleryHasFocus, focusedPhotoIndex, visualTabOrder, openViewer]);
+
+  // Handle gallery container receiving focus (when tabbed into)
+  const handleGalleryContainerFocus = useCallback(() => {
+    setGalleryHasFocus(true);
+    // Use the last focused photo index, or default to 0 if never focused before
+    // This maintains the user's position when tabbing back into the gallery
+  }, []);
+
+  // Handle individual photo focus (for programmatic focus)
+  const handleGalleryFocus = useCallback((photoIndex: number) => {
+    setGalleryHasFocus(true);
+    setFocusedPhotoIndex(photoIndex);
+  }, []);
+
+  // Handle gallery focus exit
+  const handleGalleryBlur = useCallback((e: React.FocusEvent) => {
+    // Only lose focus if the new focus target is outside the gallery
+    const gallery = e.currentTarget;
+    const newFocusTarget = e.relatedTarget as Node;
+    
+    if (!gallery.contains(newFocusTarget)) {
+      setGalleryHasFocus(false);
+    }
+  }, []);
 
   const closeViewer = useCallback(() => {
     setViewerState(prev => ({ ...prev, isOpen: false }));
@@ -1114,19 +1220,29 @@ const PhotoViewerTab: React.FC = () => {
         className={galleryLayout === 'grid' ? styles.photoGrid : styles.photoGridRandom}
         role="grid" 
         aria-label={strings.gridViewLabel}
+        onKeyDown={handleGalleryKeyDown}
+        onBlur={handleGalleryBlur}
+        onFocus={handleGalleryContainerFocus}
+        tabIndex={0}
+        aria-activedescendant={galleryHasFocus ? `photo-${focusedPhotoIndex}` : undefined}
       >
-        {STOCK_PHOTOS.map((photo, index) => {
-          const randomStyle = galleryLayout === 'random' ? getRandomThumbnailStyle(index) : {};
+        {visualTabOrder.map((photoIndex) => {
+          const photo = STOCK_PHOTOS[photoIndex];
+          const randomStyle = galleryLayout === 'random' ? getRandomThumbnailStyle(photoIndex) : {};
+          const isFocused = galleryHasFocus && photoIndex === focusedPhotoIndex;
           
           return (
             <button
               key={photo.id}
-              ref={el => thumbnailRefs.current[index] = el}
+              id={`photo-${photoIndex}`}
+              ref={el => thumbnailRefs.current[photoIndex] = el}
               className={galleryLayout === 'grid' ? styles.photoThumbnail : styles.photoThumbnailRandom}
-              onClick={() => openViewer(index)}
+              onClick={() => openViewer(photoIndex)}
+              onFocus={() => handleGalleryFocus(photoIndex)}
               role="gridcell"
-              aria-label={`${formatString(strings.photoTitle, (index + 1).toString())}: ${photo.alt}`}
-              tabIndex={0}
+              aria-label={`${formatString(strings.photoTitle, (photoIndex + 1).toString())}: ${photo.alt}`}
+              tabIndex={-1}
+              aria-selected={isFocused}
               style={galleryLayout === 'random' ? randomStyle : undefined}
             >
               <img 
