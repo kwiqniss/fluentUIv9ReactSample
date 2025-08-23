@@ -30,10 +30,11 @@ import {
   useLocalStorage, 
   useEventListener, 
   useViewportDimensions,
-  useDisableScroll 
+  useDisableScroll,
+  useDynamicCollage 
 } from '../../hooks';
 
-// Stock photos data with local images for reliability - 17 curated images including massive JWST
+// Stock photos data with local images for reliability - 24 curated images including massive JWST
 const STOCK_PHOTOS = [
   // Small images (for blurred background effect)
   {
@@ -165,22 +166,80 @@ const STOCK_PHOTOS = [
     height: 6000,
   },
   
-  // Demo URL-based images (keep 1-2 as examples)
+  // Additional varied size photos - JPG format (reliable)
   {
     id: 16,
-    src: 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=1600&h=1200&fit=crop&auto=format',
-    thumbnailSrc: 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
-    alt: 'URL Demo - Ancient castle ruins (1600×1200)',
-    width: 1600,
-    height: 1200,
+    src: '/images/geometric-pattern-480x720.jpg',
+    thumbnailSrc: '/images/thumbnails/geometric-pattern-480x720.jpg',
+    alt: 'Geometric pattern design - Portrait (480×720)',
+    width: 480,
+    height: 720,
   },
   {
     id: 17,
+    src: '/images/abstract-waves-1920x1080.jpg',
+    thumbnailSrc: '/images/thumbnails/abstract-waves-1920x1080.jpg',
+    alt: 'Abstract wave pattern - HD (1920×1080)',
+    width: 1920,
+    height: 1080,
+  },
+  {
+    id: 18,
+    src: '/images/crystal-formation-800x1200.jpg',
+    thumbnailSrc: '/images/thumbnails/crystal-formation-800x1200.jpg',
+    alt: 'Crystal formation structure - Tall (800×1200)',
+    width: 800,
+    height: 1200,
+  },
+  {
+    id: 19,
+    src: '/images/digital-art-square-1024x1024.jpg',
+    thumbnailSrc: '/images/thumbnails/digital-art-square-1024x1024.jpg',
+    alt: 'Digital art composition - Square (1024×1024)',
+    width: 1024,
+    height: 1024,
+  },
+  {
+    id: 20,
+    src: '/images/nature-macro-1600x900.jpg',
+    thumbnailSrc: '/images/thumbnails/nature-macro-1600x900.jpg',
+    alt: 'Nature macro photography - Widescreen (1600×900)',
+    width: 1600,
+    height: 900,
+  },
+  {
+    id: 21,
+    src: '/images/architectural-detail-600x400.jpg',
+    thumbnailSrc: '/images/thumbnails/architectural-detail-600x400.jpg',
+    alt: 'Architectural detail close-up (600×400)',
+    width: 600,
+    height: 400,
+  },
+  {
+    id: 22,
+    src: '/images/panoramic-vista-3200x1200.jpg',
+    thumbnailSrc: '/images/thumbnails/panoramic-vista-3200x1200.jpg',
+    alt: 'Panoramic landscape vista - Ultra-wide (3200×1200)',
+    width: 3200,
+    height: 1200,
+  },
+  
+  // Additional unique images to complete the 24-photo gallery
+  {
+    id: 23,
     src: '/images/ancient-castle-1000x1400.jpg',
     thumbnailSrc: '/images/thumbnails/ancient-castle-1000x1400.jpg',
-    alt: 'Local Demo - Ancient castle ruins (1000×1400)',
+    alt: 'Ancient castle ruins - Historic Portrait (1000×1400)',
     width: 1000,
     height: 1400,
+  },
+  {
+    id: 24,
+    src: '/images/mountain-lake-1800x1200.jpg',
+    thumbnailSrc: '/images/thumbnails/mountain-lake-1800x1200.jpg',
+    alt: 'Serene mountain lake reflection (1800×1200)',
+    width: 1800,
+    height: 1200,
   }
 ];
 
@@ -252,275 +311,10 @@ const PhotoViewerTab: React.FC = () => {
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
   
-  // Generate tessellated layout that perfectly fills the container
-  const generateRandomThumbnailSizes = useCallback(() => {
-    const totalPhotos = STOCK_PHOTOS.length;
-    const gridWidth = 16; // Slightly increased for bigger shapes
-    const gridHeight = 16; // Slightly increased to accommodate larger shapes
-    
-    // Create a grid to track occupied cells
-    const grid = Array(gridHeight).fill(null).map(() => Array(gridWidth).fill(false));
-    
-    // Pre-defined shapes with enhanced size variation - from tiny to pretty big
-    const shapes = [
-      // Large focal point squares and near-squares (Priority 1)
-      { cols: 5, rows: 5, name: 'xxl_square', priority: 1 },        // 5×5 extra large square (25 cells)
-      { cols: 4, rows: 4, name: 'xl_square', priority: 1 },         // 4×4 extra large square (16 cells)
-      { cols: 6, rows: 5, name: 'huge_rect', priority: 1 },         // 6×5 huge rectangle (30 cells)
-      { cols: 5, rows: 6, name: 'huge_portrait', priority: 1 },     // 5×6 huge portrait (30 cells)
-      { cols: 7, rows: 4, name: 'super_wide', priority: 1 },        // 7×4 super wide (28 cells)
-      { cols: 4, rows: 7, name: 'super_tall', priority: 1 },        // 4×7 super tall (28 cells)
-      
-      // Large squares and rectangles (Priority 2)
-      { cols: 3, rows: 3, name: 'large_square', priority: 2 },      // 3×3 large square (9 cells)
-      { cols: 5, rows: 4, name: 'xl_rect', priority: 2 },           // 5×4 extra large rectangle (20 cells)
-      { cols: 4, rows: 5, name: 'xl_portrait', priority: 2 },       // 4×5 extra large portrait (20 cells)
-      { cols: 6, rows: 3, name: 'wide_banner', priority: 2 },       // 6×3 wide banner (18 cells)
-      { cols: 3, rows: 6, name: 'tall_tower', priority: 2 },        // 3×6 tall tower (18 cells)
-      
-      // Medium variety (Priority 2-3)
-      { cols: 2, rows: 2, name: 'medium_square', priority: 2 },     // 2×2 medium square (4 cells)
-      { cols: 4, rows: 3, name: 'large_rect', priority: 2 },        // 4×3 large rectangle (12 cells)
-      { cols: 3, rows: 4, name: 'large_portrait', priority: 2 },    // 3×4 large portrait (12 cells)
-      { cols: 5, rows: 3, name: 'medium_wide', priority: 3 },       // 5×3 medium wide (15 cells)
-      { cols: 3, rows: 5, name: 'medium_tall', priority: 3 },       // 3×5 medium tall (15 cells)
-      { cols: 6, rows: 2, name: 'banner_rect', priority: 3 },       // 6×2 banner rectangle (12 cells)
-      { cols: 2, rows: 6, name: 'tower_rect', priority: 3 },        // 2×6 tower rectangle (12 cells)
-      
-      // Small to medium connectors (Priority 3-4)
-      { cols: 3, rows: 2, name: 'small_wide', priority: 3 },        // 3×2 small wide (6 cells)
-      { cols: 2, rows: 3, name: 'small_tall', priority: 3 },        // 2×3 small tall (6 cells)
-      { cols: 4, rows: 2, name: 'rect_wide', priority: 4 },         // 4×2 rectangle wide (8 cells)
-      { cols: 2, rows: 4, name: 'rect_tall', priority: 4 },         // 2×4 rectangle tall (8 cells)
-      
-      // Small fillers and connectors (Priority 4-5)
-      { cols: 1, rows: 1, name: 'tiny_square', priority: 4 },       // 1×1 tiny square (1 cell)
-      { cols: 2, rows: 1, name: 'mini_wide', priority: 5 },         // 2×1 mini wide (2 cells)
-      { cols: 1, rows: 2, name: 'mini_tall', priority: 5 },         // 1×2 mini tall (2 cells)
-      { cols: 3, rows: 1, name: 'strip_wide', priority: 5 },        // 3×1 strip wide (3 cells)
-      { cols: 1, rows: 3, name: 'strip_tall', priority: 5 },        // 1×3 strip tall (3 cells)
-    ];
-    
-    const layout = [];
-    let totalUsedCells = 0;
-    const totalCells = gridWidth * gridHeight;
-    
-    // Calculate target cells per photo for better distribution
-    const targetCellsPerPhoto = Math.max(6, Math.floor(totalCells / totalPhotos));
-    
-    // Place each photo strategically with more size variation
-    for (let i = 0; i < totalPhotos; i++) {
-      let placed = false;
-      let bestShape = null;
-      let bestPosition = null;
-      let bestScore = -1;
-      
-      // Create size variety by encouraging different sizes at different placement stages
-      const placementStage = i / totalPhotos; // 0 to 1
-      
-      // Filter shapes based on remaining space and encourage variety
-      const availableShapes = shapes.filter(shape => {
-        const area = shape.cols * shape.rows;
-        const remainingPhotos = totalPhotos - i;
-        const remainingSpace = totalCells - totalUsedCells;
-        const averageSpacePerPhoto = remainingSpace / Math.max(1, remainingPhotos);
-        
-        // Early placement: allow big focal point shapes (up to 30 cells)
-        // Middle placement: prefer medium variety (4-20 cells)
-        // Late placement: allow small fillers and connectors (1-15 cells)
-        if (placementStage < 0.25) {
-          // Early: favor large focal points including the biggest shapes
-          return area >= 9 && area <= Math.min(30, Math.max(25, averageSpacePerPhoto * 2.5));
-        } else if (placementStage < 0.6) {
-          // Middle: prefer medium to large variety
-          return area >= 4 && area <= Math.max(20, averageSpacePerPhoto * 1.8);
-        } else {
-          // Late: allow smaller shapes and efficient fillers
-          return area >= 1 && area <= Math.max(15, averageSpacePerPhoto * 2);
-        }
-      });
-      
-      if (availableShapes.length === 0) {
-        // Fallback to all shapes if filtering is too restrictive
-        availableShapes.push(...shapes.filter(s => s.cols <= gridWidth && s.rows <= gridHeight));
-      }
-      
-      if (availableShapes.length === 0) {
-        availableShapes.push({ cols: 2, rows: 2, name: 'emergency_fallback', priority: 5 });
-      }
-      
-      // Try each available shape
-      for (const shape of availableShapes) {
-        if (shape.cols > gridWidth || shape.rows > gridHeight) continue;
-        
-        // Generate positions with preference for filling edges first
-        const positions = [];
-        
-        // Prioritize corners
-        positions.push([0, 0], [0, gridWidth - shape.cols], 
-                      [gridHeight - shape.rows, 0], [gridHeight - shape.rows, gridWidth - shape.cols]);
-        
-        // Add edge positions
-        for (let row = 1; row < gridHeight - shape.rows; row++) {
-          positions.push([row, 0], [row, gridWidth - shape.cols]);
-        }
-        for (let col = 1; col < gridWidth - shape.cols; col++) {
-          positions.push([0, col], [gridHeight - shape.rows, col]);
-        }
-        
-        // Add interior positions
-        for (let row = 1; row <= gridHeight - shape.rows; row++) {
-          for (let col = 1; col <= gridWidth - shape.cols; col++) {
-            positions.push([row, col]);
-          }
-        }
-        
-        // Test each position
-        for (const [row, col] of positions) {
-          if (row < 0 || col < 0 || row + shape.rows > gridHeight || col + shape.cols > gridWidth) continue;
-          
-          // Check if position is free
-          let canPlace = true;
-          for (let r = row; r < row + shape.rows && canPlace; r++) {
-            for (let c = col; c < col + shape.cols && canPlace; c++) {
-              if (grid[r] && grid[r][c]) {
-                canPlace = false;
-              }
-            }
-          }
-          
-          if (canPlace) {
-            // Calculate placement score
-            let score = 100 - (shape.priority * 10); // Lower priority number = higher score
-            
-            // Bonus for more square-like proportions (aspect ratio closer to 1:1)
-            const aspectRatio = Math.max(shape.cols, shape.rows) / Math.min(shape.cols, shape.rows);
-            const squarenessBonus = Math.max(0, 50 - (aspectRatio - 1) * 25); // Max 50 points for perfect squares
-            score += squarenessBonus;
-            
-            // Bonus for corner/edge placement
-            if ((row === 0 || row === gridHeight - shape.rows) && 
-                (col === 0 || col === gridWidth - shape.cols)) {
-              score += 40; // Corner bonus
-            } else if (row === 0 || row === gridHeight - shape.rows || 
-                      col === 0 || col === gridWidth - shape.cols) {
-              score += 25; // Edge bonus
-            }
-            
-            // Bonus for adjacent placement (tessellation)
-            let adjacentCount = 0;
-            for (let r = Math.max(0, row - 1); r <= Math.min(gridHeight - 1, row + shape.rows); r++) {
-              for (let c = Math.max(0, col - 1); c <= Math.min(gridWidth - 1, col + shape.cols); c++) {
-                if ((r < row || r >= row + shape.rows || c < col || c >= col + shape.cols) && 
-                    grid[r] && grid[r][c]) {
-                  adjacentCount++;
-                }
-              }
-            }
-            score += adjacentCount * 5;
-            
-            // Prefer larger shapes early in placement
-            score += shape.cols * shape.rows * Math.max(1, (totalPhotos - i) / totalPhotos);
-            
-            if (score > bestScore) {
-              bestScore = score;
-              bestShape = shape;
-              bestPosition = [row, col];
-            }
-          }
-        }
-      }
-      
-      // Place the best shape found
-      if (bestShape && bestPosition) {
-        const [row, col] = bestPosition;
-        
-        // Mark cells as occupied
-        for (let r = row; r < row + bestShape.rows; r++) {
-          for (let c = col; c < col + bestShape.cols; c++) {
-            if (grid[r]) grid[r][c] = true;
-          }
-        }
-        
-        layout.push({
-          ...bestShape,
-          startCol: col,
-          startRow: row,
-        });
-        
-        totalUsedCells += bestShape.cols * bestShape.rows;
-        placed = true;
-      }
-      
-      // Fallback: find any available space
-      if (!placed) {
-        outerLoop: for (let size = 4; size >= 1; size--) {
-          for (let row = 0; row <= gridHeight - size; row++) {
-            for (let col = 0; col <= gridWidth - size; col++) {
-              let canPlace = true;
-              for (let r = row; r < row + size && canPlace; r++) {
-                for (let c = col; c < col + size && canPlace; c++) {
-                  if (grid[r] && grid[r][c]) {
-                    canPlace = false;
-                  }
-                }
-              }
-              
-              if (canPlace) {
-                // Mark cells as occupied
-                for (let r = row; r < row + size; r++) {
-                  for (let c = col; c < col + size; c++) {
-                    if (grid[r]) grid[r][c] = true;
-                  }
-                }
-                
-                layout.push({
-                  cols: size,
-                  rows: size,
-                  name: 'fallback_square',
-                  startCol: col,
-                  startRow: row,
-                });
-                
-                totalUsedCells += size * size;
-                placed = true;
-                break outerLoop;
-              }
-            }
-          }
-        }
-      }
-      
-      // Last resort: single cell
-      if (!placed) {
-        for (let row = 0; row < gridHeight; row++) {
-          for (let col = 0; col < gridWidth; col++) {
-            if (!grid[row] || !grid[row][col]) {
-              if (grid[row]) grid[row][col] = true;
-              layout.push({
-                cols: 1,
-                rows: 1,
-                name: 'single_cell',
-                startCol: col,
-                startRow: row,
-              });
-              totalUsedCells += 1;
-              break;
-            }
-          }
-          if (placed) break;
-        }
-      }
-    }
-    
-    // Log tessellation efficiency
-    const fillPercentage = ((totalUsedCells / totalCells) * 100).toFixed(1);
-    console.log(`Tessellation efficiency: ${fillPercentage}% (${totalUsedCells}/${totalCells} cells used) - Grid: ${gridWidth}x${gridHeight}`);
-    
-    return layout;
-  }, []);
+  // Collage layout is now handled by the useDynamicCollage hook
   
-  const [randomLayout] = useState(generateRandomThumbnailSizes);
+  // Use dynamic collage layout that adapts to the number of photos
+  const collageConfig = useDynamicCollage(STOCK_PHOTOS.length);
 
   // State for gallery focus management - use persistent state for focus
   const [galleryHasFocus, setGalleryHasFocus] = useState<boolean>(false);
@@ -536,15 +330,19 @@ const PhotoViewerTab: React.FC = () => {
       return STOCK_PHOTOS.map((_, index) => index);
     }
     
-    // For random layout, sort by visual position (top-to-bottom, left-to-right)
+    // For collage layout, sort by visual position using the dynamic collage config
     const photoPositions = STOCK_PHOTOS.map((_, index) => {
-      const layout = randomLayout[index];
+      const layout = collageConfig.items[index];
       if (!layout) return { index, row: 0, col: 0 };
+      
+      // Extract row and column start positions from grid placement
+      const rowMatch = layout.gridRow.match(/(\d+)/);
+      const colMatch = layout.gridColumn.match(/(\d+)/);
       
       return {
         index,
-        row: layout.startRow,
-        col: layout.startCol,
+        row: rowMatch ? parseInt(rowMatch[1]) : 0,
+        col: colMatch ? parseInt(colMatch[1]) : 0,
       };
     });
     
@@ -555,23 +353,23 @@ const PhotoViewerTab: React.FC = () => {
     });
     
     return photoPositions.map(pos => pos.index);
-  }, [persistentState.galleryLayout, randomLayout]);
+  }, [persistentState.galleryLayout, collageConfig.items]);
 
   const visualTabOrder = getVisualTabOrder();
 
-  // Get style for random thumbnail based on its layout position
+  // Get style for collage thumbnail based on its layout position
   const getRandomThumbnailStyle = (index: number) => {
-    const layout = randomLayout[index];
+    const layout = collageConfig.items[index];
     if (!layout) return { 
-      gridColumn: '1 / 4', 
-      gridRow: '1 / 4',
+      gridColumn: '1 / 2', 
+      gridRow: '1 / 2',
       width: '100%',
       height: '100%'
     };
     
     return {
-      gridColumn: `${layout.startCol + 1} / ${layout.startCol + 1 + layout.cols}`,
-      gridRow: `${layout.startRow + 1} / ${layout.startRow + 1 + layout.rows}`,
+      gridColumn: layout.gridColumn,
+      gridRow: layout.gridRow,
       width: '100%',
       height: '100%',
       objectFit: 'cover' as const,
@@ -1227,6 +1025,10 @@ const PhotoViewerTab: React.FC = () => {
       {/* Photo Grid */}
       <div 
         className={persistentState.galleryLayout === 'grid' ? styles.photoGrid : styles.photoGridRandom}
+        style={persistentState.galleryLayout === 'random' ? {
+          '--collage-columns': collageConfig.gridColumns,
+          '--collage-rows': collageConfig.gridRows,
+        } as React.CSSProperties : undefined}
         role="grid" 
         aria-label={strings.gridViewLabel}
         onKeyDown={handleGalleryKeyDown}

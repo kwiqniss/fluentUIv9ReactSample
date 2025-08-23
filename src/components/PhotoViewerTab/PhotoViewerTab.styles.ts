@@ -70,11 +70,12 @@ export const photoViewerStyles = makeStyles({
     },
   },
 
-  // Collage Grid Layout - Full container fill with precise tessellation
+  // Collage Grid Layout - Full container fill with dynamic tessellation
   photoGridRandom: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(16, 1fr)', // 16 columns for accommodating bigger shapes
-    gridTemplateRows: 'repeat(16, 1fr)',     // 16 equal rows for larger shape variety
+    // Dynamic grid dimensions will be set via CSS custom properties
+    gridTemplateColumns: `repeat(var(--collage-columns, 16), 1fr)`,
+    gridTemplateRows: `repeat(var(--collage-rows, 16), 1fr)`,
     gap: '2px', // Slightly larger gap for better visual separation
     width: '100%',
     height: 'clamp(60vh, 75vh, 85vh)', // Responsive height based on viewport
