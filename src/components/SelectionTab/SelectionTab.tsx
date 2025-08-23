@@ -24,6 +24,7 @@ import {
   Text,
   Title3,
   mergeClasses,
+  tokens,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
@@ -132,10 +133,9 @@ const SelectionTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <Title3>{strings.title}</Title3>
-            <Caption1>Selection controls for user input and choice management.</Caption1>
           </div>
           <Button 
             appearance="secondary"
@@ -144,6 +144,7 @@ const SelectionTab: React.FC = () => {
             Reset Tab
           </Button>
         </div>
+        <Caption1>Selection controls for user input and choice management.</Caption1>
       </div>
 
       <div className={styles.formGrid}>

@@ -11,8 +11,8 @@ import {
   CardPreview,
   CardFooter,
   Accordion,
-  AccordionHeader,
   AccordionItem,
+  AccordionHeader,
   AccordionPanel,
   Menu,
   MenuTrigger,
@@ -42,7 +42,8 @@ import {
   useToastController,
   Caption1,
   mergeClasses,
-  Tooltip
+  Tooltip,
+  tokens,
 } from '@fluentui/react-components';
 import {
   HomeRegular,
@@ -210,10 +211,9 @@ const ComponentShowcaseTab: React.FC = () => {
       <Toaster toasterId={toasterId} />
       
       <div className={styles.headerSection}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <Title3>{strings.title}</Title3>
-            <Caption1>Comprehensive showcase of FluentUI v9 components and their interactions.</Caption1>
           </div>
           <Button 
             appearance="secondary"
@@ -222,6 +222,7 @@ const ComponentShowcaseTab: React.FC = () => {
             Reset Tab
           </Button>
         </div>
+        <Caption1>Comprehensive showcase of FluentUI v9 components and their interactions.</Caption1>
       </div>
 
       {/* Navigation Components Section */}

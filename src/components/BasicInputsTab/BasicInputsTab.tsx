@@ -170,10 +170,9 @@ const BasicInputsTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <Title3>{strings.title}</Title3>
-            <Caption1>{strings.description}</Caption1>
           </div>
           <Button 
             appearance="secondary"
@@ -182,6 +181,7 @@ const BasicInputsTab: React.FC = () => {
             Reset Tab
           </Button>
         </div>
+        <Caption1>{strings.description}</Caption1>
       </div>
 
       <div className={styles.formGrid}>

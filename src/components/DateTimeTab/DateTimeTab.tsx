@@ -6,6 +6,7 @@ import {
   Title3,
   Button,
   mergeClasses,
+  tokens,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
@@ -58,10 +59,9 @@ const DateTimeTab: React.FC = () => {
   return (
     <div className={mergeClasses(styles.tabContainer, styles.webkitIconFix)}>
       <div className={styles.headerSection}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <Title3>{strings.title}</Title3>
-            <Caption1>Date and time input controls for temporal data collection.</Caption1>
           </div>
           <Button 
             appearance="secondary"
@@ -70,6 +70,7 @@ const DateTimeTab: React.FC = () => {
             Reset Tab
           </Button>
         </div>
+        <Caption1>Date and time input controls for temporal data collection.</Caption1>
       </div>
 
       <div className={styles.formGrid}>

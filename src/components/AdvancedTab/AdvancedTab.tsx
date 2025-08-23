@@ -3,11 +3,12 @@ import {
   Field,
   Caption1,
   Slider,
-  ProgressBar,
   Button,
   SpinButton,
   Title3,
   mergeClasses,
+  tokens,
+  ProgressBar,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
@@ -87,10 +88,9 @@ const AdvancedTab: React.FC = () => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.headerSection}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <Title3>{strings.title}</Title3>
-            <Caption1>Advanced input controls for complex user interactions.</Caption1>
           </div>
           <Button 
             appearance="secondary"
@@ -99,6 +99,7 @@ const AdvancedTab: React.FC = () => {
             Reset Tab
           </Button>
         </div>
+        <Caption1>Advanced input controls for complex user interactions.</Caption1>
       </div>
 
       <div className={styles.formGrid}>
