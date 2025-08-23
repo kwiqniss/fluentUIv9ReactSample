@@ -1184,7 +1184,7 @@ const PhotoViewerTab: React.FC = () => {
   }, [galleryLayout]);
 
   // Calculate image transform
-  const imageTransform = `scale(${viewerState.scale}) translate(${viewerState.translateX / viewerState.scale}px, ${viewerState.translateY / viewerState.scale}px)`;
+  const imageTransform = `scale(${viewerState.scale}) translate3d(${viewerState.translateX / viewerState.scale}px, ${viewerState.translateY / viewerState.scale}px, 0)`;
   
   // Dynamic image styles based on zoom level
   const photo = getCurrentPhoto();

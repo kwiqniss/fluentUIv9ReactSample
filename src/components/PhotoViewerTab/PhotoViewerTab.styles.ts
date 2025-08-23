@@ -227,9 +227,12 @@ export const photoViewerStyles = makeStyles({
 
   viewerImage: {
     display: 'block',
-    transition: `transform ${tokens.durationSlow} ${tokens.curveEasyEase}`,
+    transition: `transform ${tokens.durationNormal} ${tokens.curveEasyEase}`,
     position: 'relative',
     zIndex: 1,
+    willChange: 'transform', // Optimize for transform changes
+    backfaceVisibility: 'hidden', // Prevent flicker during transforms
+    transform: 'translateZ(0)', // Force hardware acceleration
 
     '&:active': {
       cursor: 'grabbing',
