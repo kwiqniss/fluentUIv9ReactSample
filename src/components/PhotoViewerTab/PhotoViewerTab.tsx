@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Title3, Caption1, Text, mergeClasses } from '@fluentui/react-components';
+import { Title3, Caption1, Text, Button, mergeClasses } from '@fluentui/react-components';
 import { 
   ChevronLeftRegular, 
   ChevronRightRegular, 
   DismissRegular,
   AddRegular,
   SubtractRegular,
-  ArrowMaximizeRegular
+  ArrowMaximizeRegular,
+  GridRegular,
+  AppsRegular
 } from '@fluentui/react-icons';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { photoViewerStyles } from './PhotoViewerTab.styles';
@@ -187,6 +189,7 @@ interface PhotoViewerState {
 }
 
 const PhotoViewerTab: React.FC = () => {
+  const [galleryLayout, setGalleryLayout] = useState<'grid' | 'random'>('grid');
   const [viewerState, setViewerState] = useState<PhotoViewerState>({
     isOpen: false,
     currentIndex: 0,
@@ -203,6 +206,247 @@ const PhotoViewerTab: React.FC = () => {
   const imageRef = useRef<HTMLImageElement>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  
+  // Generate tessellated layout that perfectly fills the container
+  const generateRandomThumbnailSizes = useCallback(() => {
+    const totalPhotos = STOCK_PHOTOS.length;
+    const gridWidth = 12; // Fewer columns for larger shapes
+    const gridHeight = 12; // Fewer rows for larger shapes
+    
+    // Create a grid to track occupied cells
+    const grid = Array(gridHeight).fill(null).map(() => Array(gridWidth).fill(false));
+    
+    // Pre-defined shapes optimized for better space filling with larger sizes
+    const shapes = [
+      { cols: 4, rows: 3, name: 'large_rect', priority: 1 },      // 4×3 large rectangle
+      { cols: 3, rows: 4, name: 'large_portrait', priority: 1 },  // 3×4 large portrait
+      { cols: 3, rows: 3, name: 'large_square', priority: 2 },    // 3×3 large square
+      { cols: 5, rows: 2, name: 'wide_banner', priority: 2 },     // 5×2 wide banner
+      { cols: 2, rows: 5, name: 'tall_banner', priority: 2 },     // 2×5 tall banner
+      { cols: 4, rows: 2, name: 'medium_wide', priority: 3 },     // 4×2 medium wide
+      { cols: 2, rows: 4, name: 'medium_tall', priority: 3 },     // 2×4 medium tall
+      { cols: 6, rows: 2, name: 'extra_wide', priority: 1 },      // 6×2 extra wide
+      { cols: 2, rows: 6, name: 'extra_tall', priority: 1 },      // 2×6 extra tall
+      { cols: 3, rows: 2, name: 'small_wide', priority: 4 },      // 3×2 small wide
+      { cols: 2, rows: 3, name: 'small_tall', priority: 4 },      // 2×3 small tall
+      { cols: 2, rows: 2, name: 'small_square', priority: 5 },    // 2×2 small square
+    ];
+    
+    const layout = [];
+    let totalUsedCells = 0;
+    const totalCells = gridWidth * gridHeight;
+    
+    // Calculate target cells per photo for better distribution
+    const targetCellsPerPhoto = Math.max(6, Math.floor(totalCells / totalPhotos));
+    
+    // Place each photo strategically
+    for (let i = 0; i < totalPhotos; i++) {
+      let placed = false;
+      let bestShape = null;
+      let bestPosition = null;
+      let bestScore = -1;
+      
+      // Shuffle shapes to add variety while respecting priorities
+      const availableShapes = shapes.filter(shape => {
+        const area = shape.cols * shape.rows;
+        const remainingPhotos = totalPhotos - i;
+        const remainingSpace = totalCells - totalUsedCells;
+        const averageSpacePerPhoto = remainingSpace / remainingPhotos;
+        
+        // Allow larger shapes for early placements, smaller for later
+        return area <= Math.max(targetCellsPerPhoto, averageSpacePerPhoto * 1.5);
+      });
+      
+      if (availableShapes.length === 0) {
+        availableShapes.push({ cols: 2, rows: 2, name: 'fallback_small', priority: 5 });
+      }
+      
+      // Try each available shape
+      for (const shape of availableShapes) {
+        if (shape.cols > gridWidth || shape.rows > gridHeight) continue;
+        
+        // Generate positions with preference for filling edges first
+        const positions = [];
+        
+        // Prioritize corners
+        positions.push([0, 0], [0, gridWidth - shape.cols], 
+                      [gridHeight - shape.rows, 0], [gridHeight - shape.rows, gridWidth - shape.cols]);
+        
+        // Add edge positions
+        for (let row = 1; row < gridHeight - shape.rows; row++) {
+          positions.push([row, 0], [row, gridWidth - shape.cols]);
+        }
+        for (let col = 1; col < gridWidth - shape.cols; col++) {
+          positions.push([0, col], [gridHeight - shape.rows, col]);
+        }
+        
+        // Add interior positions
+        for (let row = 1; row <= gridHeight - shape.rows; row++) {
+          for (let col = 1; col <= gridWidth - shape.cols; col++) {
+            positions.push([row, col]);
+          }
+        }
+        
+        // Test each position
+        for (const [row, col] of positions) {
+          if (row < 0 || col < 0 || row + shape.rows > gridHeight || col + shape.cols > gridWidth) continue;
+          
+          // Check if position is free
+          let canPlace = true;
+          for (let r = row; r < row + shape.rows && canPlace; r++) {
+            for (let c = col; c < col + shape.cols && canPlace; c++) {
+              if (grid[r] && grid[r][c]) {
+                canPlace = false;
+              }
+            }
+          }
+          
+          if (canPlace) {
+            // Calculate placement score
+            let score = 100 - (shape.priority * 10); // Lower priority number = higher score
+            
+            // Bonus for corner/edge placement
+            if ((row === 0 || row === gridHeight - shape.rows) && 
+                (col === 0 || col === gridWidth - shape.cols)) {
+              score += 50; // Corner bonus
+            } else if (row === 0 || row === gridHeight - shape.rows || 
+                      col === 0 || col === gridWidth - shape.cols) {
+              score += 30; // Edge bonus
+            }
+            
+            // Bonus for adjacent placement (tessellation)
+            let adjacentCount = 0;
+            for (let r = Math.max(0, row - 1); r <= Math.min(gridHeight - 1, row + shape.rows); r++) {
+              for (let c = Math.max(0, col - 1); c <= Math.min(gridWidth - 1, col + shape.cols); c++) {
+                if ((r < row || r >= row + shape.rows || c < col || c >= col + shape.cols) && 
+                    grid[r] && grid[r][c]) {
+                  adjacentCount++;
+                }
+              }
+            }
+            score += adjacentCount * 5;
+            
+            // Prefer larger shapes early in placement
+            score += shape.cols * shape.rows * Math.max(1, (totalPhotos - i) / totalPhotos);
+            
+            if (score > bestScore) {
+              bestScore = score;
+              bestShape = shape;
+              bestPosition = [row, col];
+            }
+          }
+        }
+      }
+      
+      // Place the best shape found
+      if (bestShape && bestPosition) {
+        const [row, col] = bestPosition;
+        
+        // Mark cells as occupied
+        for (let r = row; r < row + bestShape.rows; r++) {
+          for (let c = col; c < col + bestShape.cols; c++) {
+            if (grid[r]) grid[r][c] = true;
+          }
+        }
+        
+        layout.push({
+          ...bestShape,
+          startCol: col,
+          startRow: row,
+        });
+        
+        totalUsedCells += bestShape.cols * bestShape.rows;
+        placed = true;
+      }
+      
+      // Fallback: find any available space
+      if (!placed) {
+        outerLoop: for (let size = 4; size >= 1; size--) {
+          for (let row = 0; row <= gridHeight - size; row++) {
+            for (let col = 0; col <= gridWidth - size; col++) {
+              let canPlace = true;
+              for (let r = row; r < row + size && canPlace; r++) {
+                for (let c = col; c < col + size && canPlace; c++) {
+                  if (grid[r] && grid[r][c]) {
+                    canPlace = false;
+                  }
+                }
+              }
+              
+              if (canPlace) {
+                // Mark cells as occupied
+                for (let r = row; r < row + size; r++) {
+                  for (let c = col; c < col + size; c++) {
+                    if (grid[r]) grid[r][c] = true;
+                  }
+                }
+                
+                layout.push({
+                  cols: size,
+                  rows: size,
+                  name: 'fallback_square',
+                  startCol: col,
+                  startRow: row,
+                });
+                
+                totalUsedCells += size * size;
+                placed = true;
+                break outerLoop;
+              }
+            }
+          }
+        }
+      }
+      
+      // Last resort: single cell
+      if (!placed) {
+        for (let row = 0; row < gridHeight; row++) {
+          for (let col = 0; col < gridWidth; col++) {
+            if (!grid[row] || !grid[row][col]) {
+              if (grid[row]) grid[row][col] = true;
+              layout.push({
+                cols: 1,
+                rows: 1,
+                name: 'single_cell',
+                startCol: col,
+                startRow: row,
+              });
+              totalUsedCells += 1;
+              break;
+            }
+          }
+          if (placed) break;
+        }
+      }
+    }
+    
+    // Log tessellation efficiency
+    const fillPercentage = ((totalUsedCells / totalCells) * 100).toFixed(1);
+    console.log(`Tessellation efficiency: ${fillPercentage}% (${totalUsedCells}/${totalCells} cells used) - Grid: ${gridWidth}x${gridHeight}`);
+    
+    return layout;
+  }, []);
+  
+  const [randomLayout] = useState(generateRandomThumbnailSizes);
+
+  // Get style for random thumbnail based on its layout position
+  const getRandomThumbnailStyle = (index: number) => {
+    const layout = randomLayout[index];
+    if (!layout) return { 
+      gridColumn: '1 / 4', 
+      gridRow: '1 / 4',
+      width: '100%',
+      height: '100%'
+    };
+    
+    return {
+      gridColumn: `${layout.startCol + 1} / ${layout.startCol + 1 + layout.cols}`,
+      gridRow: `${layout.startRow + 1} / ${layout.startRow + 1 + layout.rows}`,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover' as const,
+    };
+  };
   
   // Touch gesture state for pinch-to-zoom
   const touchStateRef = useRef<{
@@ -783,8 +1027,32 @@ const PhotoViewerTab: React.FC = () => {
     <div className={styles.tabContainer}>
       {/* Header Section */}
       <div className={styles.headerSection}>
-        <Title3 className={sharedStyles.h3Heading}>{strings.title}</Title3>
-        <Caption1>{strings.description}</Caption1>
+        <div className={styles.headerTop}>
+          <div>
+            <Title3 className={sharedStyles.h3Heading}>{strings.title}</Title3>
+            <Caption1>{strings.description}</Caption1>
+          </div>
+          <div className={styles.layoutToggle}>
+            <Button
+              appearance={galleryLayout === 'grid' ? 'primary' : 'secondary'}
+              icon={<GridRegular />}
+              onClick={() => setGalleryLayout('grid')}
+              size="small"
+              aria-label="Grid layout"
+            >
+              Grid
+            </Button>
+            <Button
+              appearance={galleryLayout === 'random' ? 'primary' : 'secondary'}
+              icon={<AppsRegular />}
+              onClick={() => setGalleryLayout('random')}
+              size="small"
+              aria-label="Random size layout"
+            >
+              Random
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Instructions */}
@@ -795,30 +1063,35 @@ const PhotoViewerTab: React.FC = () => {
 
       {/* Photo Grid */}
       <div 
-        className={styles.photoGrid}
+        className={galleryLayout === 'grid' ? styles.photoGrid : styles.photoGridRandom}
         role="grid" 
         aria-label={strings.gridViewLabel}
       >
-        {STOCK_PHOTOS.map((photo, index) => (
-          <button
-            key={photo.id}
-            ref={el => thumbnailRefs.current[index] = el}
-            className={styles.photoThumbnail}
-            onClick={() => openViewer(index)}
-            role="gridcell"
-            aria-label={`${formatString(strings.photoTitle, (index + 1).toString())}: ${photo.alt}`}
-            tabIndex={0}
-          >
-            <img 
-              src={photo.thumbnailSrc} 
-              alt=""
-              role="presentation"
-              className={styles.thumbnailImage}
-              loading="lazy"
-            />
-            <div className={mergeClasses(styles.thumbnailOverlay, 'thumbnailOverlay')} />
-          </button>
-        ))}
+        {STOCK_PHOTOS.map((photo, index) => {
+          const randomStyle = galleryLayout === 'random' ? getRandomThumbnailStyle(index) : {};
+          
+          return (
+            <button
+              key={photo.id}
+              ref={el => thumbnailRefs.current[index] = el}
+              className={galleryLayout === 'grid' ? styles.photoThumbnail : styles.photoThumbnailRandom}
+              onClick={() => openViewer(index)}
+              role="gridcell"
+              aria-label={`${formatString(strings.photoTitle, (index + 1).toString())}: ${photo.alt}`}
+              tabIndex={0}
+              style={galleryLayout === 'random' ? randomStyle : undefined}
+            >
+              <img 
+                src={photo.thumbnailSrc} 
+                alt=""
+                role="presentation"
+                className={styles.thumbnailImage}
+                loading="lazy"
+              />
+              <div className={mergeClasses(styles.thumbnailOverlay, 'thumbnailOverlay')} />
+            </button>
+          );
+        })}
       </div>
 
       {/* Photo Viewer Modal */}

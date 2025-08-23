@@ -31,6 +31,19 @@ export const photoViewerStyles = makeStyles({
     gap: tokens.spacingVerticalS,
   },
 
+  headerTop: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: tokens.spacingHorizontalL,
+  },
+
+  layoutToggle: {
+    display: 'flex',
+    gap: tokens.spacingHorizontalXS,
+    alignItems: 'center',
+  },
+
   instructionsSection: {
     display: 'flex',
     flexDirection: 'column',
@@ -49,6 +62,24 @@ export const photoViewerStyles = makeStyles({
     gap: SIZES.gridGap,
     width: '100%',
     justifyContent: 'center',
+  },
+
+  // Random Size Grid Layout - Full container fill with precise tessellation
+  photoGridRandom: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(12, 1fr)', // 12 columns for balanced control
+    gridTemplateRows: 'repeat(12, 1fr)',     // 12 equal rows
+    gap: '2px', // Slightly larger gap for better visual separation
+    width: '100%',
+    height: '80vh', // Fixed viewport height for consistent sizing
+    backgroundColor: 'transparent',
+    justifyContent: 'stretch',
+    alignContent: 'stretch',
+    justifyItems: 'stretch',
+    alignItems: 'stretch',
+    overflow: 'hidden',
+    padding: '4px',
+    boxSizing: 'border-box',
   },
 
   photoThumbnail: {
@@ -74,6 +105,35 @@ export const photoViewerStyles = makeStyles({
     '&:focus': {
       outline: `${tokens.strokeWidthThick} solid ${tokens.colorBrandBackground}`,
       outlineOffset: tokens.spacingHorizontalXXS,
+    },
+  },
+
+  photoThumbnailRandom: {
+    position: 'relative',
+    borderRadius: '2px', // Minimal radius for tight tessellation
+    overflow: 'hidden',
+    cursor: 'pointer',
+    border: `1px solid ${tokens.colorNeutralStroke1}`,
+    backgroundColor: tokens.colorNeutralBackground3,
+    transition: `all ${tokens.durationFast} ${tokens.curveEasyEase}`,
+    width: '100%', // Fill grid area completely
+    height: '100%', // Fill grid area completely
+    minHeight: '0', // Allow shrinking
+    
+    '&:hover': {
+      transform: 'scale(1.005)', // Very subtle scale to avoid overlap
+      boxShadow: tokens.shadow4,
+      zIndex: 10,
+      
+      '& .thumbnailOverlay': {
+        opacity: 1,
+      },
+    },
+
+    '&:focus': {
+      outline: `${tokens.strokeWidthThick} solid ${tokens.colorBrandBackground}`,
+      outlineOffset: '1px',
+      zIndex: 11,
     },
   },
 
