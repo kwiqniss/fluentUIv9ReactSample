@@ -291,7 +291,7 @@ export const appStyles = makeStyles({
   
   tabBase: {
     borderRadius: `${tokens.borderRadiusMedium} ${tokens.borderRadiusLarge} 0 0`,
-    marginRight: tokens.spacingHorizontalXS,
+    marginRight: '0',
     transitionDuration: tokens.durationNormal,
     transitionTimingFunction: tokens.curveEasyEase,
     position: 'relative' as const,

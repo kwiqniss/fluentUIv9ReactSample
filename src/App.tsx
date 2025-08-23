@@ -320,7 +320,7 @@ const App: React.FC = () => {
                   size="large"
                   appearance="subtle"
                   style={{
-                    '--fui-TabList--gap': tokens.spacingHorizontalS
+                    '--fui-TabList--gap': '0px'
                   } as React.CSSProperties}
                 >
                   {allTabs.map((tab, index) => (
@@ -361,7 +361,7 @@ const App: React.FC = () => {
                       size="large"
                       appearance="subtle"
                       style={{
-                        '--fui-TabList--gap': tokens.spacingHorizontalS
+                        '--fui-TabList--gap': '0px'
                       } as React.CSSProperties}
                     >
                       {allTabs.map((tab, index) => (
