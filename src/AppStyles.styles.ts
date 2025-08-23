@@ -1,8 +1,5 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-/**
- * Minimal App component styles
- */
 export const appStyles = makeStyles({
   container: {
     display: 'flex',
@@ -18,17 +15,15 @@ export const appStyles = makeStyles({
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
-    flex: '1', // Allow content area to grow and push footer down
+    flex: '1',
   },
   
-  // Main container for the entire app
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
   },
   
-  // H1 heading styling
   h1Heading: {
     margin: 0,
     fontWeight: tokens.fontWeightSemibold,
@@ -45,7 +40,7 @@ export const appStyles = makeStyles({
     marginBottom: tokens.spacingVerticalS,
     padding: `${tokens.spacingVerticalL} ${tokens.spacingHorizontalL}`,
     paddingBottom: tokens.spacingVerticalL,
-    paddingRight: `calc(${tokens.spacingHorizontalL} - ${tokens.spacingHorizontalS})`, // Small gap from edge
+    paddingRight: `calc(${tokens.spacingHorizontalL} - ${tokens.spacingHorizontalS})`,
     width: '100%',
     minHeight: '4rem',
     boxSizing: 'border-box',
@@ -62,10 +57,8 @@ export const appStyles = makeStyles({
         alignSelf: 'flex-start',
         width: '100%',
         justifyContent: 'flex-start',
-      },
     },
     
-    // Small screens: same behavior but adjust spacing
     '@media (max-width: 48rem)': {
       gap: tokens.spacingVerticalS,
       '& > *:nth-child(2)': {
@@ -77,7 +70,6 @@ export const appStyles = makeStyles({
     },
   },
 
-  // Centered title section with flex growth
   titleSection: {
     display: 'flex',
     flexDirection: 'column',
@@ -85,7 +77,7 @@ export const appStyles = makeStyles({
     textAlign: 'center',
     gap: tokens.spacingVerticalXL,
     flex: '1',
-    minWidth: '0', // Allow shrinking
+    minWidth: '0',
     paddingTop: tokens.spacingVerticalXXL,
     
     // Prevent text wrapping in H1 until dropdowns are moved down
@@ -94,7 +86,6 @@ export const appStyles = makeStyles({
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       
-      // Allow text wrapping on very small screens where dropdowns are already wrapped
       '@media (max-width: 32rem)': {
         whiteSpace: 'normal',
         overflow: 'visible',
@@ -103,10 +94,9 @@ export const appStyles = makeStyles({
     },
   },
 
-  // Subtitle styling
   subtitle: {
     flexShrink: 0,
-    opacity: 0.8, // Slightly muted to create hierarchy
+    opacity: 0.8,
   },
 
   // Controls section for theme and verbosity dropdowns - responsive positioning
@@ -117,7 +107,6 @@ export const appStyles = makeStyles({
     alignItems: 'flex-end',
     flexShrink: 0,
     
-    // When wrapped to new line: horizontal layout, left-aligned
     '@media (max-width: 64rem)': {
       flexDirection: 'row',
       alignItems: 'flex-start',
@@ -133,14 +122,13 @@ export const appStyles = makeStyles({
       width: '100%',
     },
     
-    // Theme dropdown - reduced width for better balance
     '& > *:first-child': {
       width: '10rem',
       maxWidth: '10rem',
       
       '@media (max-width: 32rem)': {
         width: '100%',
-        maxWidth: '16rem', // Cap maximum width on small screens
+        maxWidth: '16rem',
       },
       
       '& .fui-Field': {
@@ -179,14 +167,13 @@ export const appStyles = makeStyles({
       },
     },
     
-    // Verbosity dropdown - reduced width for better balance
     '& > *:last-child': {
       width: '10rem',
       maxWidth: '10rem',
       
       '@media (max-width: 32rem)': {
         width: '100%',
-        maxWidth: '16rem', // Cap maximum width on small screens
+        maxWidth: '16rem',
       },
       
       '& .fui-Field': {
@@ -258,7 +245,6 @@ export const appStyles = makeStyles({
     borderBottom: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
   },
 
-  // Tab container for FluentUI TabList
   tabContainer: {
     backgroundColor: tokens.colorNeutralBackground1,
     borderBottom: `${tokens.strokeWidthThick} solid ${tokens.colorNeutralStroke3}`,
@@ -314,7 +300,7 @@ export const appStyles = makeStyles({
     marginTop: '0',
     paddingTop: tokens.spacingVerticalXS,
     paddingRight: tokens.spacingHorizontalSNudge,
-    paddingBottom: tokens.spacingVerticalXS, // Consistent with paddingTop
+    paddingBottom: tokens.spacingVerticalXS,
     paddingLeft: tokens.spacingHorizontalSNudge,
     color: tokens.colorBrandForeground1,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandStroke2}`,
@@ -326,10 +312,10 @@ export const appStyles = makeStyles({
   
   tabUnselected: {
     backgroundColor: tokens.colorNeutralBackground3,
-    marginTop: '0', // Match selected tab margin
-    paddingTop: tokens.spacingVerticalXS, // Match selected tab padding
+    marginTop: '0',
+    paddingTop: tokens.spacingVerticalXS,
     paddingRight: tokens.spacingHorizontalXS,
-    paddingBottom: tokens.spacingVerticalXS, // Match selected tab padding
+    paddingBottom: tokens.spacingVerticalXS,
     paddingLeft: tokens.spacingHorizontalXS,
     color: tokens.colorNeutralForeground2,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
@@ -340,17 +326,17 @@ export const appStyles = makeStyles({
     
     '&:hover': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXS, // Consistent padding
+      paddingTop: tokens.spacingVerticalXS,
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS, // Consistent padding
+      paddingBottom: tokens.spacingVerticalXS,
       paddingLeft: tokens.spacingHorizontalXS,
       transform: 'translateY(0)', // No vertical movement
     },
     '&:focus': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXS, // Consistent padding
+      paddingTop: tokens.spacingVerticalXS,
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS, // Consistent padding
+      paddingBottom: tokens.spacingVerticalXS,
       paddingLeft: tokens.spacingHorizontalXS,
       transform: 'translateY(0)', // No vertical movement
     },

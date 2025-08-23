@@ -46,13 +46,11 @@ const BasicInputsTab: React.FC = () => {
   const [numberValue, setNumberValue] = useState<string>(formCache.get<string>(FIELD_KEYS.NUMBER) || '');
   const [textareaValue, setTextareaValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXTAREA) || '');
 
-  // Popover form state
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [popupName, setPopupName] = useState<string>('');
   const [popupEmail, setPopupEmail] = useState<string>('');
   const [popupMessage, setPopupMessage] = useState<string>('');
 
-  // Custom message input state
   const [customMessage, setCustomMessage] = useState<string>('');
   const [selectedMessageType, setSelectedMessageType] = useState<MessageType>(MessageType.Info);
 
@@ -126,7 +124,6 @@ const BasicInputsTab: React.FC = () => {
     if (popupName && popupEmail) {
       logSuccess(`Popup form submitted: Name: ${popupName}, Email: ${popupEmail}`);
       
-      // Clear popup form
       setPopupName('');
       setPopupEmail('');
       setPopupMessage('');

@@ -13,25 +13,22 @@ const SIZES = {
  * Simple, consistent layout patterns for all tabs
  */
 export const sharedLayoutStyles = makeStyles({
-  // Main tab container - uses FluentUI tokens for consistent spacing
   tabContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalXL,
     padding: tokens.spacingHorizontalL,
     width: '100%',
-    maxWidth: SIZES.maxContentWidth, // ~1200px max width
+    maxWidth: SIZES.maxContentWidth,
     margin: '0 auto',
   },
 
-  // Header section for tab title and description
   headerSection: {
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
   },
 
-  // Form grid - responsive 2-column layout using CSS Grid
   formGrid: {
     display: 'grid',
     gridTemplateColumns: '1fr',
@@ -45,7 +42,6 @@ export const sharedLayoutStyles = makeStyles({
     },
   },
 
-  // Actions section for buttons
   actionsSection: {
     display: 'flex',
     gap: tokens.spacingHorizontalM,
@@ -61,18 +57,16 @@ export const sharedLayoutStyles = makeStyles({
     gap: tokens.spacingVerticalL,
   },
 
-  // Legacy section container for backward compatibility
   sectionContainer: {
     marginTop: tokens.spacingVerticalL,
     marginBottom: tokens.spacingVerticalL,
   },
 
-  // Standard component item container
   componentItem: {
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
-    minWidth: SIZES.inputMinWidth, // ~280px
+    minWidth: SIZES.inputMinWidth,
     maxWidth: SIZES.inputMaxWidth, // ~400px
   },
 

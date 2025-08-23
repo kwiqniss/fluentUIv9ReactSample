@@ -52,20 +52,17 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Message logging state
   const [isMessageLoggingEnabled, setIsMessageLoggingEnabled] = useState<boolean>(() => {
     const saved = localStorage.getItem('fluentui-demo-messaging-enabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
   
-  // Sticky tab positioning state
   const [isTabsSticky, setIsTabsSticky] = useState(false);
   const [tabsHeight, setTabsHeight] = useState(0);
   const [tabsWidth, setTabsWidth] = useState(0);
   const [tabsLeft, setTabsLeft] = useState(0);
   const tabContainerRef = useRef<HTMLDivElement>(null);
   
-  // Shared tab styling function
   const getTabClassName = (tabValue: string, isSelected: boolean) => {
     return mergeClasses(
       styles.tabBase,
@@ -238,7 +235,6 @@ const App: React.FC = () => {
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
     const newTab = data.value;
     setSelectedTab(newTab);
-    // Update URL with new tab parameter
     navigate(`?tab=${newTab}`, { replace: false });
   };
 
