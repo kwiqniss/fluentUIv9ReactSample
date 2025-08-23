@@ -194,6 +194,7 @@ interface PhotoViewerState {
   translateY: number;
   isDragging: boolean;
   showControls: boolean;
+  isTransitioning: boolean; // For fade transition between photos
 }
 
 const PhotoViewerTab: React.FC = () => {
@@ -211,6 +212,7 @@ const PhotoViewerTab: React.FC = () => {
     translateY: 0,
     isDragging: false,
     showControls: false,
+    isTransitioning: false,
   });
 
   const viewerRef = useRef<HTMLDivElement>(null);
@@ -696,38 +698,44 @@ const PhotoViewerTab: React.FC = () => {
   }, [addMessage]);
 
   const navigatePhoto = useCallback((direction: 'prev' | 'next') => {
-    setViewerState(prev => {
-      const newIndex = direction === 'next' 
-        ? (prev.currentIndex + 1) % STOCK_PHOTOS.length
-        : (prev.currentIndex - 1 + STOCK_PHOTOS.length) % STOCK_PHOTOS.length;
-      
-      // Calculate fit scale for the new photo
-      const newPhoto = STOCK_PHOTOS[newIndex];
-      const containerWidth = window.innerWidth * 0.9;
-      const containerHeight = window.innerHeight * 0.9;
-      const scaleX = containerWidth / (newPhoto.width || 1);
-      const scaleY = containerHeight / (newPhoto.height || 1);
-      
-      // For large images, fill the viewport; for small images, fit within viewport
-      const isLargeImage = (newPhoto.width || 0) > containerWidth || (newPhoto.height || 0) > containerHeight;
-      const newFitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-      
-      // For small images, the minimum zoom should be their natural size (1.0), not the fit scale
-      const isNaturallySmallerThanViewport = (newPhoto.width || 0) < containerWidth && (newPhoto.height || 0) < containerHeight;
-      const minZoomScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
-      
-      // For small images, open at natural size (1.0); for large images, open at fit scale
-      const initialScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
-      
-      return {
-        ...prev,
-        currentIndex: newIndex,
-        scale: initialScale, // Use natural size for small images, fit scale for large images
-        originalFitScale: minZoomScale, // Update the minimum zoom scale for the new photo
-        translateX: 0,
-        translateY: 0,
-      };
-    });
+    // Start fade transition
+    setViewerState(prev => ({ ...prev, isTransitioning: true }));
+    
+    // After a short delay, change the photo and end transition
+    setTimeout(() => {
+      setViewerState(prev => {
+        const newIndex = direction === 'next' 
+          ? (prev.currentIndex + 1) % STOCK_PHOTOS.length
+          : (prev.currentIndex - 1 + STOCK_PHOTOS.length) % STOCK_PHOTOS.length;
+        
+        // Calculate fit scale for the new photo (for originalFitScale reference)
+        const newPhoto = STOCK_PHOTOS[newIndex];
+        const containerWidth = window.innerWidth * 0.9;
+        const containerHeight = window.innerHeight * 0.9;
+        const scaleX = containerWidth / (newPhoto.width || 1);
+        const scaleY = containerHeight / (newPhoto.height || 1);
+        
+        // For large images, fill the viewport; for small images, fit within viewport
+        const isLargeImage = (newPhoto.width || 0) > containerWidth || (newPhoto.height || 0) > containerHeight;
+        const newFitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
+        
+        // For small images, the minimum zoom should be their natural size (1.0), not the fit scale
+        const isNaturallySmallerThanViewport = (newPhoto.width || 0) < containerWidth && (newPhoto.height || 0) < containerHeight;
+        const minZoomScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
+        
+        // KEEP THE CURRENT ZOOM LEVEL - don't change the scale when navigating
+        // Only reset position to center the new photo
+        return {
+          ...prev,
+          currentIndex: newIndex,
+          // scale: prev.scale, // Keep current zoom level (no change needed)
+          originalFitScale: minZoomScale, // Update the minimum zoom scale for the new photo
+          translateX: 0, // Reset position to center
+          translateY: 0, // Reset position to center
+          isTransitioning: false, // End transition
+        };
+      });
+    }, 150); // 150ms fade duration
     
     const newIndex = direction === 'next' 
       ? (viewerState.currentIndex + 1) % STOCK_PHOTOS.length
@@ -1373,7 +1381,11 @@ const PhotoViewerTab: React.FC = () => {
               src={getCurrentPhoto().src}
               alt={getCurrentPhoto().alt}
               className={styles.viewerImage}
-              style={imageStyle}
+              style={{
+                ...imageStyle,
+                opacity: viewerState.isTransitioning ? 0 : 1,
+                transition: 'opacity 150ms ease-in-out',
+              }}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMoveForDrag}
               onMouseUp={handleMouseUp}
