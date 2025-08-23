@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Field,
   Caption1,
@@ -16,7 +16,7 @@ import { useMessages } from '../../utils/messageContext';
 import { MessageType } from '../../types/enums';
 import { button } from '../componentConstants';
 import strings from './AdvancedTab.resx';
-import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { useLocalStorage } from '../../hooks';
 import { formatString } from '../../formatString';
 
 export interface AdvancedFormData {
@@ -35,35 +35,19 @@ const AdvancedTab: React.FC = () => {
     ...advancedTabStyles(),
   };
   
-  const getCachedData = (): AdvancedFormData => {
-    const cached = formCache.get<AdvancedFormData>(CACHE_KEYS.ADVANCED);
-    return cached || {
-      sliderValue: 50,
-      spinValue: 5,
-      rangeStart: 25,
-      rangeEnd: 75,
-      progress: 0,
-    };
+  const [formData, setFormData] = useLocalStorage<AdvancedFormData>('advanced-form', {
+    sliderValue: 50,
+    spinValue: 5,
+    rangeStart: 25,
+    rangeEnd: 75,
+    progress: 0,
+  });
+
+  const [progress, setProgress] = useState(formData.progress);
+
+  const updateField = (field: keyof AdvancedFormData) => (value: number) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
-
-  const initialData = getCachedData();
-  
-  const [sliderValue, setSliderValue] = useState(initialData.sliderValue);
-  const [spinValue, setSpinValue] = useState(initialData.spinValue);
-  const [rangeStart, setRangeStart] = useState(initialData.rangeStart);
-  const [rangeEnd, setRangeEnd] = useState(initialData.rangeEnd);
-  const [progress, setProgress] = useState(initialData.progress);
-
-  useEffect(() => {
-    const formData: AdvancedFormData = {
-      sliderValue,
-      spinValue,
-      rangeStart,
-      rangeEnd,
-      progress,
-    };
-    formCache.set(CACHE_KEYS.ADVANCED, formData);
-  }, [sliderValue, spinValue, rangeStart, rangeEnd, progress]);
 
   const simulateProgress = () => {
     if (progress === 100) {
@@ -95,11 +79,11 @@ const AdvancedTab: React.FC = () => {
       </div>
 
       <div className={styles.formGrid}>
-        <Field label={formatString(strings.slider, sliderValue.toString())} className={styles.field}>
+        <Field label={formatString(strings.slider, formData.sliderValue.toString())} className={styles.field}>
           <Slider
-            value={sliderValue}
+            value={formData.sliderValue}
             onChange={(e, data) => {
-              setSliderValue(data.value);
+              updateField('sliderValue')(data.value);
               addMessage(`Slider moved to: ${data.value}`);
             }}
             min={0}
@@ -108,12 +92,12 @@ const AdvancedTab: React.FC = () => {
           />
         </Field>
 
-        <Field label={formatString(strings.spinButton, spinValue.toString())} className={styles.field}>
+        <Field label={formatString(strings.spinButton, formData.spinValue.toString())} className={styles.field}>
           <SpinButton
-            value={spinValue}
+            value={formData.spinValue}
             onChange={(e, data) => {
               if (data.value !== undefined && data.value !== null) {
-                setSpinValue(data.value);
+                updateField('spinValue')(data.value);
                 addMessage(`Spin button changed to: ${data.value}`);
               }
             }}
@@ -127,16 +111,16 @@ const AdvancedTab: React.FC = () => {
           <div>
             <input
               type="range"
-              value={rangeStart.toString()}
+              value={formData.rangeStart.toString()}
               onChange={(e) => {
                 const value = parseInt(e.target.value);
-                setRangeStart(value);
+                updateField('rangeStart')(value);
                 addMessage(`Range start set to: ${value}`);
               }}
               min="0"
               max="100"
             />
-            <Caption1>Value: {rangeStart}</Caption1>
+            <Caption1>Value: {formData.rangeStart}</Caption1>
           </div>
         </Field>
 
@@ -144,16 +128,16 @@ const AdvancedTab: React.FC = () => {
           <div>
             <input
               type="range"
-              value={rangeEnd.toString()}
+              value={formData.rangeEnd.toString()}
               onChange={(e) => {
                 const value = parseInt(e.target.value);
-                setRangeEnd(value);
+                updateField('rangeEnd')(value);
                 addMessage(`Range end set to: ${value}`);
               }}
               min="0"
               max="100"
             />
-            <Caption1>Value: {rangeEnd}</Caption1>
+            <Caption1>Value: {formData.rangeEnd}</Caption1>
           </div>
         </Field>
 

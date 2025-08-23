@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Field,
   Caption1,
@@ -11,7 +11,7 @@ import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { dateTimeTabStyles } from './DateTimeTab.styles';
 import { useMessages } from '../../utils/messageContext';
 import strings from './DateTimeTab.resx';
-import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { useLocalStorage } from '../../hooks';
 
 export interface DateTimeFormData {
   dateValue: string;
@@ -30,35 +30,17 @@ const DateTimeTab: React.FC = () => {
     ...dateTimeTabStyles(),
   };
   
-  const getCachedData = (): DateTimeFormData => {
-    const cached = formCache.get<DateTimeFormData>(CACHE_KEYS.DATE_TIME);
-    return cached || {
-      dateValue: '',
-      timeValue: '',
-      datetimeValue: '',
-      monthValue: '',
-      weekValue: '',
-    };
+  const [formData, setFormData] = useLocalStorage<DateTimeFormData>('date-time-form', {
+    dateValue: '',
+    timeValue: '',
+    datetimeValue: '',
+    monthValue: '',
+    weekValue: '',
+  });
+
+  const updateField = (field: keyof DateTimeFormData) => (value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
-
-  const initialData = getCachedData();
-  
-  const [dateValue, setDateValue] = useState(initialData.dateValue);
-  const [timeValue, setTimeValue] = useState(initialData.timeValue);
-  const [datetimeValue, setDatetimeValue] = useState(initialData.datetimeValue);
-  const [monthValue, setMonthValue] = useState(initialData.monthValue);
-  const [weekValue, setWeekValue] = useState(initialData.weekValue);
-
-  useEffect(() => {
-    const formData: DateTimeFormData = {
-      dateValue,
-      timeValue,
-      datetimeValue,
-      monthValue,
-      weekValue,
-    };
-    formCache.set(CACHE_KEYS.DATE_TIME, formData);
-  }, [dateValue, timeValue, datetimeValue, monthValue, weekValue]);
 
   return (
     <div className={mergeClasses(styles.tabContainer, styles.webkitIconFix)}>
@@ -71,9 +53,9 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"
-            value={dateValue}
+            value={formData.dateValue}
             onChange={(e) => {
-              setDateValue(e.target.value);
+              updateField('dateValue')(e.target.value);
               addMessage(`Date selected: ${e.target.value}`);
             }}
             onFocus={() => addMessage('Date picker focused')}
@@ -84,9 +66,9 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.timeInput} className={styles.field}>
           <Input
             type="time"
-            value={timeValue}
+            value={formData.timeValue}
             onChange={(e) => {
-              setTimeValue(e.target.value);
+              updateField('timeValue')(e.target.value);
               addMessage(`Time selected: ${e.target.value}`);
             }}
             onFocus={() => addMessage('Time picker focused')}
@@ -97,9 +79,9 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.datetimeInput} className={styles.field}>
           <Input
             type="datetime-local"
-            value={datetimeValue}
+            value={formData.datetimeValue}
             onChange={(e) => {
-              setDatetimeValue(e.target.value);
+              updateField('datetimeValue')(e.target.value);
               addMessage(`DateTime selected: ${e.target.value}`);
             }}
             onFocus={() => addMessage('DateTime picker focused')}
@@ -110,9 +92,9 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.monthInput} className={styles.field}>
           <Input
             type="month"
-            value={monthValue}
+            value={formData.monthValue}
             onChange={(e) => {
-              setMonthValue(e.target.value);
+              updateField('monthValue')(e.target.value);
               addMessage(`Month selected: ${e.target.value}`);
             }}
             onFocus={() => addMessage('Month picker focused')}
@@ -123,9 +105,9 @@ const DateTimeTab: React.FC = () => {
         <Field label={strings.weekInput} className={styles.field}>
           <Input
             type="week"
-            value={weekValue}
+            value={formData.weekValue}
             onChange={(e) => {
-              setWeekValue(e.target.value);
+              updateField('weekValue')(e.target.value);
               addMessage(`Week selected: ${e.target.value}`);
             }}
             onFocus={() => addMessage('Week picker focused')}

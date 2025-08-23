@@ -55,7 +55,7 @@ import {
   WarningRegular,
   ErrorCircleRegular
 } from '@fluentui/react-icons';
-import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { useLocalStorage } from '../../hooks';
 import { useMessages } from '../../utils/messageContext';
 import { MessageType } from '../../types/enums';
 import { formatString } from '../../formatString';
@@ -76,19 +76,20 @@ const ComponentShowcaseTab: React.FC = () => {
   const toasterId = useId();
   const { dispatchToast } = useToastController(toasterId);
 
-  const cached = formCache.get<ComponentShowcaseFormData>(CACHE_KEYS.COMPONENT_SHOWCASE);
-  const initialData: ComponentShowcaseFormData = cached || {
+  const [formData, setFormData] = useLocalStorage<ComponentShowcaseFormData>('component-showcase-form', {
     searchValue: '',
     toastCount: 0,
     tableSelection: [],
-  };
+  });
 
-  const [searchValue, setSearchValue] = useState(initialData.searchValue);
-  const [toastCount, setToastCount] = useState(initialData.toastCount);
   const [isSkeletonLoading, setIsSkeletonLoading] = useState(true);
   const [isCardLoading, setIsCardLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const [isProgressRunning, setIsProgressRunning] = useState(false);
+
+  const updateField = (field: keyof ComponentShowcaseFormData) => (value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     if (isSkeletonLoading) {
@@ -112,15 +113,6 @@ const ComponentShowcaseTab: React.FC = () => {
     }
   }, [isCardLoading]);
 
-  useEffect(() => {
-    const formData = {
-      searchValue,
-      toastCount,
-      tableSelection: [],
-    };
-    formCache.set(CACHE_KEYS.COMPONENT_SHOWCASE, formData);
-  }, [searchValue, toastCount]);
-
   const styles = {
     ...sharedStyles(),
     ...sharedLayoutStyles(),
@@ -128,8 +120,8 @@ const ComponentShowcaseTab: React.FC = () => {
   };
 
   const showToast = (type: MessageType) => {
-    const newCount = toastCount + 1;
-    setToastCount(newCount);
+    const newCount = formData.toastCount + 1;
+    updateField('toastCount')(newCount);
 
     const toastContent = {
       [MessageType.Success]: { 
@@ -194,9 +186,9 @@ const ComponentShowcaseTab: React.FC = () => {
   ];
 
   const searchResults = tableData.filter(item =>
-    item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.role.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.department.toLowerCase().includes(searchValue.toLowerCase())
+    item.name.toLowerCase().includes(formData.searchValue.toLowerCase()) ||
+    item.role.toLowerCase().includes(formData.searchValue.toLowerCase()) ||
+    item.department.toLowerCase().includes(formData.searchValue.toLowerCase())
   );
 
   return (
@@ -510,21 +502,21 @@ const ComponentShowcaseTab: React.FC = () => {
             <div className={styles.tabContentStandardized}>
               <SearchBox
                 placeholder={strings.searchPlaceholder}
-                value={searchValue}
+                value={formData.searchValue}
                 onChange={(e, data) => {
-                  setSearchValue(data.value);
+                  updateField('searchValue')(data.value);
                   addMessage(`Search query: "${data.value}"`);
                 }}
                 dismiss={{
                   onClick: () => {
-                    setSearchValue('');
+                    updateField('searchValue')('');
                     addMessage('Search cleared');
                   }
                 }}
               />
-              {searchValue && (
+              {formData.searchValue && (
                 <div className={styles.tabContentStandardized}>
-                  <Text>{`Found ${searchResults.length} results for "${searchValue}"`}</Text>
+                  <Text>{`Found ${searchResults.length} results for "${formData.searchValue}"`}</Text>
                 </div>
               )}
             </div>
@@ -550,7 +542,7 @@ const ComponentShowcaseTab: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {(searchValue ? searchResults : tableData).map((item) => (
+                    {(formData.searchValue ? searchResults : tableData).map((item) => (
                       <TableRow key={item.id}>
                         <TableCell>
                           <TableCellLayout media={
@@ -578,7 +570,7 @@ const ComponentShowcaseTab: React.FC = () => {
                   </TableBody>
                 </Table>
                 
-                {searchValue && searchResults.length === 0 && (
+                {formData.searchValue && searchResults.length === 0 && (
                   <div className={styles.tabContentStandardized}>
                     <Text>{strings.noResults}</Text>
                   </div>

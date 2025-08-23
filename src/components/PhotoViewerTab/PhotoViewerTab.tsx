@@ -981,59 +981,6 @@ const PhotoViewerTab: React.FC = () => {
   // Use our custom hooks for event listeners and body style management
   useEventListener('keydown', handleKeyDown);
   useDisableScroll(viewerState.isOpen);
-      
-      // Add CSS to prevent zoom via style injection
-      const style = document.createElement('style');
-      style.id = 'photo-viewer-zoom-prevention';
-      style.textContent = `
-        html, body {
-          touch-action: none !important;
-          overscroll-behavior: none !important;
-          -webkit-overflow-scrolling: auto !important;
-          user-select: none !important;
-          -webkit-user-select: none !important;
-          -webkit-touch-callout: none !important;
-          -webkit-tap-highlight-color: transparent !important;
-        }
-        /* Allow touch actions on our viewer container so our custom handlers work */
-        [data-photo-viewer="true"] {
-          touch-action: auto !important;
-        }
-      `;
-      document.head.appendChild(style);
-      
-      // Focus the viewer container for accessibility
-      setTimeout(() => viewerRef.current?.focus(), 100);
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.body.style.userSelect = '';
-      document.body.style.removeProperty('-webkit-user-select');
-      document.body.style.removeProperty('-webkit-touch-callout');
-      document.body.style.removeProperty('-webkit-tap-highlight-color');
-      
-      // Remove the injected style
-      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.body.style.userSelect = '';
-      document.body.style.removeProperty('-webkit-user-select');
-      document.body.style.removeProperty('-webkit-touch-callout');
-      document.body.style.removeProperty('-webkit-tap-highlight-color');
-      
-      // Remove the injected style
-      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    };
-  }, [viewerState.isOpen]);
 
   // Prevent browser zoom when modal is open
   useEffect(() => {

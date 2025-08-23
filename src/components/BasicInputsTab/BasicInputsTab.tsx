@@ -16,11 +16,19 @@ import {
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { basicInputsTabStyles } from './BasicInputsTab.styles';
-import { formCache } from '../../utils/formCache';
+import { useLocalStorage } from '../../hooks';
 import { useMessages } from '../../utils/messageContext';
 import { useMessageLogger } from '../../hooks/useMessageLogger';
 import { MessageType } from '../../types/enums';
 import strings from './BasicInputsTab.resx';
+
+interface BasicInputsFormData {
+  textValue: string;
+  emailValue: string;
+  passwordValue: string;
+  numberValue: string;
+  textareaValue: string;
+}
 
 const BasicInputsTab: React.FC = () => {
   const { addMessage } = useMessages();
@@ -32,20 +40,16 @@ const BasicInputsTab: React.FC = () => {
     ...basicInputsTabStyles(),
   };
 
-  const FIELD_KEYS = {
-    TEXT: 'basic_text',
-    EMAIL: 'basic_email', 
-    PASSWORD: 'basic_password',
-    NUMBER: 'basic_number',
-    TEXTAREA: 'basic_textarea',
-  };
+  // Use our FluentUI-style localStorage hook for form data persistence
+  const [formData, setFormData] = useLocalStorage<BasicInputsFormData>('basicInputs-form', {
+    textValue: '',
+    emailValue: '',
+    passwordValue: '',
+    numberValue: '',
+    textareaValue: '',
+  });
 
-  const [textValue, setTextValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXT) || '');
-  const [emailValue, setEmailValue] = useState<string>(formCache.get<string>(FIELD_KEYS.EMAIL) || '');
-  const [passwordValue, setPasswordValue] = useState<string>(formCache.get<string>(FIELD_KEYS.PASSWORD) || '');
-  const [numberValue, setNumberValue] = useState<string>(formCache.get<string>(FIELD_KEYS.NUMBER) || '');
-  const [textareaValue, setTextareaValue] = useState<string>(formCache.get<string>(FIELD_KEYS.TEXTAREA) || '');
-
+  // UI state (not persisted)
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const [popupName, setPopupName] = useState<string>('');
   const [popupEmail, setPopupEmail] = useState<string>('');
@@ -54,48 +58,48 @@ const BasicInputsTab: React.FC = () => {
   const [customMessage, setCustomMessage] = useState<string>('');
   const [selectedMessageType, setSelectedMessageType] = useState<MessageType>(MessageType.Info);
 
+  // Field update helper
+  const updateField = (field: keyof BasicInputsFormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   const handleTextChange = (value: string) => {
-    setTextValue(value);
-    formCache.set(FIELD_KEYS.TEXT, value);
+    updateField('textValue', value);
     if (value.trim()) {
       addMessage(`Text input updated: ${value.substring(0, 20)}${value.length > 20 ? '...' : ''}`, MessageType.Info);
     }
   };
 
   const handleEmailChange = (value: string) => {
-    setEmailValue(value);
-    formCache.set(FIELD_KEYS.EMAIL, value);
+    updateField('emailValue', value);
     if (value.trim()) {
       addMessage(`Email input updated: ${value}`, MessageType.Info);
     }
   };
 
   const handlePasswordChange = (value: string) => {
-    setPasswordValue(value);
-    formCache.set(FIELD_KEYS.PASSWORD, value);
+    updateField('passwordValue', value);
     if (value.trim()) {
       addMessage(`Password input updated (${value.length} characters)`, MessageType.Info);
     }
   };
 
   const handleNumberChange = (value: string) => {
-    setNumberValue(value);
-    formCache.set(FIELD_KEYS.NUMBER, value);
+    updateField('numberValue', value);
     if (value.trim()) {
       addMessage(`Number input updated: ${value}`, MessageType.Info);
     }
   };
 
   const handleTextareaChange = (value: string) => {
-    setTextareaValue(value);
-    formCache.set(FIELD_KEYS.TEXTAREA, value);
+    updateField('textareaValue', value);
     if (value.trim()) {
       addMessage(`Textarea updated: ${value.substring(0, 30)}${value.length > 30 ? '...' : ''}`, MessageType.Info);
     }
   };
 
   const handleSubmit = () => {
-    const hasContent = textValue || emailValue || passwordValue || numberValue || textareaValue;
+    const hasContent = formData.textValue || formData.emailValue || formData.passwordValue || formData.numberValue || formData.textareaValue;
     
     if (hasContent) {
       logSuccess(strings.submitSuccess);
@@ -105,18 +109,14 @@ const BasicInputsTab: React.FC = () => {
   };
 
   const handleClear = () => {
-    setTextValue('');
-    setEmailValue('');
-    setPasswordValue('');
-    setNumberValue('');
-    setTextareaValue('');
+    setFormData({
+      textValue: '',
+      emailValue: '',
+      passwordValue: '',
+      numberValue: '',
+      textareaValue: '',
+    });
     
-    formCache.remove(FIELD_KEYS.TEXT);
-    formCache.remove(FIELD_KEYS.EMAIL);
-    formCache.remove(FIELD_KEYS.PASSWORD);
-    formCache.remove(FIELD_KEYS.NUMBER);
-    formCache.remove(FIELD_KEYS.TEXTAREA);
-
     logInfo(strings.clearSuccess);
   };
 
@@ -166,7 +166,7 @@ const BasicInputsTab: React.FC = () => {
           <Field label={strings.textLabel} required>
             <Input
               placeholder={strings.textPlaceholder}
-              value={textValue}
+              value={formData.textValue}
               onChange={(_, data) => handleTextChange(data.value)}
               onFocus={() => logInteraction('Text input', 'focused')}
               onBlur={() => logInteraction('Text input', 'lost focus')}
@@ -177,7 +177,7 @@ const BasicInputsTab: React.FC = () => {
             <Input
               type="email"
               placeholder={strings.emailPlaceholder}
-              value={emailValue}
+              value={formData.emailValue}
               onChange={(_, data) => handleEmailChange(data.value)}
               onFocus={() => addMessage('Email input focused', MessageType.Info)}
               onBlur={() => addMessage('Email input lost focus', MessageType.Info)}
@@ -188,7 +188,7 @@ const BasicInputsTab: React.FC = () => {
             <Input
               type="password"
               placeholder={strings.passwordPlaceholder}
-              value={passwordValue}
+              value={formData.passwordValue}
               onChange={(_, data) => handlePasswordChange(data.value)}
               onFocus={() => addMessage('Password input focused', MessageType.Info)}
               onBlur={() => addMessage('Password input lost focus', MessageType.Info)}
@@ -199,7 +199,7 @@ const BasicInputsTab: React.FC = () => {
             <Input
               type="number"
               placeholder={strings.numberPlaceholder}
-              value={numberValue}
+              value={formData.numberValue}
               onChange={(_, data) => handleNumberChange(data.value)}
               onFocus={() => addMessage('Number input focused', MessageType.Info)}
               onBlur={() => addMessage('Number input lost focus', MessageType.Info)}
@@ -209,7 +209,7 @@ const BasicInputsTab: React.FC = () => {
           <Field label={strings.textareaLabel}>
             <Textarea
               placeholder={strings.textareaPlaceholder}
-              value={textareaValue}
+              value={formData.textareaValue}
               onChange={(_, data) => handleTextareaChange(data.value)}
               onFocus={() => addMessage('Textarea focused', MessageType.Info)}
               onBlur={() => addMessage('Textarea lost focus', MessageType.Info)}
