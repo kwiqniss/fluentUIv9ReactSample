@@ -62,6 +62,7 @@ const App: React.FC = () => {
   const [tabsWidth, setTabsWidth] = useState(0);
   const [tabsLeft, setTabsLeft] = useState(0);
   const tabContainerRef = useRef<HTMLDivElement>(null);
+  const tabContentRef = useRef<HTMLDivElement>(null);
   
   const getTabClassName = (tabValue: string, isSelected: boolean) => {
     return mergeClasses(
@@ -236,6 +237,23 @@ const App: React.FC = () => {
     const newTab = data.value;
     setSelectedTab(newTab);
     navigate(`?tab=${newTab}`, { replace: false });
+    
+    // If we're scrolled down past the tab content, scroll back to show the top of the tab content
+    // But don't scroll if we're already at or above the tab content
+    setTimeout(() => {
+      if (tabContentRef.current) {
+        const tabContentTop = tabContentRef.current.offsetTop;
+        const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Only scroll if we're scrolled past the tab content
+        if (currentScrollTop > tabContentTop) {
+          window.scrollTo({
+            top: tabContentTop,
+            behavior: 'smooth'
+          });
+        }
+      }
+    }, 10);
   };
 
   const onThemeChange = (event: any, data: any) => {
@@ -390,7 +408,7 @@ const App: React.FC = () => {
               <div className={styles.tabSpacer} style={{ height: `${tabsHeight}px` }} />
             )}
 
-            <div>
+            <div ref={tabContentRef} className={styles.tabContentContainer}>
               {renderTabContent()}
             </div>
           </div>

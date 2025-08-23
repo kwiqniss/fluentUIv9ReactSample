@@ -374,4 +374,14 @@ export const appStyles = makeStyles({
       transform: `translateY(-${tokens.spacingVerticalXXS})`
     },
   },
+  
+  // Tab content container that can be scrolled to top
+  tabContentContainer: {
+    flex: '1',
+    minHeight: 0, // Allow flex child to shrink below content size
+    height: '100%', // Take full height of parent
+    overflowY: 'auto',
+    // Reset scroll position when content changes
+    scrollBehavior: 'smooth',
+  },
 });
