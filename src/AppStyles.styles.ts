@@ -284,10 +284,6 @@ export const appStyles = makeStyles({
       opacity: 0.3,
     },
   },
-  tabSpacer: {
-    height: `calc(${tokens.spacingVerticalM} + ${tokens.spacingVerticalXL} + ${tokens.spacingVerticalM})`,
-    visibility: 'hidden',
-  },
   
   tabBase: {
     borderRadius: `${tokens.borderRadiusMedium} ${tokens.borderRadiusXLarge} 0 0`,

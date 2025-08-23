@@ -407,12 +407,11 @@ const App: React.FC = () => {
               </Portal>
             )}
 
-            {/* Spacer to maintain layout when sticky is active */}
-            {isTabsSticky && (
-              <div className={styles.tabSpacer} style={{ height: `${tabsHeight}px` }} />
-            )}
-
-            <div ref={tabContentRef} className={styles.tabContentContainer}>
+            <div 
+              ref={tabContentRef} 
+              className={styles.tabContentContainer}
+              style={isTabsSticky ? { marginTop: `-${Math.floor(tabsHeight * 0.4)}px` } : {}}
+            >
               {renderTabContent()}
             </div>
           </div>
