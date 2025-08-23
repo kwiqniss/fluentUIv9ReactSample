@@ -7,9 +7,11 @@ import {
   ProgressBar,
   Button,
   SpinButton,
+  Title3,
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
+import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { advancedTabStyles } from './AdvancedTab.styles';
 import { useMessages } from '../../utils/messageContext';
 import { MessageType } from '../../types/enums';
@@ -30,6 +32,7 @@ const AdvancedTab: React.FC = () => {
   const { addMessage } = useMessages();
   const styles = {
     ...sharedStyles(),
+    ...sharedLayoutStyles(),
     ...advancedTabStyles(),
   };
   
@@ -86,10 +89,13 @@ const AdvancedTab: React.FC = () => {
   };
 
   return (
-    <div className={styles.tabContentStandardized}>
-      <Body1 as="h2" className={mergeClasses(styles.sectionTitle, styles.h2Heading)}>{strings.title}</Body1>
-      
-      <div className={styles.inputGrid}>
+    <div className={styles.tabContainer}>
+      <div className={styles.headerSection}>
+        <Title3>{strings.title}</Title3>
+        <Caption1>Advanced input controls for complex user interactions.</Caption1>
+      </div>
+
+      <div className={styles.formGrid}>
         <Field label={formatString(strings.slider, sliderValue.toString())} className={styles.field}>
           <Slider
             value={sliderValue}

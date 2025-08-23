@@ -27,6 +27,7 @@ import {
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
+import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { selectionTabStyles } from './SelectionTab.styles';
 import { useMessages } from '../../utils/messageContext';
 import selectionStrings from './SelectionTab.resx';
@@ -52,6 +53,7 @@ const SelectionTab: React.FC = () => {
   
   const styles = {
     ...sharedStyles(),
+    ...sharedLayoutStyles(),
     ...selectionTabStyles(),
   };
   
@@ -136,10 +138,13 @@ const SelectionTab: React.FC = () => {
   const isIndeterminate = tableSelection.length > 0 && tableSelection.length < tableData.length;
 
   return (
-    <div className={styles.tabContentStandardized}>
-      <Body1 as="h2" className={mergeClasses(styles.sectionTitle, styles.h2Heading)}>{strings.title}</Body1>
-      
-      <div className={styles.inputGrid}>
+    <div className={styles.tabContainer}>
+      <div className={styles.headerSection}>
+        <Title3>{strings.title}</Title3>
+        <Caption1>Selection controls for user input and choice management.</Caption1>
+      </div>
+
+      <div className={styles.formGrid}>
         <Field label={strings.combobox} className={styles.field}>
           <Combobox
             value={comboboxValue}

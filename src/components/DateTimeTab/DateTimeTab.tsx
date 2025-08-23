@@ -4,9 +4,11 @@ import {
   Body1,
   Caption1,
   Input,
+  Title3,
   mergeClasses,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
+import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { dateTimeTabStyles } from './DateTimeTab.styles';
 import { useMessages } from '../../utils/messageContext';
 import strings from './DateTimeTab.resx';
@@ -25,6 +27,7 @@ const DateTimeTab: React.FC = () => {
   
   const styles = {
     ...sharedStyles(),
+    ...sharedLayoutStyles(),
     ...dateTimeTabStyles(),
   };
   
@@ -59,10 +62,13 @@ const DateTimeTab: React.FC = () => {
   }, [dateValue, timeValue, datetimeValue, monthValue, weekValue]);
 
   return (
-    <div className={mergeClasses(styles.tabContentStandardized, styles.webkitIconFix)}>
-      <Body1 as="h2" className={mergeClasses(styles.sectionTitle, styles.h2Heading)}>{strings.title}</Body1>
-      
-      <div className={styles.inputGrid}>
+    <div className={mergeClasses(styles.tabContainer, styles.webkitIconFix)}>
+      <div className={styles.headerSection}>
+        <Title3>{strings.title}</Title3>
+        <Caption1>Date and time input controls for temporal data collection.</Caption1>
+      </div>
+
+      <div className={styles.formGrid}>
         <Field label={strings.dateInput} className={styles.field}>
           <Input
             type="date"

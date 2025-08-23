@@ -62,6 +62,7 @@ import { formatString } from '../../formatString';
 import strings from './ComponentShowcaseTab.resx';
 import { componentShowcaseStyles, componentProps } from './ComponentShowcaseTab.styles';
 import { sharedStyles } from '../../SharedStyles.styles';
+import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { badge, statusColor, size } from '../componentConstants';
 
 interface ComponentShowcaseFormData {
@@ -122,6 +123,7 @@ const ComponentShowcaseTab: React.FC = () => {
 
   const styles = {
     ...sharedStyles(),
+    ...sharedLayoutStyles(),
     ...componentShowcaseStyles(),
   };
 
@@ -198,15 +200,16 @@ const ComponentShowcaseTab: React.FC = () => {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={styles.tabContainer}>
       <Toaster toasterId={toasterId} />
       
       <div className={styles.headerSection}>
-        <Title2 as="h2" className={styles.h2Heading}>{strings.title}</Title2>
+        <Title3>{strings.title}</Title3>
+        <Caption1>Comprehensive showcase of FluentUI v9 components and their interactions.</Caption1>
       </div>
 
       {/* Navigation Components Section */}
-      <section>
+      <section className={styles.section}>
         <Title3 className={mergeClasses(styles.sectionHeader, styles.h3Heading)} as="h3">{strings.navigation}</Title3>
         
         <div className={styles.componentGrid}>
