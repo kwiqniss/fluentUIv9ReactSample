@@ -307,6 +307,13 @@ const PhotoViewerTab: React.FC = () => {
   const imageRef = useRef<HTMLImageElement>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  
+  // Touch gesture state for pinch-to-zoom
+  const touchStateRef = useRef<{
+    initialDistance: number;
+    initialScale: number;
+    touches: React.Touch[];
+  } | null>(null);
 
   const { addMessage } = useMessageLogger();
   const sharedStyles = sharedLayoutStyles();
@@ -315,6 +322,12 @@ const PhotoViewerTab: React.FC = () => {
 
   // Helper functions
   const getCurrentPhoto = () => STOCK_PHOTOS[viewerState.currentIndex];
+
+  const getTouchDistance = (touch1: React.Touch, touch2: React.Touch) => {
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
 
   // Photo viewer actions
   const openViewer = useCallback((index: number) => {
@@ -431,6 +444,11 @@ const PhotoViewerTab: React.FC = () => {
     const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
     const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
     
+    console.log(`Reset zoom - ${isLargeImage ? 'Large' : 'Small'} image: ${photo.width}x${photo.height}`);
+    console.log(`Container: ${containerWidth.toFixed(0)}x${containerHeight.toFixed(0)}`);
+    console.log(`Scale factors: X=${scaleX.toFixed(3)}, Y=${scaleY.toFixed(3)}`);
+    console.log(`Using ${isLargeImage ? 'FILL' : 'FIT'} scale: ${fitScale.toFixed(3)}`);
+    
     setViewerState(prev => ({
       ...prev,
       scale: fitScale,
@@ -538,7 +556,10 @@ const PhotoViewerTab: React.FC = () => {
   }, []);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
+    // Prevent default browser zoom behavior
     e.preventDefault();
+    e.stopPropagation();
+    
     const delta = e.deltaY;
     const zoomFactor = 1.1;
     
@@ -570,6 +591,76 @@ const PhotoViewerTab: React.FC = () => {
     }
   }, []);
 
+  // Touch event handlers for pinch-to-zoom
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    // Prevent default touch behaviors (like browser zoom)
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.touches.length === 2) {
+      // Two fingers - start pinch gesture
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const distance = getTouchDistance(touch1, touch2);
+      
+      touchStateRef.current = {
+        initialDistance: distance,
+        initialScale: viewerState.scale,
+        touches: [touch1, touch2],
+      };
+    }
+  }, [viewerState.scale]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    // Prevent default touch behaviors (like browser zoom)
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.touches.length === 2 && touchStateRef.current) {
+      // Two fingers - handle pinch gesture
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const currentDistance = getTouchDistance(touch1, touch2);
+      
+      if (touchStateRef.current.initialDistance > 0) {
+        const scaleChange = currentDistance / touchStateRef.current.initialDistance;
+        const newScale = touchStateRef.current.initialScale * scaleChange;
+        
+        // Apply scale limits (same as wheel zoom)
+        const photo = getCurrentPhoto();
+        const containerWidth = window.innerWidth * 0.9;
+        const containerHeight = window.innerHeight * 0.9;
+        const scaleX = containerWidth / (photo.width || 1);
+        const scaleY = containerHeight / (photo.height || 1);
+        
+        // For large images, fill the viewport; for small images, fit within viewport
+        const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
+        const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
+        
+        const clampedScale = Math.max(fitScale, Math.min(5, newScale));
+        
+        setViewerState(prev => ({
+          ...prev,
+          scale: clampedScale,
+          // Reset translation if we zoom out to fit scale
+          translateX: clampedScale <= fitScale ? 0 : prev.translateX,
+          translateY: clampedScale <= fitScale ? 0 : prev.translateY,
+        }));
+      }
+    }
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    // Prevent default touch behaviors
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.touches.length < 2) {
+      // End pinch gesture
+      touchStateRef.current = null;
+    }
+  }, []);
+
   // Effects
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -579,14 +670,72 @@ const PhotoViewerTab: React.FC = () => {
   useEffect(() => {
     if (viewerState.isOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none'; // Prevent touch actions on body
       // Focus the viewer container for accessibility
       setTimeout(() => viewerRef.current?.focus(), 100);
     } else {
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
 
     return () => {
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [viewerState.isOpen]);
+
+  // Prevent browser zoom when modal is open
+  useEffect(() => {
+    if (!viewerState.isOpen) return;
+
+    // Update viewport meta tag to disable user scaling
+    const viewportMeta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
+    const originalContent = viewportMeta?.content || '';
+    if (viewportMeta) {
+      viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+    }
+
+    const preventZoom = (e: TouchEvent) => {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    };
+
+    const preventGestureStart = (e: Event) => {
+      e.preventDefault();
+    };
+
+    const preventGestureChange = (e: Event) => {
+      e.preventDefault();
+    };
+
+    const preventGestureEnd = (e: Event) => {
+      e.preventDefault();
+    };
+
+    // Add global touch event listeners to prevent browser zoom
+    document.addEventListener('touchstart', preventZoom, { passive: false });
+    document.addEventListener('touchmove', preventZoom, { passive: false });
+    document.addEventListener('touchend', preventZoom, { passive: false });
+    
+    // Add gesture event listeners for Safari/Webkit browsers
+    document.addEventListener('gesturestart', preventGestureStart, { passive: false });
+    document.addEventListener('gesturechange', preventGestureChange, { passive: false });
+    document.addEventListener('gestureend', preventGestureEnd, { passive: false });
+
+    return () => {
+      // Restore original viewport meta tag
+      if (viewportMeta && originalContent) {
+        viewportMeta.content = originalContent;
+      }
+      
+      // Cleanup event listeners
+      document.removeEventListener('touchstart', preventZoom);
+      document.removeEventListener('touchmove', preventZoom);
+      document.removeEventListener('touchend', preventZoom);
+      document.removeEventListener('gesturestart', preventGestureStart);
+      document.removeEventListener('gesturechange', preventGestureChange);
+      document.removeEventListener('gestureend', preventGestureEnd);
     };
   }, [viewerState.isOpen]);
 
@@ -604,10 +753,14 @@ const PhotoViewerTab: React.FC = () => {
   const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
   const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
   const isZoomed = viewerState.scale > fitScale;
+  
   const imageStyle = {
     transform: imageTransform,
-    maxWidth: isZoomed ? 'none' : '100%',
-    maxHeight: isZoomed ? 'none' : '100%',
+    // For large images at fit scale, don't constrain size - let them fill
+    // For small images at fit scale, constrain to prevent growing beyond natural size  
+    // For zoomed images (any size), remove constraints to allow pan/zoom
+    maxWidth: (isZoomed || isLargeImage) ? 'none' : '100%',
+    maxHeight: (isZoomed || isLargeImage) ? 'none' : '100%',
     cursor: isZoomed ? 'grab' : 'default',
   };
 
@@ -662,6 +815,18 @@ const PhotoViewerTab: React.FC = () => {
           }}
           onMouseMove={handleControlsVisibility}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="viewer-title"
@@ -672,6 +837,9 @@ const PhotoViewerTab: React.FC = () => {
             className={styles.viewerContainer}
             tabIndex={-1}
             onWheel={handleWheel}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Screen reader content */}
             <div id="viewer-title" className={styles.srOnly}>

@@ -110,6 +110,7 @@ export const photoViewerStyles = makeStyles({
     justifyContent: 'center',
     zIndex: 1000,
     padding: SIZES.viewerPadding,
+    touchAction: 'none', // Prevent all default touch behaviors on the entire overlay
   },
 
   viewerContainer: {
@@ -121,10 +122,10 @@ export const photoViewerStyles = makeStyles({
     height: '100%',
     maxWidth: SIZES.maxImageWidth,
     maxHeight: SIZES.maxImageHeight,
+    touchAction: 'none', // Prevent default touch behaviors like pinch-to-zoom
   },
 
   viewerImage: {
-    objectFit: 'contain',
     display: 'block',
     transition: `transform ${tokens.durationSlow} ${tokens.curveEasyEase}`,
 
