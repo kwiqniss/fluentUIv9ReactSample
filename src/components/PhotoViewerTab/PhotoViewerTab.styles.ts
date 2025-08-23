@@ -7,7 +7,7 @@ const SIZES = {
   gridItemMaxWidth: '20rem',
   viewerPadding: '2rem',
   controlButtonSize: '3rem',
-  zoomButtonSize: '2.5rem',
+  zoomButtonSize: '3rem', // Increased from 2.5rem for better touch targets
   closeButtonSize: '2.5rem',
   maxImageWidth: '90vw',
   maxImageHeight: '90vh',
@@ -228,30 +228,38 @@ export const photoViewerStyles = makeStyles({
     left: '50%',
     transform: 'translateX(-50%)',
     display: 'flex',
-    gap: tokens.spacingHorizontalXS,
-    backgroundColor: tokens.colorNeutralBackground1,
-    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
-    borderRadius: tokens.borderRadiusMedium,
-    padding: tokens.spacingVerticalXS,
-    boxShadow: tokens.shadow16,
+    gap: tokens.spacingHorizontalS, // Increased gap for better separation
+    backgroundColor: tokens.colorNeutralBackground1, // Strong white background
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`, // Subtle border
+    borderRadius: tokens.borderRadiusLarge, // Larger radius for modern look
+    padding: tokens.spacingVerticalS, // Increased padding for better touch targets
+    boxShadow: tokens.shadow28, // Strong shadow for better contrast against photos
+    backdropFilter: 'blur(12px)', // Enhanced backdrop blur for better contrast
   },
 
   zoomButton: {
     width: SIZES.zoomButtonSize,
     height: SIZES.zoomButtonSize,
-    backgroundColor: 'transparent',
-    border: 'none',
+    backgroundColor: tokens.colorNeutralBackground1, // Clean white background
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`, // Subtle border instead of thick dark one
     borderRadius: tokens.borderRadiusSmall,
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: tokens.fontSizeBase300,
-    color: tokens.colorNeutralForeground1,
+    fontSize: tokens.fontSizeBase500, // Large icons
+    color: tokens.colorNeutralForeground1, // Bright dark icons for maximum contrast
+    fontWeight: tokens.fontWeightBold, // Bold icons for better visibility
     transition: `all ${tokens.durationFast} ${tokens.curveEasyEase}`,
+    position: 'relative',
+    boxShadow: tokens.shadow4,
 
-    '&:hover': {
-      backgroundColor: tokens.colorNeutralBackground3,
+    '&:hover:not(:disabled)': {
+      backgroundColor: tokens.colorBrandBackground,
+      color: tokens.colorNeutralForegroundOnBrand, // Bright white on brand
+      transform: 'scale(1.08)',
+      border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandBackground}`,
+      boxShadow: tokens.shadow16,
     },
 
     '&:focus': {
@@ -259,9 +267,26 @@ export const photoViewerStyles = makeStyles({
       outlineOffset: tokens.spacingHorizontalXXS,
     },
 
+    '&:active:not(:disabled)': {
+      backgroundColor: tokens.colorBrandBackgroundPressed,
+      color: tokens.colorNeutralForegroundOnBrand,
+      transform: 'scale(0.95)',
+    },
+
     '&:disabled': {
-      opacity: 0.5,
+      opacity: 0.5, // Lower opacity for reduced contrast
       cursor: 'not-allowed',
+      color: tokens.colorNeutralForegroundDisabled, // Muted grey for icons
+      backgroundColor: tokens.colorNeutralBackgroundDisabled, // Grey background
+      border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStrokeDisabled}`, // Subtle grey border
+      fontWeight: 'normal', // Normal weight for disabled state
+      boxShadow: 'none', // No shadow when disabled
+      
+      '&:hover': {
+        transform: 'none', // No hover effects when disabled
+        opacity: 0.5, // Maintain low contrast on hover
+        color: tokens.colorNeutralForegroundDisabled, // Keep muted color on hover
+      },
     },
   },
 

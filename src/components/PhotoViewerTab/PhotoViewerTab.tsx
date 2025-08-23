@@ -331,6 +331,7 @@ interface PhotoViewerState {
   isOpen: boolean;
   currentIndex: number;
   scale: number;
+  originalFitScale: number; // Store the original fit scale when photo is opened
   translateX: number;
   translateY: number;
   isDragging: boolean;
@@ -342,6 +343,7 @@ const PhotoViewerTab: React.FC = () => {
     isOpen: false,
     currentIndex: 0,
     scale: 1,
+    originalFitScale: 1,
     translateX: 0,
     translateY: 0,
     isDragging: false,
@@ -400,6 +402,7 @@ const PhotoViewerTab: React.FC = () => {
       isOpen: true,
       currentIndex: index,
       scale: fitScale,
+      originalFitScale: fitScale, // Store the original fit scale
       translateX: 0,
       translateY: 0,
       isDragging: false,
@@ -441,6 +444,7 @@ const PhotoViewerTab: React.FC = () => {
         ...prev,
         currentIndex: newIndex,
         scale: newFitScale,
+        originalFitScale: newFitScale, // Update the original fit scale for the new photo
         translateX: 0,
         translateY: 0,
       };
@@ -462,42 +466,27 @@ const PhotoViewerTab: React.FC = () => {
   }, [addMessage]);
 
   const zoomOut = useCallback(() => {
-    const photo = getCurrentPhoto();
-    const containerWidth = window.innerWidth * 0.9;
-    const containerHeight = window.innerHeight * 0.9;
-    const scaleX = containerWidth / (photo.width || 1);
-    const scaleY = containerHeight / (photo.height || 1);
-    
-    // For large images, fill the viewport; for small images, fit within viewport
-    const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
-    const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-    
-    setViewerState(prev => ({
-      ...prev,
-      scale: Math.max(prev.scale / 1.5, fitScale),
-    }));
+    setViewerState(prev => {
+      const newScale = prev.scale / 1.5;
+      
+      // Use the original fit scale stored when the photo was opened
+      const targetScale = newScale <= prev.originalFitScale ? prev.originalFitScale : newScale;
+      
+      return {
+        ...prev,
+        scale: targetScale,
+        // Reset translation when we reach exact fit scale
+        translateX: targetScale === prev.originalFitScale ? 0 : prev.translateX,
+        translateY: targetScale === prev.originalFitScale ? 0 : prev.translateY,
+      };
+    });
     addMessage('Zoomed out', MessageType.Info);
   }, [addMessage]);
 
   const resetZoom = useCallback(() => {
-    const photo = getCurrentPhoto();
-    const containerWidth = window.innerWidth * 0.9;
-    const containerHeight = window.innerHeight * 0.9;
-    const scaleX = containerWidth / (photo.width || 1);
-    const scaleY = containerHeight / (photo.height || 1);
-    
-    // For large images, fill the viewport; for small images, fit within viewport
-    const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
-    const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-    
-    console.log(`Reset zoom - ${isLargeImage ? 'Large' : 'Small'} image: ${photo.width}x${photo.height}`);
-    console.log(`Container: ${containerWidth.toFixed(0)}x${containerHeight.toFixed(0)}`);
-    console.log(`Scale factors: X=${scaleX.toFixed(3)}, Y=${scaleY.toFixed(3)}`);
-    console.log(`Using ${isLargeImage ? 'FILL' : 'FIT'} scale: ${fitScale.toFixed(3)}`);
-    
     setViewerState(prev => ({
       ...prev,
-      scale: fitScale,
+      scale: prev.originalFitScale, // Use the stored original fit scale
       translateX: 0,
       translateY: 0,
     }));
@@ -549,22 +538,13 @@ const PhotoViewerTab: React.FC = () => {
   }, []);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    const photo = getCurrentPhoto();
-    const containerWidth = window.innerWidth * 0.9;
-    const containerHeight = window.innerHeight * 0.9;
-    const scaleX = containerWidth / (photo.width || 1);
-    const scaleY = containerHeight / (photo.height || 1);
-    
-    // For large images, fill the viewport; for small images, fit within viewport
-    const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
-    const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-    
-    if (viewerState.scale <= fitScale) return; // Only allow dragging when zoomed beyond fit scale
+    // Only allow dragging when zoomed beyond original fit scale
+    if (viewerState.scale <= viewerState.originalFitScale) return;
     
     e.preventDefault();
     dragStartRef.current = { x: e.clientX, y: e.clientY };
     setViewerState(prev => ({ ...prev, isDragging: true }));
-  }, [viewerState.scale]);
+  }, [viewerState.scale, viewerState.originalFitScale]);
 
   const handleMouseMoveForDrag = useCallback((e: React.MouseEvent) => {
     if (!viewerState.isDragging || !dragStartRef.current) return;
@@ -609,16 +589,6 @@ const PhotoViewerTab: React.FC = () => {
     const delta = e.deltaY;
     const zoomFactor = 1.1;
     
-    const photo = getCurrentPhoto();
-    const containerWidth = window.innerWidth * 0.9;
-    const containerHeight = window.innerHeight * 0.9;
-    const scaleX = containerWidth / (photo.width || 1);
-    const scaleY = containerHeight / (photo.height || 1);
-    
-    // For large images, fill the viewport; for small images, fit within viewport
-    const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
-    const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-    
     if (delta < 0) {
       // Zoom in
       setViewerState(prev => ({
@@ -627,13 +597,21 @@ const PhotoViewerTab: React.FC = () => {
       }));
     } else {
       // Zoom out
-      setViewerState(prev => ({
-        ...prev,
-        scale: Math.max(prev.scale / zoomFactor, fitScale),
-        // Reset translation if we zoom out to fit scale
-        translateX: prev.scale / zoomFactor <= fitScale ? 0 : prev.translateX,
-        translateY: prev.scale / zoomFactor <= fitScale ? 0 : prev.translateY,
-      }));
+      setViewerState(prev => {
+        const newScale = prev.scale / zoomFactor;
+        
+        // Use the stored original fit scale instead of recalculating
+        // Use 2% tolerance to handle floating point precision issues
+        const targetScale = newScale <= prev.originalFitScale * 1.02 ? prev.originalFitScale : newScale;
+        
+        return {
+          ...prev,
+          scale: targetScale,
+          // Reset translation if we reach exact fit scale
+          translateX: targetScale === prev.originalFitScale ? 0 : prev.translateX,
+          translateY: targetScale === prev.originalFitScale ? 0 : prev.translateY,
+        };
+      });
     }
   }, []);
 
@@ -670,26 +648,24 @@ const PhotoViewerTab: React.FC = () => {
         
         console.log('React pinch move - distance:', currentDistance, 'scale change:', scaleChange, 'new scale:', newScale);
         
-        // Apply scale limits (same as wheel zoom)
-        const photo = getCurrentPhoto();
-        const containerWidth = window.innerWidth * 0.9;
-        const containerHeight = window.innerHeight * 0.9;
-        const scaleX = containerWidth / (photo.width || 1);
-        const scaleY = containerHeight / (photo.height || 1);
-        
-        // For large images, fill the viewport; for small images, fit within viewport
-        const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
-        const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
-        
-        const clampedScale = Math.max(fitScale, Math.min(5, newScale));
-        
-        setViewerState(prev => ({
-          ...prev,
-          scale: clampedScale,
-          // Reset translation if we zoom out to fit scale
-          translateX: clampedScale <= fitScale ? 0 : prev.translateX,
-          translateY: clampedScale <= fitScale ? 0 : prev.translateY,
-        }));
+        setViewerState(prev => {
+          // Use the stored original fit scale instead of recalculating
+          // Clamp scale with minimum at originalFitScale, maximum at 5
+          // If very close to originalFitScale, snap to exact originalFitScale for gestures
+          // Use 2% tolerance to handle floating point precision issues
+          let clampedScale = Math.max(prev.originalFitScale, Math.min(5, newScale));
+          if (clampedScale <= prev.originalFitScale * 1.02) {
+            clampedScale = prev.originalFitScale;
+          }
+          
+          return {
+            ...prev,
+            scale: clampedScale,
+            // Reset translation if we reach exact fit scale
+            translateX: clampedScale === prev.originalFitScale ? 0 : prev.translateX,
+            translateY: clampedScale === prev.originalFitScale ? 0 : prev.translateY,
+          };
+        });
       }
     }
   }, []);
