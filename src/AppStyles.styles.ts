@@ -133,37 +133,37 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Field': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
+        width: '10rem',
+        maxWidth: '10rem',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
       
       '& .fui-Dropdown': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
-        minWidth: 'unset !important',
+        width: '10rem',
+        maxWidth: '10rem',
+        minWidth: 'unset',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
       
       '& [role="combobox"]': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
-        minWidth: 'unset !important',
+        width: '10rem',
+        maxWidth: '10rem',
+        minWidth: 'unset',
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,
         boxSizing: 'border-box',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
     },
@@ -178,37 +178,37 @@ export const appStyles = makeStyles({
       },
       
       '& .fui-Field': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
+        width: '10rem',
+        maxWidth: '10rem',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
       
       '& .fui-Dropdown': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
-        minWidth: 'unset !important',
+        width: '10rem',
+        maxWidth: '10rem',
+        minWidth: 'unset',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
       
       '& [role="combobox"]': {
-        width: '10rem !important',
-        maxWidth: '10rem !important',
-        minWidth: 'unset !important',
+        width: '10rem',
+        maxWidth: '10rem',
+        minWidth: 'unset',
         fontSize: tokens.fontSizeBase200,
         padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalXS}`,
         boxSizing: 'border-box',
         
         '@media (max-width: 32rem)': {
-          width: '100% !important',
-          maxWidth: '16rem !important',
+          width: '100%',
+          maxWidth: '16rem',
         },
       },
     },

@@ -99,27 +99,27 @@ export const sharedLayoutStyles = makeStyles({
     // Apply to any date/time input anywhere in the app
     '& input[type="date"]::-webkit-calendar-picker-indicator': {
       '@media (prefers-color-scheme: dark)': {
-        filter: 'invert(1) !important',
+        filter: 'invert(1)',
       },
     },
     '& input[type="time"]::-webkit-time-picker-indicator': {
       '@media (prefers-color-scheme: dark)': {
-        filter: 'invert(1) !important',
+        filter: 'invert(1)',
       },
     },
     '& input[type="datetime-local"]::-webkit-calendar-picker-indicator': {
       '@media (prefers-color-scheme: dark)': {
-        filter: 'invert(1) !important',
+        filter: 'invert(1)',
       },
     },
     '& input[type="month"]::-webkit-calendar-picker-indicator': {
       '@media (prefers-color-scheme: dark)': {
-        filter: 'invert(1) !important',
+        filter: 'invert(1)',
       },
     },
     '& input[type="week"]::-webkit-calendar-picker-indicator': {
       '@media (prefers-color-scheme: dark)': {
-        filter: 'invert(1) !important',
+        filter: 'invert(1)',
       },
     },
   },
