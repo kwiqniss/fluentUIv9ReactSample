@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Title3, Caption1, Text, Button, mergeClasses } from '@fluentui/react-components';
+import { 
+  Title3, 
+  Caption1, 
+  Text, 
+  Button, 
+  mergeClasses,
+  useRestoreFocusTarget,
+  useRestoreFocusSource
+} from '@fluentui/react-components';
 import { 
   ChevronLeftRegular, 
   ChevronRightRegular, 
@@ -201,7 +209,6 @@ const PhotoViewerTab: React.FC = () => {
     showControls: false,
   });
 
-  const [lastFocusedPhoto, setLastFocusedPhoto] = useState<number | null>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const dragStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -481,6 +488,10 @@ const PhotoViewerTab: React.FC = () => {
   const [focusedPhotoIndex, setFocusedPhotoIndex] = useState<number>(0);
   const [galleryHasFocus, setGalleryHasFocus] = useState<boolean>(false);
 
+  // FluentUI focus restoration hooks for proper focus management
+  const restoreFocusTargetAttribute = useRestoreFocusTarget();
+  const restoreFocusSourceAttributes = useRestoreFocusSource();
+
   // Get visual tab order (but now used for arrow key navigation)
   const getVisualTabOrder = useCallback(() => {
     if (galleryLayout === 'grid') {
@@ -553,8 +564,6 @@ const PhotoViewerTab: React.FC = () => {
 
   // Photo viewer actions
   const openViewer = useCallback((index: number) => {
-    setLastFocusedPhoto(index);
-    
     // Calculate fit scale for the specific photo
     const photo = STOCK_PHOTOS[index];
     const containerWidth = window.innerWidth * 0.9;
@@ -667,13 +676,9 @@ const PhotoViewerTab: React.FC = () => {
     setViewerState(prev => ({ ...prev, isOpen: false }));
     addMessage('Closed photo viewer', MessageType.Info);
     
-    // Restore focus to the last viewed photo
-    setTimeout(() => {
-      if (lastFocusedPhoto !== null && thumbnailRefs.current[lastFocusedPhoto]) {
-        thumbnailRefs.current[lastFocusedPhoto]?.focus();
-      }
-    }, 100);
-  }, [addMessage, lastFocusedPhoto]);
+    // FluentUI will automatically restore focus to the source element that triggered the viewer
+    // No manual focus restoration needed - the useRestoreFocusSource handles it
+  }, [addMessage]);
 
   const navigatePhoto = useCallback((direction: 'prev' | 'next') => {
     setViewerState(prev => {
@@ -1244,6 +1249,7 @@ const PhotoViewerTab: React.FC = () => {
               tabIndex={-1}
               aria-selected={isFocused}
               style={galleryLayout === 'random' ? randomStyle : undefined}
+              {...restoreFocusSourceAttributes}
             >
               <img 
                 src={photo.thumbnailSrc} 
@@ -1271,6 +1277,7 @@ const PhotoViewerTab: React.FC = () => {
           aria-modal="true"
           aria-labelledby="viewer-title"
           aria-describedby="viewer-instructions"
+          {...restoreFocusTargetAttribute}
         >
           <div 
             ref={viewerRef}
