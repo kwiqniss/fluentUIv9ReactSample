@@ -282,11 +282,10 @@ export const appStyles = makeStyles({
     },
   },
   tabSpacer: {
-    height: 'var(--tabs-height, 0)',
+    height: `calc(${tokens.spacingVerticalM} + ${tokens.spacingVerticalXL} + ${tokens.spacingVerticalM})`,
     visibility: 'hidden',
   },
   
-  // Base tab styles
   tabBase: {
     borderRadius: `${tokens.borderRadiusMedium} ${tokens.borderRadiusLarge} 0 0`,
     marginRight: tokens.spacingHorizontalXS,
@@ -300,45 +299,45 @@ export const appStyles = makeStyles({
     marginTop: '0',
     paddingTop: tokens.spacingVerticalXS,
     paddingRight: tokens.spacingHorizontalSNudge,
-    paddingBottom: tokens.spacingVerticalXS,
+    paddingBottom: tokens.spacingVerticalS,
     paddingLeft: tokens.spacingHorizontalSNudge,
     color: tokens.colorBrandForeground1,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandStroke2}`,
     borderBottom: 'none',
     boxShadow: tokens.shadow16,
     zIndex: 2,
-    transform: 'translateY(0)', // Remove vertical movement
+    transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore elevated appearance
   },
   
   tabUnselected: {
     backgroundColor: tokens.colorNeutralBackground3,
-    marginTop: '0',
-    paddingTop: tokens.spacingVerticalXS,
+    marginTop: tokens.spacingVerticalXXS,
+    paddingTop: tokens.spacingVerticalXXS,
     paddingRight: tokens.spacingHorizontalXS,
-    paddingBottom: tokens.spacingVerticalXS,
+    paddingBottom: tokens.spacingVerticalXXS,
     paddingLeft: tokens.spacingHorizontalXS,
     color: tokens.colorNeutralForeground2,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
     borderBottom: 'none',
     boxShadow: tokens.shadow2,
     zIndex: 1,
-    transform: 'translateY(0)', // Same as selected tab
+    transform: 'translateY(0)',
     
     '&:hover': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXS,
+      paddingTop: tokens.spacingVerticalXXS,
       paddingRight: tokens.spacingHorizontalXS,
       paddingBottom: tokens.spacingVerticalXS,
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: 'translateY(0)', // No vertical movement
+      transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore hover elevation
     },
     '&:focus': {
       marginTop: '0',
-      paddingTop: tokens.spacingVerticalXS,
+      paddingTop: tokens.spacingVerticalXXS,
       paddingRight: tokens.spacingHorizontalXS,
       paddingBottom: tokens.spacingVerticalXS,
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: 'translateY(0)', // No vertical movement
-    },
+      transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore focus elevation
+    }
   },
 });
