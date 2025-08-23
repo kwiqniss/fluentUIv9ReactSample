@@ -17,40 +17,51 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
+      - name: Debug - Basic Info
+        run: |
+          echo "=== BASIC DEBUG INFO ==="
+          echo "Workflow started successfully"
+          echo "Runner OS: $(uname -a)"
+          echo "Date: $(date)"
+          echo "=== END BASIC DEBUG ==="
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
-      - name: Debug - Environment Info
+      - name: Debug - After Checkout
         run: |
-          echo "Branch: ${{ github.ref }}"
-          echo "Event: ${{ github.event_name }}"
+          echo "=== POST-CHECKOUT DEBUG ==="
           echo "Working directory: $(pwd)"
+          echo "Directory contents:"
           ls -la
-      - name: Debug - Check Node and NPM
+          echo "Package.json exists: $(test -f package.json && echo 'YES' || echo 'NO')"
+          echo "=== END POST-CHECKOUT DEBUG ==="
+      - name: Debug - Check Secret Length
         run: |
-          node --version
-          npm --version
-      - name: Install Dependencies
-        run: npm install
-      - name: Build Project
-        run: npm run build
-      - name: Debug - Check Build Output
-        run: |
-          echo "Checking dist directory:"
-          ls -la dist/ || echo "dist directory not found"
-      - name: Build And Deploy
+          echo "=== SECRET DEBUG ==="
+          SECRET_LENGTH=${#AZURE_TOKEN}
+          echo "Secret length: $SECRET_LENGTH characters"
+          if [ $SECRET_LENGTH -eq 0 ]; then
+            echo "❌ SECRET IS EMPTY!"
+            exit 1
+          elif [ $SECRET_LENGTH -lt 100 ]; then
+            echo "⚠️  SECRET SEEMS TOO SHORT (possible issue)"
+          else
+            echo "✅ Secret has reasonable length"
+          fi
+          echo "=== END SECRET DEBUG ==="
+        env:
+          AZURE_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS_WATER_01EB75C0F }}
+      - name: Simple Azure Deploy Test
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS_WATER_01EB75C0F }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
-          output_location: "dist" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+          app_location: "/"
+          output_location: "dist"
+          skip_build: false
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
