@@ -17,51 +17,23 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - name: Debug - Basic Info
-        run: |
-          echo "=== BASIC DEBUG INFO ==="
-          echo "Workflow started successfully"
-          echo "Runner OS: $(uname -a)"
-          echo "Date: $(date)"
-          echo "=== END BASIC DEBUG ==="
       - uses: actions/checkout@v3
         with:
           submodules: true
           lfs: false
-      - name: Debug - After Checkout
-        run: |
-          echo "=== POST-CHECKOUT DEBUG ==="
-          echo "Working directory: $(pwd)"
-          echo "Directory contents:"
-          ls -la
-          echo "Package.json exists: $(test -f package.json && echo 'YES' || echo 'NO')"
-          echo "=== END POST-CHECKOUT DEBUG ==="
-      - name: Debug - Check Secret Length
-        run: |
-          echo "=== SECRET DEBUG ==="
-          SECRET_LENGTH=${#AZURE_TOKEN}
-          echo "Secret length: $SECRET_LENGTH characters"
-          if [ $SECRET_LENGTH -eq 0 ]; then
-            echo "❌ SECRET IS EMPTY!"
-            exit 1
-          elif [ $SECRET_LENGTH -lt 100 ]; then
-            echo "⚠️  SECRET SEEMS TOO SHORT (possible issue)"
-          else
-            echo "✅ Secret has reasonable length"
-          fi
-          echo "=== END SECRET DEBUG ==="
-        env:
-          AZURE_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS_WATER_01EB75C0F }}
-      - name: Simple Azure Deploy Test
+      - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS_WATER_01EB75C0F }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          app_location: "/"
-          output_location: "dist"
-          skip_build: false
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: "/" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "dist" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
