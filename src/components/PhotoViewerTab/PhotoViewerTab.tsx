@@ -315,6 +315,56 @@ const STOCK_PHOTOS = [
     alt: 'Majestic eagle in flight',
     width: 1200,
     height: 800,
+  },
+  
+  // Small images to showcase blurred background effect
+  {
+    id: 38,
+    src: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=300&h=200&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=267&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Tiny cute kitten (300x200) - shows blurred background',
+    width: 300,
+    height: 200,
+  },
+  {
+    id: 39,
+    src: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Small golden retriever (400x300) - shows blurred background',
+    width: 400,
+    height: 300,
+  },
+  {
+    id: 40,
+    src: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=250&h=350&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=560&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Tiny portrait of orange cat (250x350) - shows blurred background',
+    width: 250,
+    height: 350,
+  },
+  {
+    id: 41,
+    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=350&h=250&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=286&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Small autumn leaves (350x250) - shows blurred background',
+    width: 350,
+    height: 250,
+  },
+  {
+    id: 42,
+    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=300&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=240&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Small forest scene (500x300) - shows blurred background',
+    width: 500,
+    height: 300,
+  },
+  {
+    id: 43,
+    src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=300&fit=crop&auto=format',
+    thumbnailSrc: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=600&fit=crop&auto=format&q=80&fm=jpg',
+    alt: 'Tiny vertical tree (200x300) - shows blurred background',
+    width: 200,
+    height: 300,
   }
 ];
 
@@ -393,16 +443,22 @@ const PhotoViewerTab: React.FC = () => {
     const isLargeImage = (photo.width || 0) > containerWidth || (photo.height || 0) > containerHeight;
     const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
     
+    // For small images, the minimum zoom should be their natural size (1.0), not the fit scale
+    // For large images, the minimum zoom is the fit scale
+    const isNaturallySmallerThanViewport = (photo.width || 0) < containerWidth && (photo.height || 0) < containerHeight;
+    const minZoomScale = isNaturallySmallerThanViewport ? 1.0 : fitScale;
+    
+    // For small images, open at natural size (1.0); for large images, open at fit scale
+    const initialScale = isNaturallySmallerThanViewport ? 1.0 : fitScale;
+    
     // Log fit scale for debugging
-    if (photo.width > 3000 || photo.height > 2000) {
-      console.log(`${isLargeImage ? 'Large' : 'Small'} image: ${photo.width}x${photo.height}, Container: ${containerWidth}x${containerHeight}, Fit scale: ${fitScale.toFixed(3)} (${isLargeImage ? 'FILL' : 'FIT'})`);
-    }
+    console.log(`${isNaturallySmallerThanViewport ? 'Small' : 'Large'} image: ${photo.width}x${photo.height}, Container: ${containerWidth}x${containerHeight}, Initial scale: ${initialScale.toFixed(3)}, Min zoom: ${minZoomScale.toFixed(3)}`);
     
     setViewerState({
       isOpen: true,
       currentIndex: index,
-      scale: fitScale,
-      originalFitScale: fitScale, // Store the original fit scale
+      scale: initialScale, // Use natural size for small images, fit scale for large images
+      originalFitScale: minZoomScale, // Store the minimum zoom scale (natural size for small images)
       translateX: 0,
       translateY: 0,
       isDragging: false,
@@ -440,11 +496,18 @@ const PhotoViewerTab: React.FC = () => {
       const isLargeImage = (newPhoto.width || 0) > containerWidth || (newPhoto.height || 0) > containerHeight;
       const newFitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
       
+      // For small images, the minimum zoom should be their natural size (1.0), not the fit scale
+      const isNaturallySmallerThanViewport = (newPhoto.width || 0) < containerWidth && (newPhoto.height || 0) < containerHeight;
+      const minZoomScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
+      
+      // For small images, open at natural size (1.0); for large images, open at fit scale
+      const initialScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
+      
       return {
         ...prev,
         currentIndex: newIndex,
-        scale: newFitScale,
-        originalFitScale: newFitScale, // Update the original fit scale for the new photo
+        scale: initialScale, // Use natural size for small images, fit scale for large images
+        originalFitScale: minZoomScale, // Update the minimum zoom scale for the new photo
         translateX: 0,
         translateY: 0,
       };
@@ -904,6 +967,10 @@ const PhotoViewerTab: React.FC = () => {
   const fitScale = isLargeImage ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY);
   const isZoomed = viewerState.scale > fitScale;
   
+  // Check if image at natural size (1:1) would be smaller than viewport
+  // This is when we want to show the blurred background
+  const isNaturallySmallerThanViewport = (photo.width || 0) < containerWidth && (photo.height || 0) < containerHeight;
+  
   const imageStyle = {
     transform: imageTransform,
     // For large images at fit scale, don't constrain size - let them fill
@@ -1028,6 +1095,16 @@ const PhotoViewerTab: React.FC = () => {
               <ChevronRightRegular />
             </button>
 
+            {/* Background blur for small images */}
+            {isNaturallySmallerThanViewport && (
+              <div
+                className={styles.blurredBackground}
+                style={{
+                  backgroundImage: `url(${getCurrentPhoto().src})`,
+                }}
+              />
+            )}
+
             {/* Main Image */}
             <img
               ref={imageRef}
@@ -1046,7 +1123,7 @@ const PhotoViewerTab: React.FC = () => {
               <button
                 className={styles.zoomButton}
                 onClick={zoomOut}
-                disabled={viewerState.scale <= fitScale}
+                disabled={viewerState.scale <= viewerState.originalFitScale}
                 aria-label={strings.zoomOut}
                 tabIndex={0}
               >

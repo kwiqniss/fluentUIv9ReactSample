@@ -125,9 +125,26 @@ export const photoViewerStyles = makeStyles({
     touchAction: 'auto', // Allow touch actions for our custom pinch handling
   },
 
+  blurredBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    filter: 'blur(20px) brightness(0.3)',
+    opacity: 0.6,
+    zIndex: -1,
+    transform: 'scale(1.1)', // Scale up slightly to avoid blur edge artifacts
+  },
+
   viewerImage: {
     display: 'block',
     transition: `transform ${tokens.durationSlow} ${tokens.curveEasyEase}`,
+    position: 'relative',
+    zIndex: 1,
 
     '&:active': {
       cursor: 'grabbing',
