@@ -24,6 +24,13 @@ import { useMessageLogger } from '../../hooks/useMessageLogger';
 import { MessageType } from '../../types/enums';
 import { formatString } from '../../formatString';
 import photoViewerStrings from './PhotoViewerTab.resx';
+// Import our new FluentUI-style hooks
+import { 
+  useLocalStorage, 
+  useEventListener, 
+  useViewportDimensions,
+  useDisableScroll 
+} from '../../hooks';
 
 // Stock photos data with local images for reliability - 17 curated images including massive JWST
 const STOCK_PHOTOS = [
@@ -198,11 +205,11 @@ interface PhotoViewerState {
 }
 
 const PhotoViewerTab: React.FC = () => {
-  // Initialize gallery layout from localStorage, defaulting to 'grid'
-  const [galleryLayout, setGalleryLayout] = useState<'grid' | 'random'>(() => {
-    const saved = localStorage.getItem('photoViewer-galleryLayout');
-    return (saved === 'grid' || saved === 'random') ? saved : 'grid';
-  });
+  // Use our FluentUI-style localStorage hook for gallery layout
+  const [galleryLayout, setGalleryLayout] = useLocalStorage<'grid' | 'random'>('photoViewer-galleryLayout', 'grid');
+  
+  // Use our viewport dimensions hook
+  const viewportDimensions = useViewportDimensions(0.9);
   const [viewerState, setViewerState] = useState<PhotoViewerState>({
     isOpen: false,
     currentIndex: 0,
@@ -581,10 +588,12 @@ const PhotoViewerTab: React.FC = () => {
 
   // Photo viewer actions
   const openViewer = useCallback((index: number) => {
+    // Use our viewport dimensions
+    const containerWidth = viewportDimensions.width;
+    const containerHeight = viewportDimensions.height;
+    
     // Calculate fit scale for the specific photo
     const photo = STOCK_PHOTOS[index];
-    const containerWidth = window.innerWidth * 0.9;
-    const containerHeight = window.innerHeight * 0.9;
     const scaleX = containerWidth / (photo.width || 1);
     const scaleY = containerHeight / (photo.height || 1);
     
@@ -613,9 +622,10 @@ const PhotoViewerTab: React.FC = () => {
       translateY: 0,
       isDragging: false,
       showControls: false,
+      isTransitioning: false, // Add the missing property
     });
     addMessage(`Opened photo ${index + 1}: ${STOCK_PHOTOS[index].alt}`, MessageType.Info);
-  }, [addMessage]);
+  }, [addMessage, viewportDimensions]);
 
   // Handle keyboard navigation within gallery
   const handleGalleryKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -968,73 +978,9 @@ const PhotoViewerTab: React.FC = () => {
     }
   }, []);
 
-  // Effects
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  useEffect(() => {
-    if (viewerState.isOpen) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none'; // Prevent touch actions on body
-      document.body.style.userSelect = 'none'; // Prevent text selection
-      document.body.style.setProperty('-webkit-user-select', 'none'); // Safari
-      document.body.style.setProperty('-webkit-touch-callout', 'none'); // Safari touch callout
-      document.body.style.setProperty('-webkit-tap-highlight-color', 'transparent'); // Safari tap highlight
-      
-      // Add CSS to prevent zoom via style injection
-      const style = document.createElement('style');
-      style.id = 'photo-viewer-zoom-prevention';
-      style.textContent = `
-        html, body {
-          touch-action: none !important;
-          overscroll-behavior: none !important;
-          -webkit-overflow-scrolling: auto !important;
-          user-select: none !important;
-          -webkit-user-select: none !important;
-          -webkit-touch-callout: none !important;
-          -webkit-tap-highlight-color: transparent !important;
-        }
-        /* Allow touch actions on our viewer container so our custom handlers work */
-        [data-photo-viewer="true"] {
-          touch-action: auto !important;
-        }
-      `;
-      document.head.appendChild(style);
-      
-      // Focus the viewer container for accessibility
-      setTimeout(() => viewerRef.current?.focus(), 100);
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.body.style.userSelect = '';
-      document.body.style.removeProperty('-webkit-user-select');
-      document.body.style.removeProperty('-webkit-touch-callout');
-      document.body.style.removeProperty('-webkit-tap-highlight-color');
-      
-      // Remove the injected style
-      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.body.style.userSelect = '';
-      document.body.style.removeProperty('-webkit-user-select');
-      document.body.style.removeProperty('-webkit-touch-callout');
-      document.body.style.removeProperty('-webkit-tap-highlight-color');
-      
-      // Remove the injected style
-      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    };
-  }, [viewerState.isOpen]);
+  // Use our custom hooks for event listeners and body style management
+  useEventListener('keydown', handleKeyDown);
+  useDisableScroll(viewerState.isOpen);
 
   // Prevent browser zoom when modal is open
   useEffect(() => {

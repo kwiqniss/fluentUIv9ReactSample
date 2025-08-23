@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from 'react';
+import React, { useId } from 'react';
 import {
   Field,
   Caption1,
@@ -32,7 +32,7 @@ import { formatString } from '../../formatString';
 import commonStrings from '../../common.resx';
 import { useMessages } from '../../utils/messageContext';
 import selectionStrings from './SelectionTab.resx';
-import { formCache, CACHE_KEYS } from '../../utils/formCache';
+import { useLocalStorage } from '../../hooks';
 
 export interface SelectionFormData {
   comboboxValue: string;
@@ -62,41 +62,22 @@ const SelectionTab: React.FC = () => {
   const feature2CheckboxId = `feature2-checkbox-${idSuffix}`;
   const feature3CheckboxId = `feature3-checkbox-${idSuffix}`;
   
-  const getCachedData = (): SelectionFormData => {
-    const cached = formCache.get<SelectionFormData>(CACHE_KEYS.SELECTION);
-    return cached || {
-      comboboxValue: '',
-      dropdownValue: '',
-      radioValue: 'option1',
-      checkboxValues: {},
-      switchValue: false,
-      tableSelection: [],
-    };
+  const [formData, setFormData] = useLocalStorage<SelectionFormData>('selection-form', {
+    comboboxValue: '',
+    dropdownValue: '',
+    radioValue: 'option1',
+    checkboxValues: {},
+    switchValue: false,
+    tableSelection: [],
+  });
+
+  const updateField = (field: keyof SelectionFormData) => (value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const initialData = getCachedData();
-  
-  const [comboboxValue, setComboboxValue] = useState(initialData.comboboxValue);
-  const [dropdownValue, setDropdownValue] = useState(initialData.dropdownValue);
-  const [selectedRadio, setSelectedRadio] = useState(initialData.radioValue);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(initialData.checkboxValues);
-  const [switchValue, setSwitchValue] = useState(initialData.switchValue);
-  const [tableSelection, setTableSelection] = useState<string[]>(initialData.tableSelection);
-
-  useEffect(() => {
-    const formData: SelectionFormData = {
-      comboboxValue,
-      dropdownValue,
-      radioValue: selectedRadio,
-      checkboxValues: checkedItems,
-      switchValue,
-      tableSelection,
-    };
-    formCache.set(CACHE_KEYS.SELECTION, formData);
-  }, [comboboxValue, dropdownValue, selectedRadio, checkedItems, switchValue, tableSelection]);
-
   const handleCheckboxChange = (key: string, checked: boolean) => {
-    setCheckedItems(prev => ({ ...prev, [key]: checked }));
+    const newCheckboxValues = { ...formData.checkboxValues, [key]: checked };
+    updateField('checkboxValues')(newCheckboxValues);
     addMessage(`Checkbox "${key}" ${checked ? 'checked' : 'unchecked'}`);
   };
 
@@ -113,29 +94,27 @@ const SelectionTab: React.FC = () => {
   ];
 
   const handleRowSelection = (itemId: string, selected: boolean) => {
-    setTableSelection(prev => {
-      const newSelection = selected 
-        ? [...prev, itemId]
-        : prev.filter(id => id !== itemId);
-      
-      addMessage(`Row ${selected ? 'selected' : 'deselected'}: ${tableData.find(item => item.id === itemId)?.name}`);
-      return newSelection;
-    });
+    const newSelection = selected 
+      ? [...formData.tableSelection, itemId]
+      : formData.tableSelection.filter((id: string) => id !== itemId);
+    
+    updateField('tableSelection')(newSelection);
+    addMessage(`Row ${selected ? 'selected' : 'deselected'}: ${tableData.find(item => item.id === itemId)?.name}`);
   };
 
   const handleSelectAll = (selected: boolean) => {
     const newSelection = selected ? tableData.map(item => item.id) : [];
-    setTableSelection(newSelection);
+    updateField('tableSelection')(newSelection);
     addMessage(`${selected ? 'Selected all' : 'Deselected all'} table rows (${newSelection.length} items)`);
   };
 
   const clearSelection = () => {
-    setTableSelection([]);
+    updateField('tableSelection')([]);
     addMessage('Cleared table selection');
   };
 
-  const isAllSelected = tableSelection.length === tableData.length;
-  const isIndeterminate = tableSelection.length > 0 && tableSelection.length < tableData.length;
+  const isAllSelected = formData.tableSelection.length === tableData.length;
+  const isIndeterminate = formData.tableSelection.length > 0 && formData.tableSelection.length < tableData.length;
 
   return (
     <div className={styles.tabContainer}>
@@ -147,10 +126,10 @@ const SelectionTab: React.FC = () => {
       <div className={styles.formGrid}>
         <Field label={strings.combobox} className={styles.field}>
           <Combobox
-            value={comboboxValue}
+            value={formData.comboboxValue}
             placeholder={strings.comboboxPlaceholder}
             onOptionSelect={(e, data) => {
-              setComboboxValue(data.optionText || '');
+              updateField('comboboxValue')(data.optionText || '');
               addMessage(`Combobox selected: ${data.optionText}`);
             }}
             onOpenChange={(e, data) => addMessage(`Combobox ${data.open ? 'opened' : 'closed'}`)}
@@ -165,10 +144,10 @@ const SelectionTab: React.FC = () => {
 
         <Field label={strings.dropdown} className={styles.field}>
           <Dropdown
-            value={dropdownValue}
+            value={formData.dropdownValue}
             placeholder={strings.dropdownPlaceholder}
             onOptionSelect={(e, data) => {
-              setDropdownValue(data.optionText || '');
+              updateField('dropdownValue')(data.optionText || '');
               addMessage(`Dropdown selected: ${data.optionText}`);
             }}
             onOpenChange={(e, data) => addMessage(`Dropdown ${data.open ? 'opened' : 'closed'}`)}
@@ -183,9 +162,9 @@ const SelectionTab: React.FC = () => {
 
         <Field label={strings.radioGroup} className={styles.field}>
           <RadioGroup
-            value={selectedRadio}
+            value={formData.radioValue}
             onChange={(e, data) => {
-              setSelectedRadio(data.value);
+              updateField('radioValue')(data.value);
               addMessage(`Radio button selected: ${data.value}`);
             }}
           >
@@ -199,19 +178,19 @@ const SelectionTab: React.FC = () => {
           <div>
             <Checkbox
               id={feature1CheckboxId}
-              checked={checkedItems.feature1 || false}
+              checked={formData.checkboxValues.feature1 || false}
               onChange={(e, data) => handleCheckboxChange('feature1', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[0]}
             />
             <Checkbox
               id={feature2CheckboxId}
-              checked={checkedItems.feature2 || false}
+              checked={formData.checkboxValues.feature2 || false}
               onChange={(e, data) => handleCheckboxChange('feature2', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[1]}
             />
             <Checkbox
               id={feature3CheckboxId}
-              checked={checkedItems.feature3 || false}
+              checked={formData.checkboxValues.feature3 || false}
               onChange={(e, data) => handleCheckboxChange('feature3', data.checked === true)}
               label={strings.checkboxOptions.split(",").map(c => c.trim())[2]}
             />
@@ -220,12 +199,12 @@ const SelectionTab: React.FC = () => {
 
         <Field label={strings.switchControl} className={styles.field}>
           <Switch
-            checked={switchValue}
+            checked={formData.switchValue}
             onChange={(e, data) => {
-              setSwitchValue(data.checked);
+              updateField('switchValue')(data.checked);
               addMessage(`Switch ${data.checked ? 'turned on' : 'turned off'}`);
             }}
-            label={switchValue ? strings.enabled : strings.disabled}
+            label={formData.switchValue ? strings.enabled : strings.disabled}
           />
         </Field>
       </div>
@@ -234,11 +213,11 @@ const SelectionTab: React.FC = () => {
       <div className={styles.sectionContainer}>
         <Title3 as="h3" className={styles.h3Heading}>Multiselect Table</Title3>
         
-        {tableSelection.length > 0 && (
+        {formData.tableSelection.length > 0 && (
           <div className={styles.componentItem}>
-            <Text>Selected items: {tableSelection.length} of {tableData.length}</Text>
+            <Text>Selected items: {formData.tableSelection.length} of {tableData.length}</Text>
             <Text size={200}>
-              {tableSelection.map(id => tableData.find(item => item.id === id)?.name).join(', ')}
+              {formData.tableSelection.map((id: string) => tableData.find(item => item.id === id)?.name).join(', ')}
             </Text>
           </div>
         )}
@@ -261,7 +240,7 @@ const SelectionTab: React.FC = () => {
           </TableHeader>
           <TableBody>
             {tableData.map((item) => {
-              const isSelected = tableSelection.includes(item.id);
+              const isSelected = formData.tableSelection.includes(item.id);
               return (
                 <TableRow 
                   key={item.id}
@@ -313,16 +292,16 @@ const SelectionTab: React.FC = () => {
           <Button 
             appearance="secondary"
             onClick={clearSelection}
-            disabled={tableSelection.length === 0}
+            disabled={formData.tableSelection.length === 0}
           >
             Clear Selection
           </Button>
           <Button
             appearance="primary"
-            onClick={() => addMessage(`Action performed on ${tableSelection.length} selected items`)}
-            disabled={tableSelection.length === 0}
+            onClick={() => addMessage(`Action performed on ${formData.tableSelection.length} selected items`)}
+            disabled={formData.tableSelection.length === 0}
           >
-            Process Selected ({tableSelection.length})
+            Process Selected ({formData.tableSelection.length})
           </Button>
         </div>
       </div>

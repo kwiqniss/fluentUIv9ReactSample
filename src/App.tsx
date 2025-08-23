@@ -35,6 +35,13 @@ import {
   useScrollbarWidth,
   tokens,
 } from '@fluentui/react-components';
+// Import our new FluentUI-style hooks
+import { 
+  useLocalStorage, 
+  useEventListener, 
+  useWindowResize,
+  useThemeBodyBackground 
+} from './hooks';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
 import SelectionTab from './components/SelectionTab/SelectionTab';
@@ -53,10 +60,23 @@ const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const [isMessageLoggingEnabled, setIsMessageLoggingEnabled] = useState<boolean>(() => {
-    const saved = localStorage.getItem('fluentui-demo-messaging-enabled');
-    return saved !== null ? JSON.parse(saved) : true;
-  });
+  // Use our FluentUI-style localStorage hook for theme management
+  const [selectedTheme, setSelectedTheme] = useLocalStorage<keyof typeof themes>(
+    'fluentui-demo-theme',
+    'web-light'
+  );
+  
+  // Use our FluentUI-style localStorage hook for messaging preference
+  const [isMessageLoggingEnabled, setIsMessageLoggingEnabled] = useLocalStorage<boolean>(
+    'fluentui-demo-messaging-enabled',
+    true
+  );
+  
+  // Use our FluentUI-style localStorage hook for log level
+  const [logLevel, setLogLevel] = useLocalStorage<LogLevel>(
+    'fluentui-demo-log-level',
+    LogLevel.Verbose
+  );
   
   const [isTabsSticky, setIsTabsSticky] = useState(false);
   const [tabsHeight, setTabsHeight] = useState(0);
@@ -140,16 +160,6 @@ const App: React.FC = () => {
     'teams-high-contrast': { name: 'High Contrast', theme: teamsHighContrastTheme },
   };
 
-  const [selectedTheme, setSelectedTheme] = useState<keyof typeof themes>(() => {
-    const savedTheme = localStorage.getItem('fluentui-demo-theme') as keyof typeof themes;
-    return (savedTheme && savedTheme in themes) ? savedTheme : 'web-light';
-  });
-
-  const [logLevel, setLogLevel] = useState<LogLevel>(() => {
-    const savedLogLevel = localStorage.getItem('fluentui-demo-log-level') as LogLevel;
-    return (savedLogLevel && Object.values(LogLevel).includes(savedLogLevel)) ? savedLogLevel : LogLevel.Verbose;
-  });
-
   // Calculate layout adjustments based on footer presence
   const isFooterVisible = logLevel !== LogLevel.None;
   
@@ -157,16 +167,8 @@ const App: React.FC = () => {
   // Footer needs more than 4rem - increase to ~8rem for full visibility
   const mainContainerMinHeight = isFooterVisible ? 'calc(100vh - 8rem)' : '100vh';
 
-  useEffect(() => {
-    localStorage.setItem('fluentui-demo-theme', selectedTheme);
-    
-    // Set body background color to match theme
-    document.body.style.backgroundColor = themes[selectedTheme].theme.colorNeutralBackground1;
-  }, [selectedTheme]);
-
-  useEffect(() => {
-    localStorage.setItem('fluentui-demo-log-level', logLevel);
-  }, [logLevel]);
+  // Use our custom hook for theme-based body background
+  useThemeBodyBackground(themes[selectedTheme].theme.colorNeutralBackground1);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
