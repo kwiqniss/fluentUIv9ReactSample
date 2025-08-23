@@ -245,10 +245,14 @@ const App: React.FC = () => {
         const tabContentTop = tabContentRef.current.offsetTop;
         const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Only scroll if we're scrolled past the tab content
-        if (currentScrollTop > tabContentTop) {
+        // Add some padding above the tab content to ensure the h2 title is fully visible
+        const paddingAbove = 40; // Add 40px padding above the tab content for better visibility
+        const targetScrollTop = Math.max(0, tabContentTop - paddingAbove);
+        
+        // Only scroll if we're scrolled past the target position
+        if (currentScrollTop > targetScrollTop) {
           window.scrollTo({
-            top: tabContentTop,
+            top: targetScrollTop,
             behavior: 'smooth'
           });
         }
