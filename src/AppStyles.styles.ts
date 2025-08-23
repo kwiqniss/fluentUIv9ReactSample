@@ -21,7 +21,7 @@ export const appStyles = makeStyles({
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    minHeight: 'var(--container-min-height, 100vh)',
   },
   
   h1Heading: {
@@ -375,7 +375,6 @@ export const appStyles = makeStyles({
   tabContentContainer: {
     flex: '1',
     minHeight: 0, // Allow flex child to shrink below content size
-    height: '100%', // Take full height of parent
     overflowY: 'auto',
     // Reset scroll position when content changes
     scrollBehavior: 'smooth',

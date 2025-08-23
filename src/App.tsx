@@ -148,6 +148,16 @@ const App: React.FC = () => {
     return (savedLogLevel && Object.values(LogLevel).includes(savedLogLevel)) ? savedLogLevel : LogLevel.Verbose;
   });
 
+  // Calculate layout adjustments based on footer presence
+  const isFooterVisible = logLevel !== LogLevel.None;
+  
+  // When footer is visible, reserve appropriate space for it:
+  // - Messages container: 3-10rem (~48px-160px)
+  // - Padding and borders: ~2rem (~32px)  
+  // - Safety margin: ~1rem (~16px)
+  // Total: ~13rem (~208px) should be sufficient for most cases
+  const containerMinHeight = isFooterVisible ? 'calc(100vh - 13rem)' : '100vh';
+
   useEffect(() => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
   }, [selectedTheme]);
@@ -292,7 +302,10 @@ const App: React.FC = () => {
   return (
     <FluentProvider theme={themes[selectedTheme].theme}>
       <MessageManager logLevel={logLevel}>
-        <div className={styles.mainContainer}>
+        <div 
+          className={styles.mainContainer}
+          style={{ '--container-min-height': containerMinHeight } as React.CSSProperties}
+        >
           <div className={styles.header}>
             <div className={styles.titleSection}>
               <Title1 as="h1" className={styles.h1Heading}>{strings.title}</Title1>
