@@ -6,7 +6,7 @@
   </data>
   <data name="subtitle" xml:space="preserve">
     <!-- Application subtitle providing context about the demo -->
-    <value>Explore various input controls with interactive feedback</value>
+    <value>Explore various accessible input controls with interactive feedback. A work in progress</value>
   </data>
   <data name="themeSelector" xml:space="preserve">
     <!-- Label for theme selection dropdown -->

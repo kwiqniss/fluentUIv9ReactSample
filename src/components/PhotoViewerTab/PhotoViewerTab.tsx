@@ -1091,10 +1091,10 @@ const PhotoViewerTab: React.FC = () => {
       {/* Photo Viewer Modal */}
       {viewerState.isOpen && (
         <Portal>
-          <div 
+        <div 
             className={styles.viewerOverlay}
             onClick={(e) => {
-              if (e.target === e.currentTarget) closeViewer();
+                if (e.target === e.currentTarget) closeViewer();
             }}
             onMouseMove={handleControlsVisibility}
             onMouseLeave={handleMouseLeave}
@@ -1103,7 +1103,7 @@ const PhotoViewerTab: React.FC = () => {
             aria-labelledby="viewer-title"
             aria-describedby="viewer-instructions"
             {...restoreFocusTargetAttribute}
-          >
+        >
           <div 
             ref={viewerRef}
             className={styles.viewerContainer}
