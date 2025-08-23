@@ -591,11 +591,9 @@ const PhotoViewerTab: React.FC = () => {
     }
   }, []);
 
-  // Touch event handlers for pinch-to-zoom
+  // Touch event handlers for pinch-to-zoom using React events
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    // Prevent default touch behaviors (like browser zoom)
-    e.preventDefault();
-    e.stopPropagation();
+    console.log('React touch start:', e.touches.length, 'touches');
     
     if (e.touches.length === 2) {
       // Two fingers - start pinch gesture
@@ -608,14 +606,12 @@ const PhotoViewerTab: React.FC = () => {
         initialScale: viewerState.scale,
         touches: [touch1, touch2],
       };
+      
+      console.log('React pinch start - distance:', distance, 'scale:', viewerState.scale);
     }
   }, [viewerState.scale]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    // Prevent default touch behaviors (like browser zoom)
-    e.preventDefault();
-    e.stopPropagation();
-    
     if (e.touches.length === 2 && touchStateRef.current) {
       // Two fingers - handle pinch gesture
       const touch1 = e.touches[0];
@@ -625,6 +621,8 @@ const PhotoViewerTab: React.FC = () => {
       if (touchStateRef.current.initialDistance > 0) {
         const scaleChange = currentDistance / touchStateRef.current.initialDistance;
         const newScale = touchStateRef.current.initialScale * scaleChange;
+        
+        console.log('React pinch move - distance:', currentDistance, 'scale change:', scaleChange, 'new scale:', newScale);
         
         // Apply scale limits (same as wheel zoom)
         const photo = getCurrentPhoto();
@@ -651,9 +649,7 @@ const PhotoViewerTab: React.FC = () => {
   }, []);
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // Prevent default touch behaviors
-    e.preventDefault();
-    e.stopPropagation();
+    console.log('React touch end:', e.touches.length, 'touches remaining');
     
     if (e.touches.length < 2) {
       // End pinch gesture
@@ -671,16 +667,61 @@ const PhotoViewerTab: React.FC = () => {
     if (viewerState.isOpen) {
       document.body.style.overflow = 'hidden';
       document.body.style.touchAction = 'none'; // Prevent touch actions on body
+      document.body.style.userSelect = 'none'; // Prevent text selection
+      document.body.style.setProperty('-webkit-user-select', 'none'); // Safari
+      document.body.style.setProperty('-webkit-touch-callout', 'none'); // Safari touch callout
+      document.body.style.setProperty('-webkit-tap-highlight-color', 'transparent'); // Safari tap highlight
+      
+      // Add CSS to prevent zoom via style injection
+      const style = document.createElement('style');
+      style.id = 'photo-viewer-zoom-prevention';
+      style.textContent = `
+        html, body {
+          touch-action: none !important;
+          overscroll-behavior: none !important;
+          -webkit-overflow-scrolling: auto !important;
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -webkit-touch-callout: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+        }
+        /* Allow touch actions on our viewer container so our custom handlers work */
+        [data-photo-viewer="true"] {
+          touch-action: auto !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
       // Focus the viewer container for accessibility
       setTimeout(() => viewerRef.current?.focus(), 100);
     } else {
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
+      document.body.style.userSelect = '';
+      document.body.style.removeProperty('-webkit-user-select');
+      document.body.style.removeProperty('-webkit-touch-callout');
+      document.body.style.removeProperty('-webkit-tap-highlight-color');
+      
+      // Remove the injected style
+      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
     }
 
     return () => {
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
+      document.body.style.userSelect = '';
+      document.body.style.removeProperty('-webkit-user-select');
+      document.body.style.removeProperty('-webkit-touch-callout');
+      document.body.style.removeProperty('-webkit-tap-highlight-color');
+      
+      // Remove the injected style
+      const existingStyle = document.getElementById('photo-viewer-zoom-prevention');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
     };
   }, [viewerState.isOpen]);
 
@@ -692,36 +733,107 @@ const PhotoViewerTab: React.FC = () => {
     const viewportMeta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
     const originalContent = viewportMeta?.content || '';
     if (viewportMeta) {
-      viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+      viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover';
     }
 
-    const preventZoom = (e: TouchEvent) => {
+    // Add native event listeners to the viewer container for more aggressive prevention
+    const viewerElement = viewerRef.current;
+    
+    // Remove the aggressive prevention - we'll handle it differently
+    const preventAllTouch = (e: TouchEvent) => {
+      // Only prevent browser zoom behavior, not our custom handling
       if (e.touches.length > 1) {
+        console.log('Preventing browser zoom on viewer element');
+        // Prevent browser zoom but don't stop our custom logic
         e.preventDefault();
       }
     };
 
-    const preventGestureStart = (e: Event) => {
+    const preventAllGesture = (e: Event) => {
+      console.log('Preventing native gesture event:', e.type);
       e.preventDefault();
+    };
+
+    const preventZoomWheel = (e: WheelEvent) => {
+      console.log('Preventing wheel zoom on viewer');
+      e.preventDefault();
+    };
+
+    if (viewerElement) {
+      // Add native event listeners directly to the viewer element
+      viewerElement.addEventListener('touchstart', preventAllTouch, { passive: false });
+      viewerElement.addEventListener('touchmove', preventAllTouch, { passive: false });
+      viewerElement.addEventListener('touchend', preventAllTouch, { passive: false });
+      viewerElement.addEventListener('wheel', preventZoomWheel, { passive: false });
+      viewerElement.addEventListener('gesturestart', preventAllGesture, { passive: false });
+      viewerElement.addEventListener('gesturechange', preventAllGesture, { passive: false });
+      viewerElement.addEventListener('gestureend', preventAllGesture, { passive: false });
+    }
+
+    const preventZoom = (e: TouchEvent) => {
+      // Only prevent if the touch is NOT on our viewer container
+      if (e.touches.length > 1 && viewerElement && !viewerElement.contains(e.target as Node)) {
+        console.log('Preventing multi-touch event outside viewer:', e.type);
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const preventWheel = (e: WheelEvent) => {
+      // Only prevent zoom wheel events outside our viewer
+      if ((e.ctrlKey || e.metaKey) && viewerElement && !viewerElement.contains(e.target as Node)) {
+        console.log('Preventing zoom wheel event outside viewer');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+    };
+
+    const preventGestureStart = (e: Event) => {
+      // Only prevent gestures outside our viewer
+      if (viewerElement && !viewerElement.contains(e.target as Node)) {
+        console.log('Preventing gesture start outside viewer');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
     };
 
     const preventGestureChange = (e: Event) => {
-      e.preventDefault();
+      // Only prevent gestures outside our viewer
+      if (viewerElement && !viewerElement.contains(e.target as Node)) {
+        console.log('Preventing gesture change outside viewer');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
     };
 
     const preventGestureEnd = (e: Event) => {
-      e.preventDefault();
+      // Only prevent gestures outside our viewer
+      if (viewerElement && !viewerElement.contains(e.target as Node)) {
+        console.log('Preventing gesture end outside viewer');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
     };
 
-    // Add global touch event listeners to prevent browser zoom
-    document.addEventListener('touchstart', preventZoom, { passive: false });
-    document.addEventListener('touchmove', preventZoom, { passive: false });
-    document.addEventListener('touchend', preventZoom, { passive: false });
+    // Add event listeners but only prevent events outside our viewer
+    document.addEventListener('touchstart', preventZoom, { passive: false, capture: true });
+    document.addEventListener('touchmove', preventZoom, { passive: false, capture: true });
+    document.addEventListener('touchend', preventZoom, { passive: false, capture: true });
+    document.addEventListener('wheel', preventWheel, { passive: false, capture: true });
     
     // Add gesture event listeners for Safari/Webkit browsers
-    document.addEventListener('gesturestart', preventGestureStart, { passive: false });
-    document.addEventListener('gesturechange', preventGestureChange, { passive: false });
-    document.addEventListener('gestureend', preventGestureEnd, { passive: false });
+    document.addEventListener('gesturestart', preventGestureStart, { passive: false, capture: true });
+    document.addEventListener('gesturechange', preventGestureChange, { passive: false, capture: true });
+    document.addEventListener('gestureend', preventGestureEnd, { passive: false, capture: true });
+
+    // Also disable touch actions via CSS on html/body but not on viewer
+    document.documentElement.style.touchAction = 'none';
+    document.body.style.touchAction = 'none';
 
     return () => {
       // Restore original viewport meta tag
@@ -729,13 +841,29 @@ const PhotoViewerTab: React.FC = () => {
         viewportMeta.content = originalContent;
       }
       
-      // Cleanup event listeners
-      document.removeEventListener('touchstart', preventZoom);
-      document.removeEventListener('touchmove', preventZoom);
-      document.removeEventListener('touchend', preventZoom);
-      document.removeEventListener('gesturestart', preventGestureStart);
-      document.removeEventListener('gesturechange', preventGestureChange);
-      document.removeEventListener('gestureend', preventGestureEnd);
+      // Restore touch actions
+      document.documentElement.style.touchAction = '';
+      document.body.style.touchAction = '';
+
+      // Remove native event listeners from viewer element
+      if (viewerElement) {
+        viewerElement.removeEventListener('touchstart', preventAllTouch);
+        viewerElement.removeEventListener('touchmove', preventAllTouch);
+        viewerElement.removeEventListener('touchend', preventAllTouch);
+        viewerElement.removeEventListener('wheel', preventZoomWheel);
+        viewerElement.removeEventListener('gesturestart', preventAllGesture);
+        viewerElement.removeEventListener('gesturechange', preventAllGesture);
+        viewerElement.removeEventListener('gestureend', preventAllGesture);
+      }
+      
+      // Cleanup document event listeners
+      document.removeEventListener('touchstart', preventZoom, { capture: true } as any);
+      document.removeEventListener('touchmove', preventZoom, { capture: true } as any);
+      document.removeEventListener('touchend', preventZoom, { capture: true } as any);
+      document.removeEventListener('wheel', preventWheel, { capture: true } as any);
+      document.removeEventListener('gesturestart', preventGestureStart, { capture: true } as any);
+      document.removeEventListener('gesturechange', preventGestureChange, { capture: true } as any);
+      document.removeEventListener('gestureend', preventGestureEnd, { capture: true } as any);
     };
   }, [viewerState.isOpen]);
 
@@ -815,18 +943,6 @@ const PhotoViewerTab: React.FC = () => {
           }}
           onMouseMove={handleControlsVisibility}
           onMouseLeave={handleMouseLeave}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onTouchMove={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="viewer-title"
@@ -836,6 +952,7 @@ const PhotoViewerTab: React.FC = () => {
             ref={viewerRef}
             className={styles.viewerContainer}
             tabIndex={-1}
+            data-photo-viewer="true"
             onWheel={handleWheel}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}

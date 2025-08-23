@@ -122,7 +122,7 @@ export const photoViewerStyles = makeStyles({
     height: '100%',
     maxWidth: SIZES.maxImageWidth,
     maxHeight: SIZES.maxImageHeight,
-    touchAction: 'none', // Prevent default touch behaviors like pinch-to-zoom
+    touchAction: 'auto', // Allow touch actions for our custom pinch handling
   },
 
   viewerImage: {
