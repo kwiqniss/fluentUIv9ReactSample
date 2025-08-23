@@ -136,4 +136,28 @@
     <!-- Submit button text for contact form -->
     <value>Submit Contact</value>
   </data>
+  <data name="popupNamePlaceholder" xml:space="preserve">
+    <!-- Placeholder text for popup name input -->
+    <value>Enter your name</value>
+  </data>
+  <data name="popupEmailPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for popup email input -->
+    <value>Enter your email</value>
+  </data>
+  <data name="popupMessagePlaceholder" xml:space="preserve">
+    <!-- Placeholder text for popup message input -->
+    <value>Enter your message (optional)</value>
+  </data>
+  <data name="customMessagePlaceholder" xml:space="preserve">
+    <!-- Placeholder text for custom message input -->
+    <value>Enter your custom message here...</value>
+  </data>
+  <data name="openContactForm" xml:space="preserve">
+    <!-- Button text to open contact form popup -->
+    <value>Open Contact Form</value>
+  </data>
+  <data name="contactInformationTitle" xml:space="preserve">
+    <!-- Title for contact information popup form -->
+    <value>Contact Information</value>
+  </data>
 </root>

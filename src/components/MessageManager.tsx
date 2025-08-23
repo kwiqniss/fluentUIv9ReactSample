@@ -4,6 +4,8 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 import { MessageContext, Message, MessageContextType } from '../utils/messageContext';
 import { MessageType, LogLevel } from '../types/enums';
 import { shouldLogMessage } from '../utils/logLevel';
+import { formatString } from '../formatString';
+import commonStrings from '../common.resx';
 import {
   CheckmarkCircleRegular,
   InfoRegular,
@@ -169,7 +171,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
     switch (messageType) {
       case MessageType.Success:
         return (
-          <Tooltip content="Success message" relationship="label">
+          <Tooltip content={commonStrings.successMessageTooltip} relationship="label">
             <CheckmarkCircleRegular 
               style={{ ...iconStyle, color: tokens.colorPaletteGreenBorder2 }} 
             />
@@ -177,7 +179,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
         );
       case MessageType.Error:
         return (
-          <Tooltip content="Error message" relationship="label">
+          <Tooltip content={commonStrings.errorMessageTooltip} relationship="label">
             <ErrorCircleRegular 
               style={{ ...iconStyle, color: tokens.colorPaletteRedBorder2 }} 
             />
@@ -185,7 +187,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
         );
       case MessageType.Warning:
         return (
-          <Tooltip content="Warning message" relationship="label">
+          <Tooltip content={commonStrings.warningMessageTooltip} relationship="label">
             <WarningRegular 
               style={{ ...iconStyle, color: tokens.colorPaletteYellowBorder2 }} 
             />
@@ -194,7 +196,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
       case MessageType.Info:
       default:
         return (
-          <Tooltip content="Information message" relationship="label">
+          <Tooltip content={commonStrings.infoMessageTooltip} relationship="label">
             <InfoRegular 
               style={{ ...iconStyle, color: tokens.colorNeutralForeground2 }} 
             />
@@ -207,14 +209,14 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.messagesHeader}>
-          <Text weight="semibold">Messages</Text>
+          <Text weight="semibold">{commonStrings.messages}</Text>
           {messages.length > 0 && (
             <Button 
               appearance="subtle" 
               size="small" 
               onClick={clearMessages}
             >
-              Clear
+              {commonStrings.clear}
             </Button>
           )}
         </div>
@@ -222,7 +224,7 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
         <div ref={messagesContainerRef} className={styles.messagesContainer}>
           {messages.length === 0 ? (
             <div className={styles.emptyMessage}>
-              No messages yet. Interact with the form controls above to see messages here.
+              {commonStrings.noMessagesYet}
             </div>
           ) : (
             messages.map((message) => (

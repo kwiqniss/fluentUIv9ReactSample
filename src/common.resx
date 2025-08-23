@@ -40,4 +40,40 @@
     <!-- Label suffix or status indicating a field is optional -->
     <value>Optional</value>
   </data>
+  <data name="clear" xml:space="preserve">
+    <!-- Generic clear button text for clearing content -->
+    <value>Clear</value>
+  </data>
+  <data name="messages" xml:space="preserve">
+    <!-- Header text for messages section -->
+    <value>Messages</value>
+  </data>
+  <data name="noMessagesYet" xml:space="preserve">
+    <!-- Empty state message when no messages are present -->
+    <value>No messages yet. Interact with the form controls above to see messages here.</value>
+  </data>
+  <data name="successMessageTooltip" xml:space="preserve">
+    <!-- Tooltip text for success message icons -->
+    <value>Success message</value>
+  </data>
+  <data name="errorMessageTooltip" xml:space="preserve">
+    <!-- Tooltip text for error message icons -->
+    <value>Error message</value>
+  </data>
+  <data name="warningMessageTooltip" xml:space="preserve">
+    <!-- Tooltip text for warning message icons -->
+    <value>Warning message</value>
+  </data>
+  <data name="infoMessageTooltip" xml:space="preserve">
+    <!-- Tooltip text for info message icons -->
+    <value>Information message</value>
+  </data>
+  <data name="selectAllRowsAriaLabel" xml:space="preserve">
+    <!-- Aria label for select all rows checkbox -->
+    <value>Select all rows</value>
+  </data>
+  <data name="selectRowAriaLabel" xml:space="preserve">
+    <!-- Aria label template for individual row selection - {0} will be replaced with item name -->
+    <value>Select {0}</value>
+  </data>
 </root>

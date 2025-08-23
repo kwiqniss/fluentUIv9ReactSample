@@ -239,16 +239,16 @@ const BasicInputsTab: React.FC = () => {
           >
             <PopoverTrigger disableButtonEnhancement>
               <Button appearance="outline">
-                Open Contact Form
+                {strings.openContactForm}
               </Button>
             </PopoverTrigger>
             <PopoverSurface className={styles.popupForm}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalL }}>
-                <Title3 as="h3">Contact Information</Title3>
+                <Title3 as="h3">{strings.contactInformationTitle}</Title3>
                 
                 <Field label="Name" required>
                   <Input
-                    placeholder="Enter your name"
+                    placeholder={strings.popupNamePlaceholder}
                     value={popupName}
                     onChange={(_, data) => setPopupName(data.value)}
                     onFocus={() => addMessage('Popup name field focused', MessageType.Info)}
@@ -258,7 +258,7 @@ const BasicInputsTab: React.FC = () => {
                 <Field label="Email" required>
                   <Input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={strings.popupEmailPlaceholder}
                     value={popupEmail}
                     onChange={(_, data) => setPopupEmail(data.value)}
                     onFocus={() => addMessage('Popup email field focused', MessageType.Info)}
@@ -267,7 +267,7 @@ const BasicInputsTab: React.FC = () => {
                 
                 <Field label="Message">
                   <Textarea
-                    placeholder="Enter your message (optional)"
+                    placeholder={strings.popupMessagePlaceholder}
                     value={popupMessage}
                     onChange={(_, data) => setPopupMessage(data.value)}
                     onFocus={() => addMessage('Popup message field focused', MessageType.Info)}
@@ -324,7 +324,7 @@ const BasicInputsTab: React.FC = () => {
 
           <Field label="Custom Message">
             <Input
-              placeholder="Enter your custom message here..."
+              placeholder={strings.customMessagePlaceholder}
               value={customMessage}
               onChange={(_, data) => setCustomMessage(data.value)}
               onKeyDown={(event) => {

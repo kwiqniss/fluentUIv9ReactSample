@@ -28,9 +28,10 @@ import {
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
 import { selectionTabStyles } from './SelectionTab.styles';
+import { formatString } from '../../formatString';
+import commonStrings from '../../common.resx';
 import { useMessages } from '../../utils/messageContext';
 import selectionStrings from './SelectionTab.resx';
-import commonStrings from '../../common.resx';
 import { formCache, CACHE_KEYS } from '../../utils/formCache';
 
 export interface SelectionFormData {
@@ -249,7 +250,7 @@ const SelectionTab: React.FC = () => {
                 <Checkbox
                   checked={isIndeterminate ? "mixed" : isAllSelected}
                   onChange={(_, data) => handleSelectAll(data.checked === true)}
-                  aria-label="Select all rows"
+                  aria-label={commonStrings.selectAllRowsAriaLabel}
                 />
               </TableHeaderCell>
               <TableHeaderCell>Name</TableHeaderCell>
@@ -280,7 +281,7 @@ const SelectionTab: React.FC = () => {
                     <Checkbox
                       checked={isSelected}
                       onChange={(_, data) => handleRowSelection(item.id, data.checked === true)}
-                      aria-label={`Select ${item.name}`}
+                      aria-label={formatString(commonStrings.selectRowAriaLabel, item.name)}
                     />
                   </TableCell>
                   <TableCell>

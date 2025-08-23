@@ -24,4 +24,40 @@
     <!-- Components tab label -->
     <value>Components</value>
   </data>
+  <data name="messageDemoTitle" xml:space="preserve">
+    <!-- Title for MessageManager demo section -->
+    <value>MessageManager Demo</value>
+  </data>
+  <data name="testInputLabel" xml:space="preserve">
+    <!-- Label for test input field in demo -->
+    <value>Test Input</value>
+  </data>
+  <data name="testInputPlaceholder" xml:space="preserve">
+    <!-- Placeholder text for test input in demo -->
+    <value>Type something...</value>
+  </data>
+  <data name="submitFormButton" xml:space="preserve">
+    <!-- Submit form button text in demo -->
+    <value>Submit Form</value>
+  </data>
+  <data name="logInfoButton" xml:space="preserve">
+    <!-- Log info button text in demo -->
+    <value>Log Info</value>
+  </data>
+  <data name="logSuccessButton" xml:space="preserve">
+    <!-- Log success button text in demo -->
+    <value>Log Success</value>
+  </data>
+  <data name="logWarningButton" xml:space="preserve">
+    <!-- Log warning button text in demo -->
+    <value>Log Warning</value>
+  </data>
+  <data name="logErrorButton" xml:space="preserve">
+    <!-- Log error button text in demo -->
+    <value>Log Error</value>
+  </data>
+  <data name="clearMessagesButton" xml:space="preserve">
+    <!-- Clear messages button text in demo -->
+    <value>Clear Messages</value>
+  </data>
 </root>
