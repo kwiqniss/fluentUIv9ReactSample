@@ -21,6 +21,8 @@ export const sharedLayoutStyles = makeStyles({
     width: '100%',
     maxWidth: SIZES.maxContentWidth,
     margin: '0 auto',
+    // Allow tab content to expand to fill available space
+    flex: '1',
   },
 
   headerSection: {

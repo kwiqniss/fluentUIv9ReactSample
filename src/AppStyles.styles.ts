@@ -379,5 +379,8 @@ export const appStyles = makeStyles({
     overflowY: 'auto',
     // Reset scroll position when content changes
     scrollBehavior: 'smooth',
+    // Ensure content fills available space
+    display: 'flex',
+    flexDirection: 'column',
   },
 });

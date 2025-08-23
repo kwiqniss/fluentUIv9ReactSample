@@ -151,9 +151,9 @@ const App: React.FC = () => {
   // Calculate layout adjustments based on footer presence
   const isFooterVisible = logLevel !== LogLevel.None;
   
-  // When footer is visible, use 85vh minimum to ensure screen is filled
-  // but no max height so content can grow and push footer down naturally
-  const mainContainerMinHeight = isFooterVisible ? '85vh' : '100vh';
+  // When footer is visible, leave enough space for the full footer to be visible
+  // Footer needs more than 4rem - increase to ~8rem for full visibility
+  const mainContainerMinHeight = isFooterVisible ? 'calc(100vh - 8rem)' : '100vh';
 
   useEffect(() => {
     localStorage.setItem('fluentui-demo-theme', selectedTheme);
