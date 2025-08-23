@@ -1,5 +1,14 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
+// Local constants for input sizing specific to this tab
+const SIZES = {
+  inputMaxWidth: '21.875rem', // ~350px
+  textareaMaxWidth: '28.125rem', // ~450px
+  textareaMinHeight: '5rem', // ~80px
+  customMessageMaxWidth: '25rem', // ~400px
+  popupMinWidth: '18.75rem', // ~300px
+} as const;
+
 /**
  * BasicInputsTab specific styles
  */
@@ -7,13 +16,13 @@ export const basicInputsTabStyles = makeStyles({
   // Constrain input elements specifically for this tab
   inputConstraints: {
     '& input': {
-      maxWidth: '21.875rem', // ~350px
+      maxWidth: SIZES.inputMaxWidth, // ~350px
       width: '100%',
     },
     '& textarea': {
-      maxWidth: '28.125rem', // ~450px
+      maxWidth: SIZES.textareaMaxWidth, // ~450px
       width: '100%',
-      minHeight: '5rem', // ~80px
+      minHeight: SIZES.textareaMinHeight, // ~80px
     },
   },
 
@@ -22,7 +31,7 @@ export const basicInputsTabStyles = makeStyles({
     display: 'grid',
     gridTemplateColumns: '1fr',
     gap: tokens.spacingVerticalM,
-    maxWidth: '25rem', // ~400px - narrower than the shared formGrid
+    maxWidth: SIZES.customMessageMaxWidth, // ~400px - narrower than the shared formGrid
     
     // Keep single column even on larger screens for this specific section
     '@media (min-width: 48rem)': {
@@ -36,7 +45,7 @@ export const basicInputsTabStyles = makeStyles({
     flexDirection: 'column',
     gap: tokens.spacingVerticalM,
     padding: tokens.spacingHorizontalL,
-    minWidth: '18.75rem', // ~300px
+    minWidth: SIZES.popupMinWidth, // ~300px
   },
 
   popupButtonContainer: {

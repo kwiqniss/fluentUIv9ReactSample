@@ -1,5 +1,13 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
+// Local constants for consistent sizing
+const SIZES = {
+  maxContentWidth: '75rem',
+  inputMinWidth: '17.5rem',
+  inputMaxWidth: '25rem',
+  tablet: '48rem',
+} as const;
+
 /**
  * Shared layout styles using FluentUI design tokens, percentages, and relative units
  * Simple, consistent layout patterns for all tabs
@@ -12,7 +20,7 @@ export const sharedLayoutStyles = makeStyles({
     gap: tokens.spacingVerticalXL,
     padding: tokens.spacingHorizontalL,
     width: '100%',
-    maxWidth: '75rem', // ~1200px max width
+    maxWidth: SIZES.maxContentWidth, // ~1200px max width
     margin: '0 auto',
   },
 
@@ -64,8 +72,8 @@ export const sharedLayoutStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
-    minWidth: '17.5rem', // ~280px
-    maxWidth: '25rem',   // ~400px
+    minWidth: SIZES.inputMinWidth, // ~280px
+    maxWidth: SIZES.inputMaxWidth, // ~400px
   },
 
   // Flexible button container

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Field } from '@fluentui/react-components';
+import { Button, Input, Field, tokens } from '@fluentui/react-components';
 import { useMessageLogger } from '../hooks/useMessageLogger';
 
 /**
@@ -28,7 +28,7 @@ const MessageDemo: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div style={{ padding: tokens.spacingHorizontalL, display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalL }}>
       <h3>MessageManager Demo</h3>
       
       <Field label="Test Input">
@@ -41,7 +41,7 @@ const MessageDemo: React.FC = () => {
         />
       </Field>
 
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: tokens.spacingHorizontalS, flexWrap: 'wrap' }}>
         <Button 
           appearance="primary" 
           onClick={handleSubmit}

@@ -31,6 +31,7 @@ import {
   Tab,
   Portal,
   useScrollbarWidth,
+  tokens,
 } from '@fluentui/react-components';
 import BasicInputsTab from './components/BasicInputsTab/BasicInputsTab';
 import DateTimeTab from './components/DateTimeTab/DateTimeTab';
@@ -321,7 +322,7 @@ const App: React.FC = () => {
                   size="large"
                   appearance="subtle"
                   style={{
-                    '--fui-TabList--gap': '8px'
+                    '--fui-TabList--gap': tokens.spacingHorizontalS
                   } as React.CSSProperties}
                 >
                   {allTabs.map((tab, index) => (
@@ -362,7 +363,7 @@ const App: React.FC = () => {
                       size="large"
                       appearance="subtle"
                       style={{
-                        '--fui-TabList--gap': '8px'
+                        '--fui-TabList--gap': tokens.spacingHorizontalS
                       } as React.CSSProperties}
                     >
                       {allTabs.map((tab, index) => (

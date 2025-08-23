@@ -56,7 +56,7 @@ export const dateTimeTabStyles = makeStyles({
       
       ':focus': {
         'border-color': tokens.colorBrandStroke1,
-        outline: `2px solid ${tokens.colorStrokeFocus2}`,
+        outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
       },
       
       '@media (prefers-color-scheme: dark)': {

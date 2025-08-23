@@ -11,16 +11,23 @@ import {
   ErrorCircleRegular,
 } from '@fluentui/react-icons';
 
+// Local constants for message container sizing
+const SIZES = {
+  maxContentWidth: '75rem',
+  messagesMinHeight: '3rem',
+  messagesMaxHeight: '10rem',
+} as const;
+
 const useMessageManagerStyles = makeStyles({
   footer: {
-    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+    borderTop: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
     padding: tokens.spacingVerticalM,
     paddingBottom: tokens.spacingVerticalL,
     backgroundColor: tokens.colorNeutralBackground1,
   },
   
   footerContent: {
-    maxWidth: '75rem',
+    maxWidth: SIZES.maxContentWidth,
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
@@ -38,20 +45,20 @@ const useMessageManagerStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalXS,
-    minHeight: '3rem',
-    maxHeight: '10rem',
+    minHeight: SIZES.messagesMinHeight,
+    maxHeight: SIZES.messagesMaxHeight,
     overflowY: 'auto',
     padding: tokens.spacingVerticalS,
     backgroundColor: tokens.colorNeutralBackground2,
     borderRadius: tokens.borderRadiusSmall,
-    border: `1px solid ${tokens.colorNeutralStroke2}`,
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
   },
   
   messageItem: {
     padding: `${tokens.spacingVerticalXS} ${tokens.spacingHorizontalS}`,
     borderRadius: tokens.borderRadiusSmall,
     backgroundColor: tokens.colorNeutralBackground1,
-    border: `1px solid ${tokens.colorNeutralStroke1}`,
+    border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke1}`,
     fontSize: tokens.fontSizeBase200,
     lineHeight: tokens.lineHeightBase200,
     display: 'flex',
@@ -78,17 +85,17 @@ const useMessageManagerStyles = makeStyles({
   // Subtle type indicators (optional left border accents)
   messageSuccess: {
     borderLeftColor: tokens.colorPaletteGreenBorder2,
-    borderLeftWidth: '2px',
+    borderLeftWidth: tokens.strokeWidthThick,
   },
   
   messageError: {
     borderLeftColor: tokens.colorPaletteRedBorder2,
-    borderLeftWidth: '2px',
+    borderLeftWidth: tokens.strokeWidthThick,
   },
   
   messageWarning: {
     borderLeftColor: tokens.colorPaletteYellowBorder2,
-    borderLeftWidth: '2px',
+    borderLeftWidth: tokens.strokeWidthThick,
   },
   
   messageInfo: {

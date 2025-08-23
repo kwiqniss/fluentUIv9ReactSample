@@ -1,5 +1,14 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
+// Local constants for consistent sizing
+const SIZES = {
+  inputMinWidth: '17.5rem',
+  inputMaxWidth: '25rem',
+  textareaMinHeight: '5rem',
+  buttonMinWidth: '7.5rem',
+  buttonMaxWidth: '12.5rem',
+} as const;
+
 /**
  * Minimal shared styles - trust FluentUI defaults
  * Only include essential layout that FluentUI doesn't provide
@@ -7,8 +16,8 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 export const sharedStyles = makeStyles({
   // Individual field styling
   field: {
-    minWidth: '17.5rem', // ~280px
-    maxWidth: '25rem',   // ~400px
+    minWidth: SIZES.inputMinWidth, // ~280px
+    maxWidth: SIZES.inputMaxWidth, // ~400px
     
     // Constrain input elements
     '& input, & textarea': {
@@ -16,7 +25,7 @@ export const sharedStyles = makeStyles({
     },
     
     '& textarea': {
-      minHeight: '5rem', // ~80px
+      minHeight: SIZES.textareaMinHeight, // ~80px
     },
   },
 
@@ -27,14 +36,14 @@ export const sharedStyles = makeStyles({
     },
     '& textarea': {
       width: '100%',
-      minHeight: '5rem', // ~80px
+      minHeight: SIZES.textareaMinHeight, // ~80px
     },
   },
 
   // Standard submit button
   submitButton: {
     marginTop: tokens.spacingVerticalL,
-    minWidth: '7.5rem', // ~120px
-    maxWidth: '12.5rem', // ~200px
+    minWidth: SIZES.buttonMinWidth, // ~120px
+    maxWidth: SIZES.buttonMaxWidth, // ~200px
   },
 });

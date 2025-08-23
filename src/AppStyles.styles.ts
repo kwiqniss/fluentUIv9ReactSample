@@ -20,6 +20,20 @@ export const appStyles = makeStyles({
     flexDirection: 'column',
     flex: '1', // Allow content area to grow and push footer down
   },
+  
+  // Main container for the entire app
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  
+  // H1 heading styling
+  h1Heading: {
+    margin: 0,
+    fontWeight: tokens.fontWeightSemibold,
+  },
+  
   // Responsive header layout with proper container padding
   header: {
     display: 'flex',

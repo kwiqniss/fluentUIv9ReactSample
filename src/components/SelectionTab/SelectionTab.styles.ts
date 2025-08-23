@@ -41,8 +41,8 @@ export const selectionTabStyles = makeStyles({
     
     ':focus-within': {
       backgroundColor: tokens.colorSubtleBackgroundPressed, // More distinct focus color
-      outline: `2px solid ${tokens.colorStrokeFocus2}`,
-      outlineOffset: '-2px',
+      outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
+      outlineOffset: `calc(${tokens.strokeWidthThin} * -1)`,
       
       '@media (forced-colors: active)': {
         backgroundColor: 'Highlight'
@@ -75,8 +75,8 @@ export const selectionTabStyles = makeStyles({
     
     ':focus-within': {
       backgroundColor: tokens.colorBrandBackgroundSelected, // More distinct selected focus
-      outline: `2px solid ${tokens.colorStrokeFocus2}`,
-      outlineOffset: '-2px',
+      outline: `${tokens.strokeWidthThick} solid ${tokens.colorStrokeFocus2}`,
+      outlineOffset: `calc(${tokens.strokeWidthThin} * -1)`,
       
       '@media (forced-colors: active)': {
         backgroundColor: 'Highlight',

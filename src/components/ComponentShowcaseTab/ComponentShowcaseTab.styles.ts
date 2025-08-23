@@ -3,6 +3,17 @@ import { makeStyles, tokens } from '@fluentui/react-components';
 // Re-export shared constants for backwards compatibility
 export { componentConstants as componentProps } from '../componentConstants';
 
+// Local sizing constants for ComponentShowcase
+const SIZES = {
+  componentMinWidth: '17.5rem', // ~280px
+  componentMaxWidth: '25rem',   // ~400px
+  inputMaxWidth: '13.75rem',    // ~220px
+  buttonMaxWidth: '11.25rem',   // ~180px
+  buttonMinWidth: '6.25rem',    // ~100px
+  containerMinHeight: '17.5rem', // ~280px
+  logMaxHeight: '12.5rem',      // ~200px
+} as const;
+
 /**
  * Essential ComponentShowcase styles
  */
@@ -40,8 +51,8 @@ export const componentShowcaseStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalS,
-    minWidth: '17.5rem', // ~280px
-    maxWidth: '25rem',   // ~400px
+    minWidth: SIZES.componentMinWidth, // ~280px
+    maxWidth: SIZES.componentMaxWidth, // ~400px
     
     // Ensure Field labels are above inputs
     '& .fui-Field': {
@@ -52,14 +63,14 @@ export const componentShowcaseStyles = makeStyles({
     
     // Constrain input and button widths
     '& input, & textarea, & [role="combobox"], & [role="listbox"]': {
-      maxWidth: '13.75rem', // ~220px
+      maxWidth: SIZES.inputMaxWidth, // ~220px
       width: '100%',
     },
     
     // Make buttons more compact
     '& button': {
-      maxWidth: '11.25rem', // ~180px
-      minWidth: '6.25rem',  // ~100px
+      maxWidth: SIZES.buttonMaxWidth, // ~180px
+      minWidth: SIZES.buttonMinWidth, // ~100px
     },
     
     // Flex button groups to use space efficiently
@@ -72,14 +83,14 @@ export const componentShowcaseStyles = makeStyles({
 
   // Fixed height container for loading demos to prevent layout shift
   stableContainer: {
-    minHeight: '17.5rem', // ~280px - Fixed height to accommodate card content
+    minHeight: SIZES.containerMinHeight, // ~280px - Fixed height to accommodate card content
     display: 'flex',
     flexDirection: 'column',
   },
 
   // Message log with basic styling
   messageLog: {
-    maxHeight: '12.5rem', // ~200px
+    maxHeight: SIZES.logMaxHeight, // ~200px
     overflowY: 'auto',
     marginTop: tokens.spacingVerticalL,
     padding: tokens.spacingHorizontalM,
@@ -153,7 +164,7 @@ export const componentShowcaseStyles = makeStyles({
     display: 'flex', 
     gap: tokens.spacingHorizontalS, 
     padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL}`,
-    borderTop: `1px solid ${tokens.colorNeutralStroke2}`,
+    borderTop: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
   },
 
   skeletonCardFooterButton1: {

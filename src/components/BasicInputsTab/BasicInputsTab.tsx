@@ -11,6 +11,7 @@ import {
   Title3,
   Dropdown,
   Option,
+  tokens,
 } from '@fluentui/react-components';
 import { sharedStyles } from '../../SharedStyles.styles';
 import { sharedLayoutStyles } from '../sharedLayout.styles';
@@ -242,7 +243,7 @@ const BasicInputsTab: React.FC = () => {
               </Button>
             </PopoverTrigger>
             <PopoverSurface className={styles.popupForm}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalL }}>
                 <Title3 as="h3">Contact Information</Title3>
                 
                 <Field label="Name" required>
