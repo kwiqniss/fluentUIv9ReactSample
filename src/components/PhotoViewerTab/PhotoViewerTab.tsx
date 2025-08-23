@@ -607,7 +607,7 @@ const PhotoViewerTab: React.FC = () => {
 
   const handleRandomLayout = useCallback(() => {
     updateGalleryLayout('random');
-    addMessage('Gallery layout set to Random tessellation - preference saved', MessageType.Info);
+    addMessage('Gallery layout set to Collage tessellation - preference saved', MessageType.Info);
   }, [updateGalleryLayout, addMessage]);
 
   // Photo viewer actions
@@ -1193,10 +1193,7 @@ const PhotoViewerTab: React.FC = () => {
       {/* Header Section */}
       <div className={styles.headerSection}>
         <div className={styles.headerTop}>
-          <div>
-            <Title3 className={sharedStyles.h3Heading}>{strings.title}</Title3>
-            <Caption1>{strings.description}</Caption1>
-          </div>
+          <Title3 className={sharedStyles.h3Heading}>{strings.title}</Title3>
           <div className={styles.layoutToggle}>
             <Button
               appearance={persistentState.galleryLayout === 'grid' ? 'primary' : 'secondary'}
@@ -1212,12 +1209,13 @@ const PhotoViewerTab: React.FC = () => {
               icon={<AppsRegular />}
               onClick={handleRandomLayout}
               size="small"
-              aria-label="Random size layout"
+              aria-label="Collage layout"
             >
-              Random
+              Collage
             </Button>
           </div>
         </div>
+        <Caption1>{strings.description}</Caption1>
       </div>
 
       {/* Instructions */}

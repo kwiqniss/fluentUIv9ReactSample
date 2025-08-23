@@ -82,6 +82,15 @@ export const sharedLayoutStyles = makeStyles({
     flexWrap: 'wrap',
   },
 
+  // H2 heading style
+  h2Heading: {
+    fontSize: tokens.fontSizeBase400,
+    fontWeight: tokens.fontWeightSemibold,
+    lineHeight: tokens.lineHeightBase400,
+    marginBottom: tokens.spacingVerticalS,
+    margin: 0,
+  },
+
   // H3 heading style
   h3Heading: {
     fontSize: tokens.fontSizeBase300,

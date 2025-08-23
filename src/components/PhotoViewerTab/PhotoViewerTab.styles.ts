@@ -33,9 +33,10 @@ export const photoViewerStyles = makeStyles({
 
   headerTop: {
     display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Title on left, controls on right
     gap: tokens.spacingHorizontalL,
+    marginBottom: tokens.spacingVerticalXS, // Small gap before description
   },
 
   layoutToggle: {
@@ -69,7 +70,7 @@ export const photoViewerStyles = makeStyles({
     },
   },
 
-  // Random Size Grid Layout - Full container fill with precise tessellation
+  // Collage Grid Layout - Full container fill with precise tessellation
   photoGridRandom: {
     display: 'grid',
     gridTemplateColumns: 'repeat(16, 1fr)', // 16 columns for accommodating bigger shapes
