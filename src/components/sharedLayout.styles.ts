@@ -86,6 +86,14 @@ export const sharedLayoutStyles = makeStyles({
     marginBottom: tokens.spacingVerticalXS,
   },
 
+  // Standardized tab content container
+  tabContentStandardized: {
+    padding: tokens.spacingHorizontalL,
+    maxWidth: SIZES.maxContentWidth,
+    margin: '0 auto',
+    width: '100%',
+  },
+
   // Global webkit date/time picker icon fix for dark theme
   webkitIconFix: {
     // Apply to any date/time input anywhere in the app

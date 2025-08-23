@@ -57,6 +57,7 @@ export const appStyles = makeStyles({
         alignSelf: 'flex-start',
         width: '100%',
         justifyContent: 'flex-start',
+      },
     },
     
     '@media (max-width: 48rem)': {
@@ -337,7 +338,7 @@ export const appStyles = makeStyles({
       paddingRight: tokens.spacingHorizontalXS,
       paddingBottom: tokens.spacingVerticalXS,
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore focus elevation
-    }
+      transform: `translateY(-${tokens.spacingVerticalXXS})`
+    },
   },
 });
