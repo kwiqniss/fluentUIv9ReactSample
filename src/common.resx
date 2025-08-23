@@ -76,4 +76,12 @@
     <!-- Aria label template for individual row selection - {0} will be replaced with item name -->
     <value>Select {0}</value>
   </data>
+  <data name="messageFilter" xml:space="preserve">
+    <!-- Label for message verbosity filter -->
+    <value>Filter</value>
+  </data>
+  <data name="messageFilterTooltip" xml:space="preserve">
+    <!-- Tooltip for message verbosity filter -->
+    <value>Filter messages by verbosity level</value>
+  </data>
 </root>

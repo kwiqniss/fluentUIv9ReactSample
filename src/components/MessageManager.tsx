@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { Text, Button, Tooltip } from '@fluentui/react-components';
+import { Text, Button, Tooltip, Dropdown, Option, Field } from '@fluentui/react-components';
 import { makeStyles, tokens } from '@fluentui/react-components';
 import { MessageContext, Message, MessageContextType } from '../utils/messageContext';
 import { MessageType, LogLevel } from '../types/enums';
-import { shouldLogMessage } from '../utils/logLevel';
+import { shouldLogMessage, getLogLevelDisplayName } from '../utils/logLevel';
 import { formatString } from '../formatString';
 import commonStrings from '../common.resx';
 import {
@@ -39,8 +39,67 @@ const useMessageManagerStyles = makeStyles({
   messagesHeader: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: tokens.spacingVerticalXS,
+    gap: tokens.spacingHorizontalM,
+    flexWrap: 'wrap',
+    
+    // On smaller screens, stack vertically
+    '@media (max-width: 32rem)': {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: tokens.spacingVerticalS,
+    },
+  },
+
+  headerControls: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalS,
+    flexShrink: 0,
+    
+    // On smaller screens, adjust layout
+    '@media (max-width: 32rem)': {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      gap: tokens.spacingVerticalXS,
+    },
+  },
+
+  filterContainer: {
+    minWidth: '8rem',
+    
+    '& .fui-Field': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: tokens.spacingHorizontalXS,
+    },
+    
+    '& .fui-Field__label': {
+      fontSize: tokens.fontSizeBase200,
+      margin: 0,
+      whiteSpace: 'nowrap',
+    },
+    
+    '& .fui-Dropdown': {
+      minWidth: '7rem',
+      fontSize: tokens.fontSizeBase200,
+    },
+    
+    // On smaller screens, make full width
+    '@media (max-width: 32rem)': {
+      minWidth: 'auto',
+      
+      '& .fui-Field': {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      },
+      
+      '& .fui-Dropdown': {
+        width: '100%',
+        minWidth: 'auto',
+      },
+    },
   },
   
   messagesContainer: {
@@ -116,6 +175,7 @@ interface MessageManagerProps {
  */
 const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [messageFilter, setMessageFilter] = useState<LogLevel>(LogLevel.Verbose);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const styles = useMessageManagerStyles();
   
@@ -137,6 +197,28 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
   const clearMessages = useCallback(() => {
     setMessages([]);
   }, []);
+
+  // Filter messages based on the selected verbosity level
+  const filteredMessages = messages.filter(message => 
+    shouldLogMessage(message.type || MessageType.Info, messageFilter)
+  );
+
+  // Get log levels in order from most to least verbose
+  // This order determines what messages are included at each level:
+  // - Verbose: All messages (Info, Success, Warning, Error)
+  // - Informational: Info, Warning, Error (excludes Success)
+  // - Warnings: Warning, Error only
+  // - Errors: Error only
+  // - None: No messages
+  const getLogLevelsInOrder = (): LogLevel[] => {
+    return [LogLevel.Verbose, LogLevel.Informational, LogLevel.Warnings, LogLevel.Errors, LogLevel.None];
+  };
+
+  const handleFilterChange = useCallback((event: any, data: any) => {
+    if (data.optionValue && Object.values(LogLevel).includes(data.optionValue as LogLevel)) {
+      setMessageFilter(data.optionValue as LogLevel);
+    }
+  }, []);
   
   const messageContextValue: MessageContextType = {
     messages,
@@ -144,12 +226,12 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
     clearMessages,
   };
 
-  // Auto-scroll to bottom when messages are added
+  // Auto-scroll to bottom when messages are added or filter changes
   useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [filteredMessages]);
 
   const getMessageTypeClass = (messageType?: MessageType) => {
     switch (messageType) {
@@ -210,30 +292,52 @@ const MessageManager: React.FC<MessageManagerProps> = ({ children, logLevel }) =
       <div className={styles.footerContent}>
         <div className={styles.messagesHeader}>
           <Text weight="semibold">{commonStrings.messages}</Text>
-          {messages.length > 0 && (
-            <Button 
-              appearance="subtle" 
-              size="small" 
-              onClick={clearMessages}
-            >
-              {commonStrings.clear}
-            </Button>
-          )}
+          <div className={styles.headerControls}>
+            <div className={styles.filterContainer}>
+              <Field label={commonStrings.messageFilter}>
+                <Tooltip content={commonStrings.messageFilterTooltip} relationship="description">
+                  <Dropdown
+                    value={getLogLevelDisplayName(messageFilter)}
+                    selectedOptions={[messageFilter]}
+                    onOptionSelect={handleFilterChange}
+                    size="small"
+                  >
+                    {getLogLevelsInOrder().map((level) => (
+                      <Option key={level} value={level}>
+                        {getLogLevelDisplayName(level)}
+                      </Option>
+                    ))}
+                  </Dropdown>
+                </Tooltip>
+              </Field>
+            </div>
+            {messages.length > 0 && (
+              <Button 
+                appearance="subtle" 
+                size="small" 
+                onClick={clearMessages}
+              >
+                {commonStrings.clear}
+              </Button>
+            )}
+          </div>
         </div>
         
         <div ref={messagesContainerRef} className={styles.messagesContainer}>
-          {messages.length === 0 ? (
+          {filteredMessages.length === 0 ? (
             <div className={styles.emptyMessage}>
-              {commonStrings.noMessagesYet}
+              {messages.length === 0 
+                ? commonStrings.noMessagesYet 
+                : `No messages at ${getLogLevelDisplayName(messageFilter).toLowerCase()} level or above.`}
             </div>
           ) : (
-            messages.map((message) => (
+            filteredMessages.map((message) => (
               <div 
                 key={message.id} 
-                className={`${styles.messageItem} ${getMessageTypeClass(message.type)}`}
+                className={`${styles.messageItem} ${getMessageTypeClass(message.type || MessageType.Info)}`}
               >
                 <div className={styles.messageIcon}>
-                  {getMessageIcon(message.type)}
+                  {getMessageIcon(message.type || MessageType.Info)}
                 </div>
                 <div className={styles.messageText}>
                   <Text>{message.text}</Text>
