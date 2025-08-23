@@ -290,11 +290,24 @@ export const appStyles = makeStyles({
   },
   
   tabBase: {
-    borderRadius: `${tokens.borderRadiusMedium} ${tokens.borderRadiusLarge} 0 0`,
-    marginRight: '0',
+    borderRadius: `${tokens.borderRadiusMedium} ${tokens.borderRadiusXLarge} 0 0`,
+    marginRight: `-${tokens.spacingHorizontalXXS}`, // Negative margin for overlap
     transitionDuration: tokens.durationNormal,
     transitionTimingFunction: tokens.curveEasyEase,
     position: 'relative' as const,
+    
+    // Create curved bottom-right corner that tucks behind next tab
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: `-${tokens.strokeWidthThin}`,
+      right: `-${tokens.spacingHorizontalXXS}`,
+      width: tokens.spacingHorizontalS,
+      height: tokens.spacingVerticalXXS,
+      backgroundColor: 'inherit',
+      borderBottomLeftRadius: tokens.borderRadiusXLarge,
+      zIndex: -1, // Behind the next tab
+    },
   },
   
   tabSelected: {
@@ -311,6 +324,22 @@ export const appStyles = makeStyles({
     zIndex: 2,
     transform: `translateY(-${tokens.spacingVerticalXXS})`,
     minHeight: tokens.spacingVerticalXL, // Consistent minimum height
+    
+    // Hide the pseudo-element for selected tabs to prevent weird dots
+    '&::after': {
+      display: 'none',
+    },
+    
+    '&:hover': {
+      // Maintain same styling on hover to prevent pseudo-element issues
+      backgroundColor: tokens.colorBrandBackground2,
+      transform: `translateY(-${tokens.spacingVerticalXXS})`,
+    },
+    
+    // Ensure pseudo-element stays hidden on hover
+    '&:hover::after': {
+      display: 'none',
+    },
   },
   
   tabUnselected: {
