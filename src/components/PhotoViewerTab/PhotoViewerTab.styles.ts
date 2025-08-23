@@ -1,14 +1,14 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-// Local constants for component sizing
+// Local constants for component sizing - conservative responsive approach
 const SIZES = {
-  gridGap: '1rem',
-  gridItemMinWidth: '12rem',
-  gridItemMaxWidth: '20rem',
-  viewerPadding: '2rem',
-  controlButtonSize: '3rem',
-  zoomButtonSize: '1.5rem', // Very small for subtle controls
-  closeButtonSize: '2.5rem',
+  gridGap: 'clamp(0.5rem, 0.8vw, 1.2rem)', // More conservative gap scaling
+  gridItemMinWidth: 'clamp(11rem, 12vw, 16rem)', // Conservative: 176px to 256px
+  gridItemMaxWidth: 'clamp(16rem, 20vw, 24rem)', // Conservative max width
+  viewerPadding: 'clamp(1rem, 1.5vw, 2.5rem)', // Conservative padding
+  controlButtonSize: 'clamp(2.5rem, 2.8vw, 3.5rem)', // More conservative button scaling
+  zoomButtonSize: 'clamp(1.2rem, 1.3vw, 1.8rem)', // Conservative zoom buttons
+  closeButtonSize: 'clamp(2rem, 2.2vw, 3rem)', // Conservative close button
   maxImageWidth: '90vw',
   maxImageHeight: '90vh',
 } as const;
@@ -18,9 +18,9 @@ export const photoViewerStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalXL,
-    padding: tokens.spacingHorizontalL,
+    padding: 'clamp(0.5rem, 1.5vw, 2rem)', // More conservative padding
     width: '100%',
-    maxWidth: '75rem',
+    maxWidth: 'min(85vw, 90rem)', // Conservative responsive: 85% viewport, max 1440px
     margin: '0 auto',
     flex: '1',
   },
@@ -76,14 +76,14 @@ export const photoViewerStyles = makeStyles({
     gridTemplateRows: 'repeat(16, 1fr)',     // 16 equal rows for larger shape variety
     gap: '2px', // Slightly larger gap for better visual separation
     width: '100%',
-    height: '80vh', // Fixed viewport height for consistent sizing
+    height: 'clamp(60vh, 75vh, 85vh)', // Responsive height based on viewport
     backgroundColor: 'transparent',
     justifyContent: 'stretch',
     alignContent: 'stretch',
     justifyItems: 'stretch',
     alignItems: 'stretch',
     overflow: 'hidden',
-    padding: '4px',
+    padding: 'clamp(2px, 0.5vw, 8px)', // Responsive padding
     boxSizing: 'border-box',
 
     // Hide focus outline on gallery container - focus is shown on selected photo

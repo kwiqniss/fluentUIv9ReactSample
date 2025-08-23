@@ -10,12 +10,13 @@ export const appStyles = makeStyles({
     alignItems: 'center',
   },
   contentWrapper: {
-    maxWidth: '75rem',
+    maxWidth: 'min(85vw, 90rem)', // Conservative responsive: 85% viewport width, max 1440px
     width: '100%',
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     flex: '1',
+    padding: '0 clamp(0.5rem, 1.5vw, 2rem)', // More conservative padding scaling
   },
   
   mainContainer: {
@@ -33,18 +34,24 @@ export const appStyles = makeStyles({
     lineHeight: tokens.lineHeightBase500,
   },
   
-  // Responsive header layout with proper container padding
+  // Responsive header layout with proper container alignment
   header: {
+    width: '100%',
+    marginBottom: tokens.spacingVerticalS,
+    padding: `${tokens.spacingVerticalL} 0`, // Only vertical padding on outer header
+    boxSizing: 'border-box',
+  },
+
+  // Inner header container that matches tab container alignment
+  headerInner: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     flexWrap: 'wrap',
     gap: tokens.spacingHorizontalM,
-    marginBottom: tokens.spacingVerticalS,
-    padding: `${tokens.spacingVerticalL} ${tokens.spacingHorizontalL}`,
-    paddingBottom: tokens.spacingVerticalL,
-    paddingRight: `calc(${tokens.spacingHorizontalL} - ${tokens.spacingHorizontalS})`,
-    width: '100%',
+    maxWidth: 'min(85vw, 90rem)', // Match tab container max width
+    margin: '0 auto',
+    padding: '0 clamp(0.5rem, 1.5vw, 2rem)', // Match tab container padding
     minHeight: '4rem',
     boxSizing: 'border-box',
     
@@ -116,6 +123,9 @@ export const appStyles = makeStyles({
       alignItems: 'flex-start',
       gap: tokens.spacingHorizontalM,
       justifyContent: 'flex-start',
+      // Add extra left padding to align with tab buttons (fine-tuned alignment)
+      paddingLeft: 'calc(clamp(0.5rem, 1.5vw, 2rem) + 0.25rem)', // Tab container padding + smaller offset
+      marginLeft: 0,
     },
     
     // Very small screens: stack vertically again and reduce width
@@ -124,6 +134,8 @@ export const appStyles = makeStyles({
       alignItems: 'flex-start',
       gap: tokens.spacingVerticalS,
       width: '100%',
+      paddingLeft: 'calc(clamp(0.5rem, 1.5vw, 2rem) + 0.25rem)', // Keep the fine-tuned padding on small screens too
+      marginLeft: 0,
     },
     
     '& > *:first-child': {

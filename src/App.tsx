@@ -313,31 +313,32 @@ const App: React.FC = () => {
           style={{ '--main-container-min-height': mainContainerMinHeight } as React.CSSProperties}
         >
           <div className={styles.header}>
-            <div className={styles.titleSection}>
-              <Title1 as="h1" className={styles.h1Heading}>{strings.title}</Title1>
-              <Subtitle1 className={styles.subtitle}>{strings.subtitle}</Subtitle1>
-            </div>
-            <div className={styles.controlsSection}>
-              <Field label={strings.themeSelector}>
-                <Dropdown
-                  value={themes[selectedTheme].name}
-                  selectedOptions={[selectedTheme]}
-                  onOptionSelect={onThemeChange}
-                >
-                  {Object.entries(themes).map(([key, themeInfo]) => (
-                    <Option key={key} value={key}>
-                      {themeInfo.name}
-                    </Option>
-                  ))}
-                </Dropdown>
-              </Field>
-              
-              <Field label={strings.logLevelSelector}>
-                <Dropdown
-                  value={getLogLevelDisplayName(logLevel)}
-                  selectedOptions={[logLevel]}
-                  onOptionSelect={onLogLevelChange}
-                >
+            <div className={styles.headerInner}>
+              <div className={styles.titleSection}>
+                <Title1 as="h1" className={styles.h1Heading}>{strings.title}</Title1>
+                <Subtitle1 className={styles.subtitle}>{strings.subtitle}</Subtitle1>
+              </div>
+              <div className={styles.controlsSection}>
+                <Field label={strings.themeSelector}>
+                  <Dropdown
+                    value={themes[selectedTheme].name}
+                    selectedOptions={[selectedTheme]}
+                    onOptionSelect={onThemeChange}
+                  >
+                    {Object.entries(themes).map(([key, themeInfo]) => (
+                      <Option key={key} value={key}>
+                        {themeInfo.name}
+                      </Option>
+                    ))}
+                  </Dropdown>
+                </Field>
+                
+                <Field label={strings.logLevelSelector}>
+                  <Dropdown
+                    value={getLogLevelDisplayName(logLevel)}
+                    selectedOptions={[logLevel]}
+                    onOptionSelect={onLogLevelChange}
+                  >
                   {Object.values(LogLevel).map((level) => (
                     <Option key={level} value={level}>
                       {getLogLevelDisplayName(level)}
@@ -345,6 +346,7 @@ const App: React.FC = () => {
                   ))}
                 </Dropdown>
               </Field>
+            </div>
             </div>
           </div>
 

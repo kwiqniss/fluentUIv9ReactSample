@@ -1,11 +1,13 @@
 import { makeStyles, tokens } from '@fluentui/react-components';
 
-// Local constants for consistent sizing
+// Local constants for consistent sizing - conservative responsive approach
 const SIZES = {
-  maxContentWidth: '75rem',
-  inputMinWidth: '17.5rem',
-  inputMaxWidth: '25rem',
-  tablet: '48rem',
+  maxContentWidth: 'min(85vw, 90rem)', // More conservative: 85% viewport width, capped at 1440px
+  inputMinWidth: 'clamp(12rem, 15vw, 20rem)', // Slightly less aggressive scaling
+  inputMaxWidth: 'clamp(18rem, 25vw, 30rem)', // More conservative max width
+  tablet: '48rem', // 768px
+  desktop: '75rem', // 1200px  
+  wide: '100rem', // 1600px for wide screens
 } as const;
 
 /**
@@ -17,7 +19,7 @@ export const sharedLayoutStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: tokens.spacingVerticalXL,
-    padding: tokens.spacingHorizontalL,
+    padding: 'clamp(0.5rem, 1.5vw, 2rem)', // Match header and content wrapper padding
     width: '100%',
     maxWidth: SIZES.maxContentWidth,
     margin: '0 auto',
@@ -37,9 +39,9 @@ export const sharedLayoutStyles = makeStyles({
     gap: tokens.spacingVerticalL,
     width: '100%',
     
-    // 2 columns on medium screens and up
-    '@media (min-width: 48rem)': {
-      gridTemplateColumns: '1fr 1fr',
+    // Conservative responsive: maximum 2 columns to maintain original layout feel
+    [`@media (min-width: ${SIZES.tablet})`]: {
+      gridTemplateColumns: 'repeat(2, 1fr)',
       gap: tokens.spacingHorizontalXL,
     },
   },
