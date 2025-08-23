@@ -67,8 +67,8 @@ export const photoViewerStyles = makeStyles({
   // Random Size Grid Layout - Full container fill with precise tessellation
   photoGridRandom: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(12, 1fr)', // 12 columns for balanced control
-    gridTemplateRows: 'repeat(12, 1fr)',     // 12 equal rows
+    gridTemplateColumns: 'repeat(16, 1fr)', // 16 columns for accommodating bigger shapes
+    gridTemplateRows: 'repeat(16, 1fr)',     // 16 equal rows for larger shape variety
     gap: '2px', // Slightly larger gap for better visual separation
     width: '100%',
     height: '80vh', // Fixed viewport height for consistent sizing

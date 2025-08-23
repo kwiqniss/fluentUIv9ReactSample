@@ -210,26 +210,50 @@ const PhotoViewerTab: React.FC = () => {
   // Generate tessellated layout that perfectly fills the container
   const generateRandomThumbnailSizes = useCallback(() => {
     const totalPhotos = STOCK_PHOTOS.length;
-    const gridWidth = 12; // Fewer columns for larger shapes
-    const gridHeight = 12; // Fewer rows for larger shapes
+    const gridWidth = 16; // Slightly increased for bigger shapes
+    const gridHeight = 16; // Slightly increased to accommodate larger shapes
     
     // Create a grid to track occupied cells
     const grid = Array(gridHeight).fill(null).map(() => Array(gridWidth).fill(false));
     
-    // Pre-defined shapes optimized for better space filling with larger sizes
+    // Pre-defined shapes with enhanced size variation - from tiny to pretty big
     const shapes = [
-      { cols: 4, rows: 3, name: 'large_rect', priority: 1 },      // 4×3 large rectangle
-      { cols: 3, rows: 4, name: 'large_portrait', priority: 1 },  // 3×4 large portrait
-      { cols: 3, rows: 3, name: 'large_square', priority: 2 },    // 3×3 large square
-      { cols: 5, rows: 2, name: 'wide_banner', priority: 2 },     // 5×2 wide banner
-      { cols: 2, rows: 5, name: 'tall_banner', priority: 2 },     // 2×5 tall banner
-      { cols: 4, rows: 2, name: 'medium_wide', priority: 3 },     // 4×2 medium wide
-      { cols: 2, rows: 4, name: 'medium_tall', priority: 3 },     // 2×4 medium tall
-      { cols: 6, rows: 2, name: 'extra_wide', priority: 1 },      // 6×2 extra wide
-      { cols: 2, rows: 6, name: 'extra_tall', priority: 1 },      // 2×6 extra tall
-      { cols: 3, rows: 2, name: 'small_wide', priority: 4 },      // 3×2 small wide
-      { cols: 2, rows: 3, name: 'small_tall', priority: 4 },      // 2×3 small tall
-      { cols: 2, rows: 2, name: 'small_square', priority: 5 },    // 2×2 small square
+      // Large focal point squares and near-squares (Priority 1)
+      { cols: 5, rows: 5, name: 'xxl_square', priority: 1 },        // 5×5 extra large square (25 cells)
+      { cols: 4, rows: 4, name: 'xl_square', priority: 1 },         // 4×4 extra large square (16 cells)
+      { cols: 6, rows: 5, name: 'huge_rect', priority: 1 },         // 6×5 huge rectangle (30 cells)
+      { cols: 5, rows: 6, name: 'huge_portrait', priority: 1 },     // 5×6 huge portrait (30 cells)
+      { cols: 7, rows: 4, name: 'super_wide', priority: 1 },        // 7×4 super wide (28 cells)
+      { cols: 4, rows: 7, name: 'super_tall', priority: 1 },        // 4×7 super tall (28 cells)
+      
+      // Large squares and rectangles (Priority 2)
+      { cols: 3, rows: 3, name: 'large_square', priority: 2 },      // 3×3 large square (9 cells)
+      { cols: 5, rows: 4, name: 'xl_rect', priority: 2 },           // 5×4 extra large rectangle (20 cells)
+      { cols: 4, rows: 5, name: 'xl_portrait', priority: 2 },       // 4×5 extra large portrait (20 cells)
+      { cols: 6, rows: 3, name: 'wide_banner', priority: 2 },       // 6×3 wide banner (18 cells)
+      { cols: 3, rows: 6, name: 'tall_tower', priority: 2 },        // 3×6 tall tower (18 cells)
+      
+      // Medium variety (Priority 2-3)
+      { cols: 2, rows: 2, name: 'medium_square', priority: 2 },     // 2×2 medium square (4 cells)
+      { cols: 4, rows: 3, name: 'large_rect', priority: 2 },        // 4×3 large rectangle (12 cells)
+      { cols: 3, rows: 4, name: 'large_portrait', priority: 2 },    // 3×4 large portrait (12 cells)
+      { cols: 5, rows: 3, name: 'medium_wide', priority: 3 },       // 5×3 medium wide (15 cells)
+      { cols: 3, rows: 5, name: 'medium_tall', priority: 3 },       // 3×5 medium tall (15 cells)
+      { cols: 6, rows: 2, name: 'banner_rect', priority: 3 },       // 6×2 banner rectangle (12 cells)
+      { cols: 2, rows: 6, name: 'tower_rect', priority: 3 },        // 2×6 tower rectangle (12 cells)
+      
+      // Small to medium connectors (Priority 3-4)
+      { cols: 3, rows: 2, name: 'small_wide', priority: 3 },        // 3×2 small wide (6 cells)
+      { cols: 2, rows: 3, name: 'small_tall', priority: 3 },        // 2×3 small tall (6 cells)
+      { cols: 4, rows: 2, name: 'rect_wide', priority: 4 },         // 4×2 rectangle wide (8 cells)
+      { cols: 2, rows: 4, name: 'rect_tall', priority: 4 },         // 2×4 rectangle tall (8 cells)
+      
+      // Small fillers and connectors (Priority 4-5)
+      { cols: 1, rows: 1, name: 'tiny_square', priority: 4 },       // 1×1 tiny square (1 cell)
+      { cols: 2, rows: 1, name: 'mini_wide', priority: 5 },         // 2×1 mini wide (2 cells)
+      { cols: 1, rows: 2, name: 'mini_tall', priority: 5 },         // 1×2 mini tall (2 cells)
+      { cols: 3, rows: 1, name: 'strip_wide', priority: 5 },        // 3×1 strip wide (3 cells)
+      { cols: 1, rows: 3, name: 'strip_tall', priority: 5 },        // 1×3 strip tall (3 cells)
     ];
     
     const layout = [];
@@ -239,26 +263,45 @@ const PhotoViewerTab: React.FC = () => {
     // Calculate target cells per photo for better distribution
     const targetCellsPerPhoto = Math.max(6, Math.floor(totalCells / totalPhotos));
     
-    // Place each photo strategically
+    // Place each photo strategically with more size variation
     for (let i = 0; i < totalPhotos; i++) {
       let placed = false;
       let bestShape = null;
       let bestPosition = null;
       let bestScore = -1;
       
-      // Shuffle shapes to add variety while respecting priorities
+      // Create size variety by encouraging different sizes at different placement stages
+      const placementStage = i / totalPhotos; // 0 to 1
+      
+      // Filter shapes based on remaining space and encourage variety
       const availableShapes = shapes.filter(shape => {
         const area = shape.cols * shape.rows;
         const remainingPhotos = totalPhotos - i;
         const remainingSpace = totalCells - totalUsedCells;
-        const averageSpacePerPhoto = remainingSpace / remainingPhotos;
+        const averageSpacePerPhoto = remainingSpace / Math.max(1, remainingPhotos);
         
-        // Allow larger shapes for early placements, smaller for later
-        return area <= Math.max(targetCellsPerPhoto, averageSpacePerPhoto * 1.5);
+        // Early placement: allow big focal point shapes (up to 30 cells)
+        // Middle placement: prefer medium variety (4-20 cells)
+        // Late placement: allow small fillers and connectors (1-15 cells)
+        if (placementStage < 0.25) {
+          // Early: favor large focal points including the biggest shapes
+          return area >= 9 && area <= Math.min(30, Math.max(25, averageSpacePerPhoto * 2.5));
+        } else if (placementStage < 0.6) {
+          // Middle: prefer medium to large variety
+          return area >= 4 && area <= Math.max(20, averageSpacePerPhoto * 1.8);
+        } else {
+          // Late: allow smaller shapes and efficient fillers
+          return area >= 1 && area <= Math.max(15, averageSpacePerPhoto * 2);
+        }
       });
       
       if (availableShapes.length === 0) {
-        availableShapes.push({ cols: 2, rows: 2, name: 'fallback_small', priority: 5 });
+        // Fallback to all shapes if filtering is too restrictive
+        availableShapes.push(...shapes.filter(s => s.cols <= gridWidth && s.rows <= gridHeight));
+      }
+      
+      if (availableShapes.length === 0) {
+        availableShapes.push({ cols: 2, rows: 2, name: 'emergency_fallback', priority: 5 });
       }
       
       // Try each available shape
@@ -305,13 +348,18 @@ const PhotoViewerTab: React.FC = () => {
             // Calculate placement score
             let score = 100 - (shape.priority * 10); // Lower priority number = higher score
             
+            // Bonus for more square-like proportions (aspect ratio closer to 1:1)
+            const aspectRatio = Math.max(shape.cols, shape.rows) / Math.min(shape.cols, shape.rows);
+            const squarenessBonus = Math.max(0, 50 - (aspectRatio - 1) * 25); // Max 50 points for perfect squares
+            score += squarenessBonus;
+            
             // Bonus for corner/edge placement
             if ((row === 0 || row === gridHeight - shape.rows) && 
                 (col === 0 || col === gridWidth - shape.cols)) {
-              score += 50; // Corner bonus
+              score += 40; // Corner bonus
             } else if (row === 0 || row === gridHeight - shape.rows || 
                       col === 0 || col === gridWidth - shape.cols) {
-              score += 30; // Edge bonus
+              score += 25; // Edge bonus
             }
             
             // Bonus for adjacent placement (tessellation)
