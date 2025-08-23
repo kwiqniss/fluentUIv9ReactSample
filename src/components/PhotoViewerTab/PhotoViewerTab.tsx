@@ -708,7 +708,7 @@ const PhotoViewerTab: React.FC = () => {
           ? (prev.currentIndex + 1) % STOCK_PHOTOS.length
           : (prev.currentIndex - 1 + STOCK_PHOTOS.length) % STOCK_PHOTOS.length;
         
-        // Calculate fit scale for the new photo (for originalFitScale reference)
+        // Calculate fit scale for the new photo
         const newPhoto = STOCK_PHOTOS[newIndex];
         const containerWidth = window.innerWidth * 0.9;
         const containerHeight = window.innerHeight * 0.9;
@@ -723,12 +723,14 @@ const PhotoViewerTab: React.FC = () => {
         const isNaturallySmallerThanViewport = (newPhoto.width || 0) < containerWidth && (newPhoto.height || 0) < containerHeight;
         const minZoomScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
         
-        // KEEP THE CURRENT ZOOM LEVEL - don't change the scale when navigating
-        // Only reset position to center the new photo
+        // For small images, open at natural size (1.0); for large images, open at fit scale
+        const initialScale = isNaturallySmallerThanViewport ? 1.0 : newFitScale;
+        
+        // Reset to appropriate initial scale for the new photo
         return {
           ...prev,
           currentIndex: newIndex,
-          // scale: prev.scale, // Keep current zoom level (no change needed)
+          scale: initialScale, // Reset to fit scale for new photo
           originalFitScale: minZoomScale, // Update the minimum zoom scale for the new photo
           translateX: 0, // Reset position to center
           translateY: 0, // Reset position to center
