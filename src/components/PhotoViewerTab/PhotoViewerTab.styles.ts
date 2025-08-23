@@ -134,8 +134,8 @@ export const photoViewerStyles = makeStyles({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    filter: 'blur(20px) brightness(0.3)',
-    opacity: 0.6,
+    filter: 'blur(25px) brightness(0.6)', // More blur, slightly less vibrant
+    opacity: 0.7, // Less opaque for subtlety
     zIndex: -1,
     transform: 'scale(1.1)', // Scale up slightly to avoid blur edge artifacts
   },
