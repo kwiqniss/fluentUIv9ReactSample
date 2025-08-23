@@ -1,25 +1,13 @@
 /**
  * Design system constants for consistent sizing and breakpoints
- * These values work well with FluentUI design tokens
+ * Uses FluentUI-aligned responsive breakpoints and design tokens
  */
 
-// Media query breakpoints (using rem for consistency with tokens)
-export const BREAKPOINTS = {
-  // Small mobile devices
-  mobile: '32rem',   // 512px at 16px root
-  
-  // Tablet and small desktop
-  tablet: '48rem',   // 768px at 16px root
-  
-  // Medium desktop
-  desktop: '64rem',  // 1024px at 16px root
-  
-  // Large desktop
-  large: '75rem',    // 1200px at 16px root
-  
-  // Extra large desktop
-  extraLarge: '80rem', // 1280px at 16px root
-} as const;
+import { FLUENT_BREAKPOINTS, fluentMediaQueries } from '../hooks/useFluentBreakpoint';
+
+// Export the FluentUI-aligned breakpoints
+export { FLUENT_BREAKPOINTS as BREAKPOINTS };
+export { fluentMediaQueries as mediaQueries };
 
 // Common sizing values that don't have direct token equivalents
 export const SIZES = {
@@ -46,15 +34,18 @@ export const SIZES = {
 } as const;
 
 // Helper function to create media queries
-export const mediaQueries = {
-  mobile: `@media (max-width: ${BREAKPOINTS.mobile})`,
-  tablet: `@media (min-width: ${BREAKPOINTS.tablet})`,
-  desktop: `@media (min-width: ${BREAKPOINTS.desktop})`,
-  large: `@media (min-width: ${BREAKPOINTS.large})`,
+// Using FluentUI-aligned breakpoints from the hook
+// The main media queries are exported from useFluentBreakpoint
+// These are kept for backward compatibility with existing code
+export const legacyMediaQueries = {
+  mobile: `@media (max-width: 32rem)`,      // 512px
+  tablet: `@media (min-width: 48rem)`,      // 768px  
+  desktop: `@media (min-width: 64rem)`,     // 1024px
+  large: `@media (min-width: 75rem)`,       // 1200px
   
   // Specific breakpoints used in the app
-  belowTablet: `@media (max-width: ${BREAKPOINTS.tablet})`,
-  belowDesktop: `@media (max-width: ${BREAKPOINTS.desktop})`,
-  aboveTablet: `@media (min-width: ${BREAKPOINTS.tablet})`,
-  aboveDesktop: `@media (min-width: ${BREAKPOINTS.desktop})`,
+  belowTablet: `@media (max-width: 48rem)`,
+  belowDesktop: `@media (max-width: 64rem)`,
+  aboveTablet: `@media (min-width: 48rem)`,
+  aboveDesktop: `@media (min-width: 64rem)`,
 } as const;
