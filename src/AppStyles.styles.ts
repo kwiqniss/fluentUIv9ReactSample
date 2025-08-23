@@ -252,6 +252,7 @@ export const appStyles = makeStyles({
     padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL} 0`,
     transition: `box-shadow ${tokens.durationFast} ease`,
     position: 'relative',
+    minHeight: `calc(${tokens.spacingVerticalM} + ${tokens.spacingVerticalXL} + ${tokens.spacingVerticalM})`, // Fixed minimum height
     '&::before': {
       content: '""',
       position: 'absolute',
@@ -271,6 +272,7 @@ export const appStyles = makeStyles({
     borderBottom: `${tokens.strokeWidthThick} solid ${tokens.colorNeutralStroke3}`,
     padding: `${tokens.spacingVerticalM} ${tokens.spacingHorizontalL} 0`,
     transition: `all ${tokens.durationNormal} ${tokens.curveEasyEase}`,
+    minHeight: `calc(${tokens.spacingVerticalM} + ${tokens.spacingVerticalXL} + ${tokens.spacingVerticalM})`, // Fixed minimum height
     '&::before': {
       content: '""',
       position: 'absolute',
@@ -297,25 +299,26 @@ export const appStyles = makeStyles({
   
   tabSelected: {
     backgroundColor: tokens.colorBrandBackground2,
-    marginTop: '0',
+    marginTop: tokens.spacingVerticalXXS,
     paddingTop: tokens.spacingVerticalXS,
     paddingRight: tokens.spacingHorizontalSNudge,
-    paddingBottom: tokens.spacingVerticalS,
+    paddingBottom: tokens.spacingVerticalXS, // Consistent bottom padding
     paddingLeft: tokens.spacingHorizontalSNudge,
     color: tokens.colorBrandForeground1,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorBrandStroke2}`,
     borderBottom: 'none',
     boxShadow: tokens.shadow16,
     zIndex: 2,
-    transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore elevated appearance
+    transform: `translateY(-${tokens.spacingVerticalXXS})`,
+    minHeight: tokens.spacingVerticalXL, // Consistent minimum height
   },
   
   tabUnselected: {
     backgroundColor: tokens.colorNeutralBackground3,
     marginTop: tokens.spacingVerticalXXS,
-    paddingTop: tokens.spacingVerticalXXS,
+    paddingTop: tokens.spacingVerticalXS, // Match selected padding
     paddingRight: tokens.spacingHorizontalXS,
-    paddingBottom: tokens.spacingVerticalXXS,
+    paddingBottom: tokens.spacingVerticalXS, // Consistent bottom padding
     paddingLeft: tokens.spacingHorizontalXS,
     color: tokens.colorNeutralForeground2,
     border: `${tokens.strokeWidthThin} solid ${tokens.colorNeutralStroke2}`,
@@ -323,20 +326,21 @@ export const appStyles = makeStyles({
     boxShadow: tokens.shadow2,
     zIndex: 1,
     transform: 'translateY(0)',
+    minHeight: tokens.spacingVerticalXL, // Consistent minimum height
     
     '&:hover': {
-      marginTop: '0',
-      paddingTop: tokens.spacingVerticalXXS,
+      marginTop: tokens.spacingVerticalXXS,
+      paddingTop: tokens.spacingVerticalXS, // Keep consistent
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS,
+      paddingBottom: tokens.spacingVerticalXS, // Keep consistent 
       paddingLeft: tokens.spacingHorizontalXS,
-      transform: `translateY(-${tokens.spacingVerticalXXS})`, // Restore hover elevation
+      transform: `translateY(-${tokens.spacingVerticalXXS})`,
     },
     '&:focus': {
-      marginTop: '0',
-      paddingTop: tokens.spacingVerticalXXS,
+      marginTop: tokens.spacingVerticalXXS,
+      paddingTop: tokens.spacingVerticalXS, // Keep consistent
       paddingRight: tokens.spacingHorizontalXS,
-      paddingBottom: tokens.spacingVerticalXS,
+      paddingBottom: tokens.spacingVerticalXS, // Keep consistent
       paddingLeft: tokens.spacingHorizontalXS,
       transform: `translateY(-${tokens.spacingVerticalXXS})`
     },
